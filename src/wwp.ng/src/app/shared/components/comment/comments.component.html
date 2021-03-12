@@ -1,8 +1,0 @@
-<span id="app-container"
-  *ngIf="isPinBased && showCommentsFeature && !hideComments && commentsService.canEdit() === true">
-  <button (click)="onAdd()"
-    class="btn btn-add btn-rotate add-pin-comments-btn">+ Add {{commentType}} Comment</button>
-</span>
-<app-comments-edit *ngIf="isInEditMode"
-  (isInEditMode)="closeEdit($event)">
-</app-comments-edit>

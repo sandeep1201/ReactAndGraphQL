@@ -1,2 +1,0 @@
-<input class="form-control" [ngClass]="{error: isInvalid, required: isRequired, dirty: isModified && !isInvalid, textIndent: isDisabled && isReadOnly != true}" 
-[disabled]="isDisabled || isReadOnly" maxlength="7"  placeholder="MM/YYYY" [(ngModel)]="value" (keydown)="keyDown($event)"/>

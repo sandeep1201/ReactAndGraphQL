@@ -1,7 +1,0 @@
-<app-sub-header pageTitle="Requests for Assistance" [goBackUrl]="goBackUrl" [participant]="participant" [helpComponent]="'rfa-list'"></app-sub-header>
-<app-sub-header-nav  [mode]="'App'" activeItem="work-history" [pin]="pin"></app-sub-header-nav>
-
-
-
-<div *ngIf="this.participant != null && this.participant.hasBeenThroughClientReg != true" class="alert alert-warning">Client registration has not been completed for this individual. You must complete client registration before creating an RFA.</div>
-<app-rfa-list [pin]="pin" [accessType]="getAccess()"></app-rfa-list>

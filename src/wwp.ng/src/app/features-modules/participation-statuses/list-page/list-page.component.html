@@ -1,6 +1,0 @@
-<div>
-  <app-sub-header *ngIf="!isInEditMode" pageTitle="Participation Statuses" [goBackUrl]="goBackUrl" [participant]="participant"
-    [helpComponent]="'participant-list'"></app-sub-header>
-  <app-participation-statuses-list *ngIf="isLoaded" [pin]="pin" [isReadOnly]="isReadOnly" [participant]="participant">
-  </app-participation-statuses-list>
-</div>

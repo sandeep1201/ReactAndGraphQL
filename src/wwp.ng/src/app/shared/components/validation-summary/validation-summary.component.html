@@ -1,9 +1,0 @@
-<div *ngFor="let ve of _errors">
-  <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>{{ve.title}}</strong> {{ve.formatted}}
-    <ul class="field-list">
-      <li *ngFor="let di of ve.detailItems"><i class="fa fa-minus"></i> {{di}}</li>
-    </ul>
-  </div>
-</div>
