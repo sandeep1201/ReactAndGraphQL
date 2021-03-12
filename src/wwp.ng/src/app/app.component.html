@@ -1,9 +1,0 @@
-<app-header></app-header>
-<app-loading [isLoaded]="isLoaded"
-  [loadingLabel]="loadingLabel"></app-loading>
-<router-outlet *ngIf="isLoaded">
-  <app-comments></app-comments>
-  <app-worker-task></app-worker-task>
-</router-outlet>
-<app-modal-placeholder></app-modal-placeholder>
-<simple-notifications [options]="this.notificationOptions"></simple-notifications>

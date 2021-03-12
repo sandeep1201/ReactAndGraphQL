@@ -1,8 +1,0 @@
-
-
-// Width (example w-10, w-20, w-30...)
-@for $i from 1 through 10 {
-    .w-#{$i + '0'} {
-       width: #{$i}0% ;
-    };
-}

@@ -1,8 +1,0 @@
-<div [ngClass]="{error: isInValid, dirty: isModified }"
-  class="btn-group"
-  role="group">
-  <button *ngFor="let tab of tabs; let i=index"
-    [ngClass]="{selected : isSelected(tab.id), required: isRequired && !isTabDisabled(tab) && i == 0, disabled: (isTabDisabled(tab) && !isSelected(tab.id)), disabledCursor: isDisabled, border: !isBorderRequired}"
-    id="school-dip-yes"
-    (click)="setTab(tab.id, true)">{{tab.name}}</button>
-</div>

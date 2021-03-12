@@ -1,3 +1,0 @@
-export * from './content-container/container.component';
-export * from './text-content-module/text-content-module.component';
-export * from './content-edit-bar/content-edit-bar.component';

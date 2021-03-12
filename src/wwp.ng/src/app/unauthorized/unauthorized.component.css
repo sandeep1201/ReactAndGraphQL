@@ -1,8 +1,0 @@
-div {
-  overflow-wrap: break-word;
-}
-
-div.debugDetails > p {
-  font-family: 'Lucida Console', Monaco, 'Courier New', Courier, monospace;
-  font-size: 0.6em;
-}

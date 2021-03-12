@@ -1,9 +1,0 @@
-<input [(ngModel)]="value"
-  [attr.placeholder]="ngPlaceholder"
-  [ngClass]="{required: isRequired, error: isError, dirty: isModified, border: !isBorderRequired}"
-  [disabled]="isDisabled"
-  [attr.maxlength]="NGMaxLength"
-  class="form-control required">
-<span *ngIf="isTextLengthGiven"
-  class="remaining"
-  [class.warn]="this.charWarning(textLength)">{{ NGMaxLength - textLength }} characters remaining</span>
