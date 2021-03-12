@@ -1,0 +1,22 @@
+label {
+  font-size: 0.8rem;
+  color: #63899d;
+  margin-bottom: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+small {
+  font-size: 0.9rem;
+}
+
+.paper {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.text-wrap {
+align-items: stretch;
+}
+
+
+

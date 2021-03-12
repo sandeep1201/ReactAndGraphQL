@@ -1,0 +1,53 @@
+<fieldset *ngFor="let item of models; let i=index"
+  class="repeat rel">
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label">Step</label>
+        <div class="input-group">
+          <app-text-area [(ngModel)]="item.details"
+            (ngModelChange)="item.details = $event; onChangeCallback(models);"
+            [cacheInnerValue]="getInitialModel(item.id)"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'details')"
+            [maxlength]="120"
+            [isDisabled]="this.isDisabled"
+            [isRequired]="isRequired(i)"
+            [placeholder]="' '"
+            [height]="'2.375em'"
+            [doNotShowRemainigCharacters]="true"
+            class="first col-md-9 p-0"></app-text-area>
+          <app-radio-button [(ngModel)]="item.isGoalStepCompleted"
+            (ngModelChange)="item.isGoalStepCompleted = $event; onChangeCallback(models);"
+            [NgLabel]="'Completed?'"
+            class="last input-group-append input-group-text col-md-3"
+            [isDisabled]="item.disabledCompleteButton">
+          </app-radio-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!this.isDisabled"
+    class="controls">
+    <ul>
+      <li class="del"
+        (click)="deleteFromRepeater(item, 0)">
+        <i class="fa fa-trash-alt"
+          title="delete"></i>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+<div class="tright col-md-12 add-holder"
+  *ngIf="!this.isDisabled">
+  <span class="left tgrey3 small"
+    *ngIf="models?.length >= maxNumberOfItems">You can enter up to 10 Goal Steps</span>
+  <button class="btn btn-sm btn-add disabled"
+    *ngIf="models?.length >= maxNumberOfItems">+ &nbsp; Add Goal
+    Step</button>
+  <button (click)="addToRepeater()"
+    *ngIf="models?.length < maxNumberOfItems"
+    class="btn btn-sm btn-add">+
+    &nbsp; Add Goal Step</button>
+
+  <hr class="spacer">
+</div>

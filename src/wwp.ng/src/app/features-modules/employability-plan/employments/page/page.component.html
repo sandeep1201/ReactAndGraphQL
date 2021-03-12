@@ -1,0 +1,42 @@
+<app-loading [isLoaded]="this.isLoaded"
+  [loadingLabel]="'Employments'"></app-loading>
+<div class="row"
+  *ngIf="isLoaded && this.noEmployments">
+  <div class="col-md-12">
+    <app-ep-card-header [title]="'Employments'"
+      [showEdit]="false"></app-ep-card-header>
+  </div>
+
+  <blockquote class="col-md-12 d-flex justify-content-center p-2">
+    <p>Participant does not have any Employments.</p>
+  </blockquote>
+
+</div>
+<main *ngIf="isLoaded && this.filteredEmployments && !this.noEmployments">
+  <div class="card">
+    <div class="card-header">
+      <app-ep-card-header [title]="'Employments'"
+        [showEdit]="false"></app-ep-card-header>
+    </div>
+    <app-epemployments-list [isReadOnly]="false"
+      [employments]="this.filteredEmployments"
+      (selectedEmployment)="selectedEmployment($event)"></app-epemployments-list>
+  </div>
+</main>
+<div class="row pt-1 justify-content-end">
+  <div class="col-md-5 d-flex justify-content-end">
+    <span *ngIf="hadSaveError">There was an error saving.</span>
+    <span class="btn btn-save"
+      *ngIf="!this.isSaving">
+      <span class="btn-save-text"
+        (click)="saveAndContinue(false)">Save</span>
+      <button class="btn btn-cont"
+        (click)="saveAndContinue(true)">+ Continue</button>
+    </span>
+    <span *ngIf="this.isSaving"
+      class="btn btn-save">
+      <span class="btn btn-save btn-save-text btn-cont disabled"><i
+          class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </span>
+    </span>
+  </div>
+</div>

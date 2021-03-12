@@ -1,0 +1,577 @@
+<div *ngIf="model && originalModel"
+  id="app-container">
+
+  <header class="nav-header">
+    <div class="wrapper">
+      <div class="clearfix">
+        <a class="btn btn-back btn-secondary-outline btn-sm"
+          title="Close Record"
+          (click)="exit()">
+          <i class="fa fa-times"></i>
+        </a>
+        <h1 id="pageTitle"
+          class="px-3">Request for Assistance</h1>
+        <div class="pad0-1">
+          <app-help-button [featureName]="'rfa-add-edit-help'"></app-help-button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-content">
+    <div class="wrapper py-4 pl-3 row">
+
+      <aside id="sidebar"
+        [class.col-md-3]="!isCollapsed"
+        [class.col-md-1]="isCollapsed">
+        <div class="toggle-side"
+          (click)="sidebarToggle()">
+          <i class="fa fa-bars"></i>
+        </div>
+        <ul class="participant-menu popmenu">
+          <li class="menu-item wh-add"
+            data-goto="wh-add">Program</li>
+          <li *ngIf="this.model.isTJTmjProgram"
+            class="menu-item wh-basic"
+            data-goto="wh-basic">Eligibility</li>
+          <li *ngIf="this.model.isCFProgram"
+            class="menu-item wh-basic"
+            data-goto="wh-basic">Court Order
+            Information</li>
+          <li *ngIf="this.model.isFCDPProgram && fcdpCourtOrderId == 1"
+            class="menu-item wh-basic"
+            data-goto="wh-basic">
+            Court Order
+            Information</li>
+        </ul>
+      </aside>
+
+      <main *ngIf="hasLoaded"
+        id="main-work-history"
+        class="col-md-9">
+
+        <div class="row py-3">
+          <app-validation-summary class="w-100"
+            [errors]="validationManager.errors"></app-validation-summary>
+        </div>
+
+        <fieldset id="wh-add">
+          <legend>Program</legend>
+          <div class="row">
+            <div class="col-md-5">
+              <label class="ovtitle">Program</label>
+              <app-select [(ngModel)]="model.programId"
+                (ngModelChange)="model.programId = $event; programOrCountyChange(); this.checkState()"
+                [isDisabled]="this.isProgramDisabled"
+                [cacheInnerValue]="this.originalModel.programId"
+                [isRequired]="this.model.isProgramRequired"
+                [dropDownList]="this.programDrop"></app-select>
+            </div>
+            <div class="col-md-4">
+              <label>County of Residence</label>
+              <br />
+              <app-select [(ngModel)]="participant.countyOfResidenceId"
+                [dropDownList]="countyDrop"
+                [isDisabled]="true"
+                [isRequired]="true"></app-select>
+            </div>
+          </div>
+          <hr class="" />
+
+        </fieldset>
+
+        <fieldset *ngIf="this.model.isFCDPProgram && this.isFormDisplayed"
+          id="wh-add">
+          <div class="row pb-3">
+            <div class="col-md-4">
+              <label class="ovtitle">KIDS PIN</label>
+              <app-numerical-input [(ngModel)]="model.kidsPin"
+                (ngModelChange)="model.kidsPin = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.kidsPin"
+                [isInvalid]="modelErrors['kidsPin']"
+                [NGMaxLength]="10"
+                [isRequired]="true"
+                [allowPeriod]="false"></app-numerical-input>
+            </div>
+          </div>
+          <div class="row pb-3">
+            <div class="col-md-9">
+              <label class="ovtitle">Referral Source</label>
+              <app-text-area [maxlength]="120"
+                (ngModelChange)="model.referralSource = $event; this.checkState();"
+                [(ngModel)]="model.referralSource"
+                [cacheInnerValue]="this.originalModel.referralSource"
+                [isRequired]="true"
+                [textLength]="model.referralSource?.length"
+                [isInvalid]="modelErrors['referralSource']"></app-text-area>
+            </div>
+          </div>
+          <div class="row pb-3">
+            <div class="col-md-4">
+              <label class="ovtitle">Court Ordered or Voluntary?</label>
+              <app-tab-selector [(ngModel)]="fcdpCourtOrderId"
+                (ngModelChange)="model.fcdpTabId = $event; this.checkState(); validate();"
+                [tabs]="fcdpCourtOrderDrop"
+                [cacheInnerValue]="this.originalModel.fcdpTabId"
+                [isRequired]="true">
+              </app-tab-selector>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset *ngIf="this.model.isFCDPProgram && this.isFormDisplayed"
+          id="">
+          <div *ngIf="displayFcdpCourtDetails(model.fcdpTabId)">
+            <legend>Court Order Information</legend>
+            <div class="row pb-3">
+              <div class="col-md-4">
+                <label>County/Tribe Where Court Ordered</label>
+                <br />
+                <app-auto-complete [(ngModel)]="model.courtOrderCountyTribeId"
+                  (ngModelChange)="model.courtOrderCountyTribeId = $event; this.checkState();"
+                  [cacheInnerValue]="this.originalModel.courtOrderCountyTribeId"
+                  [dropDownList]="this.countyTribeDrop"
+                  [isRequired]="model.isFcdpCourtOrderEffectiveDateRequired"></app-auto-complete>
+              </div>
+              <div class="col-md-4">
+                <label>Effective Date of Court Order</label>
+                <br />
+                <app-date-mm-dd-yyyy [(ngModel)]="model.courtOrderEffectiveDateMmDdYyyy"
+                  (ngModelChange)="model.courtOrderEffectiveDateMmDdYyyy = $event; this.checkState();"
+                  [cacheInnerValue]="this.originalModel.courtOrderEffectiveDateMmDdYyyy"
+                  [isInvalid]="modelErrors['courtOrderEffectiveDateMmDdYyyy']"
+                  [isRequired]="model.isFcdpCourtOrderEffectiveDateRequired"></app-date-mm-dd-yyyy>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <label>County of Service</label>
+              <br />
+              <app-auto-complete [(ngModel)]="model.workProgramOfficeId"
+                (ngModelChange)="model.workProgramOfficeId = $event; this.checkState(); validateRfa()"
+                [cacheInnerValue]="this.originalModel.workProgramOfficeId"
+                [dropDownList]="this.wpOfficesDrop"
+                [isRequired]="true"></app-auto-complete>
+            </div>
+          </div>
+
+        </fieldset>
+
+        <fieldset *ngIf="this.isFormDisplayed === false && this.precheck != null"
+          id="wh-add">
+          <div class="row pb-3">
+            <div class="col-md-12">
+              <ul *ngIf="this.precheck?.errors != null"
+                class="list-group">
+                <li *ngFor="let error of this.precheck.errors"
+                  class="list-group-item list-group-item-danger">{{error}}
+                </li>
+              </ul>
+              <ul *ngIf="this.precheck?.warnings != null"
+                class="list-group">
+                <li *ngFor="let warning of this.precheck.warnings"
+                  class="list-group-item list-group-item-warning">
+                  {{warning}}</li>
+              </ul>
+              &nbsp;
+            </div>
+          </div>
+        </fieldset>
+
+
+
+        <fieldset *ngIf="this.model.isCFProgram && this.isFormDisplayed"
+          id="wh-add">
+          <legend>Court Order Information</legend>
+          <div class="row pb-3">
+            <div class="col-md-4">
+              <label>County/Tribe Where Court Ordered</label>
+              <br />
+              <app-auto-complete [(ngModel)]="model.courtOrderCountyTribeId"
+                (ngModelChange)="model.courtOrderCountyTribeId = $event; this.checkState();validate()"
+                [cacheInnerValue]="this.originalModel.courtOrderCountyTribeId"
+                [dropDownList]="this.countyTribeDrop"
+                [isRequired]="model.isCourtOrderCountyTribeIdRequired"></app-auto-complete>
+            </div>
+            <div class="col-md-4">
+              <label>Effective Date of Court Order</label>
+              <br />
+              <app-date-mm-dd-yyyy [(ngModel)]="model.courtOrderEffectiveDateMmDdYyyy"
+                (ngModelChange)="model.courtOrderEffectiveDateMmDdYyyy = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.courtOrderEffectiveDateMmDdYyyy"
+                [isInvalid]="modelErrors['courtOrderEffectiveDateMmDdYyyy']"
+                [isRequired]="model.iscourtOrderEffectiveDateRequired"></app-date-mm-dd-yyyy>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <label>WP Office</label>
+              <br />
+              <app-auto-complete [(ngModel)]="model.workProgramOfficeId"
+                (ngModelChange)="model.workProgramOfficeId = $event; validateRfa();"
+                [cacheInnerValue]="this.originalModel.workProgramOfficeId"
+                [dropDownList]="this.wpOfficesDrop"
+                [isRequired]="model.isWorkProgramOfficeRequired"></app-auto-complete>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset *ngIf="this.model.isTJTmjProgram && this.isFormDisplayed">
+          <legend>Eligibility</legend>
+          <div class="row pb-3">
+            <div class="col-md-4">
+              <label *ngIf="this.model.isTJProgram">TJ
+                Contractor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label *ngIf="this.model.isTmjProgram">TMJ
+                Contractor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <br />
+              <app-generic-text-input [(ngModel)]="contractorName"
+                [isDisabled]="true"
+                [isInvalid]="modelErrors['contractorId']">
+              </app-generic-text-input>
+            </div>
+            <div class="col-md-4">
+              <label>Application Date</label>
+              <br />
+              <app-date-mm-dd-yyyy [(ngModel)]="model.applicationDateMmDdYyyy"
+                (ngModelChange)="model.applicationDateMmDdYyyy = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.applicationDateMmDdYyyy"
+                [isInvalid]="modelErrors['applicationDateMmDdYyyy']"
+                [isRequired]="model.isApplicationDateRequired">
+              </app-date-mm-dd-yyyy>
+            </div>
+            <div class="col-md-4">
+              <label>Age</label>
+              <br />
+              <app-numerical-input *ngIf="this.participant"
+                [ngModel]="this.participant.participantAge"
+                [isReadOnly]="true"></app-numerical-input>
+            </div>
+          </div>
+
+
+          <div class="row py-3">
+            <div class="col-md-10">
+              <label>Is the applicant the biological/adoptive parent - or relative and primary caregiver
+                - of child(ren)
+                under the age of 18?</label>
+            </div>
+            <div class="col-md-2 alignRight">
+              <app-yes-no-basic [(ngModel)]="model.hasChildren"
+                (ngModelChange)="model.hasChildren = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.hasChildren"
+                [errorIndicator]="modelErrors['hasChildren']"
+                [isDisabled]="!this.isChildrenListEmpty"
+                [isRequired]="model.isHasChildrenRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+
+          <div class="row pb-2">
+            <div class="col-md-12"
+              *ngIf="model.hasChildren">
+              <app-rfa-children-repeater [(ngModel)]="model.children"
+                (ngModelChange)="model.children = $event; this.checkState();"
+                [cachedInitialModels]="this.originalModel.children"
+                [genderDrop]="this.genderDrop"
+                [modelErrors]="modelErrors['children']"
+                [isReadOnly]="false"></app-rfa-children-repeater>
+            </div>
+          </div>
+
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+              <label>Household Size&nbsp;&nbsp;&nbsp;</label>
+              <br />
+              <app-numerical-input [(ngModel)]="model.householdSize"
+                (ngModelChange)="model.householdSize = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.householdSize"
+                [NGMaxLength]="2"
+                [isInvalid]="modelErrors['householdSize']"
+                [isRequired]="this.model.isHouseholdSizeRequired">
+              </app-numerical-input>
+            </div>
+            <div class="col-md-3">
+              <label>Annual Household Income</label>
+              <br />
+              <app-currency-input [(ngModel)]="model.annualHouseholdIncome"
+                (ngModelChange)="model.annualHouseholdIncome = $event; this.checkState();"
+                [errorIndicator]="modelErrors['annualHouseholdIncome']"
+                [cacheInnerValue]="this.originalModel.annualHouseholdIncome"
+                [NGMaxLength]="10"
+                [isRequired]="model.isAnnualHouseHoldIncomeRequired"></app-currency-input>
+            </div>
+
+            <div class="col-md-6">
+              <label>Last Date of Employment</label>
+              <div class="input-group">
+                <app-date-mm-dd-yyyy #lastDateOfEmployment
+                  class="first"
+                  [(ngModel)]="model.lastDateOfEmploymentMmDdYyyy"
+                  (ngModelChange)="model.lastDateOfEmploymentMmDdYyyy = $event; this.checkState();"
+                  [cacheInnerValue]="this.originalModel.lastDateOfEmploymentMmDdYyyy"
+                  [isInvalid]="modelErrors['lastDateOfEmploymentMmDdYyyy']"
+                  [isRequired]="model.isLastDateOfEmploymentRequired"
+                  [isDisabled]="model.tjTmjHasNeverEmployed == true"></app-date-mm-dd-yyyy>
+                <app-radio-button [(ngModel)]="model.tjTmjHasNeverEmployed"
+                  (ngModelChange)="model.tjTmjHasNeverEmployed = $event; this.checkState();"
+                  (onDirty)="lastDateOfEmployment.forceIsDirty = $event"
+                  [NgLabel]="'Never Employed'"
+                  [cacheInnerValue]="this.originalModel.tjTmjHasNeverEmployed"
+                  class="last input-group-addon input-group-text">
+                </app-radio-button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="this.model.ishasWorked16HoursLessDisplayed"
+            class="row py-3">
+            <div class="col-md-10">
+              <label>In the last four weeks, has the applicant worked an average of 16 or less hours per
+                week?</label>
+            </div>
+            <div class="col-md-2 alignRight">
+              <app-yes-no-basic [(ngModel)]="model.hasWorked16HoursLess"
+                (ngModelChange)="model.hasWorked16HoursLess = $event; this.checkState();"
+                [errorIndicator]="modelErrors['hasWorked16HoursLess']"
+                [cacheInnerValue]="this.originalModel.hasWorked16HoursLess"
+                [isRequired]="this.model.ishasWorked16HoursLessRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+
+          <div class="row py-3">
+            <div class="col-md-6">
+              <label>Eligible for Unemployment Insurance Benefits?</label>
+              <br />
+              <app-yes-no-basic [(ngModel)]="model.tjTmjIsEligibleForUnemployment"
+                (ngModelChange)="model.tjTmjIsEligibleForUnemployment = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjIsEligibleForUnemployment"
+                [errorIndicator]="modelErrors['tjTmjIsEligibleForUnemployment']"
+                [isRequired]="this.model.tjTmjIsEligibleForUnemploymentRequired"></app-yes-no-basic>
+            </div>
+
+            <div class="col-md-6">
+              <label>Is applicant receiving W-2 benefits or services?</label>
+              <br />
+              <app-yes-no-basic [(ngModel)]="model.tjTmjIsReceivingW2Benefits"
+                (ngModelChange)="model.tjTmjIsReceivingW2Benefits = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjIsReceivingW2Benefits"
+                [errorIndicator]="modelErrors['tjTmjIsReceivingW2Benefits']"
+                [isRequired]="this.model.isApplicantReceivingW2BenefitsRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+
+
+
+          <div class="row py-3">
+            <div class="col-md-10">
+              <label>Is applicant a U.S citizen or qualified non-citizen?</label>
+            </div>
+            <div class="col-md-2 alignRight">
+              <app-yes-no-basic [(ngModel)]="model.isUSCitizen"
+                (ngModelChange)="model.isUSCitizen = $event; this.checkState();"
+                [errorIndicator]="modelErrors['isUSCitizen']"
+                [cacheInnerValue]="this.originalModel.isUSCitizen"
+                [isRequired]="this.model.isUSCitizenRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+
+
+          <div class="row py-3">
+            <div class="col-md-10">
+              <label>Has applicant worked a total of 1,040 hours in TMJ/TJ in the past?</label>
+            </div>
+            <div class="col-md-2 alignRight">
+              <app-yes-no-basic [(ngModel)]="model.tjTmjHasWorked1040Hours"
+                (ngModelChange)="model.tjTmjHasWorked1040Hours = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjHasWorked1040Hours"
+                [errorIndicator]="modelErrors['tjTmjHasWorked1040Hours']"
+                [isRequired]="this.model.isHasApplicant1040TotalHoursRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+
+          <div class="row py-3">
+            <div class="col-md-6">
+              <label>Has application been completed and signed?</label>
+              <br />
+              <app-yes-no-basic [(ngModel)]="model.tjTmjIsAppCompleteAndSigned"
+                (ngModelChange)="model.tjTmjIsAppCompleteAndSigned = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjIsAppCompleteAndSigned"
+                [errorIndicator]="modelErrors['tjTmjIsAppCompleteAndSigned']"
+                [isRequired]="this.model.tjTmjIsAppCompleteAndSignedRequired"></app-yes-no-basic>
+            </div>
+            <div class="col-md-6">
+              <label>Has eligibility information been verified?</label>
+              <br />
+              <app-yes-no-basic [(ngModel)]="model.tjTmjHasEligibilityBeenVerified"
+                (ngModelChange)="model.tjTmjHasEligibilityBeenVerified = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjHasEligibilityBeenVerified"
+                [errorIndicator]="modelErrors['tjTmjHasEligibilityBeenVerified']"
+                [isRequired]="this.model.tjTmjHasEligibilityBeenVerifiedRequired"></app-yes-no-basic>
+            </div>
+          </div>
+
+          <div class="row py-3">
+
+            <div class="col-md-10">
+              <label>Is applicant able to obtain and benefit from a subsidized job?</label>
+            </div>
+            <div class="col-md-2 alignRight">
+              <app-yes-no-basic [(ngModel)]="model.tjTmjIsBenefitFromSubsidizedJob"
+                (ngModelChange)="model.tjTmjIsBenefitFromSubsidizedJob = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjIsBenefitFromSubsidizedJob"
+                [errorIndicator]="modelErrors['tjTmjIsBenefitFromSubsidizedJob']"
+                [isRequired]="this.model.isCanAbleApplicantBenefitFromSubsidizedJobRequired">
+              </app-yes-no-basic>
+            </div>
+
+          </div>
+
+          <div class="row py-3">
+            <div *ngIf="this.model.isCanAbleApplicantBenefitFromSubsidizedJobDetailsDisplayed"
+              class="col-md-12">
+              <app-text-area [(ngModel)]="model.tjTmjBenefitFromSubsidizedJobDetails"
+                (ngModelChange)="model.tjTmjBenefitFromSubsidizedJobDetails = $event; this.checkState();"
+                [cacheInnerValue]="this.originalModel.tjTmjBenefitFromSubsidizedJobDetails"
+                [isInvalid]="modelErrors['tjTmjBenefitFromSubsidizedJobDetails']"
+                [isRequired]="this.model.isCanAbleApplicantBenefitFromSubsidizedJobDetailsRequired"
+                [maxlength]="380"
+                [isDetails]="true"></app-text-area>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row pb-3">
+            <div class="col-md-4">
+              <button
+                *ngIf="!this.canDetermineEligibility || (this.canDetermineEligibility && this.isSectionValid === false)"
+                class="btn btn-primary btn-save disabled"
+                disabled>Determine Eligibility</button>
+              <button *ngIf="this.canDetermineEligibility && this.isSectionValid !== false"
+                (click)="this.clickDetermineEligibility()"
+                class="btn btn-primary btn-save">Determine
+                Eligibility</button>
+            </div>
+            <div class="col-md-8">
+              <ul *ngIf="this.rfaEligibility != null"
+                class="list-group w-100">
+                <li *ngFor="let mess of this.rfaEligibility.serverMessages"
+                  class="list-group-item list-group-item-danger">{{mess.message}}</li>
+                <li *ngIf="this.rfaEligibility.isEligible == true"
+                  class="list-group-item list-group-item-success">
+                  Passed
+                  Eligibility</li>
+              </ul>
+            </div>
+          </div>
+
+          <div *ngIf="this.isSectionValid && this.hasEligibilityBeenVerified"
+            class="row pb-3">
+            <div class="col-md-12">
+              <label>Population Types <span class="small">(Select all that apply.)</span></label>
+              <br />
+              <app-multi-select-dropdown [(ngModel)]="model.populationTypesIds"
+                [isAdvRulesMulti]="true"
+                [cacheInnerValue]="this.originalModel.populationTypesIds"
+                [isRequired]="this.model.isPopulationTypesRequired"
+                [options]="this.populationGroupDrops">
+              </app-multi-select-dropdown>
+            </div>
+            <div class="col-md-12">
+              <label>&nbsp;</label>
+              <br />
+              <app-text-area *ngIf="this.model.isPopulationDetailsDisplayed"
+                [(ngModel)]="model.populationTypeDetails"
+                [cacheInnerValue]="this.originalModel.populationTypeDetails"
+                [isDetails]="true"
+                [maxlength]="380"
+                [isRequired]="true"></app-text-area>
+            </div>
+          </div>
+          <div class="row bottomSpacer">
+            <div *ngIf="this.model.populationTypesIds?.length > 0 && this.hasEligibilityBeenVerified"
+              class="col-md-6">
+              <label>WP Office</label>
+              <br />
+              <app-auto-complete [(ngModel)]="model.workProgramOfficeId"
+                (ngModelChange)="model.workProgramOfficeId = $event; validateRfa();"
+                [cacheInnerValue]="this.originalModel.workProgramOfficeId"
+                [dropDownList]="this.wpOfficesDrop"
+                [isDisabled]="this.isWpDisabled"
+                [isRequired]="model.isWorkProgramOfficeRequired"></app-auto-complete>
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+        </fieldset>
+
+        <div *ngIf="this.isFormDisplayed && this.validationMsgs != null">
+          <div class="row py-3">
+            <div class="col-md-12">
+              <ul *ngIf="this.validationMsgs?.errors != null"
+                class="list-group">
+                <li *ngFor="let error of this.validationMsgs.errors"
+                  class="list-group-item list-group-item-danger">
+                  {{error}}</li>
+              </ul>
+              <ul *ngIf="this.validationMsgs?.warnings != null"
+                class="list-group">
+                <li *ngFor="let warning of this.validationMsgs.warnings"
+                  class="list-group-item list-group-item-warning">{{warning}}</li>
+              </ul>
+              &nbsp;
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <footer
+    *ngIf="this.isFormDisplayed && (this.model.isTJTmjProgram || this.model.isCFProgram || this.model.isFCDPProgram)"
+    class="nav-footer">
+    <div class="wrapper tright">
+      <div class="row py-3">
+        <div class="col-md-10"></div>
+        <div class="col-md-10"></div>
+        <div class="col-md-10"></div>
+      </div>
+
+      <button *ngIf="!this.model.isCFProgram && !this.model.isFCDPProgram && !isSaving"
+        class="btn btn-primary btn-save"
+        (click)="this.saveAndExit()">Save
+        & Exit</button>
+      <button class="btn btn-add"
+        (click)="exit()">Cancel </button>
+      <!-- <button class="btn btn-primary btn-save disabled" *ngIf="isSaving">
+                  <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button> -->
+      <button *ngIf="canDeny && canDisplayReferDeny && hasTriedSaving != true && !isSaving"
+        (click)="this.clickDeny()"
+        class="btn btn-danger btn-save">Deny</button>
+      <button *ngIf="!canDeny && canDisplayReferDeny"
+        class="btn btn-danger btn-save disabled"
+        disabled>Deny</button>
+      <button *ngIf="canRefer && hasTriedSaving != true && !isSaving && isSectionValid"
+        (click)="this.clickRefer()"
+        class="btn btn-success btn-save">Refer</button>
+      <button *ngIf="!canRefer || !isSectionValid"
+        class="btn btn-success btn-save disabled"
+        disabled>Refer</button>
+      <!-- <div *ngIf="hadSaveError">There was an error saving.</div>
+          <button class="btn btn-primary btn-save disabled" *ngIf="isSaving">
+              <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+          <button class="btn btn-primary btn-save" *ngIf="!isSaving" [ngClass]="{disabled: !isSectionValid}" (click)="saveAndExitWorkHistory()">Save &amp; Exit</button> -->
+    </div>
+  </footer>
+
+</div>

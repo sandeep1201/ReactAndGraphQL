@@ -1,0 +1,4 @@
+<div [ngClass]="{default: isDefault, required: isRequired, error: IsError}">
+<button id="test" [ngClass]="{btn: true, button: true, selected: isYes, dirty: isModified}" (click)="click(true)">Yes</button>
+<button [ngClass]="{btn: true,button: true, selected: !isYes && isYes != null}" (click)="click(false)">No</button>
+</div>

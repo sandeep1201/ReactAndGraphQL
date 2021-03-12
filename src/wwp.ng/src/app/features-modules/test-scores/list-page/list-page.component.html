@@ -1,0 +1,4 @@
+<app-sub-header pageTitle="Test Scores" [goBackUrl]="goBackUrl" [participant]="participant" [helpComponent]="'test-scores-card'"></app-sub-header>
+<app-sub-header-nav  [mode]="'App'" activeItem="test-scores" [pin]="pin" [participant]="participant"></app-sub-header-nav>
+
+<app-test-scores-list [isReadOnly]="this.isReadOnly" [pin]="pin" ></app-test-scores-list>

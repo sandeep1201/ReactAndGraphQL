@@ -1,0 +1,224 @@
+<fieldset class="repeat rel"
+  *ngFor="let fa of models; let i=index">
+  <!-- *ngFor="let formalAssessment of formalAssessments; let i=index" -->
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-5 control-group">
+        <label class="control-label">Referral Date</label>
+        <div class="input-group">
+          <div class="col-md-6 p-0">
+            <app-date-mm-dd-yyyy class="first"
+              [(ngModel)]="fa.referralDate"
+              [cacheInnerValue]="getInitialModelValue(fa.id, 'referralDate')"
+              (ngModelChange)="fa.referralDate = $event; onChangeCallback(models)"
+              [isDisabled]="isReferralDeclined(fa)"
+              [isReadOnly]="isDisabled"
+              [datePickerRequired]="!isDisabled"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'referralDate')"
+              [isRequired]="isRepeaterRowRequired(i)"></app-date-mm-dd-yyyy>
+          </div>
+          <div class="col-md-6 p-0 input-group-append">
+            <app-radio-button [NgLabel]="'Referral Declined'"
+              [(ngModel)]="fa.referralDeclined"
+              (ngModelChange)="fa.referralDeclined = $event; onChangeCallback(models)"
+              [isDisabled]="isDisabled"
+              class="last input-group-addon input-group-text"></app-radio-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">&nbsp;</div>
+      <div class="col-md-6 control-group">
+        <label class="control-label">&nbsp;</label>
+        <app-text-area [maxlength]="380"
+          [(ngModel)]="fa.referralDetails"
+          (ngModelChange)="fa.referralDetails = $event; onChangeCallback(models)"
+          [cacheInnerValue]="getInitialModelValue(fa.id, 'referralDetails')"
+          [isDisabled]="isDisabled"
+          [isAutoSizeable]="true"
+          [placeholder]="'Details'"></app-text-area>
+      </div>
+    </div>
+    <div *ngIf="!isReferralDeclined(fa)"
+      class="row">
+      <div class="col-md-6 control-group">
+        <label class="control-label">Assessment Date</label>
+        <div class="input-group">
+          <div class="col-md-5 p-0">
+            <app-date-mm-dd-yyyy class="first"
+              [(ngModel)]="fa.assessmentDate"
+              [cacheInnerValue]="getInitialModelValue(fa.id, 'assessmentDate')"
+              (ngModelChange)="fa.assessmentDate = $event; onChangeCallback(models)"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'assessmentDate')"
+              [isDisabled]="isAssessmentNotCompleted(fa)"
+              [isReadOnly]="isDisabled"
+              [datePickerRequired]="!isDisabled"
+              [isRequired]="false"></app-date-mm-dd-yyyy>
+          </div>
+          <div class="col-md-7 p-0 input-group-append">
+            <app-radio-button [NgLabel]="'Assessment Not Completed'"
+              [(ngModel)]="fa.assessmentNotCompleted"
+              (ngModelChange)="fa.assessmentNotCompleted = $event; onChangeCallback(models)"
+              [isDisabled]="isDisabled"
+              class="last input-group-addon input-group-text"></app-radio-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 control-group">
+        <label class="control-label">&nbsp;</label>
+        <app-text-area [maxlength]="380"
+          [(ngModel)]="fa.assessmentDetails"
+          (ngModelChange)="fa.assessmentDetails = $event; onChangeCallback(models)"
+          [cacheInnerValue]="getInitialModelValue(fa.id, 'assessmentDetails')"
+          [isRequired]="isAssessmentNotCompleted(fa) && isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'assessmentDetails')"
+          [isDisabled]="isDisabled"
+          [isAutoSizeable]="true"
+          [placeholder]="'Details'"></app-text-area>
+      </div>
+    </div>
+
+    <!--<div class="col-md-1">&nbsp;</div>-->
+    <div *ngIf="fa.isAssessmentDateEntered() && !isReferralDeclined(fa)">
+      <div *ngIf="!isAssessmentNotCompleted(fa)"
+        class="row">
+        <div class="col-md-6 control-group">
+          <label class="control-label">How long will the symptoms likely last?</label>
+          <app-select [isRequired]="isAssessmentDateEntered(fa) && isRepeaterRowRequired(i)"
+            [dropDownList]="this.symptomsDrop"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'symptomId')"
+            [cacheInnerValue]="getInitialModelValue(fa.id, 'symptomId')"
+            [isDisabled]="isDisabled"
+            [(ngModel)]="fa.symptomId"
+            (ngModelChange)="fa.symptomId = $event; onChangeCallback(models)"></app-select>
+        </div>
+        <div class="col-md-6 control-group">
+          <label class="control-label">Recommended Reassessment Date</label>
+          <div class="input-group">
+            <app-date-mm-dd-yyyy class="first"
+              [(ngModel)]="fa.reassessmentRecommendedDate"
+              [cacheInnerValue]="getInitialModelValue(fa.id, 'reassessmentRecommendedDate')"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'reassessmentRecommendedDate')"
+              (ngModelChange)="fa.reassessmentRecommendedDate = $event; onChangeCallback(models)"
+              [isReadOnly]="isDisabled"
+              [datePickerRequired]="!isDisabled"
+              [isDisabled]="isAssessmentNotNeeded(fa)"
+              [isRequired]="isAssessmentDateEntered(fa) && isRepeaterRowRequired(i)"></app-date-mm-dd-yyyy>
+            <app-radio-button [(ngModel)]="fa.isRecommendedDateNotNeeded"
+              (ngModelChange)="fa.isRecommendedDateNotNeeded = $event; onChangeCallback(models)"
+              [isDisabled]="isDisabled"
+              [NgLabel]="'Not Needed'"
+              class="input-group-addon input-group-text">
+            </app-radio-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"
+        *ngIf="!isAssessmentNotCompleted(fa)">
+        <div class="col-md-12 control-group">
+          <!--<label class="control-label">&nbsp;</label>-->
+          <app-text-area [maxlength]="380"
+            [(ngModel)]="fa.symptomDetails"
+            (ngModelChange)="fa.symptomDetails = $event; onChangeCallback(models)"
+            [isDisabled]="isDisabled"
+            [cacheInnerValue]="getInitialModelValue(fa.id, 'symptomDetails')"
+            [isAutoSizeable]="true"
+            [placeholder]="'Details'"></app-text-area>
+        </div>
+      </div>
+    </div>
+
+    <!-- add hours and details here  -->
+    <div *ngIf="this.isAssessmentDateEntered(fa) && !isReferralDeclined(fa)">
+      <div class="row control-group input-group">
+        <!-- <div class ="col-md-4">
+                <label class="control-label">Hours the individual can participate</label>
+                <app-numerical-input  [(ngModel)]="fa.hoursParticipantCanParticipate" (ngModelChange)="fa.hoursParticipantCanParticipate = $event; onChangeCallback(models)" [isInvalid]="isModelErrorsItemInvalid(i, 'hoursParticipantCanParticipate')" [cacheInnerValue]="getInitialModelValue(fa.id, 'hoursParticipantCanParticipate')" [NGMaxLength]="2"></app-numerical-input>
+                <span class="input-group-addon">Per</span>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">Interval Type</label>
+                <app-select class ="col-md-6" [isRequired]="isParticipationHoursInformationEntereds(fa)" [isDisabledWithNoValue]="false"  [dropDownList]="intervalTypesDrop" class="last"></app-select>
+                </div> -->
+        <div class="col-md-6">
+          <label>Hours the individual can participate</label>
+          <div class="input-group">
+            <app-numerical-input [(ngModel)]="fa.hoursParticipantCanParticipate"
+              (ngModelChange)="fa.hoursParticipantCanParticipate = $event; onChangeCallback(models)"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'hoursParticipantCanParticipate')"
+              [isRequired]="isParticipationHoursInformationEntereds(fa)"
+              [cacheInnerValue]="getInitialModelValue(fa.id, 'hoursParticipantCanParticipate')"
+              [isReadOnly]="isDisabled"
+              [NGMaxLength]="2"></app-numerical-input>
+            <span class="input-group-addon input-group-text">per</span>
+            <app-select class="col-md-6"
+              [(ngModel)]="fa.hoursParticipantCanParticipateIntervalId"
+              (ngModelChange)="fa.hoursParticipantCanParticipateIntervalId = $event; onChangeCallback(models)"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'hoursParticipantCanParticipateIntervalId')"
+              [isRequired]="isParticipationHoursInformationEntereds(fa)"
+              [isDisabledWithNoValue]="false"
+              [isDisabled]="isDisabled"
+              [dropDownList]="intervalTypesDrop"
+              class="last"
+              [cacheInnerValue]="getInitialModelValue(fa.id, 'hoursParticipantCanParticipateIntervalId')">
+            </app-select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="control-label">&nbsp;</label>
+          <app-text-area [(ngModel)]="fa.hoursParticipantCanParticipateDetails"
+            (ngModelChange)="fa.hoursParticipantCanParticipateDetails = $event; onChangeCallback(models)"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'hoursParticipantCanParticipateDetails')"
+            [cacheInnerValue]="getInitialModelValue(fa.id, 'hoursParticipantCanParticipateDetails')"
+            [maxlength]="380"
+            [isRequired]="isParticipationHoursInformationEntereds(fa)"
+            [isAutoSizeable]="true"
+            [isDisabled]="isDisabled"
+            [placeholder]="'Details'"></app-text-area>
+
+        </div>
+
+      </div>
+      <!-- <div class="row">
+
+            </div> -->
+    </div>
+
+    <!--<div class="col-md-1">&nbsp;</div>-->
+    <div *ngIf="!isReferralDeclined(fa)"
+      class="row">
+      <div class="col-md-12">
+        <app-contacts-embed [pin]="pin"
+          [isRequired]="fa.isAssessmentDateEntered()"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'assessmentProviderContactId')"
+          [(ngModel)]="fa.assessmentProviderContactId"
+          (ngModelChange)="fa.assessmentProviderContactId = $event; onChangeCallback(models)"
+          [cacheInnerValue]="getInitialModelValue(fa.id, 'assessmentProviderContactId')"
+          [isReadOnly]="isDisabled">
+        </app-contacts-embed>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isDisabled != true"
+    class="controls">
+    <ul>
+      <app-delete-reason-button [type]="'formalassessment'"
+        [objectWatched]="fa"
+        (deletedObject)="this.repeaterItemToBeDeleted($event)"></app-delete-reason-button>
+    </ul>
+  </div>
+</fieldset>
+
+<div *ngIf="isDisabled != true"
+  class="tright col-md-12 add-holder">
+  <span class="left tgrey3 small"
+    *ngIf="models?.length > 2">You can enter up to 3 Formal Assessments per barrier</span>
+  <button class="btn btn-sm btn-light disabled"
+    *ngIf="models?.length > 2">+ &nbsp; Add Formal Assessment</button>
+  <button class="btn btn-sm btn-light btn-add add-deg"
+    *ngIf="models?.length < 3"
+    (click)="addToRepeater()">+ &nbsp; Add
+    Formal Assessment</button>
+  <hr class="spacer" />
+</div>

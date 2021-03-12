@@ -1,0 +1,133 @@
+.disabledActivity {
+  text-decoration: none;
+  #sidebar ul li.disabledActivity:hover{
+    color: #65c6f0!important;
+
+  }
+}
+
+  .disabledFields, #sidebar ul li.disabledFields:hover {
+    color: #bdc3c7 !important;
+    cursor: not-allowed!important;
+    text-decoration: none;
+  }
+
+  .psStatusFont{
+font-size: small;
+  }
+
+  .hrWidth{
+    width: 90%;
+  }
+
+ /* SUBMIT DIALOGS */
+
+div.sb-prompt {
+  visibility: hidden;
+}
+
+div.sb-prompt.open {
+  visibility: visible;
+}
+
+div.sb-prompt .overlay {
+  display:block;
+  position: fixed;
+  opacity: 0;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background: #1F5673;
+  overflow: none;
+  z-index:900;
+  transition: all 0.75s;
+}
+
+div.sb-prompt.open .overlay {
+  opacity: 1;
+}
+
+div.sb-prompt .message-container {
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height:auto;
+  text-align: center;
+  color:#fff;
+}
+
+div.sb-prompt .primary-icon {
+  font-size:3em;
+  padding:0.5em;
+  opacity: 0;
+  transition: 2s all;
+}
+
+div.sb-prompt .primary-icon .outer {
+  padding: 0;
+  border-radius: 50%;
+  line-height:1em;
+  overflow: hidden;
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  position: relative;
+}
+
+div.sb-prompt .primary-icon .inner {
+  position: relative;
+  top:-8em;
+  padding: 0.25em;
+  line-height:1em;
+  transform: scale(0.5);
+  transition: 1s all;
+}
+
+div.sb-prompt.open .primary-icon .inner {
+  transform: scale(1);
+  top:0;
+}
+
+div.sb-prompt.open .primary-icon {
+  opacity: 1;
+}
+
+@keyframes pulse-s {
+  0%, 100% {box-shadow: 0 0 15px #1abc9c;}
+  50% {background-color: 0 0 50px #1abc9c;}
+}
+
+@keyframes pulse-f {
+  0%, 100% {box-shadow: 0 0 15px #e74c3c;}
+  50% {background-color: 0 0 50px #e74c3c;}
+}
+
+#submit-confirm .primary-icon .outer {
+  background: #1abc9c;
+  box-shadow: 0 0 15px #1abc9c;
+  animation: pulse-s 2s infinite;
+}
+
+#submit-fail .primary-icon .outer {
+  background: #e74c3c;
+  box-shadow: 0 0 15px #e74c3c;
+  animation: pulse-f 2s infinite;
+}
+
+div.sb-prompt p {
+  margin-bottom:2em;
+  color:#ecf0f1;
+}
+
+div.sb-prompt button.btn-close {
+  background:none;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.8);
+}
+
+div.sb-prompt button.btn-close:hover {
+  background:rgba(255,255,255,.2);
+}

@@ -1,0 +1,27 @@
+<div *ngIf="monthsDropDownList" class="month-selector-container">
+  <div class="dropdown">
+    <button class="btn btn-add dropdown-toggle" (click)="toggleIsEdit($event)" type="button" data-toggle="dropdown"> {{ title }}</button>
+    <div *ngIf="isEdit" class="month-selector">
+      <div class="action-bar clearfix">
+        <span (click)="changeYears(-1)"><i class="left fa fa-chevron-left"></i> {{ displayYear1.start | amDateFormat : 'YYYY' }}</span>
+        <span (click)="changeYears(1)"><i class="right fa fa-chevron-right"></i> {{ displayYear2.start | amDateFormat : 'YYYY' }}</span>
+      </div>
+      <div class="year-wrapper">
+        <div class="year-container">
+          <div (click)="onMonthClicked(item,$event)" *ngFor="let item of getMonthOptions(displayYear1.start.year())" [ngClass]="{selected: item.isSelected, 'last-selected':(item.isSelected && isLastSelected(item.id)), 'is-current':isCurrentItem(item.id), disabled:item.isDisabled }"
+            class="year-label">{{ item.name }}</div>
+        </div>
+        <div class="year-container">
+          <div (click)="onMonthClicked(item,$event)" *ngFor="let item of getMonthOptions(displayYear2.start.year())" [ngClass]="{selected: item.isSelected, 'last-selected':(item.isSelected && isLastSelected(item.id)), 'is-current':isCurrentItem(item.id), disabled:item.isDisabled }"
+            class="year-label">{{ item.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="selection-summary" *ngIf="selectedMonths">
+    <div class="year-summary" *ngFor="let year of selectedYears">
+      <label>{{ year }} </label> :
+      <span *ngFor="let month of getSelectedMonths(year);let last = last;"> {{ month | amDateFormat: 'MMM'}}<span *ngIf="!last"> | </span></span>
+    </div>
+  </div>-->
+</div>

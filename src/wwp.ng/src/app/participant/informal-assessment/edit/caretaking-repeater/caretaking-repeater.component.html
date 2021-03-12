@@ -1,0 +1,46 @@
+<blockquote class="popdesc">List each individual, their relationship to you, and your caretaking responsibilities.
+</blockquote>
+<fieldset *ngFor="let fm of models; let i=index" class="deg-repeat repeat rel deg-1">
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-2 control-group">
+        <label class="control-label" title="First Name">First Name</label>
+        <app-text-input [(ngModel)]="fm.firstName" (ngModelChange)="fm.firstName = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(fm.id, 'firstName')" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'firstName')" [maxLength]="120"></app-text-input>
+      </div>
+      <div class="col-md-2 control-group">
+        <label class="control-label" title="Last Name">Last Name</label>
+        <app-text-input [(ngModel)]="fm.lastName" (ngModelChange)="fm.lastName = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(fm.id, 'lastName')" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'lastName')" [maxLength]="120"></app-text-input>
+      </div>
+      <div class="col-md-3 control-group">
+        <label class="control-label" title="Relationship">Relationship</label>
+        <app-select [(ngModel)]="fm.relationshipId"
+          (ngModelChange)="fm.relationshipId = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(fm.id, 'relationshipId')"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'relationshipId')" [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="relationships"></app-select>
+      </div>
+      <div class="col-md-5 control-group">
+        <label class="control-label"
+          title="Do you have caretaking responsibilities for any family members in your household due to health problems or other special needs? - Details">Details</label>
+        <app-text-area [maxlength]="380" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'details')"
+          [cacheInnerValue]="getInitialModelValue(fm.id, 'details')" [isAutoSizeable]="true" [placeholder]="''"
+          (ngModelChange)="fm.details = $event; onChangeCallback(models);" [(ngModel)]="fm.details"></app-text-area>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <ul>
+      <app-delete-reason-button [type]="'familyBarriers'" [objectWatched]="fm"
+        (deletedObject)="this.repeaterItemToBeDeleted($event)"></app-delete-reason-button>
+    </ul>
+  </div>
+</fieldset>
+<div class="tright col-md-12 add-holder">
+  <button class="btn btn-sm btn-add add-deg" (click)="addToRepeater()">+ &nbsp; Add Person</button>
+  <hr class="spacer" />
+</div>

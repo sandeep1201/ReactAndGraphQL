@@ -1,0 +1,10 @@
+.list-item {
+  &:hover {
+    background: none;
+    cursor: auto;
+  }
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}

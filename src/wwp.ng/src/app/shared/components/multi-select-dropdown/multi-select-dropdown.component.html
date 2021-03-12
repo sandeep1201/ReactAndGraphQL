@@ -1,0 +1,50 @@
+<span *ngIf='this.isFilter === false' class="dropdown-holder multi-select">
+  <button type="button" [class.wrapword]="isHistorical" [class.valueLocked]="isValueLocked"
+    [class.disabled]="isDisabled && !isValueLocked || isReadOnly"
+    class="btn btn-default d-flex justify-content-between align-items-center fs"
+    [ngClass]="{dirty: isModified && !isInvalid}" [class.error]="isInvalid"
+    [class.required]="isRequired && isDisabled != true" (click)="toggleDropdown()">{{ title }}&nbsp;
+    <span class="py-1">
+      <i class="fa fa-caret-down"></i>
+    </span>
+  </button>
+  <ul *ngIf="isVisible" class="dropdown-menu" [class.pull-right]="settings.pullRight"
+    [style.margin-bottom]="settings.maxHeight" [style.max-height]="settings.maxHeight" [style.width]="width + 'em'"
+    style="display: block; height: auto; overflow-y: auto;">
+    <li class="divider" *ngIf="settings.enableSearch"></li>
+    <li *ngIf="settings.showCheckAll || settings.showUncheckAll" class="divider"></li>
+    <li *ngFor="let option of options">
+      <hr *ngIf="option.disablesOthers && !isAdvRulesMulti" />
+      <a href="javascript:;" role="menuitem" tabindex="-1" (click)="setSelected($event, option)"
+        [class.disabled]="option.isDisabled || option.isPermanentlyDisabled" [class.selected]="isSelected(option)">
+        <input type="checkbox" [checked]="isSelected(option)" />
+        <i class="fa" [class.fa-check]="isSelected(option)"></i>
+        <span>{{ option.name }}</span>
+      </a>
+    </li>
+  </ul>
+</span>
+
+<!-- Filter -->
+<span *ngIf='this.isFilter === true' class="sort-holder sort-filter">
+  <div class="btn-group squared" role="group">
+    <button type="button" class="btn btn-add tgrey3" (click)="toggleDropdown()">
+      <i class="fa {{this.icon}}" aria-hidden="true"></i> Filter by
+      <span class="tblack"> {{ title }} </span>
+    </button>
+    <button type="button" title="Ascending Order" class="btn btn-add sort-btn" (click)="this.toggleFilter()"
+      *ngIf="this.isFilterAsc">
+      <i class="fa fa-sort-up"></i>
+    </button>
+    <button type="button" title="Descending Order" class="btn btn-add sort-btn" (click)="this.toggleFilter()"
+      *ngIf="!this.isFilterAsc">
+      <i class="fa fa-sort-down"></i>
+    </button>
+    <ul class="sort-select" [class.hidden]="!isVisible">
+      <li (click)="setSelected($event, option)" [class.select]="this.isSelected(option)" *ngFor="let option of options">
+        <span class="st-title">{{ option.name }}</span>
+        <span class="st-desc">{{ option.description }}</span>
+      </li>
+    </ul>
+  </div>
+</span>

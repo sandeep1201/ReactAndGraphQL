@@ -1,0 +1,114 @@
+.taskgroup div:last-child app-task >>> .task-card {
+    margin-bottom:0.75em;
+    border-bottom-width: 1px;
+}
+
+.sort-holder {
+    position: relative;
+}
+
+.btn-holder > button.btn, .btn-group > button.btn {
+    border-radius: 0;
+}
+
+.sort-holder .btn-group > button.btn:hover {
+    background: #F5F7F8;
+}
+
+.sort-holder .sort-select {
+    position: absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height: auto;
+    overflow: visible;
+    border:1px solid #bdc3c7;
+    background:#fff;
+    z-index: 500;
+    margin-top:-1px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+}
+
+.sort-holder .sort-select li {
+    padding:0.5em;
+    border-bottom:1px solid #ecf0f1;
+}
+
+.sort-holder .sort-select li.select {
+    padding:0.5em;
+    border-bottom:1px solid #bdc3c7;
+}
+
+.sort-holder .sort-select li:last-child,
+.sort-holder .sort-select li.select:last-child {
+    border-bottom:none;
+}
+
+.sort-holder .sort-select li:hover {
+    background: #F5F7F8;
+    cursor: pointer;
+}
+
+.sort-holder .sort-select li.select {
+    background:#ecf0f1;
+}
+
+
+.sort-holder .sort-select li.select .st-title  {
+    color:#2980b9;
+}
+
+.sort-holder .sort-select li:hover .st-title {
+    color:#2980b9;
+}
+
+.sort-holder .sort-select li .st-title {
+    display: block;
+    font-weight:500;
+    clear: both;
+}
+
+.sort-holder .sort-select li .st-desc {
+    font-size:0.75em;
+    color:#95a5a6;
+    font-weight: 600;
+}
+
+.history {
+    color: #7f8c8d;
+    right: 2em;
+    margin-top: 10px;
+}
+
+.history div.lastEdit {
+    font-size: 0.8em;
+    text-align: right;
+}
+
+.history strong {
+    color:#63899D;
+    display:inline-block;
+    font-weight: 600;
+    padding:0 0.25em;
+}
+
+.history strong span {
+    color: #7f8c8d;
+    margin-right: 0.5em;
+    font-weight: normal;
+}
+
+.history strong sub {
+    font-weight:800;
+    bottom:0;
+}
+
+.history div.rcorner {
+    border-radius: 10px 10px 0 0;
+    border-left: 1px solid #bdc3c7;
+    border-right: 1px solid #bdc3c7;
+    border-top: 1px solid #bdc3c7;
+    width: inherit;
+    height: inherit;
+}
+

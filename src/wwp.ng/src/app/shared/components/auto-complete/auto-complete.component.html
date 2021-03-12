@@ -1,0 +1,14 @@
+<div>
+    <div class="input-field">
+        <input type="text" [placeholder]="placeHolder" [disabled]="this.isDisabled" [ngClass]="{required: isRequired, error: isErrorCss, default: isDefaultCss, dirty: isModified}" (click)="showDropDown()" max-length="180" class="validate filter-input form-control autocomplete" [(ngModel)]="query" (keyup)="filter()">
+        <span class="dn-arrow" (click)="showDropDown()"><i class="fa fa-caret-down"></i></span>
+    </div>
+    <div class="suggestions" [ngClass]="{suggestionsShort: isShortHeightStyle}" *ngIf="filteredList.length > 0">
+        <ul>
+            <li *ngFor="let item of filteredList; let i = index">
+                <a *ngIf="item.isSelected == null || item.isSelected === false" tabindex="0" (click)="select(item)">{{item.name}}</a>
+                <a *ngIf="item.isSelected === true" class="disabled"  tabindex="0" >{{item.name}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

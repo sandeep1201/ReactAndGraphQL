@@ -1,0 +1,222 @@
+
+#sidebar ul li.disabled {
+  color: #95a5a6;
+}
+
+#sidebar ul li.disabled:hover {
+  color: #95a5a6!important;
+  cursor: not-allowed;
+}
+
+button.hbtn:hover {
+  cursor: not-allowed!important;
+}
+
+fieldset {
+  opacity: 1;
+  transition:opacity 0.6s;
+}
+
+fieldset.loading {
+  opacity:0;
+}
+
+#sidebar {
+  transform: translateX(0);
+  opacity:1;
+  transition-property: transform,opacity,width !important;
+  transition-duration: 0.5s !important;
+  transition-timing-function: ease-in-out !important;
+}
+
+#sidebar.loading {
+  transform: translateX(-10%);
+  opacity:0;
+}
+
+thead {
+  border-bottom: 1px solid #ddd;
+}
+
+fieldset {
+  opacity: 1;
+  transition:opacity 0.6s;
+}
+
+fieldset.loading {
+  opacity:0;
+}
+
+.modal-body img {
+  max-width:100%;
+  height:auto;
+}
+
+main {
+  opacity:0;
+  transition-duration: 0 !important;
+}
+
+main.loaded {
+  opacity:1;
+  transition-property: transform,opacity,width !important;
+  transition-duration: 0.5s !important;
+  transition-timing-function: ease-in-out !important;
+}
+
+.hist-move-btns button {
+  background:none;
+  border: 1px solid #bdc3c7;
+  color: #7f8c8d;
+}
+
+.hist-move-btns i {
+  color:#7f8c8d;
+}
+
+.hist-move-btns button:hover {
+  background: rgba(255,255,255,.5);
+}
+
+h4.part-title {
+  padding-bottom:0.25em;
+  border-bottom:1px solid #ccc;
+}
+
+/* .input-group span.input-group-addon.gapless {
+  width:0;
+  padding:0;
+  border:0;
+} */
+
+.dmv-links a i {
+  padding-right:0.5em;
+  border-right:1px solid rgba(255,255,255,.5);
+  display: inline-block;
+  margin-right:0.5em;
+}
+
+/* :host #main >>> .input-group app-text-area,
+:host #main >>> .input-group app-multi-select-dropdown,
+:host #main >>> .input-group app-tab-selector,
+:host #main >>> .input-group app-select,
+:host #main >>> .input-group app-yes-no-basic,
+:host #main >>> .input-group app-yes-no {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+} */
+
+.btn-saving {
+  display: inline-block;
+  background: #dddddd;
+  border: 1px solid #ffffff;
+  color: #fff;
+  border-radius: 4px;
+}
+
+/* .btn-save {
+  display: inline-block;
+  padding: 0.25em;
+  background: #1abc9c;
+  border: 1px solid #16a085;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.btn-save span {
+  padding: 0.6em 1em;
+}
+
+button.btn-cont {
+  background: #16a085;
+  border: none;
+  color: #fff;
+  padding: 0.6em 1em;
+}
+
+.btn-save:hover,
+button.btn-cont:hover {
+  opacity:0.9;
+  background: #1abc9c;
+  box-shadow: none;
+} */
+
+:host >>> textarea.dirty:not(disabled),
+:host >>> textarea.dirty.required:not(disabled),
+:host >>> select.dirty:not(disabled),
+:host >>> select.dirty.required:not(disabled),
+:host >>> input.dirty:not(disabled),
+:host >>> input.dirty.required:not(disabled) {
+  border-left-color: #f1c40f;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  border-left-color: #bdc3c7 !important;
+  text-indent: 999px;
+  color: rgba(149,165,166,0);
+}
+
+:host ::ng-deep .docs-holder a {
+  display: inline-block;
+  margin: 0.5em;
+  width: 45%;
+}
+
+:host ::ng-deep .docs-holder a span {
+  float: left;
+  font-size: 1.5rem;
+  padding: 0.5em 0.75em 0.5em 0;
+  border-right: 1px solid #fff;
+}
+
+:host ::ng-deep .docs-holder a p {
+  margin: 0;
+}
+
+:host ::ng-deep .paper {
+  background-color: rgba(255, 255, 255, 0.5);
+  overflow: auto;
+}
+
+:host ::ng-deep .report {
+  overflow: inherit;
+}
+
+.card-header {
+  background-color:#f6f8f8;
+  padding: .75rem 0rem;
+}
+
+.sectionTitle {
+  font-size:1.5rem;
+  font-weight:500;
+  line-height:1.1;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}
+
+td , th {
+  display: block;
+}
+
+thead , tbody {
+  display: flex;
+}
+
+tr {
+  width: 100%;
+}
+
+aside{
+  height: calc(100vh / 2);
+}
+
+.curPointer {
+  cursor: pointer;
+}

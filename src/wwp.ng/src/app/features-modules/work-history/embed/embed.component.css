@@ -1,0 +1,99 @@
+:host {
+    width:100%;
+}
+
+:host .app-embed {
+    display: block;
+    border: 1px solid #bdc3c7;
+    background: #F6F8F8;
+    margin: 1em 0;
+    border-radius: 5px;
+    padding: 0;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.1);
+    border-left-width: 4px;
+    /* overflow:hidden; */
+    width:100%;
+}
+
+:host.tabled .app-embed {
+    border: none;
+    margin: 0;
+    padding: 0;
+    margin: -0.25rem -0.5rem;
+    width: calc(100% + 1rem);
+    box-shadow: none;
+}
+
+:host.dirty {
+    border-left-color: #f1c40f !important;
+}
+
+:host .app-embed > div:not(:last-child) {
+    border-bottom: 1px solid #c9d2d6;
+}
+
+:host .app-icon {
+    background: #ecf0f1;
+    border-right: 1px solid #c9d2d6;
+    color: #7f8c8d;
+    font-size: 1.25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host a:hover {
+    background: #fff;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+:host .app-info {
+    background: #F6F8F8;
+    overflow: auto;
+}
+
+.workHistory-position:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+:host .app-none {
+    padding:0.8em;
+    color:#bdc3c7;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.app-main {
+    clear:both;
+    display:block;
+    width:100%;
+}
+
+.app-additional .app-hours {
+    font-size:0.9em;
+}
+
+.app-dates span {
+    background:#F6F8F8;
+}
+
+.app-dates {
+    z-index:200;
+    width:100%;
+    clear:both;
+    display:block;
+    position: relative;
+    font-size:0.9em;
+}
+
+.app-dates::after {
+    content:"";
+    position:absolute;
+    width:98%;
+    height:1px;
+    top:0.6em;
+    left:0;
+    border-top: 2px dashed #bdc3c7;
+    z-index: -15;
+}

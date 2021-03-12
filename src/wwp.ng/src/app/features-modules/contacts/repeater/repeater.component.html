@@ -1,0 +1,9 @@
+<div *ngIf="model">
+  <div *ngFor="let m of model; let i = index">
+    <app-contacts-embed [isReadOnly]="readOnly()" [(ngModel)]="m.value" (ngModelChange)="m.value = $event; onChange();"
+      [pin]="pin" [cacheInnerValue]="this.cacheContactIds[i]"></app-contacts-embed>
+  </div>
+  <span *ngIf="!readOnly()" class="right"><button [ngClass]="{disabled: !allowAddition()}" (click)="add()"
+      class="btn btn-primary">+
+      Add Contact</button></span>
+</div>

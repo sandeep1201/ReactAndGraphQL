@@ -1,0 +1,150 @@
+<!-- for each action item -->
+<div *ngIf="readOnly != true" class="top">
+  <div class="action-head tright">
+    <span class="action-add">
+      <button (click)="this.quickAddTask()" class="btn btn-add-task" [class.tgrey3]="this.value?.length == 0 || this.value?.length == null">
+        <i class="fa fa-plus"></i>
+      </button>
+    </span>
+    <span class="action-name left">{{this.taskItemName}}</span>
+
+  </div>
+  <div class="clearfix"></div>
+  <div *ngFor="let task of this.value" class="follow-up-holder clearfix">
+    <table class="fu-item full" *ngIf="task.id > 0">
+      <tr>
+
+        <td class="fu-status-holder">
+          <span class="fu-status">
+            <i (click)="this.changeState(task)" *ngIf="task.getTaskStatus() === 'onGoing'" class="far fa-circle tgrey3"></i>
+            <i *ngIf="task.getTaskStatus() === 'completed'" class="far fa-check-circle tgreen2"></i>
+            <i *ngIf="task.getTaskStatus() === 'notCompleted'" class="far fa-times-circle tred"></i>
+          </span>
+        </td>
+
+        <td class="fu-middle">
+          <table class="fu-details full">
+            <tr>
+              <td colspan="3" class="fu-name pad0-1">
+                <span class="fu-text" *ngIf="task.followUpTask">{{task.followUpTask}}</span>
+                <span class="fu-text tgrey2" *ngIf="!task.followUpTask">
+                  <i class="fa fa-exclamation-triangle tyellow"></i> Generic Task</span>
+              </td>
+            </tr>
+            <tr class="fu-details small">
+              <td class="fu-due">
+                <span *ngIf="task.dueDate != null && task.dueDate.trim() !== ''" class="ongoing" [class.tyellow]="task.whichColorIsDueDate() === 'yellow'"
+                  [class.tred]="task.whichColorIsDueDate() === 'red'">
+                  <i class="fa fa-calendar tgrey2"></i> Due On {{task.dueDate | dateMmDdYyyy}}</span>
+                <span *ngIf="task.dueDate == null || task.dueDate.trim() === ''" class="ongoing">
+                  <i class="fa fa-calendar tgrey2"></i> No Due Date</span>
+              </td>
+              <td class="fu-complete">
+                <span *ngIf="task.getTaskStatus() === 'onGoing'" class="ongoing">
+                  <i class="fa fa-calendar tgrey2"></i> Ongoing</span>
+                <span *ngIf="task.getTaskStatus() === 'notCompleted'" class="not-complete">
+                  <i class="fa fa-calendar-times tred"></i> Not Completed</span>
+                <span *ngIf="task.getTaskStatus() === 'completed'" class="complete">
+                  <i class="fa fa-calendar-check tgreen"></i>{{task.completionDate | dateMmDdYyyy}}</span>
+              </td>
+              <td class="fu-assigned">
+                <i class="fa fa-child tgrey2"></i> {{task.assigneeName}} Task
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <td class="fu-options tright">
+          <ul class="app-option-list">
+            <li class="app-option app-edit">
+              <a (click)="this.editTask(task)">
+                <i class="fa fa-pencil-alt"></i>
+              </a>
+            </li>
+            <li class="app-option app-delete">
+              <a (click)="this.tryDelete(task)">
+                <i class="fa fa-trash-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="readOnly">
+  <!-- <div class="action-head tright"> -->
+    <!-- <span class="action-add">
+      <button (click)="this.quickAddTask()" class="btn btn-add-task" [class.tgrey3]="this.value?.length == 0 || this.value?.length == null">
+        <i class="fa fa-plus"></i>
+      </button>
+    </span> -->
+    <span *ngIf="this.value?.length > 0" class="action-name left">{{this.taskItemName}}</span>
+
+  <!-- </div> -->
+  <div class="clearfix"></div>
+  <div *ngFor="let task of this.value" class="follow-up-holder clearfix">
+    <table class="fu-item full" *ngIf="task.id > 0">
+      <tr>
+
+        <!-- <td class="fu-status-holder">
+          <span class="fu-status">
+            <i (click)="this.changeState(task)" *ngIf="task.getTaskStatus() === 'onGoing'" class="fa fa-circle-o tgrey3"></i>
+            <i *ngIf="task.getTaskStatus() === 'completed'" class="fa fa-check-circle-o tgreen2"></i>
+            <i *ngIf="task.getTaskStatus() === 'notCompleted'" class="fa fa-times-circle-o tred"></i>
+          </span>
+        </td> -->
+
+        <td class="fu-middle">
+          <table class="fu-details full">
+            <tr>
+              <td colspan="3" class="fu-name pad0-1">
+                <span class="fu-text" *ngIf="task.followUpTask">{{task.followUpTask}}</span>
+                <span class="fu-text tgrey2" *ngIf="!task.followUpTask">
+                  <i class="fa fa-exclamation-triangle tyellow"></i> Generic Task</span>
+              </td>
+            </tr>
+            <tr class="fu-details small">
+              <td class="fu-due">
+                <span *ngIf="task.dueDate != null && task.dueDate.trim() !== ''" class="ongoing" [class.tyellow]="task.whichColorIsDueDate() === 'yellow'"
+                  [class.tred]="task.whichColorIsDueDate() === 'red'">
+                  <i class="fa fa-calendar tgrey2"></i> Due On {{task.dueDate | dateMmDdYyyy}}</span>
+                <span *ngIf="task.dueDate == null || task.dueDate.trim() === ''" class="ongoing">
+                  <i class="fa fa-calendar tgrey2"></i> No Due Date</span>
+              </td>
+              <td class="fu-complete">
+                <span *ngIf="task.getTaskStatus() === 'onGoing'" class="ongoing">
+                  <i class="fa fa-calendar tgrey2"></i> Ongoing</span>
+                <span *ngIf="task.getTaskStatus() === 'notCompleted'" class="not-complete">
+                  <i class="fa fa-calendar-times tred"></i> Not Completed</span>
+                <span *ngIf="task.getTaskStatus() === 'completed'" class="complete">
+                  <i class="fa fa-calendar-check tgreen"></i>{{task.completionDate | dateMmDdYyyy}}</span>
+              </td>
+              <td class="fu-assigned">
+                <i class="fa fa-child tgrey2"></i> {{task.assigneeName}} Task
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <td class="fu-options tright">
+          <ul class="app-option-list">
+            <!-- <li class="app-option app-edit">
+              <a (click)="this.editTask(task)">
+                <i class="fa fa-pencil-alt"></i>
+              </a>
+            </li>
+            <li class="app-option app-delete">
+              <a (click)="this.tryDelete(task)">
+                <i class="fa fa-trash-alt"></i>
+              </a>
+            </li> -->
+          </ul>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+</div>

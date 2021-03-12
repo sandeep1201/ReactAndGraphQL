@@ -1,0 +1,114 @@
+<h4>Colleges &amp; Universities</h4>
+
+<fieldset *ngFor="let college of models; let i=index"
+  class="coll-repeat repeat rel">
+  <div class="content p-3">
+    <div class="row">
+      <div class="col-md-5">
+        <label [attr.for]="'ps-coll-location-' + i"
+          class="control-label"
+          title="Location">Location</label>
+        <app-remote-auto-complete id="ps-coll-location-{{i}}"
+          [(ngModel)]="college.location"
+          (ngModelChange)="college.location = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'location')"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'collegeLocation')"></app-remote-auto-complete>
+      </div>
+      <div class="col-md-5">
+        <label [attr.for]="'ps-coll-name-' + i"
+          class="control-label"
+          title="Name">Name</label>
+        <app-remote-auto-suggest id="ps-coll-name-{{i}}"
+          [searchType]="'colleges'"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [(ngModel)]="college.name"
+          (ngModelChange)="college.name = $event; onChangeCallback(models);"
+          [googlePlaceIdInput]="college?.location?.googlePlaceId"
+          [isInvalidbyParent]="isModelErrorsItemInvalid(i, 'collegeName')"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'name')"></app-remote-auto-suggest>
+      </div>
+      <div class="col-md-2">
+        <label [attr.for]="'ps-coll-grad-' + i"
+          class="control-label"
+          title="Graduated">Graduated</label>
+        <app-yes-no-basic id="ps-coll-grad-{{i}}"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [(ngModel)]="college.hasGraduated"
+          (ngModelChange)="college.hasGraduated = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'hasGraduated')"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'graduated')"></app-yes-no-basic>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label [attr.for]="'ps-coll-year-' + i"
+          class="control-label"
+          title="Last Year Attended">Last Year
+          Attended</label>
+        <div class="input-group">
+          <app-date-yyyy id="ps-coll-year-{{i}}"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'lastYearAttended')"
+            [isDisabled]="college?.isCurrentlyAttending"
+            [cacheInnerValue]="getInitialModelValue(college.id, 'lastYearAttended')"
+            (ngModelChange)="college.lastYearAttended = $event; onChangeCallback(models);"
+            [(ngModel)]="college.lastYearAttended"
+            class="first w-40"></app-date-yyyy>
+          <app-radio-button [(ngModel)]="college.isCurrentlyAttending"
+            (ngModelChange)="college.isCurrentlyAttending = $event; onChangeCallback(models);"
+            [cacheInnerValue]="getInitialModelValue(college.id, 'isCurrentlyAttending')"
+            [NgLabel]="'Currently Attending'"
+            class="w-60 input-group-text last">
+          </app-radio-button>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label [attr.for]="'ps-coll-sem-' + i"
+          class="control-label"
+          title="Semesters Completed">Semesters Completed</label>
+        <app-numerical-input id="ps-coll-sem-{{i}}"
+          [(ngModel)]="college.semesters"
+          (ngModelChange)="college.semesters = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'semesters')"
+          [NGMaxLength]="2"></app-numerical-input>
+      </div>
+      <div class="col-md-3">
+        <label [attr.for]="'ps-coll-credits-' + i"
+          class="control-label"
+          title="Credits Attained">Credits Attained</label>
+        <app-numerical-input id="ps-coll-credits-{{i}}"
+          [(ngModel)]="college.credits"
+          (ngModelChange)="college.credits = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'credits')"
+          [NGMaxLength]="3"></app-numerical-input>
+      </div>
+      <div class="col-md-12">
+        <label [attr.for]="'ps-coll-details-' + i"
+          class="control-label"
+          title="College &amp; University - Details">Details</label>
+        <app-text-area id="ps-coll-details-{{i}}"
+          [maxlength]="380"
+          [isAutoSizeable]="true"
+          [placeholder]="''"
+          (ngModelChange)="college.details = $event; onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(college.id, 'details')"
+          [(ngModel)]="college.details"></app-text-area>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <ul>
+      <!-- <li class="clear" (click)="eraseFromRepeater(college)"><i class="fa fa-eraser" title="clear"></i></li> -->
+      <li class="del"
+        (click)="deleteFromRepeater(college)"><i class="fa fa-trash-alt"
+          title="delete"></i></li>
+    </ul>
+  </div>
+
+</fieldset>
+
+<div class="tright col-md-12 add-holder">
+  <button class="btn btn-sm btn-add add-coll"
+    (click)="addToRepeater()">+ &nbsp; Add School</button>
+  <hr class="spacer" />
+</div>

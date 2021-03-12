@@ -1,0 +1,81 @@
+<img src="assets/img/logo.png"
+  *ngIf="!modal" />
+
+<form (ngSubmit)="submitLogin()">
+  <div class="alert alert-warning"
+    *ngIf="modal"
+    role="alert">Login has expired. Please <em>login</em> again and try again.</div>
+  <div class="form-fieldset"
+    [class.row]="!modal">
+    <div [class.col-md-5]="!modal">
+      <div class="input-group">
+        <div class="input-group-prepend"><span class="input-group-text"><i
+              class="fa fa-user fa-fw"></i></span></div>
+        <input type="text"
+          [(ngModel)]="username"
+          (change)="username=username.trim()"
+          class="form-control required"
+          required
+          placeholder="Username"
+          name="UserLogin"
+          (keydown)="keyDown($event)" />
+      </div>
+    </div>
+    <div [class.col-md-5]="!modal">
+      <div class="input-group">
+        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
+        </div>
+        <input type="password"
+          [(ngModel)]="password"
+          class="form-control required"
+          placeholder="Password"
+          name="Password" />
+      </div>
+    </div>
+    <div [class.col-md-2]="!modal">
+      <button class="btn btn-primary disabled"
+        *ngIf="isLoggingIn">&nbsp;&nbsp;&nbsp;<i
+          class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>&nbsp;&nbsp;&nbsp;</button>
+      <button type="submit"
+        class="btn btn-primary"
+        *ngIf="!isLoggingIn">Login</button>
+    </div>
+  </div>
+  <div class="alert alert-danger"
+    role="alert"
+    *ngIf="loginMessage">{{loginMessage}}</div>
+  <input name="__RequestVerificationToken"
+    type="hidden"
+    value="CfDJ8AlWyBWVFCpDtsWVBfFczAcL_yyCM9cIgnE0abr3dNVPksbT-z8G6VjEOGf5mkN_9iuoYsfntLT86Mkg0YdEobVMCGXiQZT-qsgheHkA6OXQWWa4ESXamTmZFalZQxBlYTp-xW1nRyyE-PSKC1fYca0" />
+</form>
+
+
+
+<div class="legal"
+  *ngIf="!modal">
+  <p>
+    You are about to access a State of Wisconsin computer system. This is a restricted computer system for
+    authorized users only. All equipment, systems, services, and software connected to this system are
+    intended only for official business use of the State of Wisconsin, and may contain U.S. Government
+    information. All data contained on this system is owned by the State of Wisconsin. The State of Wisconsin
+    reserves the right to audit, monitor, record and/or disclose all transactions and data sent over this
+    system in a manner consistent with State and federal law. Use of this system by any user, authorized or
+    unauthorized, constitutes consent to monitoring, recording, reading, copying, or capturing and disclosure
+    of data and transactions by authorized personnel. Only software and/or hardware approved, scanned, and
+    licensed for State of Wisconsin use is permitted on this system. Any illegal, unauthorized use or
+    modification of the State of Wisconsin data, equipment, systems, services, or software by any person(s) is
+    prohibited and may be subject to civil or criminal prosecution under state and/or federal laws.
+  </p>
+</div>
+
+
+<div class="btn-group forget justify-content-center"
+  role="group">
+  <a href={{this.lostPasswordURL}}
+    target="_blank"><button type="button"
+      class="btn btn-default">Lost Password</button></a>
+  <a class="ml-2"
+    href={{this.requestIDURL}}
+    target="_blank"><button type="button"
+      class="btn btn-default">Request ID</button></a>
+</div>

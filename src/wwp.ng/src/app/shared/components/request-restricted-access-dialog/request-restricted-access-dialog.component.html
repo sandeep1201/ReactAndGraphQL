@@ -1,0 +1,29 @@
+<div class="restricted-access-modal modal">
+    <div class="restricted-access-content">
+      <h2>Request Elevated Access</h2>
+      <br />
+      <p>You are about to access information whose use and access is restricted by law, policy, and/or other guidance. This information
+        is the property of the State of Wisconsin. It is for authorized users and authorized use ONLY. Unauthorized access,
+        use, misuse, modification, or disclosure of this information is prohibited, and constitutes a violation of Title 18,
+        United States Code, Section 1030, and may subject the user to criminal and civil penalties pursuant to Wisconsin State
+        Legislative Code Chapter 943, Section 70. Unauthorized or improper use of this information may result in administrative
+        disciplinary action and civil and criminal penalties.</p>
+      <p>Users have no implicit or explicit expectation of privacy when accessing this information. Any and all uses of this information
+        are monitored, recorded, copied, audited, inspected, and disclosed to authorized State of Wisconsin and law enforcement
+        personnel, as well as any other authorized officials. By proceeding to access this information, the user consents to
+        such monitoring.</p>
+      <div>Select Primary Reason for Access to this Data:</div>
+      <div class="row control-group padhalf">
+        <div class="col-md-6" *ngIf="elevatedAccessReasonDrop">
+          <app-select [dropDownList]="elevatedAccessReasonDrop" [(ngModel)]="elevatedAccessReasonId" (ngModelChange)="validate()" [isInvalid] ="modelErrors['elevatedAccessReasonId']" [isRequired]="true" ></app-select>
+        </div>
+        <div class="col-md-6">
+          <app-text-area [maxlength]="380" [(ngModel)]="elevatedAccessReasonDetails" [isAutoSizeable]="true" [placeholder]="'Details'"></app-text-area>
+        </div>
+      </div>
+      <div class="alignright">
+        <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="setModel()">Continue</button>
+      </div>
+    </div>
+  </div>

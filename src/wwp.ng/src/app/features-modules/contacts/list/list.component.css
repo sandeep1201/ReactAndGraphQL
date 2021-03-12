@@ -1,0 +1,63 @@
+input.search {
+  border: 1px solid #bdc3c7;
+  font-weight: normal;
+  vertical-align: bottom;
+  padding: .375rem .75rem;
+  display: inline-block;
+  margin: 0;
+}
+
+input.search.dirty {
+  border-left-color: #bdc3c7!important;
+}
+
+main div button {
+  background: rgba(255,255,255,.5);
+  border: 1px solid #bdc3c7;
+  color: #7f8c8d;
+  letter-spacing: 0px;
+}
+
+main div button:after {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f0dc";
+  font-weight: 900;
+  font-style: normal;
+  text-decoration: inherit;
+  padding-left:0.5em;
+  color:#bdc3c7;
+}
+
+main div button.asc:after {
+  content:"\f0de";
+}
+
+main div button.desc:after {
+  content:"\f0dd";
+}
+
+main div button:hover {
+  background:#fff;
+}
+
+div.contact:hover {
+  background:#F6F8F8;
+  cursor: pointer;
+}
+
+div.contact a {
+  color:#34495e;
+  text-decoration:none;
+}
+
+#contacts {
+  margin-bottom:0;
+}
+
+.jumbotron {
+background-color:transparent;
+}
+
+.ruler {
+  border-bottom: 3px solid #ccc;
+}

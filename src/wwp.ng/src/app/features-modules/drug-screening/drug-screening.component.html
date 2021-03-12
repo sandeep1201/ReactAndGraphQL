@@ -1,0 +1,241 @@
+<app-sub-header pageTitle="Drug Screening"
+  [goBackUrl]="goBackUrl"
+  [participant]="participant"
+  [isSectionModified]="isSectionModified"
+  [helpComponent]="'drug-screening'"></app-sub-header>
+<app-loading [isLoaded]="isLoaded"
+  [loadingLabel]="'Drug Screening'"></app-loading>
+
+<div *ngIf="isLoaded"
+  class="container">
+  <app-dialog-box *ngIf="appService.isDialogPresent"
+    (dialogClose)="exitDrugScreeningIngnoreChnages($event)"
+    [doesNotNavigateBack]="true"></app-dialog-box>
+  <div class="row justify-content-end">
+    <div class="col-md-6"
+      *ngIf="model && model?.modifiedBy">
+      <app-app-modified-stamp [readOnly]="true"
+        [author]="model.modifiedBy"
+        [lastModified]="model.modifiedDate">
+      </app-app-modified-stamp>
+
+    </div>
+  </div>
+  <div class="row ">
+    <app-validation-summary [errors]='validationManager.errors'
+      class="col-md-12"></app-validation-summary>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="h5"><u>In the past 12 months...</u></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you used drugs other than those required for medical reasons?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.usedNonRequiredDrugs"
+        (ngModelChange)="model.usedNonRequiredDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.usedNonRequiredDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['usedNonRequiredDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Do you abuse more than one drug at a time?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.abusedMoreDrugs"
+        (ngModelChange)="model.abusedMoreDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.abusedMoreDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['abusedMoreDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Are you unable to stop abusing drugs when you want to?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.cannotStopAbusingDrugs"
+        (ngModelChange)="model.cannotStopAbusingDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.cannotStopAbusingDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['cannotStopAbusingDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you ever had blackouts or flashbacks as a result of drug use?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.hadBlackoutsFromDrugs"
+        (ngModelChange)="model.hadBlackoutsFromDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.hadBlackoutsFromDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['hadBlackoutsFromDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Do you ever feel bad or guilty about your drug use?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.feelGuiltyAboutDrugs"
+        (ngModelChange)="model.feelGuiltyAboutDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.feelGuiltyAboutDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['feelGuiltyAboutDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Does your spouse(or parents) ever complain about your involvement with drugs?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.spouseComplaintOnDrugs"
+        (ngModelChange)="model.spouseComplaintOnDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.spouseComplaintOnDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['spouseComplaintOnDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you neglected your family because of your drug use?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.neglectedFamilyForDrugs"
+        (ngModelChange)="model.neglectedFamilyForDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.neglectedFamilyForDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['neglectedFamilyForDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you engaged in illegal activities in order to obtain drugs?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.illegalActivitiesForDrugs"
+        (ngModelChange)="model.illegalActivitiesForDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.illegalActivitiesForDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['illegalActivitiesForDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you ever experienced withdrawal symptoms (felt sick) when you stopped taking
+        drugs?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.sickFromStoppingDrugs"
+        (ngModelChange)="model.sickFromStoppingDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.sickFromStoppingDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['sickFromStoppingDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <label>Have you had medical problems as a result of your drug use(e.g. memory loss,hepatitis,
+        convulsions,bleeding)?</label>
+    </div>
+    <div class="col-md-3 pt-1 align-self-end">
+      <app-yes-no-basic [(ngModel)]="model.medicalProblemsFromDrugs"
+        (ngModelChange)="model.medicalProblemsFromDrugs = $event; validate()"
+        [cacheInnerValue]="originalModel?.medicalProblemsFromDrugs"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['medicalProblemsFromDrugs']"
+        [isDisabled]="isReadOnly"
+        class="d-flex justify-content-end">
+      </app-yes-no-basic>
+    </div>
+  </div>
+  <div class="row  p-1">
+    <div class="col-md-3">
+      <label>Status</label>
+    </div>
+    <div class="col-md-6">
+      <app-select [dropDownList]="drugScreeningStatusTypeDrop"
+        [cacheInnerValue]="originalModel?.drugScreeningStatusTypeId"
+        [isInvalid]="modelErrors['drugScreeningStatusTypeId']"
+        [isRequired]="true"
+        [(ngModel)]="model.drugScreeningStatusTypeId"
+        (ngModelChange)="validate();">
+      </app-select>
+    </div>
+  </div>
+  <div class="row  p-1">
+    <div class="col-md-3">
+      <label>Details</label>
+    </div>
+    <div class="col-md-6">
+      <app-text-area [(ngModel)]="model.details"
+        [cacheInnerValue]="originalModel?.details"
+        [isInvalid]="modelErrors['details']"
+        [isReadOnly]="false"
+        [isRequired]="false"
+        [isAutoSizeable]="true"
+        placeholder="Details"
+        maxlength="380">
+      </app-text-area>
+    </div>
+  </div>
+  <div *ngIf="model.drugScreeningStatuses"
+    class="pt-3">
+    <div class="row topborder border-bottom p-1 font-weight-bold">
+      <div class="col-md-3">Status</div>
+      <div class="col-md-2">Status Date</div>
+      <div class="col-md-5">Details</div>
+      <div class="col-md-2">Last Updated By</div>
+    </div>
+    <div class="list-item p-1 row"
+      *ngFor="let status of model.drugScreeningStatuses">
+      <div class="col-md-3"> {{status.drugScreeningStatusName}}
+      </div>
+      <div class="col-md-2"> {{status.drugScreeningStatusDate | date :'MM/dd/yyyy'}}
+      </div>
+      <div class="col-md-5 wrapword"> {{status.details}}
+      </div>
+      <div class="col-md-2"> {{status.modifiedBy}}
+      </div>
+    </div>
+  </div>
+  <app-cancel-save-footer [hadSaveError]="hadSaveError"
+    [isSaving]="isSaving"
+    [isDisabled]="isSectionValid"
+    (cancelEvent)="exit()"
+    [isReadOnly]="isReadOnly"
+    (saveEvent)="save()"></app-cancel-save-footer>
+</div>

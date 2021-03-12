@@ -1,0 +1,50 @@
+<app-sub-header pageTitle="Auxiliary Requests"
+  [goBackUrl]="'home'"
+  [helpComponent]="'aux-approver-list'">
+</app-sub-header>
+<div class="container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Auxiliaries'"></app-loading>
+  <div class="container">
+    <div class="row justify-content-center"
+      *ngIf="!isInEditMode && !auxiliaries?.length && isLoaded">
+      <blockquote class="p-3 m-3">
+        <div>No Auxiliary</div>
+      </blockquote>
+    </div>
+  </div>
+  <div class="app-content"
+    *ngIf="!isInEditMode && auxiliaries?.length && isLoaded">
+    <div class="row justify-content-end btmborder m-1 p-2">
+      <button (click)="sortByDate()"
+        class="sort-btn sortbtnsort py-1 px-2"
+        [ngClass]="{sortbtnasc: !isSortByDateToggled, sortbtndesc: isSortByDateToggled}"
+        data-sort="date">Sort by Status Date</button>
+    </div>
+    <div class="list-item p-1"
+      *ngFor="let aux of this.auxiliaries">
+      <div (click)="edit(aux)">
+        <div class="row">
+          <div class="col-md-6">
+            <span><strong>PIN:</strong></span>
+            <span>{{aux.pinNumber| padPipe:10}}</span>
+          </div>
+          <div class="col-md-6">
+            <span>{{aux.auxiliaryStatusTypeDisplayName}}</span>
+            <span>as of</span>
+            <span>{{aux.auxiliaryStatusDate | date :'MM/dd/yyyy' }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>{{aux.countyName}} - {{aux.officeNumber | padPipe:4}}</span>
+          </div>
+          <div class="col-md-6">
+            <span>{{aux.modifiedBy}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-auxiliary-edit *ngIf="isInEditMode"></app-auxiliary-edit>

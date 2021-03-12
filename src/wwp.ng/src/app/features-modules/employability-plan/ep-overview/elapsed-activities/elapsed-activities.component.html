@@ -1,0 +1,73 @@
+<div class="row"
+  *ngIf="isLoaded && !tempActivities?.length">
+  <app-ep-card-header [title]="'Elapsed Activities'"
+    [showEdit]="false"
+    class="col-md-12"></app-ep-card-header>
+  <blockquote class="col-md-12 d-flex justify-content-center">
+    <p>Participant does not have any Elapsed Activties.</p>
+  </blockquote>
+</div>
+<div *ngIf="isLoaded && tempActivities?.length > 0">
+  <div class="card">
+    <div class="card-header">
+      <app-ep-card-header [title]="'Elapsed Activities'"
+        [showEdit]="false"></app-ep-card-header>
+    </div>
+
+    <fieldset class="p-1 border-bottom"
+      *ngFor="let activity of tempActivities; let i=index">
+      <div class="item col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Activity:</h6>
+            <p class="tgrey3 wrapword">{{activity.activityTypeName}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6>Start Date:</h6>
+            <p class="tgrey3 wrapword">{{activity.minStartDate}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Activity Description:</h6>
+            <p class="tgrey3 wrapword">{{activity.description}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6>Planned End Date:</h6>
+            <p class="tgrey3 wrapword">{{activity.maxEndDate}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h6>Completion Reason:</h6>
+            <app-select [(ngModel)]="activity.tempCompletionReasonId"
+              (ngModelChange)="dropdownValueChanged($event)"
+              [cacheInnerValue]="tempActivities[i]?.activityCompletionReasonId"
+              [isRequired]="true"
+              [dropDownList]="activity.completionReasons"
+              [isResizable]="true"></app-select>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<div class="row pt-1 justify-content-end">
+  <div class="col-md-5 d-flex justify-content-end">
+    <span class="btn btn-save"
+      *ngIf="!isSaving">
+      <span class="btn-save-text"
+        (click)="saveElapsedActivities(false)">Save</span>
+      <button *ngIf="fromEpOverView"
+        class="btn btn-cont"
+        (click)="saveElapsedActivities(true)">+ Exit</button>
+      <button *ngIf="!fromEpOverView"
+        class="btn btn-cont"
+        (click)="saveElapsedActivities(true)">+ Continue</button>
+    </span>
+    <span class="btn btn-save disabled"
+      *ngIf="isSaving">
+      <span class="btn-save-text"><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>Saving</span></span>
+  </div>
+</div>

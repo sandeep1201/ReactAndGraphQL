@@ -1,0 +1,25 @@
+@import "./variables.scss";
+input.error {
+    box-shadow: 0 0 5px 0px $color-error;
+    border-left-color: $color-error !important;
+}
+
+select.error {
+    box-shadow: 0 0 5px 0px $color-error;
+    border-left-color: $color-error !important;
+}
+
+textarea.error {
+    box-shadow: 0 0 5px 0px $color-error;
+    border-left-color: $color-error !important;
+}
+
+.error>button {
+    box-shadow: 0 0 5px 0px $color-error;
+    border-left-color: $color-error !important;
+}
+
+app-multi-select-dropdown > span>button.error {
+    box-shadow: 0 0 5px 0px $color-error;
+    border-left-color: $color-error !important;
+}

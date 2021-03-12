@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+:host span.remaining {
+  color: #7f8c8d;
+  font-size: 0.8em;
+}
+
+:host span.remaining.warn {
+  color:#e74c3c;
+}
+
+:host.first textarea {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-right: none;
+}
+
+:host.last textarea {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+:host.last {
+  flex: 1;
+}

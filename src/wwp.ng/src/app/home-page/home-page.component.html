@@ -1,0 +1,459 @@
+<main id="main">
+  <!-- <section id="dash-notifications">
+
+        <div class="alert alert-info alert-dismissible show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Version 1.1.3.12 Released!</strong>
+            <p>A new version has been released. Please view the release notes to see an overview of fixes and new features.</p>
+        </div>
+
+    </section> -->
+
+  <section id="pin-lists"
+    class="container">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+      role="tablist">
+      <li class="nav-item">
+        <a class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          (click)="this.selectTab(this.recentTabName, true)"
+          [class.active]="this.currentTab === this.recentTabName">Recently Accessed</a>
+      </li>
+      <li class="nav-item"
+        *ngIf="canViewTab(this.tabByWorkerName)">
+        <a class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          (click)="this.selectTab(this.tabByWorkerName, true)"
+          [class.active]="this.currentTab === this.tabByWorkerName">Participants by Worker</a>
+        <!-- <span class="badge badge-default">{{this.workerParticipants?.length}}</span> -->
+      </li>
+      <li class="nav-item"
+        *ngIf="canViewTab(this.referralTabName)">
+        <a class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          (click)="this.selectTab(this.referralTabName, true)"
+          [class.active]="this.currentTab === this.referralTabName">Referrals &amp; Transfers</a>
+        <!-- <span class="badge badge-default">{{this.referredParticipants?.length}}</span> -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          (click)="this.selectTab(this.searchTabName, true)"
+          [class.active]="this.currentTab === this.searchTabName">Search</a>
+      </li>
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane"
+        [class.active]="this.currentTab === this.recentTabName"
+        role="tabpanel">
+        <div class="flex-row">
+          <div class="col-md-12 tright"
+            *ngIf="!this.isLoading">
+            <app-help-button [featureName]="'recently-accessed-help'"></app-help-button>
+          </div>
+        </div>
+        <div class="pad2 pin-list"
+          *ngIf="this.isLoading === true">
+          <div class="lg tgrey2 tcenter pad2">
+            <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+          </div>
+          <div class="tgrey3 tcenter">Loading Participants...</div>
+        </div>
+        <div *ngIf="isErrored == true && isSearching == false"
+          class="tcenter pad1-0">
+          <i class="tred fa fa-exclamation-triangle xxlarge"></i>
+          <p class="center text-danger">{{errorMessage}}</p>
+        </div>
+        <ul *ngIf="this.isLoading === false"
+          class="pin-list">
+          <app-participant-card [displayDetailedView]="true"
+            (click)="onSelect(participant)"
+            *ngFor="let participant of this.recentParticipants"
+            [participant]="participant"></app-participant-card>
+        </ul>
+      </div>
+
+
+      <div class="tab-pane container"
+        [class.active]="this.currentTab === this.tabByWorkerName"
+        role="tabpanel">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-2 px-0">
+              <div class="input-field border-left-width-1">
+                <input class="form-control search rounded-0"
+                  maxlength="120"
+                  [(ngModel)]="this.searchQuery"
+                  (keyup)="this.onMySearch()"
+                  name="searchQuery"
+                  placeholder="Search" />
+              </div>
+            </div>
+
+            <div class="col-md-2 justify-content-start">
+              <span class="">
+                <button (click)="this.reverseWorkerParticipantsList('asc')"
+                  *ngIf="this.isWorkerParticipantsReversed"
+                  class="btn btn-secondary squared order-holder">
+                  <span class="tgrey3 fs">Sort: Ascending
+                    <i class="fa fa-sort-up"></i></span>
+                </button>
+                <button (click)="this.reverseWorkerParticipantsList('desc')"
+                  *ngIf="!this.isWorkerParticipantsReversed"
+                  class="btn btn-secondary squared order-holder">
+                  <span class="tgrey3 fs">Sort: Descending
+                    <i class="fa fa-sort-down"></i></span>
+                </button>
+              </span>
+            </div>
+
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-4 p-0">
+                  <span>
+                    <app-auto-complete *ngIf="appService.isUserAuthorized(Auth.canChangeAgencyOnHomePage)"
+                      [dropDownList]="this.agenciesDrop"
+                      [(ngModel)]="this.selectedAgency"
+                      (ngModelChange)="this.selectedAgency = $event; this.selectedAgencyChange();"
+                      [placeHolder]="'Agency'"
+                      class="squared"></app-auto-complete>
+                  </span>
+                </div>
+
+                <div class="col-md-4 p-0">
+                  <span>
+                    <app-auto-complete [dropDownList]="this.agencyProgramsDrop"
+                      [(ngModel)]="this.selectedProgramName"
+                      [isDisabled]="this.agencyProgramsDrop == null || this.agencyProgramsDrop.length == 0"
+                      (ngModelChange)="this.selectedProgramName = $event; this.selectedProgramNameChange();"
+                      [placeHolder]="'Program'"
+                      class="squared"></app-auto-complete>
+                  </span>
+                </div>
+
+                <div class="col-md-3 p-0">
+                  <span>
+                    <app-auto-complete [dropDownList]="this.workerDrop"
+                      [(ngModel)]="this.selectedWorker"
+                      (ngModelChange)="this.selectedWorker = $event; this.selectedWorkerChange()"
+                      [placeHolder]="'Worker'"
+                      [isDisabled]="this.workerDrop == null || this.workerDrop.length == 0"
+                      class="squared"></app-auto-complete>
+                  </span>
+                </div>
+
+                <div class="col-md-1 d-flex justify-content-end ">
+                  <app-help-button [featureName]="'participants-by-worker-help'"></app-help-button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <hr *ngIf="workerParticipants?.length == 0 && this.isLoading === false" />
+
+        <div class="pad2 pin-list"
+          *ngIf="this.isLoading === true">
+          <div class="lg tgrey2 tcenter pad2">
+            <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+          </div>
+          <div class="tgrey3 tcenter">Loading Participants...</div>
+        </div>
+
+
+        <ul *ngIf="this.isLoading === false"
+          class="pin-list py-3">
+          <app-participant-card [displayDetailedView]="true"
+            (click)="onSelect(participant)"
+            *ngFor="let participant of workerParticipants | paginate: configMy"
+            [participant]="participant">
+          </app-participant-card>
+        </ul>
+
+        <div *ngIf="this.isLoading === false"
+          class="tcenter pager-holder">
+          <pagination-template *ngIf="workerParticipants?.length >= configMy.itemsPerPage"
+            #p="paginationApi"
+            [id]="configMy.id"
+            (pageChange)="configMy.currentPage = $event"
+            class="tcenter">
+            <button class="btn btn-add"
+              (click)="p.previous()"
+              *ngIf="!p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <span class="paging-info pad0-1">
+              {{numberInView(configMy, p, workerParticipants?.length)}} of {{workerParticipants?.length}}
+            </span>
+            <button class="btn btn-add"
+              (click)="p.next()"
+              *ngIf="!p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+          </pagination-template>
+        </div>
+
+      </div>
+      <div class="tab-pane"
+        [class.active]="this.currentTab === this.referralTabName"
+        role="tabpanel">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-2 px-0">
+              <div class="input-field border-left-width-1">
+                <input class="form-control search rounded-0"
+                  maxlength="120"
+                  [(ngModel)]="this.searchQuery"
+                  (keyup)="this.onReferralSearch()"
+                  name="searchQuery"
+                  placeholder="Search" />
+              </div>
+            </div>
+
+            <div class="col-md-10 d-flex justify-content-end px-3">
+              <span>
+                <button type="button"
+                  (click)="this.selectTab(this.currentTab, true)"
+                  class="btn btn-secondary squared">
+                  <img src="/assets/img/cww_logo.png"
+                    width="22"
+                    height="22" /> &nbsp; Refresh Information</button>
+                <button (click)="this.reverseReferredParticipantsList('asc')"
+                  *ngIf="isReferredParticipantsReversed"
+                  class="btn btn-secondary squared order-holder">
+                  <span class="tgrey3">Sort:</span> Ascending
+                  <i class="fa fa-sort-up"></i>
+                </button>
+                <button (click)="this.reverseReferredParticipantsList('desc')"
+                  *ngIf="!isReferredParticipantsReversed"
+                  class="btn btn-secondary squared order-holder mr-3">
+                  <span class="tgrey3">Sort:</span> Descending
+                  <i class="fa fa-sort-down"></i>
+                </button>
+              </span>
+              <app-help-button [featureName]="'referrals-and-transfers-help'"></app-help-button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <hr *ngIf="referredParticipants?.length == 0 && this.isLoading === false" />
+        <div class="container">
+          <div class="row p-2 pin-list"
+            *ngIf="this.isLoading === true">
+            <div class="lg col-md-12 d-flex flex-column tgrey2 align-items-center p-2">
+              <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+              <div class="tgrey3">Loading Participants...</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="isErrored == true && isSearching == false"
+          class="tcenter py-3">
+          <i class="tred fa fa-exclamation-triangle xxlarge"></i>
+          <p class="center text-danger">{{errorMessage}}</p>
+        </div>
+
+        <ul *ngIf="this.isLoading === false"
+          class="pin-list py-3">
+          <app-participant-card [displayDetailedView]="true"
+            *ngFor="let participant of this.referredParticipants | paginate: configReferred"
+            (click)="onSelect(participant)"
+            [participant]="participant"></app-participant-card>
+        </ul>
+
+        <div *ngIf="this.isLoading === false"
+          class="tcenter pager-holder">
+          <pagination-template *ngIf="referredParticipants?.length >= configReferred.itemsPerPage"
+            #p="paginationApi"
+            [id]="configReferred.id"
+            (pageChange)="configReferred.currentPage = $event">
+            <button class="btn btn-add"
+              (click)="p.previous()"
+              *ngIf="!p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <span class="paging-info pad0-1">
+              {{numberInView(configReferred, p, referredParticipants?.length)}} of
+              {{referredParticipants?.length}}
+            </span>
+            <button class="btn btn-add"
+              (click)="p.next()"
+              *ngIf="!p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+          </pagination-template>
+        </div>
+      </div>
+      <div class="tab-pane"
+        [class.active]="this.currentTab === this.searchTabName"
+        role="tabpanel">
+        <div class="right pad0-1">
+          <app-help-button [featureName]="'pin-search-help'"></app-help-button>
+        </div>
+
+        <div class="container m-1">
+          <div class="row ml-0">
+            <div class="col-md-3 pr-0">
+              <label>Search by:</label>
+              <app-generic-text-input [isRequired]="true"
+                [isBorderRequired]="false"
+                [ngPlaceholder]="'Enter 10-digit PIN'"
+                [(ngModel)]="advSearchQuery"
+                [cacheInnerValue]="advSearchParticipant?.pin"
+                (keyup.enter)="onAdvSearch()"
+                [isDisabled]="isPinFieldDisabled"></app-generic-text-input>
+              <label class="my-1">or</label>
+            </div>
+          </div>
+          <div class="row ml-0">
+            <div class="col-md-3">
+              <app-generic-text-input [isDisabled]="isParticipantFieldsDisabled"
+                [isBorderRequired]="false"
+                [NGMaxLength]="15"
+                [ngPlaceholder]="'First Name'"
+                [(ngModel)]="searchModel.firstName"
+                (ngModelChange)="searchModel.firstName = $event;"></app-generic-text-input>
+            </div>
+            <div class="col-md-1">
+              <app-generic-text-input [isDisabled]="isParticipantFieldsDisabled"
+                [isBorderRequired]="false"
+                [NGMaxLength]="1"
+                [ngPlaceholder]="'MI'"
+                [(ngModel)]="searchModel.middleInitial"
+                (ngModelChange)="searchModel.middleInitial = $event;"></app-generic-text-input>
+            </div>
+            <div class="col-md-3">
+              <app-generic-text-input [isDisabled]="isParticipantFieldsDisabled"
+                [isBorderRequired]="false"
+                [NGMaxLength]="20"
+                [ngPlaceholder]="'Last Name'"
+                [(ngModel)]="searchModel.lastName"
+                (ngModelChange)="searchModel.lastName = $event;"></app-generic-text-input>
+            </div>
+            <div class="col-md-2">
+              <app-date-mm-dd-yyyy [isReadOnly]="isParticipantFieldsDisabled"
+                [isBorderRequired]="false"
+                [(ngModel)]="searchModel.dateOfBirthMmDdYyyy"
+                (ngModelChange)="searchModel.dateOfBirthMmDdYyyy = $event; validate();"></app-date-mm-dd-yyyy>
+            </div>
+            <div class="col-md-2">
+              <app-tab-selector [isDisabled]="isParticipantFieldsDisabled"
+                [isBorderRequired]="false"
+                [(ngModel)]="searchModel.gender"
+                (ngModelChange)="searchModel.gender = $event;"
+                [tabs]="genderDrop">
+              </app-tab-selector>
+            </div>
+          </div>
+          <br />
+          <div class="row justify-content-center">
+            <button type="submit"
+              class="btn btn-save mr-2 px-2"
+              (click)="onAdvSearch()"
+              [disabled]="!canAdvSearch">
+              <span>
+                <i class="fa fa-search"></i>
+              </span>Search
+            </button>
+            <button type="button"
+              class="btn btn-add"
+              (click)="clearSearch()">Clear
+            </button>
+          </div>
+        </div>
+        <hr />
+
+        <div *ngIf="isSearching"
+          class="tcenter tgrey3 pad1-0">
+          <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+          <!-- <i class="xxlarge fa fa-circle-notch fa-fw"></i> -->
+          <p>Searching for Participant...</p>
+        </div>
+
+        <div *ngIf="isErrored === true && isSearching === false"
+          class="tcenter pad1-0">
+          <i class="tred fa fa-exclamation-triangle xxlarge"></i>
+          <p class="center text-danger">{{errorMessage}}</p>
+        </div>
+
+        <!-- this also needs to be a component that can be used for all the lists -->
+        <ul *ngIf="this.isSearching === false"
+          class="pin-list py-3">
+          <app-participant-card [displayDetailedView]="true"
+            *ngFor="let participant of searchedParticipants | paginate: configSearch"
+            (click)="onSelect(participant)"
+            [participant]="participant"
+            [isGenderVisible]="true"></app-participant-card>
+        </ul>
+
+        <div *ngIf="this.isSearching === false"
+          class="tcenter pager-holder">
+          <pagination-template *ngIf="searchedParticipants?.length >= configSearch.itemsPerPage"
+            #p="paginationApi"
+            [id]="configSearch.id"
+            (pageChange)="configSearch.currentPage = $event">
+            <button class="btn btn-add"
+              (click)="p.previous()"
+              *ngIf="!p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isFirstPage()">
+              <i class="fa fa-angle-left"></i>
+            </button>
+            <span class="paging-info pad0-1">
+              {{numberInView(configSearch, p, searchedParticipants?.length)}} of
+              {{searchedParticipants?.length}}
+            </span>
+            <button class="btn btn-add"
+              (click)="p.next()"
+              *ngIf="!p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+            <button class="btn btn-add disabled"
+              *ngIf="p.isLastPage()">
+              <i class="fa fa-angle-right"></i>
+            </button>
+          </pagination-template>
+        </div>
+
+        <!-- end component -->
+
+      </div>
+    </div>
+  </section>
+
+</main>

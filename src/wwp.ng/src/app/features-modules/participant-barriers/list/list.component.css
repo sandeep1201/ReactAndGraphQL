@@ -1,0 +1,124 @@
+        input.search {
+            border: 1px solid #bdc3c7;
+            font-weight: normal;
+            line-height: 1em;
+            vertical-align: bottom;
+            padding: 0.5em;
+            display: inline-block;
+            margin: 0;
+            height: 2em;
+            width: 100%;
+        }
+
+        button {
+            background: rgba(255,255,255,.5);
+            border: 1px solid #bdc3c7;
+            color: #7f8c8d;
+            letter-spacing: 0px;
+        }
+
+        app-multi-select-dropdown {
+            display: inline-block;
+        }
+
+        app-multi-select-dropdown >>> button {
+            min-width:16em;
+            width:auto;
+            border-radius:0px;
+            background-color:rgba(255,255,255,.5);
+            font-size: 0.9em;
+            color: #7f8c8d;
+            line-height: 1.15em;
+            letter-spacing: 0px;
+            border-left:1px solid #bdc3c7!important;
+            display: inline-block;
+        }
+
+        button.sort:after {
+            content:'\f0dc';
+            font-family: 'Font Awesome 5 Free';
+            font-style: normal;
+            font-weight: 900;
+            text-decoration: inherit;
+            padding-left:0.5em;
+            color:#bdc3c7;
+        }
+
+        button.sort.asc:after {
+            content:"\f0de";
+        }
+
+        button.sort.desc:after {
+            content:"\f0dd";
+        }
+
+        button:hover {
+            background:#fff;
+        }
+
+        tr.barrier:hover {
+            background:#F6F8F8;
+            cursor: pointer;
+        }
+
+        tr.barrier a {
+            color:#34495e;
+            text-decoration:none;
+        }
+
+        tr.barrier td {
+            border-top: 1px solid #bdc3c7;
+            position: relative;
+        }
+
+        tr.barrier td:first-child:after{
+            content:"";
+            position: absolute;
+            top:0.5em;
+            bottom:0.5em;
+            right:0;
+            border-right:1px solid #bdc3c7;
+            width:1px;
+            height:auto;
+        }
+
+        tr.barrier td p, tr.barrier td h5  {
+            margin:0;
+        }
+
+        tr.barrier.closed td {
+            color:#7f8c8d;
+        }
+
+        tr.barrier.deleted td {
+            color:#7f8c8d;
+        }
+
+        #barriers {
+            margin-bottom:0;
+        }
+        tbody {
+            border-top: 3px solid #ccc;
+        }
+
+
+.jumbotron {
+    background-color:transparent;
+}
+
+.fa-top {
+    position: relative;
+    height:1.45em;
+}
+
+.fa-top:after {
+    position: absolute;
+    content:" ";
+    display: block;
+    bottom:0;
+    left:1em;
+    right:1em;
+    width:auto;
+    height:1px;
+    border-bottom:1px solid #bdc3c7;
+}

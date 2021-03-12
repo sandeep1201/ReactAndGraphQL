@@ -1,0 +1,121 @@
+<app-sub-header #subHeader
+  [pageTitle]="pageTitleType + ' EA Application Details'"
+  [goBackUrl]="goBackUrl"
+  [hasUnsavedChanges]="requestEditService.modifiedTracker.isAnyChanged"
+  [participant]="participant"></app-sub-header>
+
+<app-loading [isLoaded]="isEARequestLoaded"
+  [loadingLabel]="'Emergency Application...'"></app-loading>
+
+<app-dialog-box *ngIf="appService?.isDialogPresent && !appService?.isChildDialogPresent"
+  (dialogClose)="exitEAEditIgnoreChanges()"
+  [doesNotNavigateBack]="true"></app-dialog-box>
+
+<div class="row pad1-0">
+  <aside *ngIf="isEARequestLoaded"
+    [class.col-md-1]="isSidebarCollapsed"
+    [class.col-md-3]="!isSidebarCollapsed"
+    id="sidebar"
+    [class.loading]="!isEARequestLoaded">
+    <div class="toggle-side"
+      (click)="isSidebarCollapsed = !isSidebarCollapsed">
+      <i class="fa fa-bars"></i>
+    </div>
+    <ul class="participant-menu popmenu">
+      <li class="menu-item"
+        [class.select]="activeSection === 'demographics'"
+        [class.edit]="requestEditService.modifiedTracker.isDemographics.modified"
+        [class.saving]="requestEditService.modifiedTracker.isDemographics.saving"
+        [class.saved]="requestEditService.modifiedTracker.isDemographics.saved"
+        [class.error]="requestEditService.modifiedTracker.isDemographics.error"
+        (click)="goToSection('demographics')">Demographics</li>
+      <li class="menu-item"
+        *ngIf="requestId > '0'"
+        [class.select]="activeSection === 'type-of-emergency'"
+        [class.edit]="requestEditService.modifiedTracker.isTypeOfEmergency.modified"
+        [class.saving]="requestEditService.modifiedTracker.isTypeOfEmergency.saving"
+        [class.saved]="requestEditService.modifiedTracker.isTypeOfEmergency.saved"
+        [class.error]="requestEditService.modifiedTracker.isTypeOfEmergency.error"
+        (click)="goToSection('type-of-emergency')">Type of Emergency</li>
+      <li class="menu-item"
+        *ngIf="requestId > '0'"
+        [class.select]="activeSection === 'household-members'"
+        [class.edit]="requestEditService.modifiedTracker.isHouseholdMembers.modified"
+        [class.saving]="requestEditService.modifiedTracker.isHouseholdMembers.saving"
+        [class.saved]="requestEditService.modifiedTracker.isHouseholdMembers.saved"
+        [class.error]="requestEditService.modifiedTracker.isHouseholdMembers.error"
+        (click)="goToSection('household-members')">Household Members</li>
+      <li class="menu-item"
+        *ngIf="requestId > '0'"
+        [class.select]="activeSection === 'household-financials'"
+        [class.edit]="requestEditService.modifiedTracker.isHouseholdFinancials.modified"
+        [class.saving]="requestEditService.modifiedTracker.isHouseholdFinancials.saving"
+        [class.saved]="requestEditService.modifiedTracker.isHouseholdFinancials.saved"
+        [class.error]="requestEditService.modifiedTracker.isHouseholdFinancials.error"
+        (click)="goToSection('household-financials')">Household Financials</li>
+      <li class="menu-item"
+        *ngIf="requestId > '0'"
+        [class.select]="activeSection === 'agency-summary'"
+        [class.edit]="requestEditService.modifiedTracker.isAgencySummary.modified"
+        [class.saving]="requestEditService.modifiedTracker.isAgencySummary.saving"
+        [class.saved]="requestEditService.modifiedTracker.isAgencySummary.saved"
+        [class.error]="requestEditService.modifiedTracker.isAgencySummary.error"
+        (click)="goToSection('agency-summary')">
+        Agency Summary</li>
+    </ul>
+  </aside>
+
+  <main [class.col-md-11]="isSidebarCollapsed"
+    [class.col-md-9]="!isSidebarCollapsed"
+    id="main"
+    [class.loaded]="isSectionLoaded">
+
+    <router-outlet *ngIf="isEARequestLoaded"></router-outlet>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="this.isEARequestLoaded && activeSection !== 'agency-summary' && !isSaving">
+      <button *ngIf="isSectionNeedingValidation"
+        (click)="handleSaveOnly()"
+        class="btn btn-save"
+        [disabled]="requestEditService.modifiedTracker.isSaveDisabled"><span
+          class="btn-save-text">Save</span><button class="btn btn-cont"
+          [disabled]="requestEditService.modifiedTracker.isSaveDisabled"
+          ng-click=""
+          (click)="saveAndContinueCurrentSection()">+
+          Continue</button></button>
+      <button *ngIf="!isSectionNeedingValidation"
+        class="btn btn-danger"
+        [disabled]="requestEditService.modifiedTracker.isSaveDisabled"
+        (click)="saveAndContinueCurrentSection()">Continue with Errors</button>
+    </div>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="this.isEARequestLoaded && activeSection === 'agency-summary' && !isSaving && !this.requestEditService.modifiedTracker.isSubmitEnabled">
+      <button *ngIf="isSectionNeedingValidation"
+        (click)="handleSaveOnly()"
+        class="btn btn-save"
+        [disabled]="requestEditService.modifiedTracker.isSaveDisabled"><span class="btn-save-text">Save</span>
+        <button class="btn btn-cont"
+          [disabled]="requestEditService.modifiedTracker.isSaveDisabled"
+          (click)="saveAndContinueCurrentSection()">+ Exit</button></button>
+      <button *ngIf="!isSectionNeedingValidation"
+        class="btn btn-danger"
+        [disabled]="requestEditService.modifiedTracker.isSaveDisabled"
+        (click)="saveAndContinueCurrentSection()">Exit
+        with Errors</button>
+    </div>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="this.isEARequestLoaded && activeSection === 'agency-summary' && !isSaving && this.requestEditService.modifiedTracker.isSubmitEnabled">
+      <button class="btn btn-success btn-submit"
+        [disabled]="requestEditService.modifiedTracker.isSaveDisabled"
+        (click)="saveAndContinueCurrentSection()">
+        <i class="fa fa-paper-plane"></i> Submit</button>
+    </div>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="isSaving">
+      <span class="btn btn-saving">Saving...</span>
+    </div>
+  </main>
+</div>

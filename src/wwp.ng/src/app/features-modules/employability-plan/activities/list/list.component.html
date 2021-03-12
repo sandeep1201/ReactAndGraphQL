@@ -1,0 +1,47 @@
+<div *ngIf="activitiesLoaded">
+  <div class="card-body border-bottom"
+    *ngFor="let activity of this.activities">
+    <div class="row">
+      <div class="item col-md-11">
+        <div class="row"
+          (click)="singleEntry(activity)">
+          <!-- <a class="tright" (click)="onDelete(activity)"><i class="fa fa-eraser"></i></a> -->
+          <div class=" col-md-6">
+            <h6>Activity:</h6>
+            <p class="tgrey3 wrapword">{{activity.activityTypeName}}</p>
+            <!-- Hard coding this for now Schedule Start Date will come in future -->
+
+            <h6>Start Date:</h6>
+            <p class="tgrey3 wrapword">{{activity.minStartDate}}</p>
+            <div *ngIf="activity.endDate !== null">
+              <h6>Completion Reason:</h6>
+              <p class="tgrey3 wrapword">{{activity.activityCompletionReasonCode}} -
+                {{activity.activityCompletionReasonName}}</p>
+            </div>
+          </div>
+          <div class=" col-md-6">
+            <div *ngIf="activity.endDate === null">
+              <h6>Planned End Date:</h6>
+              <p class="tgrey3 wrapword">{{activity.maxEndDate}}</p>
+            </div>
+            <div *ngIf="activity.endDate !== null">
+              <h6>Actual End Date:</h6>
+              <p class="tgrey3 wrapword">{{activity.endDate}}</p>
+            </div>
+            <h6>Activity Description:</h6>
+            <p class="tgrey3 wrapword">{{activity.description}}</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="showControls && !activity.isCarriedOver"
+        class="col-md-1 d-flex flex-column justify-content-center">
+        <div class="row">
+          <button class="btn btn-del col-md-12 border"
+            (click)="delete(activity)">
+            <i class="fa fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

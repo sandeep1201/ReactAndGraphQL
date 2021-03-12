@@ -1,0 +1,167 @@
+<hr class="mt-0" />
+<div class="row px-3">
+  <label [attr.for]="'income-type-income'"
+    class="col-md-3 control-label"
+    title="Type of Vehicle">Type of Vehicle</label>
+  <label [attr.for]="'income-group-member'"
+    class="col-md-3 control-label"
+    title="Vehicle Owner">Vehicle Owner</label>
+  <label [attr.for]="'income-verification'"
+    class="col-md-3 control-label"
+    title="Verification">Verification</label>
+</div>
+<fieldset *ngFor="let vehicle of models; let i=index"
+  class="deg-repeat repeat rel deg-1">
+  <input type="hidden"
+    id="s-id-{{i}}"
+    name="vehicle-id-1"
+    value="0" />
+  <div class="pad1 pb-0">
+    <div class="row">
+      <div class="col-md-3 pr-0">
+        <app-generic-text-input [NGMaxLength]="120"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [(ngModel)]="vehicle.vehicleType"
+          (ngModelChange)="vehicle.vehicleType = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'vehicleType')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'vehicleType')"></app-generic-text-input>
+      </div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="vehicle.vehicleOwner"
+          (ngModelChange)="vehicle.vehicleOwner = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'vehicleOwner')"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="vehicleOwnerDrop"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'vehicleOwner')"></app-select>
+      </div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="vehicle.ownerVerificationTypeId"
+          (ngModelChange)="vehicle.ownerVerificationTypeId = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'ownerVerificaionTypeId')"
+          [isIdString]="true"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="verificationDrop"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'ownerVerificationTypeId')"></app-select>
+      </div>
+      <div class="col-md-3 d-flex d-flex justify-content-end">
+        <button class="btn btn-add"
+          [disabled]="isReadOnly"
+          (click)="deleteFromRepeater(vehicle); calculateTotal(models);"><i class="fa fa-trash-alt"
+            title="delete"></i></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 pr-0">
+        <label class="control-label right">Vehicle Value</label>
+      </div>
+      <div class="input-group col-md-2 pr-0 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-currency-input class="w-100 last"
+          [(ngModel)]="vehicle.vehicleValue"
+          [isRequired]="isRepeaterRowRequired(i)"
+          (ngModelChange)="vehicle.vehicleValue = $event; onChangeCallback(models); calculateTotal(models);"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'vehicleValue')"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'vehicleValue')"
+          [isReadOnly]="isReadOnly"
+          [NGMaxLength]="10"></app-currency-input>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="vehicle.vehicleValueVerificationTypeId"
+          (ngModelChange)="vehicle.vehicleValueVerificationTypeId = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'vehicleValueVerificationTypeId')"
+          [isIdString]="true"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="vehicleValueVerificationDrop"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'vehicleValueVerificationTypeId')"></app-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 pr-0">
+        <label class="control-label right">Amount Owed</label>
+      </div>
+      <div class="input-group col-md-2 pr-0 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-currency-input class="w-100 last"
+          [(ngModel)]="vehicle.amountOwed"
+          [isRequired]="isRepeaterRowRequired(i) && vehicle.owedVerificationTypeId"
+          (ngModelChange)="vehicle.amountOwed = $event; onChangeCallback(models); calculateTotal(models);"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'amountOwed')"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'amountOwed')"
+          [isReadOnly]="isReadOnly"
+          [NGMaxLength]="10"></app-currency-input>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="vehicle.owedVerificationTypeId"
+          (ngModelChange)="vehicle.owedVerificationTypeId = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'owedVerificaionTypeId')"
+          [isIdString]="true"
+          [isRequired]="isRepeaterRowRequired(i) && vehicle.amountOwed"
+          [dropDownList]="verificationDrop"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(vehicle.id, 'owedVerificationTypeId')"></app-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 pr-0">
+        <label class="control-label right">Vehicle Equity</label>
+      </div>
+      <div class="input-group col-md-2 pr-0 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-currency-input class="w-100 last"
+          [ngModel]="vehicle.vehicleEquity"
+          [isReadOnly]="true"></app-currency-input>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<div class="row pt-3 px-3">
+  <div class="col-md-3 add-holder">
+    <label class="control-label right">Total Vehicle Equity</label>
+  </div>
+  <div class="input-group col-md-2 add-holder flex-nowrap pl-3 mb-0">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-numerical-input class="w-100 last"
+      [ngModel]="totalVehicleEquity"
+      [isMoney]="true"
+      [isReadOnly]="true"></app-numerical-input>
+  </div>
+  <div class="tright col-md-7 add-holder">
+    <button class="btn btn-sm btn-add add-deg"
+      [disabled]="isReadOnly"
+      (click)="addToRepeater()">+ &nbsp; Add Vehicle</button>
+  </div>
+</div>
+<div class="row px-3">
+  <div class="col-md-3 pr-0">
+    <label class="control-label right">Disregard</label>
+  </div>
+  <div class="input-group col-md-2 pr-0 flex-nowrap">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-currency-input class="w-100 last"
+      [ngModel]="'-10,000.00'"
+      [isReadOnly]="true"></app-currency-input>
+  </div>
+</div>
+<div class="row px-3 pt-2">
+  <div class="col-md-3 pr-0 text-right">Total Vehicle Equity Counted Toward Assets
+  </div>
+  <div class="input-group col-md-2 pr-0 flex-nowrap">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-currency-input class="w-100 last"
+      [ngModel]="totalValuetowardsAssets"
+      [isReadOnly]="true"></app-currency-input>
+  </div>
+</div>

@@ -1,0 +1,155 @@
+input.search {
+    border: 1px solid #bdc3c7;
+    font-weight: normal;
+    line-height: 1em;
+    padding: .375rem .75rem;
+    vertical-align: bottom;
+    display: inline-block;
+    margin: 0;
+}
+
+input.adv-search {
+    border-width: 1px;
+}
+
+thead button {
+    background: rgba(255, 255, 255, .5);
+    border: 1px solid #bdc3c7;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    line-height: 1.15em;
+    letter-spacing: 0px;
+}
+
+thead button:after {
+    content: '\f0dc';
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    text-decoration: inherit;
+    padding-left: 0.5em;
+    color: #bdc3c7;
+}
+
+thead button.asc:after {
+    content: "\f0de";
+}
+
+thead button.desc:after {
+    content: "\f0dd";
+}
+
+thead button:hover {
+    background: #fff;
+}
+
+tbody.list tr:hover {
+    cursor: pointer!important;
+}
+
+ul.pagination {
+    border: 1px solid #bdc3c7;
+    overflow: hidden;
+}
+
+ul.pagination li {
+    display: inline-block;
+    padding: 0.5em 0.75em;
+    background: #fff;
+    border-right: 1px solid #bdc3c7;
+}
+
+ul.pagination li.active {
+    background: #3498db;
+    color: #fff;
+}
+
+ul.pagination li.active a {
+    color: #fff;
+}
+
+ul.pagination li:last-child {
+    border-right: none;
+}
+
+.nav-tabs li.nav-item {
+    position: relative;
+}
+
+.nav-tabs li.nav-item a.nav-link {
+    border: 1px solid #bdc3c7;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+.nav-tabs li.nav-item a.nav-link:hover {
+    cursor: pointer;
+    color: #2980b9;
+}
+
+.nav-tabs li.nav-item .badge {
+    position: absolute;
+    top: -10px;
+    right: 0px;
+    background: #7f8c8d;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    padding: 0 0.5em;
+    z-index: 200;
+    vertical-align: middle;
+}
+
+.tab-content>div {
+    background: #fff;
+    padding: 0.5em;
+    border: 1px solid #bdc3c7;
+    border-top: none;
+}
+
+.pin-search-adv .input-group{
+    margin-bottom:0;
+    padding: 1.5em 0;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.pin-search-adv .adv-search.form-control{
+    color:#7f8c8d;
+}
+
+:host .worker-holder {
+    min-width:300px;
+}
+
+:host .program-holder {
+    min-width:150px;
+}
+
+.order-holder {
+    /* padding:0 0.5em; */
+    /* font-size: 0.8em; */
+
+}
+
+.order-holder button.btn {
+    padding: 0.6em 1em;
+}
+
+.input-group-btn .btn-save{
+    padding-left:3.5rem;
+    padding-right:3.5rem;
+}
+.btn-save{
+    background: #1abc9c;
+    border: 1px solid #16a085;
+    color: #ffffff;
+}
+
+button.btn-save:disabled{
+    color:#e2e2e2;
+}
+.fs{
+  font-size:0.8em;
+}

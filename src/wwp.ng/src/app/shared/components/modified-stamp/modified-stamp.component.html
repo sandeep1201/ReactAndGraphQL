@@ -1,0 +1,9 @@
+
+<blockquote class="history">
+	<div class="lastEdit">
+		<div><i *ngIf="showPencil" class="fa fa-pencil-alt"></i> {{ label }} <strong class="languages-lastEdit-author">{{author}}</strong></div>
+		<div><i class="fa fa-calendar"></i> <strong class="languages-lastEdit-date">{{lastModified | date:'short'}}</strong></div>
+		<div><i *ngIf="showTrash" class="fa fa-trash-alt xbig" title="Deleted"></i> <strong class="languages-lastEdit-author">{{deleteReason}}</strong></div>
+	</div>
+	<div *ngIf="!readOnly" class="hbtn-holder"><button class="hbtn btn"><i class="fa fa-history"></i></button></div>
+</blockquote>

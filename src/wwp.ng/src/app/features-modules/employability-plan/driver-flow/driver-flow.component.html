@@ -1,0 +1,72 @@
+<div>
+  <app-loading [isLoaded]="this.isLoaded"
+    [loadingLabel]="'Employability Plan'"></app-loading>
+  <div *ngIf="isLoaded"
+    class="container">
+    <app-dialog-box *ngIf="appService?.isDialogPresent && !appService?.isChildDialogPresent && appService.setDialogueFromDriverFlow"
+      (dialogClose)="exitActivityEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <app-sub-header pageTitle="Employability Plan"
+      [goBackUrl]="goBackUrl"
+      [participant]="participant"
+      [helpComponent]="'employability-plan'"></app-sub-header>
+    <app-sub-header-nav [mode]="'App'"
+      activeItem="employabilityPlan"
+      [pin]="pin"
+      [epId]="id"></app-sub-header-nav>
+    <div class="">
+
+      <div class="row">
+
+        <aside id="sidebar"
+          [class.col-md-3]="!isCollapsed"
+          [class.col-md-1]="isCollapsed">
+          <div class="toggle-side"
+            (click)="sidebarToggle()">
+            <i class="fa fa-bars"></i>
+          </div>
+          <ul class="participant-menu popmenu">
+            <li class="menu-item wh-add"
+              (click)=" setEpScreen('') ">Employability Plan</li>
+            <li class="menu-item wh-add"
+              *ngIf="id>0"
+              (click)="setEpScreen('goals')">Goals</li>
+            <li class="menu-item wh-add"
+              *ngIf="id>0"
+              (click)=" setEpScreen('employments') ">Employments</li>
+            <li class="menu-item wh-basic"
+              *ngIf="id>0"
+              (click)="setEpScreen('elapsed-activities')">Elapsed Activities</li>
+            <li class="menu-item wh-basic"
+              *ngIf="id>0"
+              (click)="setEpScreen('activities')">Activities</li>
+            <li class="menu-item wh-wage"
+              *ngIf="id>0"
+              (click)="setEpScreen('supportive-service')">Supportive Services</li>
+          </ul>
+          <div class="row card-body py-0"
+            *ngFor="let ps of this.localParticipationStatuses">
+            <div *ngIf="ps.isCurrent">
+              <hr class="hrWidth" />
+              <h6 class="psStatusFont">Status: {{ps.statusCode}}</h6>
+
+              <h6 class="psStatusFont">Begin Date: {{ps.beginDate | dateMmDdYyyy}}</h6>
+            </div>
+          </div>
+          <div class="row card-body" *ngIf="showCCAuthorizationsButton">
+            <button class="btn btn-add"
+              (click)="showCCAuthorizations = !showCCAuthorizations"> View CC Authorizations</button>
+          </div>
+        </aside>
+        <div *ngIf="showCCAuthorizations">
+          <app-childcare-authorizations [pin]="pin" (closeModal)="showCCAuthorizations = $event">
+          </app-childcare-authorizations>
+        </div>
+
+        <div class="col-md-9">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

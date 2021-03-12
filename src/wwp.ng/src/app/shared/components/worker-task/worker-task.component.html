@@ -1,0 +1,8 @@
+<span id="app-container"
+  *ngIf="isPinBased && showWorkerTaskFeature && !hideWorkerTask && workerTaskService.canAccess(participant)">
+  <button (click)="onAdd()"
+    class="btn btn-add btn-rotate add-worker-task-btn" [ngClass]="{'btn-top': !appService.isCommentsShown, 'btn-bottom': appService.isCommentsShown}">+ Add Worker Task</button>
+</span>
+<app-worker-task-edit *ngIf="isInEditMode"
+  (isInEditMode)="closeEdit($event)">
+</app-worker-task-edit>

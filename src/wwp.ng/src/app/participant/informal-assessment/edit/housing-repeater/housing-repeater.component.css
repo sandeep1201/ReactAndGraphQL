@@ -1,0 +1,362 @@
+fieldset.item:disabled div.row {
+  background: rgba(255, 255, 255, .7);
+}
+
+fieldset.item div.row {
+  background: #fff;
+  border: 1px solid #bdc3c7;
+  border-bottom: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+fieldset.item div.row>div {
+  border-top: none;
+  border-right: 1px solid #bdc3c7;
+  padding: 0;
+  margin: 0;
+  min-height: 4em;
+  color: #95a5a6;
+}
+
+.hist-head {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #63899D;
+  width: calc(100% - 3em);
+  font-size: 0.9em;
+}
+
+.hist-head div.row {
+  padding: 0;
+  margin: 0;
+}
+
+.hist-head div.row div {
+  padding: 0;
+}
+
+
+fieldset.hist-table .ovtitle {
+  position: absolute;
+  padding: 0.5em 1em;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  display: block;
+  font-weight: 700;
+  color: #63899D;
+  pointer-events: none;
+  z-index: 200;
+}
+
+fieldset.item div.row .prefix {
+  position: absolute;
+  top: 1em;
+  padding: 0.75em;
+}
+
+fieldset.item div.row .prefix+input {
+  padding-left: 1.5em;
+}
+
+
+fieldset.item .content {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  position: relative;
+}
+
+fieldset.item div.row:not(:last-child) {
+  border-bottom: none;
+}
+
+fieldset.item:last-child div.row:last-child {
+  border-bottom: 1px solid #bdc3c7;
+}
+
+fieldset.item div.row>div:last-child {
+  border-right: none;
+}
+
+:host fieldset.item div.row input,
+:host fieldset.item div.row select,
+:host fieldset.item div.row textarea {
+  width: 100% !important;
+  line-height: 1em;
+  padding: 1em;
+  margin: 0;
+  color: #373a3c;
+  height: 4em;
+  background-color: transparent;
+  padding-top: 2em;
+  border-left: none !important;
+}
+
+:host fieldset.item div.row input[type="checkbox"] {
+  height: 0;
+  padding: 0;
+  position: absolute;
+}
+
+:host fieldset.item:disabled div.row input:hover,
+:host fieldset.item:disabled div.row select:hover,
+:host fieldset.item:disabled div.row textarea:hover {
+  cursor: not-allowed;
+}
+
+:host fieldset.item .noedit {
+  background: #F9FBFB;
+}
+
+:host fieldset.item .noedit .ovtitle {
+  color: #95a5a6;
+}
+
+:host fieldset.item .noedit>>>input,
+:host fieldset.item .noedit>>>select,
+:host fieldset.item .noedit>>>textarea {
+  display: none;
+  visibility: hidden;
+}
+
+
+:host fieldset.item:disabled div.row input,
+:host fieldset.item:disabled div.row select,
+:host fieldset.item:disabled div.row textarea {
+  color: #7f8c8d;
+  text-indent: 0px !important;
+  background: transparent !important;
+}
+
+/*
+:host fieldset.item:disabled div.row app-currency-input.unknown input {
+  text-indent:999px !important;
+}*/
+
+fieldset.item:not(:disabled) div.row>div.required {
+  position: relative;
+}
+
+fieldset.item:disabled div.row>div:after {
+  content: "";
+  position: absolute;
+  left: 0.25em;
+  top: 0.25em;
+  bottom: 3em;
+  opacity: 0;
+  border: 1px solid #bdc3c7;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+fieldset.item:not(:disabled) div.row>div:after {
+  content: "";
+  position: absolute;
+  left: 0.25em;
+  top: 0.25em;
+  bottom: 0.25em;
+  border: 1px solid #bdc3c7;
+  opacity: 1;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+fieldset.item:not(:disabled) div.row>div.required:after {
+  border: 1px solid #9b59b6;
+}
+
+fieldset.item:disabled div.row input:required,
+fieldset.item div.row select:required,
+fieldset.item div.row textarea:required {
+  border-left: none !important;
+}
+
+fieldset.item:disabled div.row select {
+  background-image: none !important;
+}
+
+fieldset.item div.row textarea {
+  height: 4em;
+  overflow: hidden;
+  line-height: 1.4em;
+  vertical-align: top;
+}
+
+fieldset.item div.row textarea:focus {
+  box-shadow: 0 0 2px #3498db;
+}
+
+fieldset.item ul.controls {
+  margin: 0 !important;
+}
+
+fieldset.item ul.controls li {
+  text-align: center;
+  padding: 0.8em;
+  height: 3.2em;
+  float: left;
+  clear: both;
+  width: 100%;
+  border: 1px solid #bdc3c7;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 3px;
+}
+
+fieldset.item ul.controls li.error {
+  background: #e74c3c;
+  border-color: #c0392b;
+}
+
+fieldset.item ul.controls li.error i {
+  color: #c0392b;
+}
+
+:host fieldset.item {
+  position: relative;
+}
+
+fieldset.item[disabled].ie:after {
+  content: ' ';
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 3em;
+  bottom: 0;
+  left: 0;
+  background: #ecf0f1;
+  opacity: 0.5;
+}
+
+fieldset.item .controls li:hover,
+fieldset.item .controls li.select {
+  background: rgba(255, 255, 255, .5);
+  cursor: pointer;
+  box-shadow: inset 3px 0px 2px -2px rgba(0, 0, 0, .1);
+}
+
+fieldset.item .controls li i {
+  color: #7f8c8d;
+  font-size: 1.25em;
+}
+
+fieldset.item .content {
+  width: calc(100% - 3em);
+  float: left;
+}
+
+fieldset.item .controls {
+  float: left;
+  width: 3em;
+}
+
+fieldset.item:disabled .content:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-color: #bdc3c7 transparent transparent transparent;
+  border-style: solid;
+  border-width: 10px 10px 0 0;
+}
+
+fieldset.item .row>div .null-option.hidden {
+  display: none;
+}
+
+fieldset.item .row>div .null-option {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 95%;
+  top: 100%;
+  left: 0;
+  border: 1px solid #bdc3c7;
+  border-top: none;
+  margin: 0 -1px;
+  padding: 0;
+  z-index: 400;
+}
+
+:host fieldset.item app-currency-input>>>input.form-control {
+  padding-left: 1.5em !important;
+}
+
+:host fieldset.item app-date-mm-yyyy-input>>>input:disabled {
+  text-indent: 0 !important;
+  color: #7f8c8d;
+}
+
+:host fieldset.item app-currency-input>>>input {
+  text-indent: 0px;
+}
+
+:host fieldset.item app-currency-input>>>input:disabled,
+:host fieldset.item>>>select:disabled,
+:host fieldset.item>>>textarea:disabled {
+  text-indent: 0px;
+  color: #7f8c8d;
+}
+
+:host fieldset.item app-currency-input.unknown>>>input:disabled,
+:host fieldset.item app-currency-input.unknown>>>input {
+  text-indent: 999px;
+}
+
+:host fieldset.item app-currency-input.unknown::before {
+  content: "Unknown";
+  position: absolute;
+  top: 1.8em;
+  left: 0.8em;
+  text-indent: 0px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+:host>>>select,
+:host>>>input.form-control,
+:host>>>textarea {
+  border: none !important;
+  width: 100%;
+  height: 4em !important;
+  padding: 2em 1em 1em 1em !important;
+  border-radius: 0;
+  font-size: inherit;
+  background-color: transparent !important;
+}
+:host>>>select {
+  padding: 1em 1em 0em 1em !important;
+}
+:host>>>select {
+    padding: 1em 1em 0em 1em !important;
+}
+
+:host fieldset.item:disabled div.row input.error,
+:host fieldset.item:disabled div.row select.error,
+:host fieldset.item:disabled div.row textarea.error,
+:host>>>select.error,
+:host>>>input.form-control.error,
+:host>>>button.error:host>>>textarea.error {
+  background-color: #ffeeee !important;
+}
+
+:host button.btn-add {
+  margin-right: 0;
+}
+
+:host button.btn-add.baseless {
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  margin-right: 4em;
+}
+
+:host button.btn-add:hover {
+  background: rgba(255, 255, 255, .5);
+}
+
+
+.backgroundError {
+  background-color: #ffeeee;
+}

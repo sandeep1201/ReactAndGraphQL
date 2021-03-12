@@ -1,0 +1,117 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Worker Task'"></app-loading>
+  <div *ngIf="this.isLoaded">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitWTEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="container">
+        <div class="row border-bottom p-1">
+          <div class="col-lg-8 col-md-8 ">
+            <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+              (click)="exit()"
+              title="Close">
+              <i class="fa fa-times"></i>
+            </a>
+            <h1 id="editPageTitle"
+              *ngIf="!isReadOnly"
+              class="px-3">{{model?.id > 0 ? 'Edit' : 'Add'}} Worker Task</h1>
+            <app-help-button [featureName]="'worker-task-edit'"></app-help-button>
+            <h1 id="editPageTitle"
+              *ngIf="isReadOnly">Worker Task</h1>
+          </div>
+          <div class="justify-content-right col-lg-4 col-md-4"
+            *ngIf="model && model.modifiedBy != null">
+            <app-modified-stamp [readOnly]="true"
+              [author]="model.modifiedBy"
+              [lastModified]="model.modifiedDate">
+            </app-modified-stamp>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="edit-content mb-1">
+      <div class="container">
+        <div class="row p-1">
+          <app-validation-summary class="col-md-12 p-3"
+            [errors]='validationManager.errors'></app-validation-summary>
+        </div>
+        <div class="row">
+          <div class="col-md-3 form-page">
+            <label>Task Category</label>
+            <app-select [(ngModel)]="model.categoryId"
+              (ngModelChange)="model.categoryId = $event; validate()"
+              [isInvalid]="modelErrors['categoryId']"
+              [cacheInnerValue]="cachedModel?.categoryId"
+              [isRequired]="true"
+              [isReadOnly]="isReadOnly"
+              [dropDownList]="categoriesDrop">
+            </app-select>
+          </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col-md-12 form-page">
+            <label>Task Description</label>
+            <app-text-area [(ngModel)]="model.taskDetails"
+              (ngModelChange)="model.taskDetails = $event; validate()"
+              [isRequired]="true"
+              [cacheInnerValue]="cachedModel?.taskDetails"
+              maxlength="1000"
+              [isInvalid]="modelErrors['taskDetails']"
+              [isReadOnly]="isReadOnly"
+              [isDisabled]="isReadOnly">
+            </app-text-area>
+          </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col-md-3 form-page">
+            <label>Due Date</label>
+            <app-date-mm-dd-yyyy [(ngModel)]="model.dueDate"
+              [cacheInnerValue]="cachedModel?.dueDate"
+              (ngModelChange)="model.dueDate = $event; validate()"
+              [isReadOnly]="isReadOnly"
+              [datePickerRequired]="true"
+              [isInvalid]="modelErrors['dueDate']"></app-date-mm-dd-yyyy>
+          </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col-md-3 form-page">
+            <label>Priority</label>
+            <app-select [(ngModel)]="model.actionPriorityId"
+              (ngModelChange)="model.actionPriorityDate = $event; validate()"
+              [isInvalid]="modelErrors['actionPriorityId']"
+              [cacheInnerValue]="cachedModel?.actionPriorityId"
+              [isReadOnly]="isReadOnly"
+              [dropDownList]="prioritiesDrop">
+            </app-select>
+          </div>
+        </div>
+
+        <div class="row pt-3"
+          *ngIf="model?.id > 0">
+          <div class="col-md-3 form-page">
+            <label>Task Status</label>
+            <app-select [(ngModel)]="model.workerTaskStatusId"
+              (ngModelChange)="model.workerTaskStatusId = $event; validate()"
+              [isInvalid]="modelErrors['workerTaskStatusId']"
+              [cacheInnerValue]="cachedModel?.workerTaskStatusId"
+              [isReadOnly]="isReadOnly"
+              [dropDownList]="statusDrop">
+            </app-select>
+          </div>
+        </div>
+
+        <app-cancel-save-footer [hadSaveError]="hadSaveError"
+          [isSaving]="isSaving"
+          [isDisabled]="isSectionValid"
+          (cancelEvent)="exit()"
+          (saveEvent)="saveAndExit()"></app-cancel-save-footer>
+      </div>
+    </div>
+  </div>
+</div>

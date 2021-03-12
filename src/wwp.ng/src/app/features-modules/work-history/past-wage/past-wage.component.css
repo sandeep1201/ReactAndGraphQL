@@ -1,0 +1,16 @@
+.input-group span.input-group-addon.gapless {
+    width:0;
+    padding:0;
+    border:0;
+}
+
+h4.part-title {
+    border-bottom: 1px solid #bdc3c7;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+}
+
+.input-group app-select >>> select:disabled {
+    text-indent:999px;
+    border-left: 4px solid #BDC3C7;
+}

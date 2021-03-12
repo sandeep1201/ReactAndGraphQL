@@ -1,0 +1,49 @@
+<div class="row" *ngIf="isLoaded">
+  <h4>{{sectionName}}</h4>
+  <app-validation-summary [errors]='validationManager?.errors'></app-validation-summary>
+  <div class="col-md-12 d-flex justify-content-end p-1">
+    <app-radio-button [(ngModel)]="sectionModel.isNotNeeded"
+            (ngModelChange)="sectionModel.isNotNeeded = $event;checkState(); validate()"
+            [NgLabel]="'Not Needed'"
+            class="input-group-addon input-group-append input-group-text"></app-radio-button>
+  </div>
+  <div class="col-md-12">
+     <app-resources-repeater [(ngModel)]="sectionModel.planSectionResources"
+  (ngModelChange)="sectionModel.planSectionResources = $event; validate()"
+  [cachedInitialModels]="cachedSectionModel?.planSectionResources"
+  [modelErrors]="" [disabled]="isDisableFields"></app-resources-repeater>
+  </div>
+  <div class="col-md-12 form-page">
+    <label>Short Term Plan Of Action</label>
+     <app-text-area [(ngModel)]="sectionModel.shortTermPlanOfAction"
+            (ngModelChange)="sectionModel.shortTermPlanOfAction = $event;validate()"
+            [cacheInnerValue]="cachedSectionModel.shortTermPlanOfAction" [isInvalid]=""
+            [maxlength]="900"  [placeholder]="'' " [isDisabled]="isDisableFields"></app-text-area>
+  </div>
+  <div class="col-md-12 form-page">
+    <label>Long Term Plan Of Action</label>
+     <app-text-area [(ngModel)]="sectionModel.longTermPlanOfAction"
+            (ngModelChange)="sectionModel.longTermPlanOfAction = $event;validate()"
+            [cacheInnerValue]="cachedSectionModel.longTermPlanOfAction" [isInvalid]=""
+            [maxlength]="900"  [placeholder]="''" [isDisabled]="isDisableFields"></app-text-area>
+  </div>
+</div>
+  <div class="row justify-content-end">
+    <div class="col-md-7 d-flex justify-content-end align-items-center">
+      <span *ngIf="hadSaveError">There was an error saving.</span>
+      <span
+        *ngIf="!this.isSaving && (!validationManager.errors || (validationManager.errors && validationManager.errors.length === 0))"
+        class="btn btn-save"
+      >
+        <span class="btn-save-text">Save</span>
+        <button class="btn btn-cont" (click)="saveAndContinue()"
+          >+ Continue</button>
+      </span>
+      <span *ngIf="this.isSaving"
+        class="btn btn-save disabled">
+        <span class="btn btn-save btn-save-text btn-cont disabled"><i
+            class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>
+          Saving </span>
+      </span>
+    </div>
+  </div>

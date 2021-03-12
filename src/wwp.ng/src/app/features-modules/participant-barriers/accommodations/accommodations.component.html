@@ -1,0 +1,71 @@
+<div class="col-md-12 accom">
+  <div class="d-flex form-group">
+    <div class="col-md-3 pl-0">Accommodation for</div>
+    <div class="col-md-2 pl-0">Begin Date</div>
+    <div class="col-md-2 pl-0">End Date</div>
+    <div class="col-md-4">Details</div>
+    <div class="col-md-1">&nbsp;</div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div *ngFor="let ac of models; let i=index"
+    class="row form-group pt-2">
+    <div class="col-md-3">
+      <app-select [(ngModel)]="ac.accommodationId"
+        [cacheInnerValue]="getInitialModelValue(ac.id, 'accommodationId')"
+        (ngModelChange)="ac.accommodationId = $event; onChangeCallback(models)"
+        [isInvalid]="isModelErrorsItemInvalid(i, 'accommodationId')"
+        [isDisabled]="isDisabled"
+        [dropDownList]="accommodationsDrop"
+        [isRequired]="isRepeaterRowRequired(i)"></app-select>
+    </div>
+    <div class="col-md-2 pl-0 pr-1">
+      <app-date-mm-dd-yyyy [(ngModel)]="ac.beginDate"
+        [cacheInnerValue]="getInitialModelValue(ac.id, 'beginDate')"
+        (ngModelChange)="ac.beginDate = $event; onChangeCallback(models)"
+        [isInvalid]="isModelErrorsItemInvalid(i, 'beginDate')"
+        [isReadOnly]="isDisabled"
+        [datePickerRequired]="!isDisabled"
+        [isRequired]="false"></app-date-mm-dd-yyyy>
+    </div>
+    <div class="col-md-2 pl-1 pr-0">
+      <app-date-mm-dd-yyyy [(ngModel)]="ac.endDate"
+        [cacheInnerValue]="getInitialModelValue(ac.id, 'endDate')"
+        (ngModelChange)="ac.endDate = $event; onChangeCallback(models)"
+        [isInvalid]="isModelErrorsItemInvalid(i, 'endDate')"
+        [isReadOnly]="isDisabled"
+        [datePickerRequired]="!isDisabled"
+        [isRequired]="false"></app-date-mm-dd-yyyy>
+    </div>
+    <div class="col-md-4">
+      <app-text-area [maxlength]="380"
+        [(ngModel)]="ac.details"
+        (ngModelChange)="ac.details = $event; onChangeCallback(models)"
+        [cacheInnerValue]="getInitialModelValue(ac.id, 'details')"
+        [isInvalid]="isModelErrorsItemInvalid(i, 'accommodationDetails')"
+        [isDisabled]="isDisabled"
+        [isAutoSizeable]="true"
+        [placeholder]="'Details'"
+        [isRequired]="isRepeaterRowRequired(i)"></app-text-area>
+    </div>
+    <div *ngIf="isDisabled != true"
+      class="col-md-1">
+      <div class="clear-del btn-acc delbtnaccom">
+        <app-delete-reason-button [type]="'barrierAccommodation'"
+          [objectWatched]="ac"
+          (deletedObject)="this.repeaterItemToBeDeleted($event)"></app-delete-reason-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad0-1 tright">
+    <div *ngIf="isDisabled != true"
+      class="add-holder"
+      role="group">
+      <button type="button"
+        class="btn btn-sm btn-light btn-add btn-lang add-lang"
+        (click)="addToRepeater()">+
+        &nbsp; Add Accommodation</button>
+    </div>
+  </div>
+</div>

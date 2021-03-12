@@ -1,0 +1,139 @@
+input.search {
+    border: 1px solid #bdc3c7;
+    font-weight: normal;
+    vertical-align: bottom;
+    display: inline-block;
+    padding: .375rem .75rem;
+    margin: 0;
+}
+
+input.search.dirty {
+    border-left-color: #bdc3c7!important;
+}
+
+thead{
+    display:flex;
+}
+
+main div button {
+    background: rgba(255,255,255,.5);
+    border: 1px solid #bdc3c7;
+    color: #7f8c8d;
+    letter-spacing: 0px;
+}
+
+main div button:hover {
+    background:#fff;
+}
+
+/* tr.workHistory {
+    z-index: -20;
+} */
+
+tr.workHistory a {
+    color:#34495e;
+    text-decoration:underline;
+}
+
+tr.workHistory td {
+    border-top: 1px solid #bdc3c7;
+}
+
+tr.workHistory p, tr.workHistory h5 {
+    margin:0;
+}
+
+tr.workHistory:hover {
+    background:#F6F8F8;
+    cursor: pointer;
+}
+
+tr.workHistory .more-info::before {
+    content: "";
+    position:absolute;
+    top:0.5em;
+    bottom:0.5em;
+    left:0;
+    width:0;
+    border-left:1px solid #bdc3c7;
+}
+
+tr.workHistory .more-info div {
+    display: block;
+    width:100%;
+    clear:both;
+    position: relative;
+}
+
+tr.workHistory .more-info .dates {
+    z-index:200;
+}
+
+tr.workHistory .more-info .dates span {
+    background: #ecf0f1;
+    z-index:200;
+    display: inline-block;
+}
+
+tr.workHistory:hover .more-info .dates span {
+    background:#F6F8F8;
+}
+
+tr.workHistory .more-info .dates::after {
+    content:"";
+    position:absolute;
+    width:98%;
+    height:1px;
+    top:0.6em;
+    left:0;
+    border-top: 2px dashed #bdc3c7;
+    z-index: -10;
+}
+
+#workHistory {
+    margin-bottom:0;
+}
+
+tr.workHistory.deleted td {
+    color:#7f8c8d;
+}
+
+td,th{
+    display: block;
+}
+
+tbody{
+    display: flex;
+}
+
+tr{
+    width:100%;
+}
+
+.jumbotron {
+    background: none;
+}
+
+.error {
+    padding: 3px 5px 3px 5px;
+    margin-left: 55px;
+}
+
+.clear-edit.trashbtn {
+    cursor: not-allowed;
+    opacity: .65;
+    border: 0px;
+    margin-left: 10px;
+}
+.list-item {
+  &:hover {
+    background:none;
+    cursor: auto;
+  }
+
+  .btn {
+    &:hover {
+      background: #f6f8f8;
+    }
+  }
+}

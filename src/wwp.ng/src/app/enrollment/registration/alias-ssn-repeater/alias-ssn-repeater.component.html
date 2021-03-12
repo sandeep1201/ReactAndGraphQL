@@ -1,0 +1,32 @@
+
+<fieldset *ngFor="let item of models; let i=index" class="repeat rel">
+    <!-- *ngFor="let item of models; let i=index" class="repeat rel" -->
+    <div class="content pad1">
+        <div class="row">
+            <div class="col-md-3">
+                <label class="control-label">ITIN / Alias SSN</label>
+                <app-numerical-input [(ngModel)]="item.ssn" (ngModelChange)="item.ssn = $event; onChangeCallback(models);" [isInvalid]="isModelErrorsItemInvalid(i, 'ssn')"  [cacheInnerValue]="getInitialModelValue(item.id, 'ssn')" [isSSN]="true" [NGMaxLength]="11" [isReadOnly]="isReadOnly" [isRequired]="isRepeaterRowRequired(i)"></app-numerical-input>
+            </div>
+            <div class="col-md-2">
+                <label class="control-label">Type</label>
+                <app-select [(ngModel)]="item.typeId" (ngModelChange)="item.typeId = $event; onChangeCallback(models);" [isInvalid]="isModelErrorsItemInvalid(i, 'typeId')"  [cacheInnerValue]="getInitialModelValue(item.id, 'typeId')" [dropDownList]="this.ssnTypesDrop" [isDisabled]="isReadOnly"  [isRequired]="isRepeaterRowRequired(i)"></app-select>
+            </div>
+            <div class="col-md-7 control-group">
+                <label class="control-label">Details</label>
+                <app-text-area [(ngModel)]="item.details" (ngModelChange)="item.details = $event; onChangeCallback(models);" [isInvalid]="isModelErrorsItemInvalid(i, 'details')"  [cacheInnerValue]="getInitialModelValue(item.id, 'details')" [maxlength]="380" [placeholder]="'Details'" [isDisabled]="isReadOnly"  [isDetails]="true" [isAutoSizeable]="true"></app-text-area>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <ul>
+            <li *ngIf="!isReadOnly" class="del" (click)="deleteFromRepeater(item, 0)"><i class="fa fa-trash-alt" title="delete"></i></li>
+            <li *ngIf="isReadOnly" class="del disabled"><i class="fa fa-trash-alt" title="delete"></i></li>
+        </ul>
+    </div>
+</fieldset>
+<div class="tright col-md-12 add-holder">
+        <span class="left tgrey3 small" *ngIf="models?.length >= maxNumberOfItems,">You can enter up to 2 ITIN / Alias SSN</span>
+        <button class="btn btn-sm btn-light disabled" *ngIf="models?.length >= maxNumberOfItems || isReadOnly">+ &nbsp; Add ITIN / Alias SSN</button>
+        <button (click)="addToRepeater()" *ngIf="models?.length < maxNumberOfItems && !isReadOnly" class="btn btn-sm btn-light btn-add">+ &nbsp; Add ITIN / Alias SSN</button>
+    <hr class="spacer">
+</div>

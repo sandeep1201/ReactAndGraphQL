@@ -1,0 +1,105 @@
+
+:host .top {
+  display: block;
+  border-top:1px solid rgba(55,55,65, 0.1);
+}
+
+:host .action-name {
+  padding: 0.25em;
+}
+
+:host .action-add {
+  height: 2.25em;
+  display: block;
+  float: left;
+}
+
+:host button.btn-add-task {
+  border: none;
+  background: none;
+  border-radius: 0px;
+}
+
+:host button.btn-add-task:hover {
+  background: #FFFFFF;
+}
+
+.fu-text {
+  line-height: 1.5em;
+  margin-top: 0.125em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.fu-status {
+  font-size: 2em;
+  line-height: 1em;
+  padding:0.35em;
+  display: block;
+}
+
+.fu-status:hover, .fu-status i:hover {
+  cursor: pointer;
+}
+
+.fu-item {
+  /* border-top: 1px solid #bdc3c7; */
+  border-top:1px solid rgba(55,55,65, 0.1);
+  background: #fff;
+}
+
+.fu-middle {
+  width: 80%;
+}
+
+.fu-details {
+  /* margin: 0 -1em; */
+}
+
+.fu-details > td {
+  border-right: 1px solid #bdc3c7;
+  padding: 0em 1em;
+  width:33%;
+}
+
+.fu-details>td:last-child {
+  border-right: none;
+}
+
+ul.app-option-list {
+  margin: 0.5em;
+}
+
+ul.app-option-list li {
+  display: inline;
+  font-size: 0;
+}
+
+ul.app-option-list li a {
+  background: #F6F8F8;
+  border: 1px solid rgba(55,55,65, 0.1);
+  border-right: none;
+  padding: 0.5em 0.75em;
+  color: #7f8c8d;
+  display: inline-block;
+  line-height: 1.5em;
+  font-size: 1rem;
+}
+
+ul.app-option-list li:first-child a {
+  border-radius: 4px 0 0 4px;
+}
+
+ul.app-option-list li:last-child a {
+  border-right: 1px solid rgba(55,55,65, 0.1);
+  border-radius: 0 4px 4px 0;
+}
+
+ul.app-option-list li a:hover {
+  background: rgba(255, 255, 255, .6);
+  cursor: pointer;
+}
+
+a.icon {
+  color: #7f8c8d;
+}

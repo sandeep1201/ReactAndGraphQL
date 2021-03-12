@@ -1,0 +1,104 @@
+:host {
+    display: block;
+    background: #fff;
+    padding: 0.5em;
+    border: 1px solid #bdc3c7;
+    box-shadow: 1px 1px 2px rgba(149, 165, 166, .5);
+    margin:1em auto;
+    width: 80%;
+}
+
+:host h4 {
+    color:#34495e;
+    padding:0.25em 0;
+}
+
+:host table.scores-table {
+    margin:1em 0;
+    border:none;
+}
+
+:host thead th {
+    color:#95a5a6;
+    font-weight: 400;
+    padding: 0.25em;
+    border:none;
+    text-align: center;
+}
+
+:host tbody td {
+    padding:0.5em 0.25em;
+    text-align: center;
+}
+
+:host thead th:first-child, :host tbody td.score-name {
+    text-align: left;
+}
+
+:host tbody td .total {
+    font-size:0.9em;
+    color:#7f8c8d;
+    font-weight: 600;
+}
+
+:host tbody td.score-name {
+    text-transform: uppercase;
+    color:#7f8c8d;
+    font-weight:600;
+}
+
+:host tbody td i {
+    color:#bdc3c7;
+}
+
+:host tbody tr.detail-holder td {
+    color:#95a5a6;
+    text-align: left;
+}
+
+:host button {
+    background: none;
+    color: #95a5a6;
+}
+
+:host button.edit-btn {
+    padding: 0.25em 0.5em;
+    margin-right:1em;
+    color:#95a5a6;
+    background:#fff;
+    border:1px solid #ecf0f1;
+}
+
+:host button.edit-btn:hover {
+    background:#3498db;
+    color:#fff;
+    border:1px solid #fff;
+}
+
+:host footer {
+    border-top:1px solid #ecf0f1;
+    padding-top:0.5em;
+}
+
+:host footer button.outline-btn {
+    border:1px solid #ecf0f1;
+}
+
+:host footer button:hover {
+    background:#ecf0f1;
+    color:#95a5a6;
+}
+
+:host footer button.btn-date {
+    margin:0 0.25em;
+}
+
+:host footer button.select {
+    background: #3498db;
+    color:#fff;
+}
+
+:host .bottomborder {
+    border-bottom:1px solid #ecf0f1;
+    padding:0.25em 0;
+}

@@ -1,0 +1,340 @@
+<section *ngIf="section"
+  class="overview ia fields ncp current"
+  id="ia-ncp">
+
+
+  <app-overview-card-header [title]="'Non-Custodial Parents'"
+    [rowVersion]="section?.rowVersion"
+    [isEditHidden]="this.hasEditAccess"
+    [historyDrop]="this.historyManager?.historyDrop"
+    [historyArrayLength]="this.historyManager?.history.length"
+    (onEdit)="this.onEdit($event)"
+    (onHistory)="this.toggleHistory($event)"
+    (onHistorySelected)="this.loadHistorySection($event)"
+    (onCollapse)="this.toggleCollapse($event)"></app-overview-card-header>
+
+  <app-alert-warning *ngIf="!section?.rowVersion"
+    [hasFcdpRole]="hasFcdpRole"
+    [section]="'Non-Custodial Parents'">
+  </app-alert-warning>
+
+  <app-validation-summary *ngIf="section?.rowVersion"
+    [errors]='validationManager?.errors'></app-validation-summary>
+
+  <div class="part ncp"
+    [class.collapse]="isCollapsed"
+    *ngIf="section?.rowVersion"
+    [class.history]="this.isHistoryActive">
+    <div class="row">
+      <div class="overview-field col-md-12 overviewItem"
+        [class.error]="modelErrors['hasChildren']">
+        <span class="ovtitle"
+          title="Do you have any children 18 or under who live with another individual most of the time?">any
+          children 18 or under who live with another individual?</span>
+        <span class="ovval">{{section?.hasChildren | yesNo}}&nbsp;</span>
+      </div>
+    </div>
+    <div *ngIf="section?.hasChildren == true">
+      <div *ngFor="let caretaker of section.nonCustodialCaretakers; let i=index"
+        class="caretaker">
+        <div class="row reprow">
+          <span class="ovtitle reptitle">Primary Caretaker</span>
+        </div>
+        <div class="row">
+          <div class="overview-field col-md-6 caret overviewItem"
+            [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'firstName')">
+            <span class="ovtitle"
+              title="First Name">First Name</span>
+            <span *ngIf="caretaker.isFirstNameUnknown"
+              class="ovval">Unknown&nbsp;</span>
+            <span *ngIf="!caretaker.isFirstNameUnknown"
+              class="ovval">{{caretaker.firstName}}&nbsp;</span>
+          </div>
+          <div class="overview-field col-md-6 overviewItem"
+            [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'lastName')">
+            <span class="ovtitle"
+              title="Last Name">Last Name</span>
+            <span *ngIf="caretaker.isLastNameUnknown"
+              class="ovval">Unknown&nbsp;</span>
+            <span *ngIf="!caretaker.isLastNameUnknown"
+              class="ovval">{{caretaker.lastName}}&nbsp;</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="overview-field col-md-4 overviewItem"
+            [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'nonCustodialParentRelationshipId')">
+            <span class="ovtitle"
+              title="Relationship to Child(ren)">Relationship to Child(ren)</span>
+            <span class="ovval">{{caretaker.nonCustodialParentRelationshipName}}&nbsp;</span>
+          </div>
+          <div class="overview-field col-md-8 overviewItem"
+            [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'relationshipDetails')"
+            [class.blank]="isStringEmptyOrNull(caretaker.relationshipDetails)">
+            <span class="ovtitle"
+              title="Relationship to Child(ren) - Details">Details</span>
+            <span class="ovval">{{caretaker.relationshipDetails}}&nbsp;</span>
+          </div>
+        </div>
+        <div *ngIf="!caretaker.isContactIntervalIdHidden([],caretaker.nonCustodialParentRelationshipName)">
+          <div class="row">
+            <div class="overview-field col-md-4 overviewItem"
+              [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'contactIntervalId')">
+              <span class="ovtitle"
+                title="How often do you have contact with this person?">How often in
+                contact?</span>
+              <span class="ovval">{{caretaker.contactIntervalName}}&nbsp;</span>
+            </div>
+            <div class="overview-field col-md-8 overviewItem"
+              [class.error]="isModelErrorsItemInvalid(i, 'nonCustodialCaretakers', 'contactIntervalDetails')"
+              [class.blank]="isStringEmptyOrNull(caretaker.contactIntervalDetails)">
+              <span class="ovtitle"
+                title="How often do you have contact with this person? - Details">Details</span>
+              <span class="ovval">{{caretaker.contactIntervalDetails}}&nbsp;</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="overview-field col-md-7 overviewItem"
+              [class.error]="isModelErrorsItemInvalid(i,'nonCustodialCaretakers','isRelationshipChangeRequested')">
+              <span class="ovtitle"
+                title="Is there anything you would like to change about your relationship with this person?">anything
+                you would like to change about the relationship?</span>
+              <span class="ovval">{{caretaker.isRelationshipChangeRequested | yesNo}}&nbsp;</span>
+            </div>
+            <div class="overview-field col-md-5 overviewItem"
+              [class.blank]="isStringEmptyOrNull(caretaker.relationshipChangeRequestedDetails)"
+              [class.error]="isModelErrorsItemInvalid(i,'nonCustodialCaretakers','relationshipChangeRequestedDetails')">
+              <span class="ovtitle"
+                title="Is there anything you would like to change about your relationship with this person? - Details">Details</span>
+              <span class="ovval">{{caretaker.relationshipChangeRequestedDetails}}&nbsp;</span>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngIf="caretaker.isRelationshipChangeRequested === true">
+          <div class="overview-field col-md-5 overviewItem">
+            <span class="ovtitle"
+              title="Would you be interested in getting a referral to help improve your relationship with this person, if this person is willing?">interested
+              in getting a referral?</span>
+            <span class="ovval">{{caretaker.isInterestedInRelationshipReferral | yesNo}}&nbsp;</span>
+          </div>
+          <div class="overview-field col-md-7 overviewItem"
+            [class.blank]="isStringEmptyOrNull(caretaker.interestedInRelationshipReferralDetails)"
+            [class.error]="isModelErrorsItemInvalid(i,'nonCustodialCaretakers','interestedInRelationshipReferralDetails')">
+            <span class="ovtitle"
+              title="Would you be interested in getting a referral to help improve your relationship with this person, if this person is willing? - Details">Details</span>
+            <span class="ovval">{{caretaker.interestedInRelationshipReferralDetails}}&nbsp;</span>
+          </div>
+        </div>
+        <div *ngFor="let ncpchild of caretaker.nonCustodialChilds;let j = index;"
+          class="row">
+          <div class="child col-md-12">
+            <div class="row reprow">
+              <span class="ovtitle reptitle">Child</span>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-6 caret overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','firstName')">
+                <span class="ovtitle"
+                  title="First Name">First Name</span>
+                <span class="ovval">{{ncpchild.firstName}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-6 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','lastName')">
+                <span class="ovtitle"
+                  title="Last Name">Last Name</span>
+                <span class="ovval">{{ncpchild.lastName}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-3 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','dateOfBirth')">
+                <span class="ovtitle"
+                  title="Date of Birth">DOB</span>
+                <span class="ovval">{{ncpchild.dateOfBirth}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-3 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','hasChildSupportOrder')">
+                <span class="ovtitle"
+                  title="Child support order?">Child support order?</span>
+                <span class="ovval">{{ncpchild.hasChildSupportOrder | yesNo}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-6 overviewItem"
+                [class.blank]="isStringEmptyOrNull(ncpchild.childSupportOrderDetails)">
+                <span class="ovtitle"
+                  title="Child support order? - Details">Details</span>
+                <span class="ovval">{{ncpchild.childSupportOrderDetails}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row"
+              *ngIf="ncpchild.hasChildSupportOrder === false">
+              <div *ngIf="!ncpchild.hasChildSupportOrder"
+                class="overview-field col-md-12"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','hasNameOnChildBirthRecord')">
+                <span class="ovtitle"
+                  title="Is your name on the child's birth record?">Is your name on
+                  birth record?</span>
+                <span class="ovval">{{ncpchild.hasNameOnChildBirthRecord | yesNo}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-5 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','contactIntervalId')">
+                <span class="ovtitle"
+                  title="How often do you have contact with this child?">How often
+                  in contact?</span>
+                <span class="ovval">{{ncpchild.contactIntervalName}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-7 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','contactIntervalDetails')">
+                <span class="ovtitle"
+                  title="How often do you have contact with this child? - Details">Details</span>
+                <span class="ovval">{{ncpchild.contactIntervalDetails}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-5 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','hasOtherAdultsPolarLookupId')">
+                <span class="ovtitle"
+                  title="Are there other adults caring for this child?">other
+                  adults caring for this child?</span>
+                <span class="ovval">{{ncpchild.hasOtherAdultsPolarLookupName}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-7 overviewItem"
+                [class.blank]="isStringEmptyOrNull(ncpchild.otherAdultsDetails)"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','otherAdultsDetails')">
+                <span class="ovtitle"
+                  title="Are there other adults caring for this child? - Details">Details</span>
+                <span class="ovval">{{ncpchild.otherAdultsDetails}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-7 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','isRelationshipChangeRequested')">
+                <span class="ovtitle"
+                  title="Is there anything you would like to change about your relationship with this child?">anything
+                  you would like to change about the relationship?</span>
+                <span class="ovval">{{ncpchild.isRelationshipChangeRequested | yesNo}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-5 overviewItem"
+                [class.blank]="isStringEmptyOrNull(ncpchild.relationshipChangeRequestedDetails)"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','relationshipChangeRequestedDetails')">
+                <span class="ovtitle"
+                  title="Is there anything you would like to change about your relationship with this child? - Details">Details</span>
+                <span class="ovval">{{ncpchild.relationshipChangeRequestedDetails}}&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="overview-field col-md-5 overviewItem"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','isNeedOfServicesPolarLookupId')">
+                <span class="ovtitle"
+                  title="Is the child in need of any services?">is child in need of
+                  services?</span>
+                <span class="ovval">{{ncpchild.isNeedOfServicesPolarLookupName}}&nbsp;</span>
+              </div>
+              <div class="overview-field col-md-7 overviewItem"
+                [class.blank]="isStringEmptyOrNull(ncpchild.needOfServicesDetails)"
+                [class.error]="isModelErrorsChildItemInvalid(i,j,'nonCustodialCaretakers','nonCustodialChilds','needOfServicesDetails')">
+                <span class="ovtitle"
+                  title="Is the child in need of any services? - Details">Details</span>
+                <span class="ovval">{{ncpchild.needOfServicesDetails}}&nbsp;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row"></div>
+
+    <div class="row"
+      *ngIf="section?.hasChildren && section?.hasChildSupport()">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['childSupportPayment']">
+        <span class="ovtitle"
+          title="How much child support are you ordered to pay each month?">Amount of
+          monthly child support order</span>
+        <span class="ovval">${{section.childSupportPayment}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.error]="modelErrors['hasOwedChildSupport']">
+        <span class="ovtitle"
+          title="Do you owe any back child support?">Is any back child support owed?</span>
+        <span class="ovval">{{section.hasOwedChildSupport | yesNo}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="overview-field col-md-12 overviewItem"
+        title="Child Support Contact">
+        <app-contacts-embed class="tabled"
+          isReadOnly="true"
+          [pin]="pin"
+          [(ngModel)]="section.childSupportContactId">
+        </app-contacts-embed>
+      </div>
+    </div>
+
+
+    <div class="row"
+      *ngIf="section?.hasChildren && section?.hasChildSupport()">
+      <div class="overview-field col-md-8 overviewItem"
+        [class.error]="modelErrors['hasInterestInChildServices']">
+        <span class="ovtitle"
+          title="Are you interested in getting a referral for services to help you understand your child support obligations?">interested
+          in getting a referral to help understand child support obligations?</span>
+        <span class="ovval">{{section.hasInterestInChildServices | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-4 blank overviewItem">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row"
+      *ngIf="section?.hasChildren">
+      <div class="overview-field col-md-8 overviewItem"
+        [class.error]="modelErrors['isInterestedInReferralServices']">
+        <span class="ovtitle"
+          title="Are you interested in getting a referral for services to help with parenting or visitation?">interested
+          in getting a referral for services to help with parenting or visitation?</span>
+        <span class="ovval">{{section.isInterestedInReferralServices | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-4 blank overviewItem">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+    <div class="row"
+      *ngIf="section?.hasChildren && section?.isInterestedInReferralServices">
+      <div class="overview-field col-md-12 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.interestedInReferralServicesDetails)">
+        <span class="ovtitle"
+          title="Are you interested in getting a referral for services to help with parenting or visitation? - Details">Details</span>
+        <span class="ovval">{{section.interestedInReferralServicesDetails}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row"></div>
+    <div *ngIf="section?.actionNeeded && section?.hasChildren == true"
+      class="overview-field col-md-12 overviewItem"
+      [class.error]="modelErrors['actionNeeded']">
+      <app-history-alert *ngIf="this.isHistoryActive"></app-history-alert>
+      <app-action-needed-embed [readOnly]="true"
+        [pageName]="'non-custodial-parents'"
+        [participantPin]="pin"
+        [(ngModel)]="section.actionNeeded"></app-action-needed-embed>
+    </div>
+
+    <div class="row"></div>
+    <div class="row">
+      <div class="overview-field col-md-12 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.notes)">
+        <span class="ovtitle"
+          title="Notes">Notes</span>
+        <span class="ovval">{{section?.notes | emptyStringIfNull}}&nbsp;</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>

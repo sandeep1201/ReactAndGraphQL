@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-header">
+    <app-ep-card-header [showEdit]="showEdit"
+      [title]="'Goals'"
+      (editSec)="editSection()"></app-ep-card-header>
+  </div>
+  <app-goals-list [goals]="this.goals"
+    [showControls]="false"
+    [isReadOnly]="true"
+    (goToSingleEntry)="singleEntry($event)"></app-goals-list>
+</div>

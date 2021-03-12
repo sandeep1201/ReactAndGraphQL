@@ -1,0 +1,12 @@
+diff a/src/app/shared/components/dialog-box/dialog-box.component.ts b/src/app/shared/components/dialog-box/dialog-box.component.ts	(rejected hunks)
+@@ -45,4 +45,10 @@
+     this.appService.hideModifiedWarningDialog();
+   }
+ 
++  
++  exit() {
++    this.closeDialog();
++    this.destroy();
++  }
++
+ }

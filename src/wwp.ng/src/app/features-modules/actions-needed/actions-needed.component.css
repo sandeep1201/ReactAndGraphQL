@@ -1,0 +1,105 @@
+.task-col {
+    width:580px;
+    float:left;
+    padding:1em;
+}
+
+.top-controls {
+    width:100%;
+    border-bottom:1px solid #bdc3c7;
+}
+
+input.search {
+    border: 1px solid #bdc3c7;
+    font-weight: normal;
+    padding: .375rem .75rem;
+    vertical-align: bottom;
+    display: inline-block;
+    margin: 0;
+}
+
+input.search.dirty {
+    border-left-color: #bdc3c7!important;
+}
+
+.top-controls th {
+    padding:0.5em 0;
+}
+
+.top-controls th > div,
+.top-controls th > div > div {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.sort-holder {
+    position: relative;
+}
+
+.sort-holder .btn-group > button.btn {
+    font-size: 0.8em;
+}
+
+
+.sort-holder .btn-group > button.btn:hover {
+    background: #F5F7F8;
+}
+
+.sort-holder .sort-select {
+    position: absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height: auto;
+    overflow: visible;
+    border:1px solid #bdc3c7;
+    background:#fff;
+    z-index: 500;
+    margin-top:-1px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+}
+
+.sort-holder .sort-select li {
+    padding:0.5em;
+    border-bottom:1px solid #ecf0f1;
+}
+
+.sort-holder .sort-select li.select {
+    padding:0.5em;
+    border-bottom:1px solid #bdc3c7;
+}
+
+.sort-holder .sort-select li:last-child,
+.sort-holder .sort-select li.select:last-child {
+    border-bottom:none;
+}
+
+.sort-holder .sort-select li:hover {
+    background: #F5F7F8;
+    cursor: pointer;
+}
+
+.sort-holder .sort-select li.select {
+    background:#ecf0f1;
+}
+
+
+.sort-holder .sort-select li.select .st-title  {
+    color:#27ae60;
+}
+
+.sort-holder .sort-select li:hover .st-title {
+    color:#2980b9;
+}
+
+.sort-holder .sort-select li .st-title {
+    display: block;
+    font-weight:500;
+    clear: both;
+}
+
+.sort-holder .sort-select li .st-desc {
+    font-size:0.75em;
+    color:#95a5a6;
+    font-weight: 600;
+}

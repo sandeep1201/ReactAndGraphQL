@@ -1,0 +1,84 @@
+<div class="app-embed">
+  <div class="app-icon">
+    <a target="_blank"
+      href="{{pinContactsUrl}}"><i class="fa fa-address-book"></i></a>
+  </div>
+
+  <div class="app-options">
+    <ul class="app-option-list">
+      <!-- if contact is selected -->
+      <li (click)="edit()"
+        class="app-option app-edit"
+        *ngIf="model && !isReadOnly">
+        <a><i class="fa fa-pencil-alt"></i></a>
+      </li>
+      <li (click)="clear()"
+        class="app-option app-clear"
+        *ngIf="model && !isReadOnly">
+        <a><i class="fa fa-eraser"></i></a>
+      </li>
+      <li (click)="delete()"
+        class="app-option app-delete"
+        *ngIf="model && !isReadOnly">
+        <a><i class="fa fa-trash-alt"></i></a>
+      </li>
+      <!-- if contact is selected -->
+      <li (click)="add()"
+        class="app-option app-new"
+        *ngIf="model == null && !isReadOnly">
+        <a><i class="fa fa-plus"></i></a>
+      </li>
+      <li (click)="select()"
+        class="app-option app-find"
+        *ngIf="model == null && !isReadOnly">
+        <a><i class="fa fa-search"></i></a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- if contact is selected -->
+  <div class="app-info pointerEmbed"
+    (click)="this.openContact(model.id)"
+    *ngIf="model">
+    <div class="app-main half wrapword">
+      <p class="contact-name pointerEmbed">{{model.name}}</p>
+      <p class="contact-title">{{model.title}}</p>
+    </div>
+
+    <div class="app-extra half wrapword"
+      *ngIf="model">
+      <p *ngIf="model.phoneNumber"
+        class="contact-phone"><a href="tel:{{model.phoneNumber}}"><i class="fa fa-phone"></i><span
+            class="phone">{{model.phoneNumber | phoneNumber}}</span></a> <span *ngIf="model.phoneExt"
+          class="ext">x{{model.phoneExt}}</span></p>
+      <p *ngIf="model.email"
+        class="contact-email"><a href="mailto:{{model.email}}"><i class="fa fa-envelope"></i><span
+            class="email">{{model.email}}</span></a></p>
+    </div>
+  </div>
+
+  <!-- if no contact selected -->
+  <div class="app-info"
+    *ngIf="model == null">
+    <p class="app-none tcenter">No Contact Selected</p>
+  </div>
+
+</div>
+
+<app-edit-contact [contactId]="this.value"
+  [pin]="pin"
+  (save)="onContactSave($event)"
+  (cancel)="onEditContactCancel()"
+  *ngIf="inEditView"></app-edit-contact>
+<app-contacts-select [pin]="pin"
+  (contactSelect)="onContactSelected($event)"
+  (contactCancel)="onSelectContactCanceled()"
+  *ngIf="inSelectView"></app-contacts-select>
+<app-confirm-dialog *ngIf="inConfirmDeleteView"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()"
+  title="Delete Contact"
+  confirmButtonText="Delete Contact"
+  cancelButtonText="Cancel"
+  message="Deleting a contact will remove its information throughout the entire application. Are you sure you want to do this?">
+</app-confirm-dialog>

@@ -1,0 +1,127 @@
+<app-rfa-edit *ngIf="isInEdit && this.accessType === AccessType.edit" [id]="this.editId" [pin]="this.pin"
+  (close)="displayEdit(false)"></app-rfa-edit>
+
+<div *ngIf="this.isLoaded == false" class="flex-row">
+  <div class="col-md-12">
+    <blockquote class="jumbotron tcenter">
+      <div class="lg tgrey2 tcenter pad2">
+        <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+      </div>
+      <span>Loading Requests for Assistance</span>
+    </blockquote>
+  </div>
+</div>
+<div *ngIf="this.isLoaded" class="row p-3">
+  <main class="w-100">
+
+    <div *ngIf="(this.allProgramsList.length != null && this.allProgramsList.length != 0) || (this.showCaresRfaButton)"
+      class="flex-row main pb-3 justify-content-flex-end">
+      <div *ngIf="this.showCaresRfaButton" class="col-md-3">
+        <button class="" *ngIf="showOldRfas" (click)="getOldRfas()" data-toggle="closed">Display CARES mainframe
+          RFAs</button>
+        <button class="" *ngIf="!showOldRfas" (click)="toggleOldRfas()" data-toggle="closed">Hide CARES mainframe
+          RFAs</button>
+      </div>
+      <div class="col-md-2">
+        <button *ngIf="this.allProgramsList.length != null && this.allProgramsList.length != 0" (click)="sortByStatus()"
+          [ngClass]="{sort: true, asc: isSortByStatusToggled, desc: !isSortByStatusToggled}" data-sort="date">Sort by
+          Status</button>
+      </div>
+    </div>
+
+    <div *ngIf="this.allProgramsList == null || this.allProgramsList.length === 0" class="flex-row">
+      <div class="col-md-12">
+        <blockquote class="jumbotron tcenter">
+          <span>No Requests for Assistance</span>
+        </blockquote>
+      </div>
+    </div>
+
+
+    <div *ngFor="let p of this.allProgramsList" (click)="goToSingleView(p.id)" class="list-item py-3"
+      [class.old-rfa]="p.isOldRfa">
+
+      <div class="flex-row">
+        <div class="flex-row col-md-3">
+          <h5>{{p.programName}}</h5>
+        </div>
+        <div class="flex-row col-md-3">
+          <small *ngIf="!this.isStringEmptyOrNull(p.applicationDate)">Application Date: {{p.applicationDate |
+            dateMmDdYyyy}}</small>
+          <small *ngIf="!this.isStringEmptyOrNull(p.courtOrderEffectiveDate)">Date of Court Order:
+            {{p.courtOrderEffectiveDate | dateMmDdYyyy}}</small>
+          <small *ngIf="p.isFCDPProgram && p.isVoluntary">Voluntary</small>
+        </div>
+        <div class="flex-row vl col-md-5" *ngIf="p.isOldRfa">
+          <div class="flex-col">
+            <small>{{p.countyName}}</small>
+          </div>
+        </div>
+        <div class="flex-row vl col-md-5" [class.col-md-5]="p.statusName === 'In Progress'"
+          [class.col-md-3]="p.statusName !== 'In Progress'">
+          <div class="flex-col">
+            <small *ngIf="!this.isStringEmptyOrNull(p.contractorName)">{{p.contractorName}}</small>
+            <small
+              *ngIf="(p.isFCDPProgram || p.isCFProgram) && !this.isStringEmptyOrNull(p.agencyName)">{{p.agencyName}}</small>
+            <small
+              *ngIf="!p.isFCDPProgram && !this.isStringEmptyOrNull(p.workProgramOfficeCountyName)">{{p.workProgramOfficeCountyName}}
+              &nbsp;-&nbsp; {{p.workProgramOfficeNumber | padPipe: 4}}</small>
+            <small
+              *ngIf="p.isFCDPProgram && !this.isStringEmptyOrNull(p.workProgramOfficeCountyName)">{{p.workProgramOfficeCountyName}}</small>
+          </div>
+        </div>
+        <div class="flex-row" [class.col-md-1]="p.statusName === 'In Progress'"
+          [class.col-md-3]="p.statusName !== 'In Progress'">
+          <small *ngIf="!this.isStringEmptyOrNull(p.enrolledDate)">Enrollment Date:
+            {{p.enrolledDate | dateMmDdYyyy}}</small>
+          <div (click)="this.displayEdit(true, p.id)" *ngIf="p.statusName === 'In Progress' && p.canEditRfa"
+            class="clear-edit">
+            <div class="center">
+              <i class="fa fa-pencil-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-row">
+        <div class="flex-row col-md-3">
+          <small>{{p.rfaNumber | padPipe: 10}} - {{p.statusName}}</small>
+        </div>
+        <div class="flex-row col-md-3">
+          <small *ngIf="!this.isStringEmptyOrNull(p.applicationDueDate)">Application Due: {{p.applicationDueDate |
+            dateMmDdYyyy}}</small>
+        </div>
+        <div class="flex-row col-md-3 vl"></div>
+        <div class="flex-row col-md-3">
+          <small *ngIf="!this.isStringEmptyOrNull(p.disenrolledDate)">Disenrollment Date: {{p.disenrolledDate |
+            dateMmDdYyyy}}</small>
+        </div>
+      </div>
+
+      <div class="flex-row">
+        <div class="flex-row col-md-3">
+        </div>
+        <div class="flex-row col-md-3">
+        </div>
+        <div class="flex-row col-md-3 vl">
+          <div class="flex-col">
+            <!-- <small *ngIf="!this.isStringEmptyOrNull(p.enrolledDate)">Enrollment Date {{p.enrolledDate | dateMmDdYyyy}}</small>
+                  <small *ngIf="!this.isStringEmptyOrNull(p.disenrolledDate)">Disenrollment Date {{p.disenrolledDate | dateMmDdYyyy}}</small> -->
+          </div>
+        </div>
+        <div class="flex-row col-md-3"></div>
+      </div>
+    </div>
+
+
+    <div class="flex-row pt-3">
+      <div class="flex-row col-md-9"></div>
+      <div class="flex-row col-md-3">
+        <button *ngIf="!this.isReadOnly && this.accessType === AccessType.edit" class="btn btn-add"
+          (click)="this.displayEdit(true)">+
+          Add Request for Assistance</button>
+      </div>
+    </div>
+
+  </main>
+</div>

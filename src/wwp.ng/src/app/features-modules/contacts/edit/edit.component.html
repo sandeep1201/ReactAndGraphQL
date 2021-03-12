@@ -1,0 +1,190 @@
+<div id="contact-modal">
+  <header class="nav-header p-3">
+    <div class="clearfix">
+      <a class="btn btn-back btn-secondary-outline btn-sm"
+        title="Close Record"
+        (click)="exit()">
+        <i class="fa fa-times"></i>
+      </a>
+      <h1 id="pageTitle">{{mode}} Contact</h1>
+      <app-help-button class="left"
+        [featureName]="'contacts-add-edit-help'"></app-help-button>
+    </div>
+  </header>
+  <div class="app-content">
+    <div class="wrapper"
+      *ngIf="model">
+      <input type="hidden"
+        id="contId"
+        name="contId"
+        value="0" />
+      <input type="hidden"
+        id="contRowVersion"
+        name="contRowVersion"
+        value="" />
+      <div class="row control-group padhalf">
+        <div class="col-md-7">
+          <label>Contact Title</label>
+          <app-select [(ngModel)]="model.titleTypeId"
+            (ngModelChange)="model.titleTypeId = $event; validate();"
+            [cacheInnerValue]="this.cachedModel?.titleTypeId"
+            [dropDownList]="contactTypesDrop"
+            [isInvalid]="modelErrors['titleTypeId']"
+            [isRequired]="true"></app-select>
+        </div>
+        <div class="col-md-5">
+          <label for="custTitle">&nbsp;</label>
+          <app-generic-text-input id="customTitle"
+            [(ngModel)]="model.customTitle"
+            (ngModelChange)="model.customTitle = $event; validate();"
+            [cacheInnerValue]="this.cachedModel?.customTitle"
+            [isRequired]="model.isCustomTitleRequired(otherTitleTypeId)"
+            [isDisabled]="!model.isCustomTitleRequired(otherTitleTypeId)"
+            [isInvalid]="modelErrors['customTitle']"
+            [NGMaxLength]="120"></app-generic-text-input>
+          <!--<input type="text" class="form-control disabled required" disabled required name="customTitle" />-->
+        </div>
+      </div>
+      <hr />
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="contName">Name</label>
+        </div>
+        <div class="col-md-5">
+          <app-generic-text-input id="contactName"
+            [(ngModel)]="model.name"
+            (ngModelChange)="model.name = $event; validate();"
+            [cacheInnerValue]="this.cachedModel?.name"
+            [isRequired]="true"
+            [isInvalid]="modelErrors['name']"
+            [NGMaxLength]="120"></app-generic-text-input>
+        </div>
+        <div class="col-md-4">
+          &nbsp;
+        </div>
+      </div>
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="contEmail">Email</label>
+        </div>
+        <div class="col-md-5">
+          <app-generic-text-input id="email"
+            [(ngModel)]="model.email"
+            (ngModelChange)="model.email = $event; validate();"
+            [cacheInnerValue]="this.cachedModel?.email"
+            [isRequired]="false"
+            [NGMaxLength]="120"
+            [isInvalid]="this.modelErrors['email']">
+          </app-generic-text-input>
+        </div>
+        <div class="col-md-4">&nbsp;</div>
+      </div>
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="contPhone">Phone</label>
+        </div>
+        <div class="col-md-5">
+          <app-numerical-input [(ngModel)]="model.phoneNumber"
+            [isInvalid]="modelErrors['phoneNumber']"
+            (ngModelChange)="model.phoneNumber = $event; validate();"
+            [cacheInnerValue]="this.cachedModel?.phoneNumber"
+            [isPhoneNumber]="true"
+            [NGMaxLength]="14"
+            [isRequired]="false"></app-numerical-input>
+        </div>
+        <div class="col-md-2">
+          <app-phone-number-input [(ngModel)]="model.phoneExt"
+            [cacheInnerValue]="this.cachedModel?.phoneExt"
+            [isRequired]="false"
+            maxLength="5"
+            [placeholder]="'ext'"></app-phone-number-input>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+      </div>
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="contFax">Fax</label>
+        </div>
+        <div class="col-md-5">
+          <app-phone-number-input [(ngModel)]="model.faxNumber"
+            [cacheInnerValue]="this.cachedModel?.faxNumber"
+            [isRequired]="false"
+            maxLength="16"></app-phone-number-input>
+        </div>
+        <div class="col-md-4">&nbsp;</div>
+      </div>
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="contAddr">Address</label>
+        </div>
+        <div class="col-md-9">
+          <app-text-area maxlength="380"
+            [(ngModel)]="model.address"
+            [cacheInnerValue]="this.cachedModel?.address"
+            (ngModelChange)="model.address = $event; validate();"
+            [isRequired]="false"
+            [isAutoSizeable]="true"
+            [placeholder]="''">
+          </app-text-area>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+      </div>
+      <hr />
+      <div class="row control-group padhalf">
+        <div class="col-md-3">
+          <label for="roiSigned">ROI Form</label>
+        </div>
+        <div class="col-md-5">
+          <div class="input-group">
+            <app-radio-button [NgLabel]="'ROI Signed'"
+              [(ngModel)]="model.isRoiSigned"
+              [cacheInnerValue]="this.cachedModel?.isRoiSigned"
+              (ngModelChange)="model.isRoiSigned = $event; validate();"
+              class="first input-group-addon input-group-text">
+            </app-radio-button>
+            <app-date-mm-dd-yyyy [(ngModel)]="model.roiSignedDate"
+              [cacheInnerValue]="this.cachedModel?.roiSignedDate"
+              (ngModelChange)="model.roiSignedDate = $event; validate();"
+              [isDisabled]="!model.isRoiSigned"
+              [isRequired]="model.isRoiSigned"
+              [isInvalid]="modelErrors['roiSignedDate']"
+              placeholder="date signed"
+              class="last"></app-date-mm-dd-yyyy>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <a target="_blank"
+            href="https://dcf.wisconsin.gov/files/forms/pdf/10779.pdf"
+            role="button"
+            class="btn btn-info">Download Form</a>
+        </div>
+      </div>
+      <div class="row control-group padhalf">
+        <div class="col-md-12 form-group">
+
+          <app-text-area maxlength="380"
+            [(ngModel)]="model.notes"
+            [cacheInnerValue]="this.cachedModel?.notes"
+            (ngModelChange)="model.notes = $event; validate();"
+            [isAutoSizeable]="true"
+            placeholder="Details">
+          </app-text-area>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="nav-footer">
+    <div class="wrapper tright">
+      <div *ngIf="hadSaveError">There was an error saving.</div>
+      <button class="btn btn-add"
+        (click)="exit()">Cancel</button>
+      <button class="btn btn-primary disabled"
+        *ngIf="isSaving"><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>
+        Saving </button>
+      <button class="btn btn-primary"
+        *ngIf="!isSaving"
+        (click)="saveAndExit()"
+        [disabled]="!isModelValid">Save</button>
+    </div>
+  </footer>
+</div>

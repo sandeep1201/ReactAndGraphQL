@@ -1,0 +1,32 @@
+<div class="border-bottom mb-1 pb-1">
+  <div class="row">
+    <div class="col-md-9">
+      <a *ngIf="goBackUrl"
+        class="btn btn-back btn-secondary-outline btn-sm d-flex flex-column justify-content-center py-3"
+        title="Go Back"
+        (click)="goBack()">
+        <i class="fa fa-angle-double-left"></i>
+      </a>
+
+      <h1 id=""
+        class="pt-2">{{pageTitle}}</h1>
+      <app-help-button *ngIf="helpComponent"
+        [featureName]="this.featureName"></app-help-button>
+      <button *ngIf="pageTitle === 'Employability Plans'"
+        class="btn btn-end py-3"
+        (click)="showHistoricalGoals();">View Historical Goals</button>
+      <button *ngIf="pageTitle === 'Employability Plans'"
+        class="btn btn-end py-3"
+        (click)="showHistoricalActivities();">View Historical Activities</button>
+    </div>
+    <div class="col-md-3 d-flex justify-content-end">
+      <span *ngIf="participant"
+        class="parti-name">{{participant.firstName}} {{participant.lastName}}<br>
+        <span class="parti-pin d-flex justify-content-end">{{participant.pin}}</span>
+      </span>
+    </div>
+    <app-dialog-box *ngIf="appService?.isDialogPresent && !appService?.isChildDialogPresent && !appService.setDialogueFromDriverFlow"
+      (dialogClose)="exitIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+  </div>
+</div>

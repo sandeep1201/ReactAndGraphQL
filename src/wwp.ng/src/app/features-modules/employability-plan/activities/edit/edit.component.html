@@ -1,0 +1,355 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Activity Edit'"></app-loading>
+  <div *ngIf="this.isLoaded">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitActivityEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="row wrapper">
+        <div class="col-lg-6">
+          <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+            (click)="cancel()"
+            title="Close Activity">
+            <i class="fa fa-times"></i>
+          </a>
+          <h1 id="editPageTitle"
+            class="px-3"
+            *ngIf="activity && activity.id == 0 && !isReadOnly">Add Activity</h1>
+          <h1 id="editPageTitle"
+            class="px-3"
+            *ngIf="activity && activity.id != 0 && !isReadOnly">Edit Activity</h1>
+          <h1 id="editPageTitle"
+            class="px-3"
+            *ngIf="isReadOnly">Activity</h1>
+        </div>
+
+        <!-- <app-help-button [featureName]="'participant-barriers-add-edit-help'"></app-help-button> -->
+        <div class="right col-lg-6 col-md-6"
+          *ngIf="activity && activity.modifiedBy != null">
+          <app-modified-stamp [readOnly]="true"
+            [author]="activity.modifiedBy"
+            [lastModified]="activity.modifiedDate">
+          </app-modified-stamp>
+        </div>
+      </div>
+    </header>
+
+    <div class="edit-content">
+      <div class="wrapper pad1">
+        <div class="row pad1-0">
+          <main id="main-work-history"
+            class="col-md-9">
+            <ul *ngIf="this.precheck?.errors != null"
+              class="list-group">
+              <li *ngFor="let error of this.precheck.errors"
+                class="list-group-item list-group-item-danger alert">
+                {{error}}</li>
+            </ul>
+            <ul *ngIf="this.precheck?.warnings != null"
+              class="list-group">
+              <li *ngFor="let warning of this.precheck.warnings"
+                class="list-group-item list-group-item-warning alert">
+                {{warning}}</li>
+            </ul>
+            &nbsp;
+            <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+            <fieldset id="wh-details"
+              class="row pad0-1">
+              <div class="col-md-12 p-0">
+                <label class="pt-1">Activity</label>
+                <div *ngIf="!isReadOnly && !activity.isCarriedOver">
+                  <app-auto-complete [isValidByParent]="modelErrors['activityTypeId']"
+                    [(ngModel)]="activity.activityTypeId"
+                    (ngModelChange)="activity.activityTypeId = $event; validate();onSelectActivity(activity.activityTypeId);preCheck($event);"
+                    [cacheInnerValue]="this.originalActivity?.activityTypeId"
+                    [dropDownList]="activityTypes"
+                    [isRequired]="true"
+                    [isDisabled]="isReadOnly || activity.isCarriedOver"></app-auto-complete>
+                </div>
+                <div *ngIf="isReadOnly || activity.isCarriedOver">
+                  <app-text-input [(ngModel)]="activity.activityTypeName"
+                    [isReadOnly]="isReadOnly || activity.isCarriedOver"></app-text-input>
+                </div>
+              </div>
+              <div class="col-md-12 p-0">
+                <label class="pt-1">Activity Description</label>
+                <app-text-area class="pb-1"
+                  [maxlength]="120"
+                  (ngModelChange)="activity.description = $event; validate();"
+                  [(ngModel)]="activity.description"
+                  [cacheInnerValue]="this.originalActivity?.description"
+                  [isRequired]="true"
+                  [isInvalid]="modelErrors['description']"
+                  [isDisabled]="isReadOnly || activity.isCarriedOver"
+                  [textLength]="activity.description?.length"
+                  [isTextLengthGiven]="true"></app-text-area>
+              </div>
+
+              <!-- <app-text-area *ngIf="employabilityPlan" (ngModelChange)="employabilityPlan.notes = $event; validate();" [(ngModel)]="employabilityPlan.notes"
+          [cacheInnerValue]="this.originalEmployabilityPlan?.notes" [isDisabled]="this.disableNotes()" [textLength]="employabilityPlan.notes?.length"
+          [isTextLengthGiven]="true"></app-text-area> -->
+
+            </fieldset>
+            <hr />
+            <fieldset>
+              <h4>Activity Location</h4>
+              <div class="row ">
+                <div class="col-md-9">
+                  <app-tab-selector [(ngModel)]="activity.activityLocationId"
+                    (ngModelChange)="activity.activityLocationId = $event; validate();"
+                    [cacheInnerValue]="this.originalActivity?.activityLocationId"
+                    [tabs]="activityLocationType"
+                    [isRequired]="true"
+                    [isInValid]="modelErrors['activityLocationId']"
+                    [isDisabled]="isReadOnly || activity.isCarriedOver">
+                  </app-tab-selector>
+                </div>
+              </div>
+              <div *ngIf="displayBusinessLocationDetails(activity.activityLocationId)">
+                <div class="row pt-1">
+                  <div class="col-md-12">
+                    <label class="control-group">Business Name</label>
+                  </div>
+                  <div class="col-md-9">
+                    <app-text-input *ngIf="!isReadOnly && !activity?.isCarriedOver"
+                      [maxLength]="120"
+                      class="control-group"
+                      [(ngModel)]="activity?.nonSelfDirectedActivity.businessName"
+                      (ngModelChange)="activity.nonSelfDirectedActivity.businessName = $event; validate();"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity.businessName"
+                      [placeholder]="''"
+                      [isInvalid]="isInValid(modelErrors, 'nonSelfDirectedActivity' , 'businessName' )"
+                      [isRequired]="true">
+                    </app-text-input>
+                    <app-generic-text-input class="control-group"
+                      *ngIf="isReadOnly || activity.isCarriedOver"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessName"
+                      [isDisabled]="true">
+                    </app-generic-text-input>
+                  </div>
+
+                </div>
+                <div class="row pt-1">
+                  <div class="col-md-4">
+                    <label>Location</label>
+                    <br />
+                    <!-- #7 -->
+
+                    <app-remote-auto-complete [(ngModel)]="activity.nonSelfDirectedActivity.businessLocation"
+                      (ngModelChange)="activity.nonSelfDirectedActivity.businessLocation = $event; validate();"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity.businessLocation"
+                      [isDisabled]="isReadOnly || activity.isCarriedOver"
+                      [errorIndicator]="modelErrors['businessLocation']"></app-remote-auto-complete>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Street Address</label>
+                    <br />
+                    <!-- #8 -->
+                    <!-- TODO: fix this so its inside of the component. It's weird here because the location object is changed by another component -->
+                    <app-remote-auto-suggest *ngIf="!activity.nonSelfDirectedActivity.businessLocation"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity?.businessStreetAddress"
+                      (googlePlaceId)="autoPopulateZipcode($event,'nonSelfDirectedActivity')"
+                      [searchType]="'streetAddresses'"
+                      [isDisabled]="true"></app-remote-auto-suggest>
+                    <app-remote-auto-suggest *ngIf="activity.nonSelfDirectedActivity.businessLocation"
+                      [googlePlaceIdInput]="activity?.nonSelfDirectedActivity.businessLocation.googlePlaceId"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessStreetAddress"
+                      (ngModelChange)="activity.nonSelfDirectedActivity.businessStreetAddress = $event; validate();"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity?.businessStreetAddress"
+                      (googlePlaceId)="autoPopulateZipcode($event, 'nonSelfDirectedActivity')"
+                      [searchType]="'streetAddresses'"
+                      [isDisabled]="isReadOnly || activity.isCarriedOver">
+                    </app-remote-auto-suggest>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Zip</label>
+
+                    <app-numerical-input *ngIf="!activity.nonSelfDirectedActivity.businessStreetAddress"
+                      [isDisabled]="true"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity?.businessZipAddress"
+                      [NGMaxLength]="5"></app-numerical-input>
+                    <app-numerical-input
+                      *ngIf="activity.nonSelfDirectedActivity.businessStreetAddress && (!isReadOnly && !activity.isCarriedOver)"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessZipAddress"
+                      (ngModelChange)="activity.nonSelfDirectedActivity.businessZipAddress= $event; validate();"
+                      [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity?.businessZipAddress"
+                      [NGMaxLength]="5"></app-numerical-input>
+                    <app-generic-text-input
+                      *ngIf="activity.nonSelfDirectedActivity.businessStreetAddress && (isReadOnly || activity.isCarriedOver)"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessZipAddress"
+                      [isDisabled]="true">
+                    </app-generic-text-input>
+                  </div>
+                </div>
+                <div class="row pt-1">
+                  <label class="col-md-3 control-group">Phone Number</label>
+                </div>
+                <div class="row pt-1">
+                  <app-numerical-input *ngIf="!isReadOnly"
+                    class="col-md-9 control-group"
+                    [(ngModel)]="activity.nonSelfDirectedActivity.businessPhoneNumber"
+                    (ngModelChange)="activity.nonSelfDirectedActivity.businessPhoneNumber = $event; validate();"
+                    [cacheInnerValue]="this.originalActivity?.nonSelfDirectedActivity?.businessPhoneNumber"
+                    [NGPlaceHolder]="'(XXX) XXX-XXXX'"
+                    [NGMaxLength]="14"
+                    [isPhoneNumber]="true"
+                    [isDisabled]="isReadOnly || activity.isCarriedOver">
+                  </app-numerical-input>
+                  <app-generic-text-input *ngIf="isReadOnly"
+                    class="col-md-9 control-group"
+                    [(ngModel)]="activity.nonSelfDirectedActivity.businessPhoneNumber"
+                    [isDisabled]="true">
+                  </app-generic-text-input>
+
+                </div>
+              </div>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <h4>Activity Contact</h4>
+              <app-contacts-repeater [(ngModel)]="activity.contacts"
+                (ngModelChange)="activity.contacts = $event;"
+                [pin]="pin"
+                [maxContacts]="5"
+                [isReadOnly]="isReadOnly || activity.isCarriedOver">
+              </app-contacts-repeater>
+            </fieldset>
+            <fieldset>
+              <h4>Additional Information</h4>
+              <app-text-area [maxlength]="380"
+                [(ngModel)]="activity.additionalInformation"
+                (ngModelChange)="activity.additionalInformation = $event; validate();"
+                [cacheInnerValue]="this.originalActivity?.additionalInformation"
+                [isDisabled]="isReadOnly || activity.isCarriedOver">
+              </app-text-area>
+            </fieldset>
+            <hr />
+            <div>
+              <app-schedule-repeater [frequencyDropDown]="frequencyTypes"
+                *ngIf="!isReadOnly"
+                [daysDropDown]="days"
+                [monthlyRecurrenceDropDown]="monthlyRecurrence"
+                [endDateRequired]="endDateRequired"
+                [isReadOnly]="isReadOnly"
+                [isReadOnlySchedule]="isReadOnlySchedule"
+                [hours]="hours"
+                [minutes]="minutes"
+                [amPmTab]="amPmTab"
+                [activityScheduleInit]="activity.activitySchedules"
+                [(ngModel)]="activity.activitySchedules"
+                (ngModelChange)="activity.activitySchedules = $event; validate();"
+                [modelErrors]="modelErrors.activitySchedule"
+                [cachedInitialModels]="originalModel"
+                [employabilityPlan]="employabilityPlan"
+                [activity]="activity">
+              </app-schedule-repeater>
+              <app-schedule-repeater [frequencyDropDown]="frequencyTypes"
+                *ngIf="isReadOnly"
+                [daysDropDown]="days"
+                [monthlyRecurrenceDropDown]="monthlyRecurrence"
+                [endDateRequired]="endDateRequired"
+                [isReadOnly]="isReadOnly"
+                [isReadOnlySchedule]="isReadOnlySchedule"
+                [hours]="hours"
+                [minutes]="minutes"
+                [amPmTab]="amPmTab"
+                [activityScheduleInit]="activity.activitySchedules"
+                [(ngModel)]="activity.activitySchedules"
+                (ngModelChange)="activity.activitySchedules = $event;"
+                [modelErrors]="modelErrors.activitySchedule"
+                [cachedInitialModels]="originalModel"
+                [employabilityPlan]="employabilityPlan"
+                [activity]="activity">
+              </app-schedule-repeater>
+            </div>
+
+            <div class="col-md-3">
+              <div class="input-group">
+                <label class="first"></label>
+                <app-radio-button [(ngModel)]="activity.endActivity"
+                  (ngModelChange)="activity.endActivity = $event;showEndActivityReason();validate();"
+                  [NgLabel]="'End Activity?'"
+                  class="input-group-addon input-group-text"
+                  [isDisabled]="isReadOnly">
+                </app-radio-button>
+
+              </div>
+            </div>
+            <div class="col-md-12 row-padded"
+              *ngIf="activity?.endActivity || activity?.activityCompletionReasonId">
+
+              <hr />
+              <h4>Activity Completion</h4>
+              <div class="col-md-4">
+
+                <label class="control-label">Completion Reason</label>
+                <div *ngIf="!isReadOnly">
+                  <app-select [(ngModel)]="activity.activityCompletionReasonId"
+                    (ngModelChange)="activity.activityCompletionReasonId = $event;validate();"
+                    [isInvalid]="modelErrors['activityCompletionReasonId']"
+                    [dropDownList]="completionReasons"
+                    [cacheInnerValue]="this.originalActivity?.activityCompletionReasonId"
+                    [isReadOnly]="isReadOnly"
+                    [isRequired]="!isReadOnly"></app-select>
+                </div>
+                <div *ngIf="isReadOnly">
+                  <app-text-input [(ngModel)]="activityNameForSingleEntry"
+                    [isReadOnly]="isReadOnly"></app-text-input>
+                </div>
+              </div>
+              <div class="col-md-4 pb-2">
+                <label class="control-label">Actual End Date</label>
+                <app-date-mm-dd-yyyy [(ngModel)]="activity.endDate"
+                  *ngIf="!isReadOnly"
+                  (ngModelChange)="activity.endDate = $event;validate();"
+                  [cacheInnerValue]="this.originalActivity?.endDate"
+                  [isInvalid]="modelErrors['endDate']"
+                  [isRequired]="!isReadOnly"
+                  [isReadOnly]="isReadOnly"
+                  [datePickerRequired]="true"></app-date-mm-dd-yyyy>
+                <app-date-mm-dd-yyyy [(ngModel)]="activity.endDate"
+                  *ngIf="isReadOnly"
+                  (ngModelChange)="activity.endDate = $event;"
+                  [cacheInnerValue]="this.originalActivity?.endDate"
+                  [isInvalid]="modelErrors['endDate']"
+                  [isRequired]="!isReadOnly"
+                  [isReadOnly]="isReadOnly"></app-date-mm-dd-yyyy>
+              </div>
+            </div>
+            <section *ngIf="!isReadOnly"
+              class="mb-2">
+              <div class="tright">
+                <button type="button"
+                  class="btn btn-add"
+                  (click)="showCalendarView()">
+                  View Calendar</button>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+    <footer class="edit-footer">
+      <app-cancel-save-footer [isReadOnly]="isReadOnly"
+        [isSaving]="aSaving"
+        [isDisabled]="isSectionValid"
+        (cancelEvent)="cancel()"
+        (saveEvent)="save()"></app-cancel-save-footer>
+    </footer>
+    <div id="app-calendar-container"
+      *ngIf="showCalendar">
+      <div class="app-calendar-content">
+        <app-calendar (closeCalendar)="closeCalendar($event)"
+          [viewDate]="viewDate"
+          [events]="events"
+          [iseventsLoaded]="iseventsLoaded"
+          [isBackwardingDisabled]="isBackwardingOfCalendarDisabled"
+          [isForwardingDisabled]="isForwardingOfCalendarDisabled"
+          [eventsName]="'epEvents'"
+          (nextMonthClicked)="nextMonthClicked($event)"
+          (previousMonthClicked)="previousMonthClicked($event)"></app-calendar>
+      </div>
+    </div>
+  </div>
+</div>

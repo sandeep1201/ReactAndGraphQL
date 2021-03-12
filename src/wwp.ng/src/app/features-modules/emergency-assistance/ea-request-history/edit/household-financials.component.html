@@ -1,0 +1,116 @@
+<div *ngIf="isSectionLoaded">
+  <h2 class="poplegend">Household Financials</h2>
+  <fieldset *ngIf="true"
+    class="form-page">
+    <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+    <app-modified-stamp *ngIf="model?.modifiedBy"
+      [author]="model?.modifiedBy"
+      [lastModified]="model?.modifiedDate"
+      [readOnly]="true"></app-modified-stamp>
+    <hr class="spacer" />
+    <div class="row pt-3">
+      <div class="col-md-6">
+        <h4 class="d-inline-block">Income</h4>
+        <label>
+          <input [(ngModel)]="model.hasNoIncome"
+            (ngModelChange)="model.hasNoIncome = $event; checkState();"
+            [disabled]="isReadOnly"
+            type="checkbox"
+            name="checkbox"
+            value="true"
+            class="mr-2 ml-4">No Income</label>
+      </div>
+      <div class="col-md-6">
+        <div class="right"
+          *ngIf="!model.hasNoIncome">Add Income Back To {{incomeBackToDate | dateMmDdYyyy}}.</div>
+      </div>
+
+      <app-income-repeater class="col-md-12"
+        *ngIf="!model.hasNoIncome"
+        [(ngModel)]="model.eaHouseHoldIncomes"
+        (ngModelChange)="checkState()"
+        [isReadOnly]="isReadOnly"
+        [initIncome]="model.eaHouseHoldIncomes"
+        [verificationDrop]="incomeVerificationDrop"
+        [groupMembersDrop]="groupMembersDrop"
+        [cachedInitialModels]="cachedModel?.eaHouseHoldIncomes"
+        [modelErrors]="modelErrors['eaHouseholdIncomes']"></app-income-repeater>
+
+    </div>
+    <div class="row pt-3">
+      <div class="col-md-12">
+        <h4 class="d-inline-block">Financial Assets</h4>
+        <label>
+          <input [(ngModel)]="model.hasNoAssets"
+            (ngModelChange)="model.hasNoAssets = $event; calculateTotalAssets(); checkState();"
+            [disabled]="isReadOnly"
+            type="checkbox"
+            name="checkbox"
+            value="true"
+            class="mr-2 ml-4">No Financial Assets</label>
+      </div>
+      <app-assets-repeater class="col-md-12"
+        *ngIf="!model.hasNoAssets"
+        [(ngModel)]="model.eaAssets"
+        (ngModelChange)="checkState()"
+        (financialAssets)="totalFinancialAssets = $event; calculateTotalAssets();"
+        [initTotal]="model.eaAssets"
+        [isReadOnly]="isReadOnly"
+        [verificationDrop]="assetVerificationDrop"
+        [assetOwnerDrop]="groupMembersDrop"
+        [cachedInitialModels]="cachedModel?.eaAssets"
+        [modelErrors]="modelErrors['eaAssets']"></app-assets-repeater>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-md-12">
+        <h4 class="d-inline-block">Vehicles</h4>
+        <label class="pr-4">
+          <input [(ngModel)]="model.hasNoVehicles"
+            (ngModelChange)="model.hasNoVehicles = $event; calculateTotalAssets(); checkState();"
+            [disabled]="isReadOnly"
+            type="checkbox"
+            name="checkbox"
+            value="true"
+            class="mr-2 ml-4">No Vehicles</label>
+        <a class="pr-4"
+          target="_blank"
+          href="https://www.kbb.com">KBB Value Look-Up</a>
+        <a class="pr-4"
+          target="_blank"
+          href="https://www.nadaguides.com">NADA Value Look-Up</a>
+      </div>
+      <app-vehicles-repeater class="col-md-12"
+        *ngIf="!model.hasNoVehicles"
+        [(ngModel)]="model.eaVehicles"
+        (ngModelChange)="checkState()"
+        (vehiclesValue)="totalVehicleAssets = $event; calculateTotalAssets();"
+        [initTotal]="model.eaVehicles"
+        [isReadOnly]="isReadOnly"
+        [verificationDrop]="vehicleVerificationDrop"
+        [vehicleValueVerificationDrop]="vehicleValueVerificationDrop"
+        [vehicleOwnerDrop]="groupMembersDrop"
+        [cachedInitialModels]="cachedModel?.eaVehicles"
+        [modelErrors]="modelErrors['eaVehicles']"></app-vehicles-repeater>
+    </div>
+
+    <ng-container *ngIf="!(model.hasNoAssets && model.hasNoVehicles)">
+      <hr class="mb-0" />
+      <div class="row px-3">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-6 p-0"><label class="control-label right">Total Assets</label></div>
+            <div class="input-group col-md-6 flex-nowrap pr-0">
+              <div class="input-group-prepend"><span class="input-group-text">$</span>
+              </div>
+              <app-numerical-input class="w-100 last"
+                [ngModel]="totalAssets"
+                [isMoney]="true"
+                [isReadOnly]="true"></app-numerical-input>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </fieldset>
+</div>

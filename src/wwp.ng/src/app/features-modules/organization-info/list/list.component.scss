@@ -1,0 +1,12 @@
+.list-item {
+  &:hover {
+    background:none;
+    cursor: auto;
+  }
+
+  .btn {
+    &:hover {
+      background: #f6f8f8;
+    }
+  }
+}

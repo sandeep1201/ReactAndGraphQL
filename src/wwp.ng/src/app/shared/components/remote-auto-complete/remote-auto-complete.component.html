@@ -1,0 +1,14 @@
+
+<div>
+    <div class="input-field">
+        <input type="text" [ngClass]="{error: isInvalid, required: isRequired, dirty: isModified, loading: isFetching}" [required]="isRequired ? 'true' : null" 
+        maxlength="120" [disabled]="isDisabled" class="validate filter-input form-control remote-auto-complete" (blur)="blur()" placeholder="City, State" [(ngModel)]="query" (keyup)="filter()">
+    </div>
+    <div class="suggestions" *ngIf="filteredList != null" [ngClass]="{hidden: filteredList.length < 1}">
+        <ul>
+            <li *ngFor="let item of filteredList">
+                <a (click)="select(item)" tabindex="0">{{item.cityStateCountry}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

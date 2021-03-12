@@ -1,0 +1,66 @@
+<h4>Work Programs</h4>
+<fieldset *ngFor="let item of models; let i=index" class="workp-repeat repeat rel">
+  <input id="workp-id-1" name="workp-id-1" type="hidden" value="0">
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-3 control-group">
+        <label class="control-label" for="workp-status-1" title="Work Status">Status</label>
+        <app-select (ngModelChange)="item.workStatus = $event; checkState();" [isRequired]="isRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i ,'workStatus')"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'workStatus')" [index]="i"
+          [dropDownList]="workProgramStatusDropList" [(ngModel)]="item.workStatus"></app-select>
+      </div>
+      <div class="col-md-5 control-group">
+        <label class="control-label" for="workp-name-1" title="Work Program Name">Name</label>
+        <app-select (ngModelChange)="item.workProgram = $event; checkState();"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'workProgram')" [isRequired]="isRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i ,'workProgram')" [index]="i" [dropDownList]="workProgramNamesDropList"
+          [(ngModel)]="item.workProgram"></app-select>
+      </div>
+      <div class="col-md-2 control-group">
+        <label class="control-label" for="wp-start-1" title="Start Date">Start</label>
+        <app-date-mm-yyyy-input [isRequired]="isStartDateRequired(item)"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'startDate')"
+          [errorIndicator]="isModelErrorsItemInvalid(i ,'startDate')"
+          (ngModelChange)="item.startDate = $event; checkState();" [(ngModel)]="item.startDate">
+        </app-date-mm-yyyy-input>
+      </div>
+      <div class="col-md-2 control-group">
+        <label class="control-label" for="wp-end-1" title="End Date">End</label>
+        <app-date-mm-yyyy-input [isRequired]="isEndDateRequired(item)"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'endDate')"
+          [errorIndicator]="isModelErrorsItemInvalid(i ,'endDate')"
+          (ngModelChange)="item.endDate = $event; checkState();" [(ngModel)]="item.endDate"></app-date-mm-yyyy-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5 control-group">
+        <label class="control-label" for="workp-loc-1" title="Location">Location</label>
+        <app-remote-auto-complete [isRequired]="isRequired(i)" (ngModelChange)="item.location = $event; checkState();"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'location')"
+          [errorIndicator]="isModelErrorsItemInvalid(i ,'location')" [(ngModel)]="item.location">
+        </app-remote-auto-complete>
+      </div>
+      <div class="col-md-7 control-group">
+        <label class="control-label" for="workp-details-1" title="Work Program - Details">Details</label>
+        <app-text-area [maxlength]="380" [isAutoSizeable]="true" [placeholder]="''"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'details')"
+          (ngModelChange)="item.details = $event; checkState();" [(ngModel)]="item.details"
+          [isInvalid]="isModelErrorsItemInvalid(i ,'details')"
+          [isRequired]="item.isDetailsRequired(otherWorkProgramId)"></app-text-area>
+      </div>
+    </div>
+    <app-contacts-embed [pin]="pin" [(ngModel)]="item.contactId"
+      (ngModelChange)="item.contactId = $event; checkState();"
+      [cacheInnerValue]="getInitialModelValue(item.id, 'contactId')"></app-contacts-embed>
+  </div>
+  <div class="controls">
+    <ul>
+      <li class="del" (click)="deleteFromRepeater(item)"><i class="fa fa-trash-alt" title="delete"></i></li>
+    </ul>
+  </div>
+</fieldset>
+<div class="tright col-md-12 add-holder">
+  <button (click)="addToRepeater()" class="btn btn-sm btn-add add-workp">+ &nbsp; Add Item</button>
+  <hr class="spacer">
+</div>

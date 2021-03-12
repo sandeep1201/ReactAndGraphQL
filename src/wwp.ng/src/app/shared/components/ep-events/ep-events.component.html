@@ -1,0 +1,23 @@
+<div class="cal-events">
+  <div class="cal-event cal-tooltip"
+    *ngFor="let event of day.events"
+    [ngStyle]="{ color: event?.color }"
+    [ngClass]="event?.cssClass">
+    <div *ngIf="(!(event?.endTime || event?.startTime) && event?.hours)">{{event.title }} -
+      {{event.hours}} Hrs</div>
+    <div *ngIf="(event?.endTime || event?.startTime)">{{event.title }} -
+      {{event?.startTime}}-{{event?.endTime }}</div>
+    <div class="cal-tooltipcontent">
+      <div class="tooltip-items">
+        <div>{{event.title}}-{{event.type}}</div>
+        <div>
+          Description: {{event.description}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="cell-event hours"
+    *ngIf="day?.hours">
+    <div class="item"
+      *ngIf="day?.hours">{{day.hours}} hrs</div>
+  </div>
+</div>

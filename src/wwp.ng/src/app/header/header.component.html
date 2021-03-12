@@ -1,0 +1,509 @@
+<header *ngIf="isHeaderShown">
+  <div class="grid-container-header">
+    <div class="flex-row  main-header grid-item"
+      (click)="closeSubMenu()">
+      <span *ngIf="appService.showEnvLabel"
+        class="noselect dev-text-color">{{appService?.currentEnvironment}}</span></div>
+
+    <div class="row main-header grid-item">
+      <div class="col-md-2 grid-item"
+        id="wwp-logo">
+        <a class="wwp-brand"
+          (click)="goHome()"
+          title="Home">
+          <!-- WPASS LOGO -->
+          <img src="{{ logoPath }}" />
+        </a>
+      </div>
+      <div (click)="clickWorkerTools()"
+        appHighlightHover
+        [highlightColor]="'#63899D'"
+        [isHoverHighlightDisabled]='isWorkerToolsSubMenuDisplayed'
+        [class.selected]="isWorkerToolsSubMenuDisplayed"
+        class="col-md-auto tile d-flex align-items-center">
+        <span class="noselect header-label">Worker&nbsp;Tools</span>
+      </div>
+
+      <div *ngIf="!isPinBased"
+        class="col-md-auto d-flex align-items-center"
+        (click)="closeSubMenu()"></div>
+
+      <div *ngIf="isPinBased"
+        (click)="clickCaseManagement()"
+        appHighlightHover
+        [highlightColor]="'#63899D'"
+        [isHoverHighlightDisabled]='isCaseManagementSubMenuDisplayed'
+        [class.selected]="isCaseManagementSubMenuDisplayed"
+        class="col-md-auto tile d-flex align-items-center">
+        <span class="noselect header-label">Case&nbsp;Management</span>
+      </div>
+      <div *ngIf="isPinBased && (canAccessProgram_WW || isStateStaff || canAccessProgram_CF) &&  canShowPT"
+        (click)="clickPT()"
+        appHighlightHover
+        [highlightColor]="'#63899D'"
+        [isHoverHighlightDisabled]='isPTSubMenuDisplayed'
+        [class.selected]="isPTSubMenuDisplayed"
+        class="col-md-auto tile d-flex align-items-center">
+        <span class="noselect header-label">Participation&nbsp;Tracking</span>
+      </div>
+      <div *ngIf="isPinBased && canShowEA"
+        (click)="clickEA()"
+        appHighlightHover
+        [highlightColor]="'#63899D'"
+        [isHoverHighlightDisabled]='isEASubMenuDisplayed'
+        [class.selected]="isEASubMenuDisplayed"
+        class="col-md-auto tile d-flex align-items-center">
+        <span class="noselect header-label">Emergency&nbsp;Assistance</span>
+      </div>
+      <div *ngIf="canShowAgencyTools"
+        (click)="clickAgencyTools()"
+        appHighlightHover
+        [highlightColor]="'#63899D'"
+        [isHoverHighlightDisabled]='isAgencyToolsSubMenuDisplayed'
+        [class.selected]="isAgencyToolsSubMenuDisplayed"
+        class="col-md-auto tile d-flex align-items-center">
+        <span class="noselect header-label">Agency&nbsp;Tools</span>
+      </div>
+    </div>
+
+    <div (click)="clickUserAccount()"
+      class="flex-row main-header grid-item justify-content-center align-items-center tile"
+      appHighlightHover
+      [highlightColor]="'#63899D'"
+      [isHoverHighlightDisabled]='isUserAccountSubMenuDisplayed'
+      [class.selected]="isUserAccountSubMenuDisplayed">
+      <span class="noselect header-label">{{ appService.user?.firstName }}&nbsp;{{ appService.user?.lastName}}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="isWorkerToolsSubMenuDisplayed"
+    class="row sub-menu"></div>
+
+  <div *ngIf="isWorkerToolsSubMenuDisplayed"
+    class="row sub-menu justify-content-center">
+    <a *ngIf="showAuxiliary"
+      class="sub-menu-tile"
+      (click)="navigateByPage('w2-auxiliary-approvers', true);">
+      <li class="tool-item tool-box box">
+        <i class="fas fa-user-check"></i>
+        <p>W-2 Auxiliary Approvers</p>
+      </li>
+    </a>
+
+    <a *ngIf="showAuxiliary"
+      class="sub-menu-tile"
+      (click)="navigateByPage('auxiliary-request', true);">
+      <li class="tool-item tool-box box">
+        <i class="fas fa-file-signature"></i>
+        <p>Auxiliary Requests</p>
+      </li>
+    </a>
+
+    <a *ngIf="showWorkerTaskFeature"
+      class="sub-menu-tile"
+      (click)="navigateTo('worker-task')">
+      <li class="tool-item tool-box box">
+        <i class="fa fa-clipboard-list"
+          aria-hidden="true"></i>
+        <p>Worker Task List</p>
+      </li>
+    </a>
+
+    <a *ngIf="canAccessOrganizationInformation && showOrganisationFeature"
+      class="sub-menu-tile"
+      (click)="navigateTo('organization-information')">
+      <li class="tool-item tool-box box">
+        <i class="fa fa-building"
+          aria-hidden="true"></i>
+        <p>Organization Information</p>
+      </li>
+    </a>
+    <a class="sub-menu-tile"
+      (click)="navigateTo('clearance')">
+      <li class="tool-item tool-box box">
+        <i class="fa fa-search-plus"></i>
+        <p>Clearance</p>
+      </li>
+    </a>
+    <!--Adding  Help Center  back based on 2407-->
+    <a class="sub-menu-tile"
+      (click)="navigateTo('help')">
+      <li class="tool-item tool-box box">
+        <i class="fa fa-question-circle"></i>
+        <p>Help Center</p>
+      </li>
+    </a>
+    <a class="sub-menu-tile"
+      (click)="navigateTo('reports')">
+      <li class="tool-item tool-box box">
+        <i class="fa fa-chart-area"
+          aria-hidden="true"></i>
+        <p>WebI</p>
+      </li>
+    </a>
+    <a *ngIf="canShowAdjudicatorPOPClaims" class="sub-menu-tile"
+      (click)="navigateTo('pop-claims/adjudicator')">
+      <li class="tool-item tool-box box">
+        <i class="fas fa-search-dollar"
+          aria-hidden="true"></i>
+        <p>POP Claims</p>
+      </li>
+    </a>
+  </div>
+
+  <div *ngIf="isWorkerToolsSubMenuDisplayed"
+    (click)="closeSubMenu()"
+    class="row sub-menu"></div>
+
+  <div *ngIf="isCaseManagementSubMenuDisplayed"
+    class="row sub-menu"></div>
+
+  <div *ngIf="isCaseManagementSubMenuDisplayed"
+    class="row sub-menu">
+    <div class="col-md-8 pl-5 py-2">
+      <a class="sub-menu-tile"
+        *ngIf="showPinCommentsFeature"
+        (click)="navigateTo('pin-comments')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-thumbtack"></i>
+          <p>PIN Comments</p>
+        </li>
+      </a>
+
+      <a class="sub-menu-tile"
+        (click)="navigateTo('participant-summary')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-user-circle"></i>
+          <p>Participant Summary</p>
+        </li>
+      </a>
+
+      <a class="sub-menu-tile"
+        (click)="navigateByPage('rfa')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="wwp-rfq"></i>
+          <p>Request Assistance</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        (click)="navigateByPage('client-registration')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="wwp-register"></i>
+          <p>Client Registration</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        (click)="navigateByPage('assessment')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="wwp-ia"></i>
+          <p>Informal Assessment</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        (click)="navigateTo('employability-plan')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-list-alt"></i>
+          <p>Employability Plan</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="showCareerAssessmentAndJobReadinessFeature"
+        (click)="navigateTo('career-assessment')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-tasks"></i>
+          <p>Career Assessment</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="showCareerAssessmentAndJobReadinessFeature"
+        (click)="navigateByPage('job-readiness')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-chart-line"></i>
+          <p>Job Readiness</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        (click)="navigateByPage('time-limits')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fa fa-hourglass"></i>
+          <p>Time Limit</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="showAuxiliary"
+        (click)="navigateByPage('auxiliary')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-money-check"></i>
+          <p>Auxiliary</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="showPaymentDetails"
+        (click)="navigateByPage('payment-details')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <p>Payment Details</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="showDrugScreeningFeature && canAccessDrugScreening_View"
+        (click)="navigateByPage('drug-screening')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-vial"></i>
+          <p>Drug Screening</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="canShowPOPClaims"
+        (click)="navigateByPage('pop-claims/worker-level')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-search-dollar"></i>
+          <p>POP Claims</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="canShowTransactions"
+        (click)="navigateByPage('transactions')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-receipt"></i>
+          <p>Transactions</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="canShowEmploymentVerification"
+        (click)="navigateByPage('tj-tmj-employment-verification')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-check-square"></i>
+          <p>Employment Verification</p>
+        </li>
+      </a>
+      <a class="sub-menu-tile"
+        *ngIf="canShowW2Plans"
+        (click)="navigateByPage('w-2-plans')">
+        <li class="tool-item tool-box box mt-2">
+          <i class="fas fa-table"></i>
+          <p>W-2 Plans</p>
+        </li>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <ul class="tool-side side">
+        <li class="w-50 left">
+          <ul class="cleafix">
+            <li class="tool-link"
+              (click)="navigateByPage('action-needed')">
+              <a>
+                <i class="wwp-action"></i>
+                <span>Action&nbsp;Needed</span>
+              </a>
+            </li>
+            <li class="tool-link"
+              (click)="navigateByPage('participant-barriers')">
+              <a>
+                <i class="wwp-barrier-alt"></i>
+                <span>Participant&nbsp;Barriers</span>
+              </a>
+            </li>
+            <li class="tool-link"
+              (click)="navigateByPage('test-scores')">
+              <a>
+                <i class="wwp-test"></i>
+                <span>Test&nbsp;Scores</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="w-50 left">
+          <ul class="cleafix">
+            <li class="tool-link"
+              (click)="navigateByPage('work-history')">
+              <a>
+                <i class="fa fa-briefcase"></i>
+                <span>Work&nbsp;History</span>
+              </a>
+            </li>
+            <li class="tool-link"
+              (click)="navigateByPage('contacts')">
+              <a>
+                <i class="fa fa-address-book"></i>
+                <span>Contacts</span>
+              </a>
+            </li>
+            <li class="tool-link"
+              (click)="navigateByPage('participation-statuses')">
+              <a>
+                <i class="fa fa-address-card"></i>
+                <span>Participation Statuses</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div *ngIf="isCaseManagementSubMenuDisplayed"
+    (click)="closeSubMenu()"
+    class="flex-row sub-menu"></div>
+
+  <div *ngIf="isPTSubMenuDisplayed"
+    class="row sub-menu"></div>
+
+  <div *ngIf="isPTSubMenuDisplayed"
+    class="row sub-menu justify-content-center">
+    <div *ngIf="canAccessParticipationCalendar_View"
+      class="sub-menu-tile">
+      <a>
+        <li class="tool-item tool-box box"
+          (click)="navigateByPage('participation-calendar')">
+          <i class="fas fa-calendar-alt"
+            aria-hidden="true"></i>
+          <p>Participation Calendar</p>
+        </li>
+      </a>
+      <a>
+        <li class="tool-item tool-box box"
+          (click)="navigateByPage('non-participation-details')">
+          <i class="fas fa-th-list"
+            aria-hidden="true"></i>
+          <p class="nonPartIcon">Non-Participation Good Cause Details</p>
+        </li>
+      </a>
+    </div>
+    <a *ngIf="canAccessChildrenFirstTracking_View"
+      class="sub-menu-tile">
+      <li class="tool-item tool-box box"
+        (click)="navigateByPage('children-first-tracking')">
+        <i class="fas fa-calendar-alt"
+          aria-hidden="true"></i>
+        <p>Children First Tracking</p>
+      </li>
+    </a>
+  </div>
+
+  <div *ngIf="isPTSubMenuDisplayed"
+    (click)="closeSubMenu()"
+    class="flex-row sub-menu"></div>
+
+  <div *ngIf="isEASubMenuDisplayed"
+    class="row sub-menu justify-content-center">
+    <a class="sub-menu-tile">
+      <li class="tool-item tool-box box"
+        (click)="navigateByPage('emergency-assistance/ea-application-history')">
+        <i class="fas fa-history"></i>
+        <p>EA Application History</p>
+      </li>
+    </a>
+  </div>
+  <div *ngIf="isAgencyToolsSubMenuDisplayed"
+    class="row sub-menu justify-content-center">
+    <a class="sub-menu-tile">
+      <li class="tool-item tool-box box"
+        (click)="navigateByPage('pop-claims/approver', true)">
+        <i class="fas fa-search-dollar"></i>
+        <p>POP Claims</p>
+      </li>
+    </a>
+  </div>
+
+
+  <div *ngIf="isUserAccountSubMenuDisplayed"
+    class="sub-menu py-1">
+    <div class="grid-container-header">
+      <div class="grid-item"></div>
+      <div class="grid-item">
+        <div class="grid-container-user-header">
+          <div class="user-profile account-info grid-item">
+            <div class="image figure right userLogo">
+              <i class="fa fa-user"></i>
+            </div>
+          </div>
+
+          <div class="user-profile account-info grid-item">
+            <div class="profile-info">
+              <h3>{{ appService.user?.firstName }}&nbsp;{{ appService.user?.lastName }}</h3>
+              <strong>{{ appService.user?.username }}</strong>
+              <p>{{ appService.user?.officeName }}</p>
+              <p>{{ appService.user?.roles }}</p>
+            </div>
+          </div>
+
+          <div class="grid-item"></div>
+
+          <div class="pad1-0 small verInfo grid-item">
+            <p class="tright small tgrey2">current version: {{ ver }}
+              <br />
+              <!-- Release Notes feature is no longer supporter please do not add it back -->
+              <!-- <a (click)="navigateTo('release-notes')" class="release-notes">release notes</a> -->
+            </p>
+          </div>
+
+          <div class="grid-item"></div>
+          <div class="grid-item">
+            <a class="sub-menu-tile "
+              (click)="navigateTo('logout')">
+              <li class="tool-item tool-box box mt-2">
+                <i class="fa fa-sign-out-alt"></i>
+                <p>Logout</p>
+              </li>
+            </a>
+          </div>
+          <div class="grid-item"
+            *ngIf="canAccessContactInfo && showContactsInfoFeature">
+            <a class="sub-menu-tile "
+              (click)="showContactInfoBox()">
+              <li class="tool-item tool-box box mt-2">
+                <i class="fa fa-id-card"></i>
+                <p>My Contact Info</p>
+              </li>
+            </a>
+          </div>
+
+          <div *ngIf="canSimulateUsers && !isSimulatingUser"
+            class="grid-item">
+            <a class="sub-menu-tile"
+              (click)="showSimulateUserBox()">
+              <li class="tool-item tool-box box mt-2">
+                <i class="fa fa-user-secret"></i>
+                <p>Simulate User</p>
+              </li>
+            </a>
+          </div>
+
+          <div *ngIf="isSimulatingUser"
+            class="grid-item">
+            <span class="sub-menu-tile grid-item">
+              <li class="tool-item tool-box disabledBox mt-2">
+                <i class="fa fa-user-secret"></i>
+                <p>Simulate User</p>
+              </li>
+            </span>
+          </div>
+
+          <div *ngIf="canSimulateCurrentDate && !isSimulatingCurrentDate"
+            class="grid-item">
+            <a class="sub-menu-tile"
+              (click)="showSimulateCurrentDateBox()">
+              <li class="tool-item tool-box box mt-2">
+                <i class="fa fa-calendar-alt"></i>
+                <p>Simulate Date</p>
+              </li>
+            </a>
+          </div>
+
+          <div *ngIf="isSimulatingCurrentDate"
+            class="grid-item">
+            <span class="sub-menu-tile grid-item">
+              <li class="tool-item tool-box disabledBox mt-2">
+                <i class="fa fa-calendar-alt"></i>
+                <p>Simulate Date</p>
+              </li>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

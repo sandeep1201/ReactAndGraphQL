@@ -1,0 +1,747 @@
+<div *ngIf="true; then summary">
+
+</div>
+
+<ng-template #summary>
+  <app-sub-header pageTitle="Participant Summary"
+    [participant]="participant"
+    [helpComponent]="'participant-summary'">
+  </app-sub-header>
+
+  <div *ngIf="!isLoaded"
+    class="flex-row">
+    <div class="col-md-12">
+      <blockquote class="jumbotron tcenter">
+        <div class="lg tgrey2 tcenter pad2">
+          <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+        </div>
+        <span>Loading Participant Summary</span>
+      </blockquote>
+    </div>
+  </div>
+
+  <main id="participant"
+    *ngIf="isLoaded">
+    <app-enrollment-header [participant]="this.participant"
+      (reload)="this.ngOnInit()"
+      [pin]="this.pin">
+    </app-enrollment-header>
+    <div *ngIf="this.displayOutOfSyncMessage"
+      class="message-component-wink-wink">
+
+      <div class="alert alert-warning alert-dismissible show"
+        role="alert">
+        <button type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Data Out of Sync Warning</strong>
+        <p>WWP and CWW offices are out of sync</p>
+      </div>
+
+    </div>
+    <div *ngIf="this.redirect"
+      class="alert alert-warning">
+      <a class="close"
+        data-dismiss="alert"
+        aria-label="close">&times;</a>
+      <strong>This participant has not been through clearance, but the active user is not authorized to
+        complete
+        clearance. You've been
+        redirected to the participant summary.</strong>
+    </div>
+    <div *ngIf="displayPhase2Messages !== ''" class="alert alert-warning">
+      <strong>{{displayPhase2Messages}}</strong>
+    </div>
+    <div class="card my-3">
+      <h4 class="card-header px-3">
+        Basic Information</h4>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <label>Name</label> {{participant?.displayName}} &nbsp;</div>
+          <div class="col-md-6">
+            <label>Pin</label>{{participant?.pin}} &nbsp;</div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-md-2">
+            <label>DOB</label>{{participant?.dateOfBirth | dateMmDdYyyy}}&nbsp;</div>
+          <div class="col-md-2">
+            <label>Age</label>{{participantDetails?.basicInfo?.age}} &nbsp;</div>
+          <div class="col-md-2">
+            <label>Gender</label>{{participantDetails?.basicInfo?.genderIndicator}} &nbsp;</div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-md-2">
+            <label>Race</label> {{participantDetails?.basicInfo?.raceCode }}&nbsp;
+          </div>
+          <div class="col-md-2">
+            <label>Ethnicity</label>
+            <span *ngIf="participantDetails?.basicInfo?.isHispanic">Hispanic – Yes</span>
+            <span *ngIf="participantDetails?.basicInfo?.isHispanic == false">Hispanic – No</span>&nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="this.appService.user.isTribalUser == false">
+      <div class="card my-3"
+        *ngIf="this.participant?.wwPrograms?.length > 0 ">
+        <h4 class="card-header px-3">W-2 Program
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('W2')">
+              <i *ngIf="!isW2Collapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isW2Collapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <div [class.collapse]="isW2Collapsed"
+          class="card-body cww-info">
+          <!-- There should only be one ww program showing here at a time -->
+          <app-pep-card *ngFor="let pep of this.participant?.wwPrograms"
+            [wpGeoArea]="this.participantDetails?.officeCountyInfo?.wpGeoArea"
+            [enrolledProgram]="pep"></app-pep-card>
+          <hr class="spacer" />
+          <div class="row">
+            <div class="col-md-4"
+              *ngIf="this.canViewLimitedWW && !this.canViewWW">
+              <label>Case #</label>
+              {{this.participantDetails?.basicInfo?.caseNumber}}
+            </div>
+          </div>
+          <div *ngIf="isStateStaff || canViewWW">
+            <h4 class="pt-1">
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> Demographic
+              Information
+            </h4>
+            <div class="row">
+              <div class=" col-md-2">
+                <label>Refugee?</label> {{this.participantDetails?.basicInfo?.refugeeCode }}&nbsp;
+              </div>
+              <div class=" col-md-2"
+                *ngIf="this.participantDetails?.basicInfo?.refugeeCode.toLowerCase() === 'yes'">
+                <label>Date of Entry</label>
+                {{this.participantDetails?.basicInfo?.refugeeEntryDate | dateMmYyyy}} &nbsp;
+              </div>
+              <div class=" col-md-2"
+                *ngIf="this.participantDetails?.basicInfo?.refugeeCode.toLowerCase() === 'yes'">
+                <label>Country of Origin</label>
+                {{this.participantDetails?.basicInfo?.countryOfOrigin}} &nbsp;
+              </div>
+            </div>
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> Contact Information
+            </h4>
+
+            <div class="row">
+              <div class="col-md-5">
+                <label>Living Arrangement</label>{{this.participantDetails?.addressInfo?.livingArrangement}}
+              </div>
+              <div class="col-md-7 blank">
+                <label>&nbsp;</label> &nbsp;
+              </div>
+            </div>
+            <div class="row">
+              <div class="mainAddress col-md-5">
+                <label>Household Address</label>{{this.participantDetails?.addressInfo?.addressLine1}} &nbsp;
+                {{this.participantDetails?.addressInfo?.addressLine2}}
+              </div>
+              <div class="mainCity col-md-3">
+                <label>City</label>{{this.participantDetails?.addressInfo?.city}}
+              </div>
+              <div class="mainState col-md-2">
+                <label>State</label>{{this.participantDetails?.addressInfo?.state}}
+              </div>
+              <div class="mainZip col-md-2">
+                <label>Zip</label> {{this.participantDetails?.addressInfo?.zipCode}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label>Household
+                  Phone</label>{{this.participantDetails?.addressInfo?.primaryPhoneNumber | phoneNumber}}&nbsp;
+              </div>
+            </div>
+            <div class="row">
+              <div class="mainAddress col-md-5">
+                <label>Alternate Address</label> {{this.participantDetails?.addressInfo?.alternateAddress1}}
+                &nbsp;
+                {{this.participantDetails?.addressInfo?.alternateAddress2}}
+              </div>
+              <div class="mainCity col-md-3">
+                <label>City</label> {{this.participantDetails?.addressInfo?.alternateCity}}
+              </div>
+              <div class="mainState col-md-2">
+                <label>State</label>{{this.participantDetails?.addressInfo?.alternateState}}
+              </div>
+              <div class="mainZip col-md-2">
+                <label>Zip</label> {{this.participantDetails?.addressInfo?.alternateZipCode}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Alternate
+                  Phone</label>{{this.participantDetails?.addressInfo?.alternatePrimaryPhoneNumber | phoneNumber}}&nbsp;
+              </div>
+              <div class=" col-md-6">
+                <label>Email</label>{{ this.participantDetails?.addressInfo?.emailAddress }}&nbsp;
+              </div>
+            </div>
+
+            <hr class="spacer" />
+
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> W-2 Participation
+            </h4>
+
+            <div class="row">
+              <div class="col-md-3">
+                <label>Current W-2 Placement</label>
+                {{this.participantDetails?.w2EligibilityInfo?.placementCode}}&nbsp;
+              </div>
+              <div class="col-md-3">
+                <label>Months In Current
+                  Placement</label>{{this.participantDetails?.w2EligibilityInfo?.daysInPlacement}}&nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>EP Review Due date</label>
+                {{this.participantDetails?.w2EligibilityInfo?.epReviewDueDate | dateMmDdYyyy}}&nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>2 Parent Status</label>
+                {{this.participantDetails?.w2EligibilityInfo?.twoParentStatus | yesNo}} &nbsp;
+              </div>
+            </div>
+
+            <hr class="spacer" />
+
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> W-2 Eligibility
+            </h4>
+
+            <div class="row">
+              <div class="col-md-2">
+                <label>Case #</label> {{this.participantDetails?.basicInfo?.caseNumber}}&nbsp;
+              </div>
+              <div class="col-md-2">
+                <label>W-2 Category</label>
+                {{this.participantDetails?.enrolledProgramInfo?.programCode}}
+                {{this.participantDetails?.enrolledProgramInfo?.subProgramCode}}&nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>W-2 Eligibility Status</label>
+                {{this.participantDetails?.w2EligibilityInfo?.agStatuseCode}}&nbsp;
+              </div>
+              <div class="col-md-2">
+                <label>W-2 Eligibility Review Date</label>
+                {{this.participantDetails?.w2EligibilityInfo?.reviewDueDate | dateMmDdYyyy}} &nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>Failure Reason</label>
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode1}}
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode2}}
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode3}} &nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>End Date</label>
+                <span
+                  *ngIf="showEndDate()">{{this.participantDetails?.w2EligibilityInfo?.eligibilityEndDate | dateMmDdYyyy}}
+                  &nbsp;
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label>W-2 Assistance Group Members</label>
+              </div>
+            </div>
+            <div class="row"
+              *ngFor="let relatedPerson of participantDetails?.relatedPersons">
+              <div class="col-md-3">
+                <label>Name</label>
+                {{relatedPerson?.firstName}} {{relatedPerson?.lastName}}&nbsp;
+              </div>
+              <div class=" col-md-3">
+                <label>Relationship</label>
+                {{relatedPerson?.relationship}}&nbsp;
+              </div>
+              <div class="col-md-3">
+                <label>Age</label>
+                {{relatedPerson.age}}&nbsp;
+              </div>
+            </div>
+            <div class="row"
+              *ngIf="this.participantDetails?.w2EligibilityInfo?.moreThanSixIndv">
+              <div class="col-md-12">
+                Go to CWW to view additional AG members.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card my-3"
+        *ngIf="(this.participant?.tjPrograms?.length> 0 || this.participant?.cfPrograms?.length> 0 || this.participant?.tmjPrograms?.length> 0 || this.participant?.fcdpPrograms?.length > 0) && (isStateStaff || canViewCfTmjTjFcdOverview)">
+        <h4 class="card-header px-3">
+          <img src="/assets/img/wwp_data_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" />
+          <span *ngIf="!showFcdpFeature">CF, TMJ, and TJ Overview</span>
+          <span *ngIf="showFcdpFeature">CF, TMJ, TJ, and FCDP Overview</span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Overview')">
+              <i *ngIf="!isOverviewCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isOverviewCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <!-- <app-pep-card class="card-body" *ngFor="let pep of this.participant?.tmjPrograms" [enrolledProgram]="pep" [class.collapse]="isTmjCollapsed"></app-pep-card> -->
+        <div [class.collapse]="isOverviewCollapsed"
+          class="card-body cww-info">
+          <h4 class="pt-1">Demographic Information</h4>
+          <div class="row">
+            <div class=" col-md-2">
+              <label>Alias?</label>
+              {{this.participantDetails?.otherDemographicInformation?.hasAlias | yesNo}}&nbsp;
+            </div>
+            <div class=" col-md-2">
+              <label>Home Language</label>
+              {{this.participantDetails?.otherDemographicInformation?.homeLanguageName }}&nbsp;
+            </div>
+            <div class=" col-md-2"
+              *ngIf="!(this.participantDetails?.otherDemographicInformation?.homeLanguageName?.toLowerCase()==='english')">
+              <label>Interpreter Needed?</label>
+              {{this.participantDetails?.otherDemographicInformation?.isInterpreterNeeded | yesNo}}&nbsp;
+            </div>
+            <div class=" col-md-2">
+              <label>Refugee?</label>
+              {{this.participantDetails?.otherDemographicInformation?.isRufugee | yesNo}}&nbsp;
+            </div>
+            <div *ngIf="this.participantDetails?.otherDemographicInformation?.isRufugee && ((this.participantDetails?.otherDemographicInformation?.monthOfEntry
+              && this.participantDetails?.otherDemographicInformation?.monthOfEntry.trim() === '')
+              || !this.participantDetails?.otherDemographicInformation?.monthOfEntry)"
+              class=" col-md-2">
+              <label>Month of Entry</label>
+              Unknown &nbsp;
+            </div>
+            <div *ngIf="this.participantDetails?.otherDemographicInformation?.isRufugee && this.participantDetails?.otherDemographicInformation?.monthOfEntry
+              && this.participantDetails?.otherDemographicInformation?.monthOfEntry.trim() !== ''"
+              class=" col-md-2">
+              <label>Month of Entry</label>
+              {{this.participantDetails?.otherDemographicInformation?.monthOfEntry | dateMmYyyy}} &nbsp;
+            </div>
+            <div class=" col-md-2"
+              *ngIf="this.participantDetails?.otherDemographicInformation?.isRufugee">
+              <label>Country of Origin</label>
+              {{this.participantDetails?.otherDemographicInformation?.countryOfOriginName}} &nbsp;
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>Tribal
+                Member</label>{{this.participantDetails?.otherDemographicInformation?.isTribalMember | yesNo}}
+            </div>
+            <div class="col-md-4">
+              <label>Tribe</label>{{this.participantDetails?.otherDemographicInformation?.tribeName}}
+            </div>
+            <div class="col-md-4 word-break">
+              <label>Tribe-Other</label>{{this.participantDetails?.otherDemographicInformation?.tribeDetails}}
+            </div>
+          </div>
+          <h4 class="pt-1">Contact Information</h4>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>County of
+                Residence</label>{{this.participantDetails?.otherDemographicInformation?.countyOfResidenceName}}
+            </div>
+            <div class="col-md-3">
+              <label>Homeless?</label>{{this.participantDetails?.otherDemographicInformation?.homeLessIndicator | yesNo}}
+            </div>
+            <div class="col-md-6 blank">
+              <label>&nbsp;</label> &nbsp;
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-6">
+              <label>Household Address</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mainAddress col-md-4">
+              <label>Address</label>{{this.participantDetails?.otherDemographicInformation?.householdAddress?.streetAddress}}
+            </div>
+            <div class="mainCity col-md-2">
+              <label>City</label>{{this.participantDetails?.otherDemographicInformation?.householdAddress?.city}}
+            </div>
+            <div class="mainState col-md-2">
+              <label>State</label>{{this.participantDetails?.otherDemographicInformation?.householdAddress?.state}}
+            </div>
+            <div class="mainZip col-md-2">
+              <label>Zip</label>
+              {{this.participantDetails?.otherDemographicInformation?.householdAddress?.zipCode}}
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-6">
+              <label>Mailing Address</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mainAddress col-md-4">
+              <label>Address</label>
+              {{this.participantDetails?.otherDemographicInformation?.mailingAddress?.streetAddress}}
+            </div>
+            <div class="mainCity col-md-2">
+              <label>City</label>
+              {{this.participantDetails?.otherDemographicInformation?.mailingAddress?.city}}
+            </div>
+            <div class="mainState col-md-2">
+              <label>State</label>{{this.participantDetails?.otherDemographicInformation?.mailingAddress?.state}}
+            </div>
+            <div class="mainZip col-md-2">
+              <label>Zip</label>
+              {{this.participantDetails?.otherDemographicInformation?.mailingAddress?.zipCode}}
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <label>Primary
+                Phone</label>{{this.participantDetails?.otherDemographicInformation?.primaryPhoneNumber | phoneNumber}}&nbsp;
+            </div>
+            <div class=" col-md-4">
+              <label>Secondary Phone</label>{{ this.participantDetails?.otherDemographicInformation?.secondaryPhoneNumber | phoneNumber
+							}}&nbsp;
+            </div>
+            <div class=" col-md-4 wrapword">
+              <label>Email
+                Address</label>{{ this.participantDetails?.otherDemographicInformation?.emailAddress }}&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card my-3"
+        *ngIf="this.participant?.cfPrograms?.length > 0">
+        <h4 class="card-header px-3">
+          <img src="/assets/img/wwp_data_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" />
+          <span>Children First Program </span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Cf')">
+              <i *ngIf="!isCfCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isCfCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <app-pep-card class="card-body"
+          *ngFor="let pep of this.participant?.cfPrograms"
+          [enrolledProgram]="pep"
+          [class.collapse]="isCfCollapsed"></app-pep-card>
+      </div>
+      <div class="card paper"
+        *ngIf="this.participant?.fcdpPrograms?.length > 0  && showFcdpFeature">
+        <h4 class="card-header">
+          <img src="/assets/img/wwp_data_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" />
+          <span>Five County Demonstration Project Program</span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Fcdp')">
+              <i *ngIf="!isFcdpCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isFcdpCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <app-pep-card class="card-body"
+          *ngFor="let pep of this.participant?.fcdpPrograms"
+          [enrolledProgram]="pep"
+          [showFcdpFeature]="showFcdpFeature"
+          [class.collapse]="isFcdpCollapsed"></app-pep-card>
+      </div>
+      <div class="card paper"
+        *ngIf="this.participant?.tmjPrograms?.length > 0">
+        <h4 class="card-header">
+          <img src="/assets/img/wwp_data_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" />
+          <span>Transform Milwaukee Jobs Program</span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Tmj')">
+              <i *ngIf="!isTmjCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isTmjCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <app-pep-card class="card-body"
+          *ngFor="let pep of this.participant?.tmjPrograms"
+          [enrolledProgram]="pep"
+          [participant]="participant"
+          [class.collapse]="isTmjCollapsed"></app-pep-card>
+
+      </div>
+      <div class="card paper"
+        *ngIf="this.participant?.tjPrograms?.length > 0">
+        <h4 class="card-header">
+          <img src="/assets/img/wwp_data_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" />
+          <span>Transitional Jobs Program</span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Tj')">
+              <i *ngIf="!isTjCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isTjCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <app-pep-card class="card-body"
+          *ngFor="let pep of this.participant?.tjPrograms"
+          [enrolledProgram]="pep"
+          [participant]="participant"
+          [class.collapse]="isTjCollapsed"></app-pep-card>
+      </div>
+      <div class="card px-3"
+        *ngIf="this.participant?.lfPrograms?.length > 0">
+        <h4 class="card-header px-3">
+          <span>Learnfare Program</span>
+          <nav class="right compressCur">
+            <a (click)="toggleCollapse('Lf')">
+              <i *ngIf="!isLfCollapsed"
+                class="fa fa-compress"></i>
+              <i *ngIf="isLfCollapsed"
+                class="fa fa-expand"></i>
+            </a>
+          </nav>
+        </h4>
+        <div [class.collapse]="isLfCollapsed"
+          class="card-body">
+          <app-pep-card *ngFor="let pep of this.participant?.lfPrograms"
+            [enrolledProgram]="pep"></app-pep-card>
+          <hr class="spacer" />
+          <div class="row">
+            <div class="col-md-4"
+              *ngIf="this.canViewLimitedLF && !this.canViewLF">
+              <label>Case #</label>
+              {{this.participantDetails?.basicInfo?.caseNumber}}
+            </div>
+          </div>
+          <div *ngIf="isStateStaff || canViewLF">
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> Demographic
+              Information
+            </h4>
+            <div class="row">
+              <div class=" col-md-2">
+                <label>Refugee?</label> {{this.participantDetails?.basicInfo?.refugeeCode }}&nbsp;
+              </div>
+              <div class=" col-md-2"
+                *ngIf="this.participantDetails?.basicInfo?.refugeeCode.toLowerCase() === 'yes'">
+                <label>Date of Entry</label>
+                {{this.participantDetails?.basicInfo?.refugeeEntryDate | dateMmYyyy}} &nbsp;
+              </div>
+              <div class=" col-md-2"
+                *ngIf="this.participantDetails?.basicInfo?.refugeeCode.toLowerCase() === 'yes'">
+                <label>Country of Origin</label>
+                {{this.participantDetails?.basicInfo?.countryOfOrigin}} &nbsp;
+              </div>
+            </div>
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> Contact Information
+            </h4>
+
+            <div class="row">
+              <div class="col-md-5">
+                <label>Living Arrangement</label>{{this.participantDetails?.addressInfo?.livingArrangement}}
+              </div>
+              <div class="col-md-7 blank">
+                <label>&nbsp;</label> &nbsp;
+              </div>
+            </div>
+            <div class="row">
+              <div class="mainAddress col-md-5">
+                <label>Household Address</label>{{this.participantDetails?.addressInfo?.addressLine1}} &nbsp;
+                {{this.participantDetails?.addressInfo?.addressLine2}}
+              </div>
+              <div class="mainCity col-md-3">
+                <label>City</label>{{this.participantDetails?.addressInfo?.city}}
+              </div>
+              <div class="mainState col-md-2">
+                <label>State</label>{{this.participantDetails?.addressInfo?.state}}
+              </div>
+              <div class="mainZip col-md-2">
+                <label>Zip</label> {{this.participantDetails?.addressInfo?.zipCode}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label>Household
+                  Phone</label>{{this.participantDetails?.addressInfo?.primaryPhoneNumber | phoneNumber}}&nbsp;
+              </div>
+            </div>
+            <div class="row">
+              <div class="mainAddress col-md-5">
+                <label>Alternate Address</label> {{this.participantDetails?.addressInfo?.alternateAddress1}}
+                &nbsp;
+                {{this.participantDetails?.addressInfo?.alternateAddress2}}
+              </div>
+              <div class="mainCity col-md-3">
+                <label>City</label> {{this.participantDetails?.addressInfo?.alternateCity}}
+              </div>
+              <div class="mainState col-md-2">
+                <label>State</label>{{this.participantDetails?.addressInfo?.alternateState}}
+              </div>
+              <div class="mainZip col-md-2">
+                <label>Zip</label> {{this.participantDetails?.addressInfo?.alternateZipCode}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Alternate
+                  Phone</label>{{this.participantDetails?.addressInfo?.alternatePrimaryPhoneNumber | phoneNumber}}&nbsp;
+              </div>
+              <div class=" col-md-6">
+                <label>Email</label>{{ this.participantDetails?.addressInfo?.emailAddress }}&nbsp;
+              </div>
+            </div>
+
+            <hr class="spacer" />
+
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> W-2 Participation
+            </h4>
+
+            <div class="row">
+              <div class="col-md-3">
+                <label>LearnFare Status Date</label>
+                {{this.participant?.lfPrograms[0].statusDate | dateMmDdYyyy}}&nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>EP Review Due date</label>
+                {{this.participantDetails?.w2EligibilityInfo?.epReviewDueDate | dateMmDdYyyy}}&nbsp;
+              </div>
+            </div>
+
+            <hr class="spacer" />
+
+            <h4>
+              <img src="/assets/img/cww_logo.png"
+                width="50"
+                height="50"
+                style="margin-top:-2px;" /> W-2 Eligibility
+            </h4>
+
+            <div class="row">
+              <div class="col-md-2">
+                <label>Case #</label> {{this.participantDetails?.basicInfo?.caseNumber}}&nbsp;
+              </div>
+              <div class="col-md-2">
+                <label>W-2 Category</label>
+                {{this.participantDetails?.enrolledProgramInfo?.programCode}}
+                {{this.participantDetails?.enrolledProgramInfo?.subProgramCode}}&nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>W-2 Eligibility Status</label>
+                {{this.participantDetails?.w2EligibilityInfo?.agStatuseCode}}&nbsp;
+              </div>
+              <div class="col-md-2">
+                <label>W-2 Eligibility Review Date</label>
+                {{this.participantDetails?.w2EligibilityInfo?.reviewDueDate | dateMmDdYyyy}} &nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>Failure Reason</label>
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode1}}
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode2}}
+                {{this.participantDetails?.w2EligibilityInfo?.agFailureReasonCode3}} &nbsp;
+              </div>
+              <div class=" col-md-2">
+                <label>End Date</label>
+                <span
+                  *ngIf="showEndDate()">{{this.participantDetails?.w2EligibilityInfo?.eligibilityEndDate | dateMmDdYyyy}}
+                  &nbsp;
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isStateStaff || canViewOtherPrograms"
+        class="card my-3">
+        <h4 class="card-header px-3">
+          <img src="/assets/img/cww_logo.png"
+            width="50"
+            height="50"
+            style="margin-top:-2px;" /> Other Programs
+        </h4>
+        <div class="card-body row">
+          <div class="col-md-6">
+            <label>Open Program(s)</label>
+            <span *ngIf="this.participantDetails?.w2EligibilityInfo?.fsAgOpen">FS</span>
+            <span *ngIf="this.participantDetails?.w2EligibilityInfo?.maAgOpen">MA</span>
+            <span *ngIf="this.participantDetails?.w2EligibilityInfo?.fpwAgOpen">FPW</span>
+            <span *ngIf="this.participantDetails?.w2EligibilityInfo?.ccAgOpen">CC</span>&nbsp;
+          </div>
+          <div class="col-md-3">
+            <label>FSET Enrollment Status</label>&nbsp;
+            {{this.participantDetails?.w2EligibilityInfo?.fsetStatus}}
+          </div>
+          <div class=" col-md-3">
+            <label>Child Support Cooperation Status</label>&nbsp;
+            {{this.participantDetails?.w2EligibilityInfo?.childSupportStatus | yesNo}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cww-refresh pad1-0 tright">
+      <button type="button"
+        class="btn btn-add btn-cww"
+        (click)="loadCWW()"
+        [class.loading]="isLoadingCWW">
+        <img src="/assets/img/cww_logo.png"
+          width="50"
+          height="50"
+          style="margin-top:-2px;" /> &nbsp; Refresh
+        Information</button>
+    </div>
+  </main>
+</ng-template>

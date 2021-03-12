@@ -1,0 +1,1 @@
+<input [(ngModel)]="value" [attr.placeholder]="placeholder" [ngClass]="{required: isRequired, error: isInvalid, dirty: isModified}" [disabled]="isDisabled" [attr.maxlength]="maxLength" class="form-control" (keyup)="validateInput($event)" (keydown)="keyDown($event)">

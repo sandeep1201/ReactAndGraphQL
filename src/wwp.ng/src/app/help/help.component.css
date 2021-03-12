@@ -1,0 +1,57 @@
+aside {
+    border-right:1px solid #c9d2d6;
+    min-height:400px;
+    height:auto;
+    padding-right: 0;
+}
+
+#main >>> .toc nav {
+    margin:0 auto 1em auto;
+    padding:0;
+    border:1px solid #ddd;
+    background:rgba(255,255,255,0.5);
+    width:400px;
+    display: none;
+}
+
+#main >>> .toc nav a {
+    display:block;
+    clear:both;
+    padding:0.5em;
+    color:#2980b9;
+    text-decoration: none;
+    border-bottom:1px solid #ddd;
+}
+
+#main >>> .toc nav a:last-child {
+    border-bottom: none;
+}
+
+#main >>> .toc nav a:hover {
+    color:#3498db;
+    background:rgba(236, 240, 241,0.5);
+}
+
+#main >>> table thead th {
+    border-bottom:1px solid #ddd;
+    padding:0.5em;
+    color: #95a5a6;
+    text-transform: uppercase;
+}
+
+#main >>> table tr.tr-title td {
+    background:rgba(255,255,255,0.5);
+    border-left:1px solid #ddd;
+    color:#16a085;
+}
+
+#main >>> table tr td {
+    vertical-align: top;
+    min-width:300px;
+    padding:0.5em;
+    border-bottom:1px solid #ddd;
+}
+
+#main >>> table tr td:first-child {
+    border-right:1px solid #ddd;
+}

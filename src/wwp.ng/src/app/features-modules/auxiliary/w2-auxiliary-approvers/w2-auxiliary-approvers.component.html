@@ -1,0 +1,40 @@
+<app-sub-header pageTitle="W-2 Auxiliary Approvers"
+  [goBackUrl]="'home'"
+  [helpComponent]="'w2-auxiliary-approvers'">
+</app-sub-header>
+<div class="container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'W-2 Auxilary Approvers'"></app-loading>
+</div>
+<div class="container"
+  *ngIf="isLoaded">
+  <div class="row pt-3"
+    *ngIf="isAgencyDropAllowed">
+    <div class="col-md-5">
+      <label>Agency</label>
+      <app-select [(ngModel)]="selectedAgency"
+        (ngModelChange)="selectedAgency = $event; selectAgency($event)"
+        [dropDownList]="agenciesDrop"
+        [hasEmptyOption]="false"></app-select>
+    </div>
+  </div>
+  <app-loading [isLoaded]="isWorkersLoaded"
+    [loadingLabel]="'W-2 Auxilary Approvers'"></app-loading>
+  <div *ngIf="isWorkersLoaded">
+    <div class="pt-3"
+      *ngIf="agencyWorkers?.length; else elseBlock">
+      <div *ngFor="let worker of agencyWorkers; let last = last;">
+        <div class="row pl-4">{{worker.firstName+' '+worker.lastName}}</div>
+        <hr *ngIf="!last" />
+      </div>
+    </div>
+  </div>
+
+  <ng-template #elseBlock>
+    <div class="row justify-content-center">
+      <blockquote class="p-3 m-3">
+        <div>No W-2 Auxiliary Approvers</div>
+      </blockquote>
+    </div>
+  </ng-template>
+</div>

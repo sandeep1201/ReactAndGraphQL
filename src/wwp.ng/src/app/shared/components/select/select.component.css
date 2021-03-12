@@ -1,0 +1,177 @@
+:host .basic-holder {
+    height: auto;
+}
+
+:host.last .basic-holder select {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+:host.first .basic-holder select {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right: none;
+}
+
+:host .basic-holder .required {
+    border-left: 4px solid #9B59B6;
+}
+
+:host .basic-holder .required:disabled {
+    border-left-color: #BDC3C7 ;
+}
+
+.dirty {
+    border-left: 4px solid #f1c40f;
+}
+
+:host .basic-holder select:disabled {
+    color: #95a5a6;
+    border-left-color: #BDC3C7 !important;
+}
+
+select[disabled]::-ms-value {
+    color: #95a5a6;
+}
+
+:host .basic-holder .error {
+    border-left: 4px solid #c0392b !important;
+}
+
+:host.tabled .basic-holder .error {
+    border-left: none !important;
+}
+
+:host.squared select {
+  border-radius: 0;
+  border-left-width: 1px;
+  border-left-color: #BDC3C7 !important;
+}
+
+.error {
+  border-left-color:#c0392b !important;;
+}
+
+
+/* Filter-Sort Display */
+
+:host .sort-holder {
+    position: relative;
+  }
+
+  :host .btn-holder > button.btn, .btn-group > button.btn {
+    /* font-size: 0.8em; */
+    border-radius: 0;
+    text-align: left;
+  }
+
+  .sort-holder .btn-group > button.btn:hover {
+    background: #F5F7F8;
+  }
+
+  .sort-holder .btn-group > button.btn:first-child {
+    min-width: 160px;
+    max-width:180px;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  .sort-holder .btn-group > button.sort-btn {
+    z-index:200;
+  }
+
+  .sort-holder .sort-select {
+    position: absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    min-width: 200px;
+    max-width:275px;
+    height: auto;
+    overflow: visible;
+    border:1px solid #bdc3c7;
+    background:#fff;
+    z-index: 500;
+    margin-top:-1px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+  }
+
+  .sort-holder .sort-select li {
+    padding:0.5em;
+    border-bottom:1px solid #ecf0f1;
+  }
+
+  .sort-holder .sort-select li.select {
+    padding:0.5em;
+    border-bottom:1px solid #bdc3c7;
+  }
+
+  .sort-holder .sort-select li:last-child,
+  .sort-holder .sort-select li.select:last-child {
+    border-bottom:none;
+  }
+
+  .sort-holder .sort-select li:hover {
+    background: #F5F7F8;
+    cursor: pointer;
+  }
+
+  .sort-holder .sort-select li.select {
+    background:#ecf0f1;
+  }
+
+
+  .sort-holder .sort-select li.select .st-title  {
+    color:#2980b9;
+  }
+
+  .sort-holder .sort-select li:hover .st-title {
+    color:#2980b9;
+  }
+
+  .sort-holder .sort-select li .st-title {
+    display: block;
+    font-weight:500;
+    clear: both;
+  }
+
+  .sort-holder .sort-select li .st-desc {
+    font-size:0.75em;
+    color:#95a5a6;
+    font-weight: 600;
+  }
+
+  :host.first select {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right: none;
+  }
+
+  :host.last select {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+  }
+
+  .isDisabledWithNoValue {
+    color: #95a5a6;
+    border-left-color: #BDC3C7;
+    text-indent: 999px;
+    background-color: #eceeef !important;
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  select.compact  {
+    font-size: 0.8em;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 2.5em !important;
+    margin-right: 0.4em;
+  }
+
+  select.autoWidth {
+    width: auto;
+  }
+  .fs{
+    font-size:0.8em;
+  }

@@ -1,0 +1,242 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="this.isLoaded"
+    [loadingLabel]="'Participation Entry'"></app-loading>
+  <div *ngIf="this.isLoaded"
+    class="p-1">
+    <app-dialog-box *ngIf="this.appService.isDialogPresent"
+      (dialogClose)="dialogueClose()"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="container">
+        <div class="row p-1 border-bottom">
+          <div class="col-md-8">
+            <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+              title="Close"
+              (click)="exit()">
+              <i class="fa fa-times"></i>
+            </a>
+            <div class="row flex-nowrap">
+              <h1 id="editPageTitle"
+                class="px-3">{{model.activityName}}
+              </h1>
+              <app-help-button [featureName]="'participantEntry'"></app-help-button>
+            </div>
+          </div>
+          <div class="right col-md-4">
+            <app-modified-stamp [readOnly]="true"
+              [author]="model.modifiedBy"
+              [lastModified]="model.modifiedDate">
+            </app-modified-stamp>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="edit-content py-1">
+      <div class="container">
+        <div class="row p-1">
+          <app-validation-summary [errors]='validationManager.errors'
+            class="col-md-12"></app-validation-summary>
+        </div>
+        <div class="row p-1">
+          <div class="col-md-3">
+            <label>Date:</label>
+          </div>
+          <div class="col-md-3">
+            <app-date-mm-dd-yyyy [ngModel]="model.participationDate"
+              [isReadOnly]="true"
+              [cacheInnerValue]="cachedModel.participationDate">
+            </app-date-mm-dd-yyyy>
+          </div>
+        </div>
+        <div class="row p-1">
+          <div class="col-md-3">
+            <label>Scheduled Hours:</label>
+          </div>
+          <div class="col-md-3">
+            <app-numerical-input [(ngModel)]="model.scheduledHours"
+              [isReadOnly]="true"
+              [isHrs]="true"
+              [cacheInnerValue]="cachedModel.scheduledHours">
+            </app-numerical-input>
+          </div>
+        </div>
+        <div class="row p-1">
+          <div class="col-md-3">
+            <label>Hours Participated:</label>
+          </div>
+          <div class="col-md-3">
+            <app-numerical-input [(ngModel)]="model.reportedHours"
+              (ngModelChange)="enableCalculate(); showunSavedChangesDialogue()"
+              [isHrs]="true"
+              [allowPeriod]="true"
+              [NGMaxLength]="4"
+              [isRequired]="true"
+              [cacheInnerValue]="cachedModel.reportedHours"
+              [isInvalid]="modelErrors['reportedHours']">
+            </app-numerical-input>
+          </div>
+        </div>
+        <app-make-up-hours-repeater [(ngModel)]="model.makeUpEntries"
+          (ngModelChange)="model.makeUpEntries = $event; enableCalculate(); showunSavedChangesDialogue(); checkState();"
+          [cachedInitialModels]="cachedModel?.makeUpEntries"
+          [modelErrors]="modelErrors['makeUpEntries']">
+        </app-make-up-hours-repeater>
+        <div class="row p-1">
+          <div class="col-md-3">
+            <button class="btn btn-primary"
+              [disabled]="isCalculateDisabled"
+              (click)="calculateAndValidateHPSection()">
+              Calculate
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div class="row p-1">
+          <div class="col-md-3">
+            <label for="model.nonParticipatedHours">Non-Participation:</label>
+          </div>
+          <div class="col-md-3">
+            <app-numerical-input [(ngModel)]="model.nonParticipatedHours"
+              [isReadOnly]="true"
+              [isHrs]="true"
+              [isRequired]="true"
+              [cacheInnerValue]="cachedModel.nonParticipatedHours">
+            </app-numerical-input>
+          </div>
+        </div>
+        <ng-container *ngIf="+model.nonParticipatedHours > 0">
+          <div class="row p-1">
+            <div class="col-md-3"><label>Participant's Reason:</label></div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-6">
+                  <app-select [(ngModel)]="model.nonParticipationReasonId"
+                    (ngModelChange)="model.nonParticipationReasonId = $event; validateSave()"
+                    [cacheInnerValue]="cachedModel?.nonParticipationReasonId"
+                    [isRequired]="false"
+                    [isInvalid]="modelErrors['nonParticipationReasonId']"
+                    [dropDownList]="nonParticipationReasons"></app-select>
+                </div>
+                <div class="col-md-6">
+                  <app-text-area [maxlength]="120"
+                    [isRequired]="model.isnonParticipationReasonsDetailsRequired(nonParticipationReasons)"
+                    [isInvalid]="modelErrors['nonParticipationReasonDetails']"
+                    [cacheInnerValue]="cachedModel.nonParticipationReasonDetails"
+                    [placeholder]="'Details'"
+                    [isAutoSizeable]="true"
+                    (ngModelChange)="model.nonParticipationReasonDetails = $event; validateSave()"
+                    [(ngModel)]="model.nonParticipationReasonDetails">
+                  </app-text-area>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="model.nonParticipationReasonId">
+            <div class="row p-1">
+              <div class="col-md-3">
+                <label>Good Cause Granted?</label>
+              </div>
+              <div class="col-md-3">
+                <app-yes-no-basic [isRequired]="true"
+                  [cacheInnerValue]="cachedModel.goodCauseGranted"
+                  [(ngModel)]="model.goodCauseGranted"
+                  (ngModelChange)="model.goodCauseGranted = $event; validateSave()"
+                  [errorIndicator]="modelErrors['goodCauseGranted']">
+                </app-yes-no-basic>
+              </div>
+            </div>
+            <div class="row p-1"
+              *ngIf="model.goodCauseGranted === true || model.goodCauseGranted === false">
+              <div class="col-md-3"><label>Worker's Reason:</label></div>
+              <div class="col-md-9">
+                <div class="row"
+                  *ngIf="model.goodCauseGranted === true">
+                  <div class="col-md-6">
+                    <app-select [(ngModel)]="model.goodCauseGrantedReasonId"
+                      (ngModelChange)="model.goodCauseGrantedReasonId = $event; validateSave()"
+                      [cacheInnerValue]="cachedModel?.goodCauseGrantedReasonId"
+                      [isRequired]="true"
+                      [isInvalid]="modelErrors['goodCauseGrantedReasonId']"
+                      [dropDownList]="goodCauseGrantedReasons"></app-select>
+                  </div>
+                  <div class="col-md-6">
+                    <app-text-area [maxlength]="120"
+                      [isInvalid]="modelErrors['goodCauseReasonDetails']"
+                      [cacheInnerValue]="cachedModel.goodCauseReasonDetails"
+                      [placeholder]="'Details'"
+                      [isAutoSizeable]="true"
+                      (ngModelChange)="model.goodCauseReasonDetails = $event; validateSave()"
+                      [(ngModel)]="model.goodCauseReasonDetails"
+                      [isRequired]="model.isgoodCauseReasonsDetailsRequired(goodCauseGrantedReasons)">
+                    </app-text-area>
+                  </div>
+                </div>
+                <div class="row"
+                  *ngIf="model.goodCauseGranted === false">
+                  <div class="col-md-6">
+                    <app-select [(ngModel)]="model.goodCauseDeniedReasonId"
+                      (ngModelChange)="model.goodCauseDeniedReasonId = $event; validateSave()"
+                      [cacheInnerValue]="cachedModel?.goodCauseDeniedReasonId"
+                      [isInvalid]="modelErrors['goodCauseDeniedReasonId']"
+                      [isRequired]="true"
+                      [dropDownList]="goodCauseDeniedReasons"></app-select>
+                  </div>
+                  <div class="col-md-6">
+                    <app-text-area [maxlength]="120"
+                      [isInvalid]="modelErrors['goodCauseReasonDetails']"
+                      [cacheInnerValue]="cachedModel.goodCauseReasonDetails"
+                      [placeholder]="'Details'"
+                      [isAutoSizeable]="true"
+                      (ngModelChange)="model.goodCauseReasonDetails = $event; validateSave()"
+                      [(ngModel)]="model.goodCauseReasonDetails "
+                      [isRequired]="model.isgoodCauseReasonsDetailsRequired(goodCauseDeniedReasons)">
+                    </app-text-area>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row p-1"
+              *ngIf="model.goodCauseGranted === true">
+              <div class="col-md-3">
+                <label>Good Cause Hours:</label>
+              </div>
+              <div class="col-md-3">
+                <app-numerical-input [(ngModel)]="model.goodCausedHours"
+                  [allowPeriod]="true"
+                  [NGMaxLength]="4"
+                  [isRequired]="true"
+                  [cacheInnerValue]="cachedModel.goodCausedHours"
+                  [isInvalid]="modelErrors['goodCausedHours']"
+                  (ngModelChange)="model.goodCausedHours = $event; validateSave()">
+                </app-numerical-input>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="row">
+          <div class="col-md-2 d-flex justify-content-start"
+            *ngIf="cachedModel?.reportedHours && !model.processedDate">
+            <button class="btn btn-del border"
+              (click)="delete()"><i class="fa fa-trash-alt"
+                title="delete"></i> </button>
+          </div>
+          <app-cancel-save-footer class="d-flex justify-content-end p-1"
+            [ngClass]="{'col-md-10': cachedModel?.reportedHours, 'col-md-12': !cachedModel?.reportedHours || model.processedDate }"
+            [pad]="false"
+            [isSaving]="isSaving"
+            [isDisabled]="isSectionValid"
+            (cancelEvent)="exit()"
+            (saveEvent)="saveAndExit()"></app-cancel-save-footer>
+        </div>
+      </div>
+    </div>
+    <app-confirm-dialog *ngIf="inConfirmDeleteView"
+      (confirm)="onConfirmDelete()"
+      (cancel)="onCancelDelete()"
+      title="Delete Participation"
+      confirmButtonText="Delete Participation"
+      cancelButtonText="Cancel"
+      message="Deleting participation will remove any prior saved participation entries for this activity. Are you sure you want to do this?">
+    </app-confirm-dialog>
+  </div>
+</div>

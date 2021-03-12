@@ -1,0 +1,15 @@
+﻿using Dcf.Wwp.Model.Interface;
+
+namespace Dcf.Wwp.Data.Sql.Model
+{
+    public partial class WorkerTaskCategory : BaseCommonModel, IWorkerTaskCategory
+    {
+        #region Properties
+
+        #endregion
+
+        #region Methods
+
+        #endregion
+    }
+}

@@ -1,0 +1,77 @@
+/* Flex Row  */
+
+.flex-row {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-row-reverse {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+.flex-col {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.flex-row .col-md {
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+}
+
+.fb-jc-c {
+    justify-content: center;
+}
+
+// This might be included in bootstrap 4.
+.justify-content-flex-end {
+    justify-content: flex-end;
+} 
+
+// Col-sm-(1-12)
+@for $i from 1 through 12 {
+    .flex-row .col-sm-#{$i} {
+        flex-basis: column-width($i);
+        max-width: column-width($i);
+    }
+    ;
+}
+
+// Col-md-(1-12)
+@for $i from 1 through 12 {
+    .flex-row .col-md-#{$i} {
+        flex-basis: column-width($i);
+        max-width: column-width($i);
+    }
+    ;
+}
+
+// Col-md-offset-(1-12)
+@for $i from 1 through 12 {
+    .flex-row .col-md-offset-#{$i} {
+        width: auto;
+        float: none;
+        box-sizing: border-box;
+        flex: 0 0 auto;
+    }
+    ;
+}
+
+// Col-md-offset-(0-11)
+@for $i from 0 through 11 {
+    .flex-row .col-md-offset-#{$i} {
+        margin-left: column-width($i);
+    }
+    ;
+}

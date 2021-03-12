@@ -1,0 +1,22 @@
+.list-style.list-item {
+  border-bottom: none;
+  &:hover {
+    background: none;
+    cursor: default;
+  }
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.fa-compress, .fa-expand, .pointerClass {
+  cursor: pointer;
+  label, .list-style.list-item:hover {
+    cursor: pointer !important;
+  }
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}

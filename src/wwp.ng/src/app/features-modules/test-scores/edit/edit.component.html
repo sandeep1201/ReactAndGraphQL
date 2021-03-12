@@ -1,0 +1,293 @@
+<div class="modal-overlay">
+  <div *ngIf="model"
+    class="modal-container">
+
+    <header class="test-head">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="btn btn-back btn-secondary-outline btn-sm"
+            title="Close Record"
+            (click)="exit()">
+            <i class="fa fa-times"></i>
+          </a>
+          <h1 id="pageTitle">{{mode}} Test Score
+            <app-help-button [featureName]="'test-scores-app-add-edit-help'"></app-help-button>
+          </h1>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </header>
+
+    <section class="dialog-content">
+      <section class="app-holder test-holder">
+
+        <div class="scores-holder col-sm-12 info-holder">
+
+          <div class="form-header pt-2">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="left">Test Type</label>
+                <app-select *ngIf="this.mode != 'Edit' && this.isExamTypeDisabled != true"
+                  [(ngModel)]="model.typeId"
+                  (ngModelChange)="model.typeId = $event; isSaveEnabled(); initCardType(model.typeId, true)"
+                  [cacheInnerValue]="cached?.typeId"
+                  [isRequired]="true"
+                  [dropDownList]="educationTestTypesDrop"
+                  [isInvalid]="model.typeId?.toString() != cached?.typeId?.toString() && modelErrors['typeId']"
+                  class="left"></app-select>
+                <span class="test-type tgrey3 left padhalf"
+                  *ngIf="this.mode == 'Edit'">{{model.name}}</span>
+                <span class="test-type tgrey3 left padhalf"
+                  *ngIf="this.mode != 'Edit' && this.isExamTypeDisabled === true">GED/HSED</span>
+              </div>
+              <div class="col-md-6">
+                <label class="left">Date Taken</label>
+                <app-date-mm-dd-yyyy-new [(ngModel)]="model.dateTaken"
+                  (ngModelChange)="model.dateTaken = $event; isSaveEnabled();"
+                  [cacheInnerValue]="cached?.dateTaken"
+                  [isInvalid]="model.dateTaken?.toString() != cached?.dateTaken?.toString() && modelErrors['dateTaken']"
+                  [isRequired]="true"
+                  class="left"></app-date-mm-dd-yyyy-new>
+              </div>
+            </div>
+          </div>
+
+          <table *ngIf="model.typeId != null"
+            class="scores-table">
+            <thead>
+              <tr>
+                <th class="st-subject">&nbsp;</th>
+                <th *ngIf="this.isScoreColDisplayed()"
+                  class="st-score">Score</th>
+                <th *ngIf="this.isScaleScoreColDisplayed"
+                  class="st-score">Scale Score</th>
+                <th *ngIf="this.isPassFailColDisplayed"
+                  class="st-passfail">Pass/Fail</th>
+                <th *ngIf="this.isDatePassedColDisplayed"
+                  class="st-date-passed">Date Passed</th>
+                <th *ngIf="this.isVersionColDisplayed"
+                  class="st-date-passed ">Version</th>
+                <th *ngIf="this.isGradeEquivalencyColDisplayed && model.typeId !== tableCasasId"
+                  class="st-date-passed ">Grade Equivalency</th>
+                <th *ngIf="model.typeId === tableCasasId"
+                  class="st-date-passed ">Form</th>
+                <th *ngIf="this.isLevelColDisplayed()"
+                  class="st-date-passed ">{{model.typeId === tableCasasId ? 'Form Level' : 'Level'}}</th>
+                <th *ngIf="this.isGradeEquivalencyColDisplayed && model.typeId === tableCasasId"
+                  class="st-date-passed ">Grade Equivalency</th>
+                <th *ngIf="this.isNrsColDisplayed"
+                  class="st-date-passed ">NRS</th>
+                <th *ngIf="this.isSplColDisplayed"
+                  class="st-date-passed ">SPL</th>
+                <th class="st-arrows ">&nbsp;</th>
+                <!-- if n/a for entire score -->
+              </tr>
+            </thead>
+
+            <tbody class="scores-content">
+
+              <tr *ngFor="let examResult of model.examResults; let i = index"
+                class="scores">
+                <!-- foreach subject -->
+                <td class="sc-subject">{{examResult.name}}</td>
+                <td *ngIf="this.isScoreColDisplayed()"
+                  class="sc-score"
+                  [class.error]="examResult.score?.toString() != cached?.examResults[i]?.score?.toString() && modelErrors['examResults'][i]['score']"
+                  [class.blank]="!this.isScoreColDisplayed(examResult.name, model.typeId)">
+                  <!-- if score-->
+                  <app-numerical-input *ngIf="this.isScoreColDisplayed(examResult.name, model.typeId)"
+                    [(ngModel)]="examResult.score"
+                    (ngModelChange)="examResult.score = $event; isSaveEnabled();"
+                    [NGMaxLength]="4"
+                    class="left"></app-numerical-input>
+                  <!-- score value -->
+                  <span *ngIf="this.isScoreColDisplayed(examResult.name, model.typeId)"
+                    class="per">/</span>
+                  <app-numerical-input *ngIf="this.isScoreColDisplayed(examResult.name, model.typeId)"
+                    [(ngModel)]="examResult.totalScore"
+                    (ngModelChange)="examResult.totalScore = $event; isSaveEnabled();"
+                    [NGMaxLength]="4"
+                    class="right">
+                  </app-numerical-input>
+                  <!-- if n/a - per subject basis -->
+                  <div class="tcenter"
+                    *ngIf="!this.isScoreColDisplayed(examResult.name, model.typeId)"><i
+                      class="fa fa-ellipsis-h"></i></div>
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isScaleScoreColDisplayed"
+                  [class.error]="examResult.score?.toString() != cached?.examResults[i]?.score?.toString() && modelErrors['examResults'][i]['score']"
+                  class="sc-score">
+                  <app-numerical-input *ngIf="model.typeId === tableCasasId"
+                    [(ngModel)]="examResult.score"
+                    (ngModelChange)="examResult.score = $event; isSaveEnabled();"
+                    [NGMaxLength]="3"
+                    class="left w-100">
+                  </app-numerical-input>
+                  <!-- score value -->
+                  <ng-container *ngIf="model.typeId !== tableCasasId">
+                    <app-numerical-input [(ngModel)]="examResult.score"
+                      (ngModelChange)="examResult.score = $event; isSaveEnabled();"
+                      [NGMaxLength]="4"
+                      class="left">
+                    </app-numerical-input>
+                    <span class="per">/</span>
+                    <app-numerical-input [(ngModel)]="examResult.totalScore"
+                      (ngModelChange)="examResult.totalScore = $event; isSaveEnabled();"
+                      [NGMaxLength]="4"
+                      class="right">
+                    </app-numerical-input>
+                  </ng-container>
+                </td>
+                <td *ngIf="this.isPassFailColDisplayed "
+                  class="sc-passfail">
+                  <!-- if pass/fail-->
+
+                  <app-select [(ngModel)]="examResult.hasPassed"
+                    [dropDownList]="educationTestStatusesDrop">
+                  </app-select>
+
+                  <!-- if n/a -->
+                  <!-- <span class="score"><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isDatePassedColDisplayed"
+                  class="sc-date-passed">
+                  <!-- if date passed -->
+                  <app-date-mm-dd-yyyy-new [(ngModel)]="examResult.datePassed"></app-date-mm-dd-yyyy-new>
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <!-- <span class="score "><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isVersionColDisplayed"
+                  class="sc-date-passed">
+                  <!-- if other metric -->
+                  <app-text-input [maxLength]="2"
+                    [(ngModel)]="examResult.version"></app-text-input>
+
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <!-- <span class="score "><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <ng-container *ngIf="model.typeId === tableCasasId">
+                  <td class="sc-date-passed"
+                    [class.error]="examResult.form?.toString() != cached?.examResults[i]?.form?.toString() && modelErrors['examResults'][i]['form']"
+                    [class.blank]="model.typeId !== tableCasasId">
+                    <app-text-input [maxLength]="4"
+                      [(ngModel)]="examResult.form"
+                      (ngModelChange)="examResult.form = $event; isSaveEnabled();"></app-text-input>
+                    <div class="score tcenter"
+                      *ngIf="model.typeId !== tableCasasId"><i class="fa fa-ellipsis-h"></i></div>
+                  </td>
+                  <td class="sc-date-passed"
+                    [class.error]="examResult.level?.toString() != cached?.examResults[i]?.level?.toString() && modelErrors['examResults'][i]['level']"
+                    [class.blank]="!this.isLevelColDisplayed(examResult.name, model.typeId)">
+                    <app-text-input [maxLength]="3"
+                      [(ngModel)]="examResult.level"
+                      (ngModelChange)="examResult.level = $event; isSaveEnabled();"></app-text-input>
+                  </td>
+                  <td
+                    [class.error]="examResult.casasGradeEquivalency != cached?.examResults[i]?.casasGradeEquivalency && modelErrors['examResults'][i]['casasGradeEquivalency']"
+                    class="grade-equ">
+                    <app-text-input [(ngModel)]="examResult.casasGradeEquivalency"
+                      [maxLength]="2"
+                      (ngModelChange)="examResult.casasGradeEquivalency = $event; isSaveEnabled();">
+                    </app-text-input>
+                  </td>
+                </ng-container>
+                <td *ngIf="this.isGradeEquivalencyColDisplayed && model.typeId !== tableCasasId"
+                  [class.error]="examResult.gradeEquivalency?.toString() != cached?.examResults[i]?.gradeEquivalency?.toString() && modelErrors['examResults'][i]['gradeEquivalency']"
+                  class="grade-equ">
+                  <!-- if other metric -->
+                  <app-numerical-input [NGMaxLength]="4"
+                    [allowPeriod]="true"
+                    [(ngModel)]="examResult.gradeEquivalency"
+                    (ngModelChange)="examResult.gradeEquivalency = $event; isSaveEnabled();">
+                  </app-numerical-input>
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <!-- <span class="score "><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isLevelColDisplayed() && model.typeId !== tableCasasId"
+                  class="sc-date-passed"
+                  [class.error]="examResult.level?.toString() != cached?.examResults[i]?.level?.toString() && modelErrors['examResults'][i]['level']"
+                  [class.blank]="!this.isLevelColDisplayed(examResult.name, model.typeId)">
+                  <!-- if other metric -->
+                  <app-text-input *ngIf="this.isLevelColDisplayed(examResult.name, model.typeId)"
+                    [maxLength]="1"
+                    [(ngModel)]="examResult.level"
+                    (ngModelChange)="examResult.level = $event; isSaveEnabled();"></app-text-input>
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <div class="score tcenter"
+                    *ngIf="!this.isLevelColDisplayed(examResult.name, model.typeId)"><i
+                      class="fa fa-ellipsis-h"></i></div>
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isNrsColDisplayed"
+                  class="sc-date-passed">
+                  <!-- if other metric -->
+                  <app-select [(ngModel)]="examResult.nrsId"
+                    [dropDownList]="nrsDrop"></app-select>
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <!-- <span class="score "><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <td *ngIf="this.isSplColDisplayed"
+                  class="sc-date-passed">
+                  <!-- if other metric -->
+                  <app-select [(ngModel)]="examResult.splId"
+                    [dropDownList]="configSplDrop(examResult.name)">
+                  </app-select>
+                  <!-- use custom field -->
+                  <!-- if n/a -->
+                  <!-- <span class="score"><i class="fa fa-ellipsis-h"></i></span> -->
+                  <!-- end if -->
+                </td>
+                <!-- IF NA for entire score -->
+              </tr>
+              <tr>
+                <td class="sc-subject blank"
+                  colspan="1">&nbsp;</td>
+                <td [attr.colspan]="this.tableCols"
+                  class="blank">
+                  <app-text-area *ngIf="this.isDetailsDisplayed"
+                    [(ngModel)]="model.details"
+                    [isDetails]="true"
+                    [maxlength]="380"
+                    [placeholder]="'Details'"
+                    class="tabled"></app-text-area>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
+
+
+      </section>
+    </section>
+    <footer id="test-footer"
+      class="nav-footer">
+
+      <div class="wrapper tright">
+        <div *ngIf="hadSaveError">There was an error saving.</div>
+        <button class="btn btn-add"
+          (click)="exit()">Cancel</button>
+        <button class="btn btn-primary disabled"
+          *ngIf="this.isSaving"><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+        <button class="btn btn-primary"
+          *ngIf="!this.isSaving"
+          (click)="save()"
+          [disabled]="!this.isSaveEnabled()">Save</button>
+      </div>
+
+    </footer>
+  </div>
+</div>

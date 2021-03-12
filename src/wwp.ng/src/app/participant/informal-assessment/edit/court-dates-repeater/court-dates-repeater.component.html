@@ -1,0 +1,50 @@
+<h4>Court Dates</h4>
+
+<fieldset *ngFor="let courtDate of models; let i=index" class="deg-repeat repeat rel deg-1">
+  <input type="hidden" id="ps-deg-id-1" name="ps-deg-id-1" value="0" />
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-3 control-group">
+        <label class="control-label" title="Location">Location</label>
+        <app-text-area [isAutoSizeable]="true" [maxlength]="120" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'location')"
+          [cacheInnerValue]="getInitialModelValue(courtDate.id, 'location')" [(ngModel)]="courtDate.location"
+          (ngModelChange)="courtDate.location = $event; onChangeCallback(models);" [placeholder]="''"></app-text-area>
+      </div>
+      <div class="col-md-4 control-group">
+        <label for="legal-crime-date-1" class="control-label" title="Court Date">Court Date</label>
+        <div calss="container">
+          <div class="input-group row">
+            <app-date-mm-dd-yyyy-new class="first col-md-7 pr-0" [isRequired]="isRepeaterRowRequired(i)"
+              [(ngModel)]="courtDate.date" (ngModelChange)="courtDate.date = $event; onChangeCallback(models);"
+              [cacheInnerValue]="getInitialModelValue(courtDate.id, 'date')" [isDisabled]="courtDate?.isDateUnknown"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'date')"></app-date-mm-dd-yyyy-new>
+            <app-radio-button [(ngModel)]="courtDate.isDateUnknown"
+              (ngModelChange)="courtDate.isDateUnknown = $event; onChangeCallback(models);" [index]="i"
+              [NgLabel]="'unknown'" [errorIndicators]="isModelErrorsItemInvalid(i, 'isDateUnknown')"
+              errorIndicatorPropertyName="date"
+              class="col-md-5 input-group-addon input-group-append input-group-text last group-pad"></app-radio-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 control-group">
+        <label for="legal-crime-details-1" class="control-label" title="Court Date - Details">Details</label>
+        <app-text-area [maxlength]="380" [isRequired]="isRepeaterRowRequired(i)"
+          [cacheInnerValue]="getInitialModelValue(courtDate.id, 'details')"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'details')" [isAutoSizeable]="true" [placeholder]="''"
+          (ngModelChange)="courtDate.details" (ngModelChange)="courtDate.details = $event; onChangeCallback(models);"
+          [(ngModel)]="courtDate.details"></app-text-area>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <ul>
+      <li class="del" (click)="deleteFromRepeater(courtDate)"><i class="fa fa-trash-alt" title="delete"></i></li>
+    </ul>
+  </div>
+</fieldset>
+
+<div class="tright col-md-12 add-holder">
+  <button class="btn btn-sm btn-add add-deg" (click)="addToRepeater()">+ &nbsp; Add Court Date</button>
+  <hr class="spacer" />
+</div>

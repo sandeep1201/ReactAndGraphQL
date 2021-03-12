@@ -1,0 +1,88 @@
+<div class="row pad1">
+  <header>
+    <h4>Extension Decisions</h4>
+      <span class="pad0-1"><app-help-button [featureName]="'time-limit-extensions-help'"></app-help-button></span>
+    <fieldset>
+      <div class="btn-group btn-group-sm">
+        <app-multi-select-dropdown [options]="clockTypesDropMulti" [placeholder]="'Filter By Type:'" [ngModel]="clockTypesArray" (ngModelChange)="setClockTypeFilter($event)" ></app-multi-select-dropdown>
+
+        <button type="button" class="btn" (click)="toggleDeleted()" *ngIf="!showDeleted">Show Deleted Decisions</button>
+        <button type="button" class="btn" (click)="toggleDeleted()" *ngIf="showDeleted">Hide Deleted Decisions</button>
+      </div>
+
+    </fieldset>
+  </header>
+  <section class="error-container" *ngIf="hadSaveError">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Error encountered:</strong>
+      <ul class="field-list">
+        <li><i class="fa fa-minus"></i> {{ errorMessage }}</li>
+      </ul>
+    </div>
+  </section>
+  <div class="w-100">
+  <main [class.isLoading]="isLoading">
+
+    <div class="row" *ngIf="extensionSequencesList?.length == 0">
+      <div class="col-md-12">
+        <blockquote class="jumbotron tcenter"><span>No Extension Decisions</span></blockquote>
+        <div class="tright pad1-0">
+          <button type="button" [disabled]="!canAddExtension" class="btn btn-add" (click)="$event.stopPropagation();showExtensionForm();">Add/Deny Extension</button>
+        </div>
+      </div>
+    </div>
+
+    <table class="table" *ngIf="extensionSequencesList?.length > 0">
+      <thead>
+        <tr>
+          <th><span>Decision</span></th>
+          <!--<th><a data-sort="DiscussionDate" [ngClass]="{sort: sortColumn === 'DiscussionDate', asc: sortAscending}" (click)="applySorting('DiscussionDate')">Discussion Date</a></th>-->
+          <th><a data-sort="DecisionDate" [ngClass]="{sort: sortColumn === 'DecisionDate', asc: sortAscending}" (click)="applySorting('DecisionDate')">Decision Date</a></th>
+          <th><a data-sort="BeginDate" [ngClass]="{sort: sortColumn === 'BeginDate', asc: sortAscending}" (click)="applySorting('BeginDate')">Begin Month</a></th>
+          <th><a data-sort="EndDate" [ngClass]="{sort: sortColumn === 'EndDate', asc: sortAscending}" (click)="applySorting('EndDate')">End Month</a></th>
+          <th><span>Reason</span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let map of extensionSequencesList;">
+          <tr (click)="navigateToExtension(map.extension?.id)" [class.deleted]="map.extension.isDeleted" [class.active]="map.extension.isActive" *ngIf="map.extension">
+            <td class="decision"> <span>{{ ExtensionDecision[map.extension.decision] }}</span> {{ map.extension.clockType.valueOf() | clockTypeName }} </td>
+            <!--<td> {{ map.extension.discussionDate | amDateFormat : 'MM/DD/YYYY' | default: '-' }}</td>-->
+            <td> {{ map.extension.decisionDate | amDateFormat : 'MM/DD/YYYY' | default: '-' }} <span class="xsmall bold">{{ map.extension.decisionDate | amDateFormat : 'hh:mm a' | default: '-' }}</span></td>
+            <td> {{ map.extension.dateRange?.start.clone().startOf("month") | amDateFormat : 'MM/YYYY' | default: '-' }} </td>
+            <td> {{ map.extension.dateRange?.end.clone().endOf("month") | amDateFormat : 'MM/YYYY' | default: '-' }} </td>
+            <td class="no-overflow"> {{ getExtensionReason(map.extension).name | default: '-' }} </td>
+            <td>
+              <div class="table-actions">
+                <ng-container *ngIf="!map.extension.isDeleted">
+                    <a *ngIf="canAppendToSequence(map.sequence, map.extension)" (click)="$event.stopPropagation();showExtensionForm(map.sequence)"><i class="fa fa-plus"></i></a>
+                  <a *ngIf="canEndExtension(map.extension)" (click)="$event.stopPropagation();showExtensionDeleteWarning(map.extension,'end');" ><i class="fa fa-times-circle"></i></a>
+                    <a *ngIf="canDeleteExtension()" (click)="$event.stopPropagation();showExtensionDeleteWarning(map.extension,'delete');"><i class="fa fa-trash-alt"></i></a>
+                </ng-container>
+                <ng-container *ngIf="printEnabled && map.sequence?.extensions?.length > 1">
+                  <div class="dropdown ">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-print"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a *ngFor="let ext of map.sequence?.extensions" (click)="$event.stopPropagation();printExtensionForm(ext);" class="dropdown-item decision">{{ ext.createdDate | amDateFormat : 'MM/DD/YYYY' }}: <span>{{ ExtensionDecision[ext.decision] }}</span> {{ ClockTypes[ext.clockType.valueOf()] }} </a>
+                    </div>
+                  </div>
+                </ng-container>
+                <a *ngIf="printEnabled && map.sequence?.extensions?.length < 2" (click)="$event.stopPropagation();printExtensionForm(map.extension);"><i class="fa fa-print"></i></a>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        <tr class="tright add-row">
+          <td colspan="6">
+            <button type="button" [disabled]="!canAddExtension" class="btn btn-sm btn-light btn-add" (click)="$event.stopPropagation();showExtensionForm();">Add/Deny Extension</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+</div>
+<app-edit-extension [pin]="pin" (save)="onExtensionSaved($event)" (close)="onExtensionSaved()" [timeline]="timeline" [model]="selectedEditExtension"></app-edit-extension>
+<app-delete-warning [model]="selectedDeleteExtension" [warningType]="deleteWarningType" [pin]="pin" (close)="onExtensionSaved()" (save)="onExtensionSaved($event)"></app-delete-warning>

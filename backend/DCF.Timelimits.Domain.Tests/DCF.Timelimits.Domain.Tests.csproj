@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E79C696-DBA5-4EF4-836F-A191213700D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DCF.Timelimits.Domain.Tests</RootNamespace>
+    <AssemblyName>DCF.Timelimits.Domain.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Shouldly, Version=2.8.3.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.8.3\lib\net451\Shouldly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Db2ExtensionTests.cs" />
+    <Compile Include="ExtensionTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dcf.Wwp.Data.Sql\Dcf.Wwp.Data.Sql.csproj">
+      <Project>{cae074b9-c8b9-43e8-8065-c132b0fda499}</Project>
+      <Name>Dcf.Wwp.Data.Sql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.Model.Interface\Dcf.Wwp.Model.Interface.csproj">
+      <Project>{41d99d81-12f1-4321-aa8e-ecfbdbee279d}</Project>
+      <Name>Dcf.Wwp.Model.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.Model\Dcf.Wwp.Model.csproj">
+      <Project>{37995710-8b7f-4fb4-addd-b54755ba6c45}</Project>
+      <Name>Dcf.Wwp.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Common\DCF.Common.csproj">
+      <Project>{da3489d9-c151-4ab3-8077-c790a5844460}</Project>
+      <Name>DCF.Timelimits.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Core\DCF.Timelimits.Core.csproj">
+      <Project>{6aa6d89d-e1cd-4dbd-9be4-2d185cc46b62}</Project>
+      <Name>DCF.Timelimits.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Interfaces\DCF.Timelimits.Interfaces.csproj">
+      <Project>{036be20d-e596-414a-a452-cf96de5b24a0}</Project>
+      <Name>DCF.Timelimits.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Rules\DCF.Timelimits.Rules.csproj">
+      <Project>{e78c89cf-2f8a-4f2a-9c2a-71a89c16130c}</Project>
+      <Name>DCF.Timelimits.Rules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimts.Service\DCF.Timelimts.Service.csproj">
+      <Project>{4b8785c4-0450-45bf-8012-bbdc2d6f532c}</Project>
+      <Name>DCF.Timelimts.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

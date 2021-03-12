@@ -1,0 +1,242 @@
+<div *ngIf="!isInEditMode || !isPaymentMode">
+  <app-sub-header [participant]="participant"
+    pageTitle="EA Application"
+    [goBackUrl]="goBackUrl">
+  </app-sub-header>
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'EA Request History'"></app-loading>
+  <div *ngIf="isLoaded">
+    <div class="card">
+      <div class="card-body" [ngClass]="hasReadOnlyAccess ? 'pointerClass' : ''" (click)="edit('view')">
+        <div *ngIf="model; else noResults">
+          <div class="row">
+            <div class="col-md-2">
+              <label>Application Date</label>
+              <p class="tgrey3 wrapword">{{model?.eaDemographics?.applicationDate}}</p>
+            </div>
+            <div class="col-md-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Request #</label>
+                  <p class="tgrey3 wrapword">{{model.requestNumber}}</p>
+                </div>
+                <div class="col-md-6">
+                  <label>Agency</label>
+                  <p class="tgrey3 wrapword">{{model.organizationCode}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label>CARES Case #</label>
+              <p class="tgrey3 wrapword">{{model?.caresCaseNumber}}</p>
+            </div>
+            <div class="col-md-3">
+              <label>ACCESS Tracking #</label>
+              <p class="tgrey3 wrapword">{{model?.eaDemographics?.accessTrackingNumber}}</p>
+            </div>
+            <div class="col-md-2">
+              <button class="right btn btn-add"
+                *ngIf="showEditButtons && showApplicationEditButtons"
+                (click)="edit('edit')">
+                <i class="fa fa-pencil-alt"></i>
+              </button>
+            </div>
+          </div>
+          <label>Emergency Type(s)</label>
+          <p class="tgrey3 wrapword">
+            <span *ngFor="let item of model?.eaEmergencyType?.emergencyTypeNames; let last = last">
+              {{item}}<span
+                *ngIf="item === 'Impending Homelessness' && model?.eaEmergencyType?.eaImpendingHomelessness?.emergencyTypeReasonName">
+                ({{model?.eaEmergencyType?.eaImpendingHomelessness?.emergencyTypeReasonName}})</span><span
+                *ngIf="item === 'Homelessness' && model?.eaEmergencyType?.eaHomelessness?.emergencyTypeReasonName">
+                ({{model?.eaEmergencyType?.eaHomelessness?.emergencyTypeReasonName}})</span><span
+                *ngIf="!last">,<br /></span>
+            </span>
+          </p>
+          <div class="row">
+            <label class="col-md-6">Application Status</label>
+            <label class="col-md-3">Status Last Updated</label>
+            <label *ngIf="model.statusDeadLine"
+              class="col-md-3">Status Deadline</label>
+          </div>
+          <div class="row">
+            <p class="tgrey3 wrapword col-md-6">
+              <span>{{model?.statusName}}</span>
+              <span *ngFor="let item of model?.statusReasonNames; let last = last; let first = first"><span
+                  *ngIf="first"> - </span><span>
+                  {{item}}</span><span *ngIf="!last">,<br /></span>
+              </span>
+            </p>
+            <p class="tgrey3 col-md-3">{{model.statusLastUpdated | dateMmDdYyyy}}</p>
+            <p *ngIf="model.statusDeadLine"
+              class="tgrey3 col-md-3">{{model.statusDeadLine | dateMmDdYyyy}}</p>
+          </div>
+          <label>Approved Payment Amount</label>
+          <p class="tgrey3 wrapword">
+            ${{model?.eaAgencySummary?.approvedPaymentAmount}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="card my-3">
+      <div class="card-header px-3">
+        <h4 class="d-inline-flex m-0">EA Group Members</h4>
+      </div>
+      <div class="card-body" [ngClass]="hasReadOnlyAccess ? 'pointerClass' : ''" (click)="editGroup('view')">
+        <div class="row justify-content-end mx-0 pb-3"
+          *ngIf="showEditButtons && showApplicationEditButtons">
+          <button class="btn btn-add ml-3"
+            (click)="editGroup('edit')">
+            <i class="fa fa-pencil-alt"></i>
+          </button>
+        </div>
+        <ng-container
+          *ngIf="model?.eaGroupMembers?.eaGroupMembers && model?.eaGroupMembers?.eaGroupMembers.length > 0; else noResults">
+          <div class="row">
+            <div class="col-md-2">Name</div>
+            <div class="col-md-2">Date of Birth</div>
+            <div class="col-md-2 pl-0">Individual Type</div>
+            <div class="col-md-2">Relationship</div>
+            <div class="col-md-2">SSN</div>
+            <div class="col-md-2">Include in EA Group</div>
+          </div>
+          <div class="row group list-style list-item py-3"
+            *ngFor="let r of model?.eaGroupMembers?.eaGroupMembers">
+            <div class="col-md-2 tgrey3 wrapword">{{r.participantName}}</div>
+            <div class="col-md-2 tgrey3 wrapword">{{r.participantDOB | dateMmDdYyyy}}</div>
+            <div class="col-md-2 pl-0 tgrey3 no-wrap">{{r.eaIndividualTypeName}}</div>
+            <div class="col-md-2 tgrey3 wrapword">{{r.eaRelationTypeName}}</div>
+            <div class="col-md-2 tgrey3 wrapword">{{r.ssn ? 'XXX-XX-XXXX' : 'Unknown'}}</div>
+            <div class="col-md-2 tgrey3 wrapword">{{r.isIncluded | yesNo}}</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="card my-3">
+      <h4 class="card-header px-3">
+        EA Payment Details</h4>
+      <div class="card-body">
+        <div class="row mx-0">
+          <div class="col"
+            *ngIf="showEditButtons && isNewPaymentsAllowed">
+            <button class="btn btn-add right"
+              (click)="editPayment()">+ Add EA Payment</button>
+          </div>
+        </div>
+        <div *ngIf="model.eaPayments && model.eaPayments.length > 0; else noResults">
+          <div class="flex-row list-item py-3"
+            *ngFor="let r of model.eaPayments"
+            (click)="editPayment(r, true)">
+            <div class="col-md-3">
+              <label>Voucher/Check #</label>
+              <div class="tgrey3">{{r.voucherOrCheckNumber}}</div>
+            </div>
+            <div class="col-md-2">
+              <label class="text-nowrap">Voucher/Check Date</label>
+              <div class="tgrey3">{{r.voucherOrCheckDate | dateMmDdYyyy}}</div>
+            </div>
+            <div class="col-md-3">
+              <label>Voucher/Check Amount</label>
+              <div class="tgrey3">${{r.voucherOrCheckAmount}}</div>
+            </div>
+            <div class="col-md-3">
+              <label>Payee Name</label>
+              <div class="tgrey3">{{r.payeeName}}</div>
+            </div>
+            <div class="col-md-1 btn-item d-flex flex-column justify-content-center">
+              <button *ngIf="showEditButtons"
+                class="btn btn-add"
+                (click)="editPayment(r)">
+                <i class="fa fa-pencil-alt"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex-row py-3">
+            <div class="col-md-4 text-right">Total Payment Amount</div>
+            <div class="tgrey3 col-md-4">${{totalPayment}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card my-3">
+      <h4 class="card-header px-3">
+        EA Comments
+        <nav class="right">
+          <a (click)="isCommentsCollapsed = !isCommentsCollapsed">
+            <i *ngIf="!isCommentsCollapsed"
+              class="fa fa-compress tgrey3"></i>
+            <i *ngIf="isCommentsCollapsed"
+              class="fa fa-expand tgrey3"></i>
+          </a>
+        </nav>
+      </h4>
+      <div class="card-body"
+        [class.collapse]="isCommentsCollapsed">
+        <div class="row mx-0">
+          <span class="align-self-center">Filter</span>
+          <div class="col-md-3">
+            <app-multi-select-dropdown [(ngModel)]="commentTypes"
+              [placeholder]="'Comment Type'"
+              (ngModelChange)="commentTypes = $event; filterComment();"
+              [options]="eaCommentTypesDrop">
+            </app-multi-select-dropdown>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-add"
+              (click)="commentTypes = []; filterComment();">Reset
+              Filters</button>
+          </div>
+          <div class="col"
+            *ngIf="showEditButtons">
+            <button class="btn btn-add right"
+              (click)="editComment()">+ Add EA Comment</button>
+          </div>
+        </div>
+        <div *ngIf="filteredComments.length > 0; else noResults">
+          <div class="flex-row list-style list-item py-3"
+            *ngFor="let r of filteredComments">
+            <div class="col-md-2">
+              <label>Date</label>
+              <div class="tgrey3 wrapword">{{r.modifiedDate | date:'short'}}</div>
+            </div>
+            <div class="col-md-5">
+              <label class="text-nowrap">Comment</label>
+              <div class="tgrey3 pre-wrap">{{r.commentText}}</div>
+            </div>
+            <div class="col-md-2">
+              <label>Comment Type(s)</label>
+              <div class="tgrey3 wrapword"><span *ngFor="let commentType of r?.commentTypes; let last = last">
+                  {{commentType.commentTypeName}}<span *ngIf="!last">,<br /></span></span></div>
+            </div>
+            <div class="col-md-2">
+              <label>Worker Name</label>
+              <div class="tgrey3 wrapword">{{r.modifiedBy}}</div>
+            </div>
+            <div class="col-md-1 btn-item d-flex flex-column justify-content-center">
+              <label class="tgrey3 wrapword"
+                *ngIf="r?.isEdited">Edited</label>
+              <button *ngIf="isEditableComment(r)"
+                class="btn btn-add"
+                (click)="editComment(r)">
+                <i class="fa fa-pencil-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-comments-edit *ngIf="isInEditMode">
+</app-comments-edit>
+<app-ea-payment-edit *ngIf="isPaymentMode"
+  [participant]="participant"
+  [eaRequestModel]="model"
+  [totalAmount]="totalPayment"></app-ea-payment-edit>
+
+<ng-template #noResults>
+  <div class="row justify-content-center">
+    <blockquote class="pad2">
+      <p>No Results Found</p>
+    </blockquote>
+  </div>
+</ng-template>

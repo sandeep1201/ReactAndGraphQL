@@ -1,0 +1,30 @@
+<div class="pad1-0">
+  <div class="row">
+    <div class="col-md-12">
+      <label class="">{{question}}</label>
+    </div>
+  </div>
+  <div *ngIf="value" class="row">
+    <div class="col-md-4">
+      <div class="input-group">
+        <div class="input-group-prepend"
+          [ngClass]="{default: isDefault, required: isRequired, error: isError, dirty: isDirty}">
+          <button (click)="click('Yes');" [ngClass]="{btn: true, button: true, selected: isYes}" type="button"
+            class="btn btn-secondary">Yes</button>
+          <button (click)="click('No');" [ngClass]="{btn: true,button: true, selected: !isYes && isYes != null}"
+            type="button" class="btn btn-secondary">No</button>
+        </div>
+        <div class="input-group-append">
+          <app-radio-button [(ngModel)]="isRefused" (ngModelChange)="isRefused = $event; click('Refused');"
+            class="input-group-addon input-group-text" [NgLabel]="'Refused'"></app-radio-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <app-text-area [(ngModel)]="value.details" (ngModelChange)="value.details = $event; click();"
+        [cacheInnerValue]="this.originalModel?.details" [isRequired]="isDetailsRequired" [isInvalid]="isDetailsError"
+        [maxlength]="380" [isDetails]="true" [isAutoSizeable]="true" [placeholder]="'Details'" [shrinkOnBlur]="true">
+      </app-text-area>
+    </div>
+  </div>
+</div>

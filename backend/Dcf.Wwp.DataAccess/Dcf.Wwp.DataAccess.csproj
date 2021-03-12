@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C037660-BAAA-4417-A438-92D457E555C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dcf.Wwp.DataAccess</RootNamespace>
+    <AssemblyName>Dcf.Wwp.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\AbsenceConfig.cs" />
+    <Compile Include="Configurations\EmploymentVerificationConfig.cs" />
+    <Compile Include="Configurations\PlanSectionResourceConfig.cs" />
+    <Compile Include="Configurations\PlanSectionConfig.cs" />
+    <Compile Include="Configurations\PlanConfig.cs" />
+    <Compile Include="Configurations\InformalAssessmentConfig.cs" />
+    <Compile Include="Configurations\PlanSectionTypeConfig.cs" />
+    <Compile Include="Configurations\PlanStatusTypeConfig.cs" />
+    <Compile Include="Configurations\POPClaimActivityBridgeConfig.cs" />
+    <Compile Include="Configurations\EducationExamConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramStatusCodeConfig.cs" />
+    <Compile Include="Configurations\POPClaimHighWageConfig.cs" />
+    <Compile Include="Configurations\PlanTypeConfig.cs" />
+    <Compile Include="Configurations\SpecialInitiativeConfig.cs" />
+    <Compile Include="Configurations\TimeLimitConfig.cs" />
+    <Compile Include="Configurations\TransactionConfig.cs" />
+    <Compile Include="Configurations\TransactionTypeConfig.cs" />
+    <Compile Include="Configurations\POPClaimStatusConfig.cs" />
+    <Compile Include="Configurations\POPClaimEmploymentBridgeConfig.cs" />
+    <Compile Include="Configurations\POPClaimConfig.cs" />
+    <Compile Include="Configurations\WorkerTaskStatusConfig.cs" />
+    <Compile Include="Configurations\POPClaimStatusTypeConfig.cs" />
+    <Compile Include="Configurations\POPClaimTypeConfig.cs" />
+    <Compile Include="Configurations\EARequestStatusReasonConfig.cs" />
+    <Compile Include="Configurations\EAApplicationInitiationMethodLookUpConfig.cs" />
+    <Compile Include="Configurations\EAFinancialNeedConfig.cs" />
+    <Compile Include="Configurations\EAFinancialNeedTypeConfig.cs" />
+    <Compile Include="Configurations\ParticipantEnrolledProgramCutOverBridgeConfig.cs" />
+    <Compile Include="Configurations\EAVehiclesConfig.cs" />
+    <Compile Include="Configurations\EAIPVReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\EAIPVReasonConfig.cs" />
+    <Compile Include="Configurations\EAIPVOccurrenceConfig.cs" />
+    <Compile Include="Configurations\EAIPVConfig.cs" />
+    <Compile Include="Configurations\EAPaymentConfig.cs" />
+    <Compile Include="Configurations\EAIPVStatusConfig.cs" />
+    <Compile Include="Configurations\EARequestStatusConfig.cs" />
+    <Compile Include="Configurations\AfterPullDownWeeklyBatchDetailsConfig.cs" />
+    <Compile Include="Configurations\ParticipantPaymentHistoryConfig.cs" />
+    <Compile Include="Configurations\ParticipationEntryHistoryConfig.cs" />
+    <Compile Include="Configurations\WageHourHistoryConfig.cs" />
+    <Compile Include="Configurations\EARelationshipTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EAPaymentAmountConfig.cs" />
+    <Compile Include="Configurations\EligibilityByFPLConfig.cs" />
+    <Compile Include="Configurations\EAVerificationTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EAAssetsConfig.cs" />
+    <Compile Include="Configurations\EAEmergencyTypeReasonConfig.cs" />
+    <Compile Include="Configurations\EAHouseHoldIncomeConfig.cs" />
+    <Compile Include="Configurations\EAEmergencyTypeReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\EASSNExemptTypeConfig.cs" />
+    <Compile Include="Configurations\EAEnergyCrisisConfig.cs" />
+    <Compile Include="Configurations\EAHomelessnessConfig.cs" />
+    <Compile Include="Configurations\EAImpendingHomelessnessConfig.cs" />
+    <Compile Include="Configurations\ParticipantPlacementConfig.cs" />
+    <Compile Include="Configurations\EAAlternateMailingAddressConfig.cs" />
+    <Compile Include="Configurations\AuxiliaryConfig.cs" />
+    <Compile Include="Configurations\DrugScreeningStatusConfig.cs" />
+    <Compile Include="Configurations\AuxiliaryStatusConfig.cs" />
+    <Compile Include="Configurations\DrugScreeningStatusTypeConfig.cs" />
+    <Compile Include="Configurations\DocumentConfig.cs" />
+    <Compile Include="Configurations\DrugScreeningConfig.cs" />
+    <Compile Include="Configurations\JRWorkPreferenceShiftBridgeConfig.cs" />
+    <Compile Include="Configurations\JRWorkShiftConfig.cs" />
+    <Compile Include="Configurations\EARelationshipTypeConfig.cs" />
+    <Compile Include="Configurations\EAIndividualTypeConfig.cs" />
+    <Compile Include="Configurations\EARequestEmergencyTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EARequestParticipantBridgeConfig.cs" />
+    <Compile Include="Configurations\EARequestConfig.cs" />
+    <Compile Include="Configurations\EAStatusReasonConfig.cs" />
+    <Compile Include="Configurations\EAStatusConfig.cs" />
+    <Compile Include="Configurations\EAEmergencyTypeConfig.cs" />
+    <Compile Include="Configurations\EARequestContactInfoConfig.cs" />
+    <Compile Include="Configurations\ParticipationPeriodLookUpConfig.cs" />
+    <Compile Include="Configurations\CFParticipationEntryConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramGCGReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramGCDReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramNPReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\AuxiliaryStatusTypeConfig.cs" />
+    <Compile Include="Configurations\AuxiliaryReasonConfig.cs" />
+    <Compile Include="Configurations\OverPaymentConfig.cs" />
+    <Compile Include="Configurations\EACommentTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EACommentConfig.cs" />
+    <Compile Include="Configurations\EACommentTypeConfig.cs" />
+    <Compile Include="Configurations\WeeklyHoursWorkedConfig.cs" />
+    <Compile Include="Configurations\WorkerTaskCategoryConfig.cs" />
+    <Compile Include="Configurations\WorkerTaskListConfig.cs" />
+    <Compile Include="Configurations\ParticipationPeriodSummaryConfig.cs" />
+    <Compile Include="Configurations\PullDownDatesConfig.cs" />
+    <Compile Include="Configurations\ParticipationMakeUpEntryConfig.cs" />
+    <Compile Include="Configurations\ParticipationEntryConfig.cs" />
+    <Compile Include="Configurations\ActionPriorityConfig.cs" />
+    <Compile Include="Configurations\ActionNeededTaskConfig.cs" />
+    <Compile Include="Configurations\ActionNeededPageConfig.cs" />
+    <Compile Include="Configurations\ActionNeededConfig.cs" />
+    <Compile Include="Configurations\ActionItemConfig.cs" />
+    <Compile Include="Configurations\ActionAssigneeConfig.cs" />
+    <Compile Include="Configurations\NonParticipationReasonConfig.cs" />
+    <Compile Include="Configurations\GoodCauseGrantedReasonConfig.cs" />
+    <Compile Include="Configurations\GoodCauseDeniedReasonConfig.cs" />
+    <Compile Include="Configurations\PlacementTypeConfig.cs" />
+    <Compile Include="Configurations\AddressVerificationTypeLookupConfig.cs" />
+    <Compile Include="Configurations\CareerAssessmentConfig.cs" />
+    <Compile Include="Configurations\CareerAssessmentElementBridgeConfig.cs" />
+    <Compile Include="Configurations\ElementConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramPinCommentTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\JobReadinessConfig.cs" />
+    <Compile Include="Configurations\JRApplicationInfoConfig.cs" />
+    <Compile Include="Configurations\JRContactInfoConfig.cs" />
+    <Compile Include="Configurations\JRHistoryInfoConfig.cs" />
+    <Compile Include="Configurations\JRInterviewInfoConfig.cs" />
+    <Compile Include="Configurations\JRWorkPreferencesConfig.cs" />
+    <Compile Include="Configurations\OrganizationLocationConfig.cs" />
+    <Compile Include="Configurations\OrganizationInformationConfig.cs" />
+    <Compile Include="Configurations\PCCTBridgeConfig.cs" />
+    <Compile Include="Configurations\PinCommentTypeConfig.cs" />
+    <Compile Include="Configurations\PinCommentConfig.cs" />
+    <Compile Include="Configurations\ActivityScheduleFrequencyBridgeConfig.cs" />
+    <Compile Include="Configurations\ContractAreaConfig.cs" />
+    <Compile Include="Configurations\EmployabilityPlanEmploymentInfoBridgeConfig.cs" />
+    <Compile Include="Configurations\EmployabilityPlanStatusTypeConfig.cs" />
+    <Compile Include="Configurations\EmploybilityPlanGoalBridgeConfig.cs" />
+    <Compile Include="Configurations\EmploybilityPlanActivityBridgeConfig.cs" />
+    <Compile Include="Configurations\EmploymentInformationConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramJobTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramParticipationStatusTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramActivityCompletionReasonBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramEPActivityTypeBridgeConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramValidityConfig.cs" />
+    <Compile Include="Configurations\ActivityCompletionReasonConfig.cs" />
+    <Compile Include="Configurations\JobTypeConfig.cs" />
+    <Compile Include="Configurations\CountyAndTribeConfig.cs" />
+    <Compile Include="Configurations\OfficeConfig.cs" />
+    <Compile Include="Configurations\RuleReasonConfig.cs" />
+    <Compile Include="Configurations\ParticipantEnrolledProgramConfig.cs" />
+    <Compile Include="Configurations\ParticipantProfileStatusConfig.cs" />
+    <Compile Include="Configurations\OrganizationConfig.cs" />
+    <Compile Include="Configurations\SimulatedDateConfig.cs" />
+    <Compile Include="Configurations\StatusConfig.cs" />
+    <Compile Include="Configurations\CityConfig.cs" />
+    <Compile Include="Configurations\ContactConfig.cs" />
+    <Compile Include="Configurations\EnrolledProgramConfig.cs" />
+    <Compile Include="Configurations\FrequencyTypeConfig.cs" />
+    <Compile Include="Configurations\FrequencyConfig.cs" />
+    <Compile Include="Configurations\SupportiveServiceConfig.cs" />
+    <Compile Include="Configurations\SupportiveServiceTypeConfig.cs" />
+    <Compile Include="Configurations\NonSelfDirectedActivityConfig.cs" />
+    <Compile Include="Configurations\StateConfig.cs" />
+    <Compile Include="Configurations\CountryConfig.cs" />
+    <Compile Include="Configurations\GoalEndReasonConfig.cs" />
+    <Compile Include="Configurations\ActivityLocationConfig.cs" />
+    <Compile Include="Configurations\GoalStepConfig.cs" />
+    <Compile Include="Configurations\ActivityContactBridgeConfig.cs" />
+    <Compile Include="Configurations\ContactTitleTypeConfig.cs" />
+    <Compile Include="Configurations\ActivityScheduleConfig.cs" />
+    <Compile Include="Configurations\GoalTypeConfig.cs" />
+    <Compile Include="Configurations\GoalConfig.cs" />
+    <Compile Include="Configurations\ActivityTypeConfig.cs" />
+    <Compile Include="Configurations\EmployabilityPlanConfig.cs" />
+    <Compile Include="Configurations\ActivityConfig.cs" />
+    <Compile Include="Configurations\ParticipantConfig.cs" />
+    <Compile Include="Configurations\WageHourConfig.cs" />
+    <Compile Include="Configurations\WorkerConfig.cs" />
+    <Compile Include="Configurations\WorkerContactInfoConfig.cs" />
+    <Compile Include="Configurations\YesNoUnknownLookupConfig.cs" />
+    <Compile Include="Contexts\EPContext.cs" />
+    <Compile Include="Base\BaseDbContext.cs" />
+    <Compile Include="Base\BaseConfig.cs" />
+    <Compile Include="Models\Absence.cs" />
+    <Compile Include="Models\EmploymentVerification.cs" />
+    <Compile Include="Models\PlanSectionResource.cs" />
+    <Compile Include="Models\PlanSection.cs" />
+    <Compile Include="Models\Plan.cs" />
+    <Compile Include="Models\InformalAssessment.cs" />
+    <Compile Include="Models\PlanStatusType.cs" />
+    <Compile Include="Models\PlanSectionType.cs" />
+    <Compile Include="Models\POPClaimActivityBridge.cs" />
+    <Compile Include="Models\EducationExam.cs" />
+    <Compile Include="Models\EnrolledProgramStatusCode.cs" />
+    <Compile Include="Models\POPClaimHighWage.cs" />
+    <Compile Include="Models\PlanType.cs" />
+    <Compile Include="Models\SpecialInitiative.cs" />
+    <Compile Include="Models\TimeLimit.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\POPClaimStatus.cs" />
+    <Compile Include="Models\POPClaimEmploymentBridge.cs" />
+    <Compile Include="Models\POPClaim.cs" />
+    <Compile Include="Models\USP_CheckDB2OpenPlacement_Result.cs" />
+    <Compile Include="Models\WorkerTaskStatus.cs" />
+    <Compile Include="Models\POPClaimStatusType.cs" />
+    <Compile Include="Models\POPClaimType.cs" />
+    <Compile Include="Models\EARequestStatusReason.cs" />
+    <Compile Include="Models\EAApplicationInitiationMethodLookUp.cs" />
+    <Compile Include="Models\EAFinancialNeed.cs" />
+    <Compile Include="Models\EAFinancialNeedType.cs" />
+    <Compile Include="Models\ParticipantEnrolledProgramCutOverBridge.cs" />
+    <Compile Include="Models\EAVehicles.cs" />
+    <Compile Include="Models\EAIPVReasonBridge.cs" />
+    <Compile Include="Models\EAIPVStatus.cs" />
+    <Compile Include="Models\EAIPVOccurrence.cs" />
+    <Compile Include="Models\EAIPV.cs" />
+    <Compile Include="Models\EAPayment.cs" />
+    <Compile Include="Models\EAIPVReason.cs" />
+    <Compile Include="Models\EARequestStatus.cs" />
+    <Compile Include="Models\AfterPullDownWeeklyBatchDetails.cs" />
+    <Compile Include="Models\ParticipantPaymentHistory.cs" />
+    <Compile Include="Models\ParticipationEntryHistory.cs" />
+    <Compile Include="Models\WageHourHistory.cs" />
+    <Compile Include="Models\EARelationshipTypeBridge.cs" />
+    <Compile Include="Models\EAPaymentAmount.cs" />
+    <Compile Include="Models\EligibilityByFPL.cs" />
+    <Compile Include="Models\EAVerificationTypeBridge.cs" />
+    <Compile Include="Models\EAAlternateMailingAddress.cs" />
+    <Compile Include="Models\DrugScreeningStatus.cs" />
+    <Compile Include="Models\DrugScreeningStatusType.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Infrastructure\DbContextFactory.cs" />
+    <Compile Include="Infrastructure\DatabaseFactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\StripCrLfInterceptor.cs" />
+    <Compile Include="Infrastructure\StringTrimmerInterceptor.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Interfaces\IDatabaseFactory.cs" />
+    <Compile Include="Interfaces\IDbContext.cs" />
+    <Compile Include="Interfaces\IDbContextFactory.cs" />
+    <Compile Include="Interfaces\Interfaces.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Base\BaseEntity.cs" />
+    <Compile Include="Models\DrugScreening.cs" />
+    <Compile Include="Models\EAEnergyCrisis.cs" />
+    <Compile Include="Models\EAAssets.cs" />
+    <Compile Include="Models\EAHouseHoldIncome.cs" />
+    <Compile Include="Models\EAHomelessness.cs" />
+    <Compile Include="Models\EAImpendingHomelessness.cs" />
+    <Compile Include="Models\EAEmergencyTypeReason.cs" />
+    <Compile Include="Models\EAEmergencyTypeReasonBridge.cs" />
+    <Compile Include="Models\EAVerificationType.cs" />
+    <Compile Include="Models\EASSNExemptType.cs" />
+    <Compile Include="Models\ParticipantPlacement.cs" />
+    <Compile Include="Models\JRWorkPreferenceShiftBridge.cs" />
+    <Compile Include="Models\EARelationshipType.cs" />
+    <Compile Include="Models\EAIndividualType.cs" />
+    <Compile Include="Models\AuxiliaryStatus.cs" />
+    <Compile Include="Models\Auxiliary.cs" />
+    <Compile Include="Models\EARequestEmergencyTypeBridge.cs" />
+    <Compile Include="Models\EARequestParticipantBridge.cs" />
+    <Compile Include="Models\EARequest.cs" />
+    <Compile Include="Models\JRWorkShift.cs" />
+    <Compile Include="Models\EAStatusReason.cs" />
+    <Compile Include="Models\EAStatus.cs" />
+    <Compile Include="Models\EAEmergencyType.cs" />
+    <Compile Include="Models\EARequestContactInfo.cs" />
+    <Compile Include="Models\ParticipationPeriodLookUp.cs" />
+    <Compile Include="Models\AuxiliaryStatusType.cs" />
+    <Compile Include="Models\CFParticipationEntry.cs" />
+    <Compile Include="Models\EnrolledProgramGCGReasonBridge.cs" />
+    <Compile Include="Models\EnrolledProgramGCDReasonBridge.cs" />
+    <Compile Include="Models\EnrolledProgramNPReasonBridge.cs" />
+    <Compile Include="Models\AuxiliaryReason.cs" />
+    <Compile Include="Models\OverPayment.cs" />
+    <Compile Include="Models\EAComment.cs" />
+    <Compile Include="Models\EACommentTypeBridge.cs" />
+    <Compile Include="Models\EACommentType.cs" />
+    <Compile Include="Models\USP_GetDB2AuxDetails_Result.cs" />
+    <Compile Include="Models\WeeklyHoursWorked.cs" />
+    <Compile Include="Models\WorkerTaskCategory.cs" />
+    <Compile Include="Models\WorkerTaskList.cs" />
+    <Compile Include="Models\ParticipationPeriodSummary.cs" />
+    <Compile Include="Models\PullDownDate.cs" />
+    <Compile Include="Models\ParticipationMakeUpEntry.cs" />
+    <Compile Include="Models\ActionPriority.cs" />
+    <Compile Include="Models\ActionItem.cs" />
+    <Compile Include="Models\ActionNeeded.cs" />
+    <Compile Include="Models\ActionAssignee.cs" />
+    <Compile Include="Models\ActionNeededTask.cs" />
+    <Compile Include="Models\ActionNeededPage.cs" />
+    <Compile Include="Models\GoodCauseDeniedReason.cs" />
+    <Compile Include="Models\GoodCauseGrantedReason.cs" />
+    <Compile Include="Models\NonParticipationReason.cs" />
+    <Compile Include="Models\ParticipationEntry.cs" />
+    <Compile Include="Models\PlacementType.cs" />
+    <Compile Include="Models\AddressVerificationTypeLookup.cs" />
+    <Compile Include="Models\CareerAssessment.cs" />
+    <Compile Include="Models\CareerAssessmentElementBridge.cs" />
+    <Compile Include="Models\Element.cs" />
+    <Compile Include="Models\EnrolledProgramPinCommentTypeBridge.cs" />
+    <Compile Include="Models\JobReadiness.cs" />
+    <Compile Include="Models\JRApplicationInfo.cs" />
+    <Compile Include="Models\JRContactInfo.cs" />
+    <Compile Include="Models\JRHistoryInfo.cs" />
+    <Compile Include="Models\JRInterviewInfo.cs" />
+    <Compile Include="Models\JRWorkPreferences.cs" />
+    <Compile Include="Models\OrganizationLocation.cs" />
+    <Compile Include="Models\OrganizationInformation.cs" />
+    <Compile Include="Models\PCCTBridge.cs" />
+    <Compile Include="Models\PinCommentType.cs" />
+    <Compile Include="Models\PinComment.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\ActivityContactBridge.cs" />
+    <Compile Include="Models\ActivityLocation.cs" />
+    <Compile Include="Models\ActivitySchedule.cs" />
+    <Compile Include="Models\ActivityScheduleFrequencyBridge.cs" />
+    <Compile Include="Models\ContractArea.cs" />
+    <Compile Include="Models\EmployabilityPlanGoalBridge.cs" />
+    <Compile Include="Models\EmployabilityPlanActivityBridge.cs" />
+    <Compile Include="Models\EmployabilityPlanStatusType.cs" />
+    <Compile Include="Models\EmploymentInformation.cs" />
+    <Compile Include="Models\EnrolledProgramJobTypeBridge.cs" />
+    <Compile Include="Models\EnrolledProgramParticipationStatusTypeBridge.cs" />
+    <Compile Include="Models\EnrolledProgramActivityCompletionReasonBridge.cs" />
+    <Compile Include="Models\EnrolledProgramEPActivityTypeBridge.cs" />
+    <Compile Include="Models\EnrolledProgramValidity.cs" />
+    <Compile Include="Models\ActivityCompletionReason.cs" />
+    <Compile Include="Models\JobType.cs" />
+    <Compile Include="Models\RuleReason.cs" />
+    <Compile Include="Models\ParticipantEnrolledProgram.cs" />
+    <Compile Include="Models\ParticipationStatus.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\SimulatedDate.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\ActivityType.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\ContactTitleType.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\EmployabilityPlan.cs" />
+    <Compile Include="Models\EnrolledProgram.cs" />
+    <Compile Include="Models\Frequency.cs" />
+    <Compile Include="Models\FrequencyType.cs" />
+    <Compile Include="Models\Goal.cs" />
+    <Compile Include="Models\GoalEndReason.cs" />
+    <Compile Include="Models\GoalStep.cs" />
+    <Compile Include="Models\GoalType.cs" />
+    <Compile Include="Models\Participant.cs" />
+    <Compile Include="Models\NonSelfDirectedActivity.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\SupportiveService.cs" />
+    <Compile Include="Models\SupportiveServiceType.cs" />
+    <Compile Include="Models\USP_Create_Events.cs" />
+    <Compile Include="Models\USP_PrintEP_Info_Result.cs" />
+    <Compile Include="Models\WageHour.cs" />
+    <Compile Include="Models\Office.cs" />
+    <Compile Include="Models\CountyAndTribe.cs" />
+    <Compile Include="Models\Worker.cs" />
+    <Compile Include="Models\WorkerContactInfo.cs" />
+    <Compile Include="Models\YesNoUnknownLookup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Base\RepositoryBase.cs" />
+    <Compile Include="Models\EmployabilityPlanEmploymentInfoBridge.cs" />
+    <Compile Include="Repositories\PlanSectionResourceRepository.cs" />
+    <Compile Include="Repositories\PlanSectionRepository.cs" />
+    <Compile Include="Repositories\PlanRepository.cs" />
+    <Compile Include="Repositories\EmploymentVerificationRepository.cs" />
+    <Compile Include="Repositories\PlanSectionTypeRepository.cs" />
+    <Compile Include="Repositories\PlanStatusTypeRepository.cs" />
+    <Compile Include="Repositories\POPClaimActivityBridgeRepository.cs" />
+    <Compile Include="Repositories\AbsenceRepository.cs" />
+    <Compile Include="Repositories\POPClaimHighWageRepository.cs" />
+    <Compile Include="Repositories\PlanTypeRepository.cs" />
+    <Compile Include="Repositories\SpecialInitiativeRepository.cs" />
+    <Compile Include="Repositories\TimeLimitRepository.cs" />
+    <Compile Include="Repositories\TransactionRepository.cs" />
+    <Compile Include="Repositories\TransactionTypeRepository.cs" />
+    <Compile Include="Repositories\EARequestStatusRepository.cs" />
+    <Compile Include="Repositories\POPClaimStatusRepository.cs" />
+    <Compile Include="Repositories\WorkerTaskStatusRepository.cs" />
+    <Compile Include="Repositories\POPClaimEmploymentBridgeRepository.cs" />
+    <Compile Include="Repositories\POPClaimTypeRepository.cs" />
+    <Compile Include="Repositories\POPClaimRepository.cs" />
+    <Compile Include="Repositories\POPClaimStatusTypeRepository.cs" />
+    <Compile Include="Repositories\AfterPullDownWeeklyBatchDetailsRepository.cs" />
+    <Compile Include="Repositories\EARequestStatusReasonRepository.cs" />
+    <Compile Include="Repositories\EAFinancialNeedRepository.cs" />
+    <Compile Include="Repositories\ParticipantEnrolledProgramCutOverBridgeRepository.cs" />
+    <Compile Include="Repositories\EAVehiclesRepository.cs" />
+    <Compile Include="Repositories\ParticipationEntryHistoryRepository.cs" />
+    <Compile Include="Repositories\EAIPVReasonBridgeRepository.cs" />
+    <Compile Include="Repositories\EAIPVRepository.cs" />
+    <Compile Include="Repositories\EAIPVStatusRepository.cs" />
+    <Compile Include="Repositories\EAIPVReasonRepository.cs" />
+    <Compile Include="Repositories\EAIPVOccurrenceRepository.cs" />
+    <Compile Include="Repositories\EAPaymentRepository.cs" />
+    <Compile Include="Repositories\EAPaymentAmountRepository.cs" />
+    <Compile Include="Repositories\EligibilityByFPLRepository.cs" />
+    <Compile Include="Repositories\EAEmergencyTypeReasonRepository.cs" />
+    <Compile Include="Repositories\EAEmergencyTypeReasonBridgeRepository.cs" />
+    <Compile Include="Repositories\EAAssetsRepository.cs" />
+    <Compile Include="Repositories\EAHouseHoldIncomeRepository.cs" />
+    <Compile Include="Repositories\EAVerificationTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EAVerificationTypeRepository.cs" />
+    <Compile Include="Repositories\EASSNExemptTypeRepository.cs" />
+    <Compile Include="Repositories\EAHomelessnessRepository.cs" />
+    <Compile Include="Repositories\EAEnergyCrisisRepository.cs" />
+    <Compile Include="Repositories\EAImpendingHomelessnessRepository.cs" />
+    <Compile Include="Repositories\ParticipantPaymentHistoryRepository.cs" />
+    <Compile Include="Repositories\ParticipantPlacementRepository.cs" />
+    <Compile Include="Repositories\EARequestContactInfoRepository.cs" />
+    <Compile Include="Repositories\EAAlternateMailingAddressRepository.cs" />
+    <Compile Include="Repositories\DrugScreeningStatusRepository.cs" />
+    <Compile Include="Repositories\DrugScreeningStatusTypeRepository.cs" />
+    <Compile Include="Repositories\JRWorkShiftRepository.cs" />
+    <Compile Include="Repositories\JRWorkPreferenceShiftBridgeRepository.cs" />
+    <Compile Include="Repositories\EACommentTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EACommentTypeRepository.cs" />
+    <Compile Include="Repositories\EACommentRepository.cs" />
+    <Compile Include="Repositories\EARequestEmergencyTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\DrugScreeningRepository.cs" />
+    <Compile Include="Repositories\EARelationshipTypeRepository.cs" />
+    <Compile Include="Repositories\EAIndividualTypeRepository.cs" />
+    <Compile Include="Repositories\EARequestParticipantBridgeRepository.cs" />
+    <Compile Include="Repositories\EAStatusReasonRepository.cs" />
+    <Compile Include="Repositories\OverPaymentRepository.cs" />
+    <Compile Include="Repositories\EARequestRepository.cs" />
+    <Compile Include="Repositories\EAStatusRepository.cs" />
+    <Compile Include="Repositories\EAEmergencyTypeRepository.cs" />
+    <Compile Include="Repositories\AuxiliaryStatusRepository.cs" />
+    <Compile Include="Repositories\AuxiliaryRepository.cs" />
+    <Compile Include="Repositories\WeeklyHoursWorkedRepository.cs" />
+    <Compile Include="Repositories\WorkerTaskCategoryRepository.cs" />
+    <Compile Include="Repositories\ParticipationPeriodLookUpRepository.cs" />
+    <Compile Include="Repositories\CFParticipationEntryRepository.cs" />
+    <Compile Include="Repositories\AuxiliaryStatusTypeRepository.cs" />
+    <Compile Include="Repositories\AuxiliaryReasonRepository.cs" />
+    <Compile Include="Repositories\DocumentRepository.cs" />
+    <Compile Include="Repositories\WorkerTaskListRepository.cs" />
+    <Compile Include="Repositories\ParticipationPeriodSummaryRepository.cs" />
+    <Compile Include="Repositories\ParticipationMakeUpEntryRepository.cs" />
+    <Compile Include="Repositories\ParticipationEntryRepository.cs" />
+    <Compile Include="Repositories\GoodCauseGrantedReasonRepository.cs" />
+    <Compile Include="Repositories\GoodCauseDeniedReasonRepository.cs" />
+    <Compile Include="Repositories\NonParticipationReasonRepository.cs" />
+    <Compile Include="Repositories\PlacementTypeRepository.cs" />
+    <Compile Include="Repositories\WorkerContactInfoRepository.cs" />
+    <Compile Include="Repositories\ActionPriorityRepository.cs" />
+    <Compile Include="Repositories\ActionNeededTaskRepository.cs" />
+    <Compile Include="Repositories\ActionNeededPageRepository.cs" />
+    <Compile Include="Repositories\ActionNeededRepository.cs" />
+    <Compile Include="Repositories\ActionItemRepository.cs" />
+    <Compile Include="Repositories\ActionAssigneeRepository.cs" />
+    <Compile Include="Repositories\CareerAssessmentElementBridgeRepository.cs" />
+    <Compile Include="Repositories\CareerAssessmentRepository.cs" />
+    <Compile Include="Repositories\ElementRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramJobTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramEPActivityTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EmployabilityPlanEmploymentInfoBridgeRepository.cs" />
+    <Compile Include="Repositories\EmploymentInformationRepository.cs" />
+    <Compile Include="Repositories\JobReadinessRepository.cs" />
+    <Compile Include="Repositories\JRApplicationInfoRepository.cs" />
+    <Compile Include="Repositories\JRContactInfoRepository.cs" />
+    <Compile Include="Repositories\JRHistoryInfoRepository.cs" />
+    <Compile Include="Repositories\JRInterviewInfoRepository.cs" />
+    <Compile Include="Repositories\JRWorkPreferencesRepository.cs" />
+    <Compile Include="Repositories\OrganizationLocationRepository.cs" />
+    <Compile Include="Repositories\OrganizationInformationRepository.cs" />
+    <Compile Include="Repositories\PCCTBridgeRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramPinCommentTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramParticipationStatusTypeBridgeRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramActivityCompletionReasonBridgeRepository.cs" />
+    <Compile Include="Repositories\EmployabilityPlanGoalBridgeRepository.cs" />
+    <Compile Include="Repositories\ContractAreaRepository.cs" />
+    <Compile Include="Repositories\EmployabilityPlanActivityBridgeRepository.cs" />
+    <Compile Include="Repositories\EmployabilityPlanStatusTypeRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramValidityRepository.cs" />
+    <Compile Include="Repositories\ActivityCompletionReasonRepository.cs" />
+    <Compile Include="Repositories\JobTypeRepository.cs" />
+    <Compile Include="Repositories\CountyAndTribeRepository.cs" />
+    <Compile Include="Repositories\PinCommentTypeRepository.cs" />
+    <Compile Include="Repositories\PinCommentRepository.cs" />
+    <Compile Include="Repositories\RuleReasonRepository.cs" />
+    <Compile Include="Repositories\OrganizationRepository.cs" />
+    <Compile Include="Repositories\ParticipantEnrolledProgramRepository.cs" />
+    <Compile Include="Repositories\SimulatedDateRepository.cs" />
+    <Compile Include="Repositories\StatusRepository.cs" />
+    <Compile Include="Repositories\ParticipationStatusRepository.cs" />
+    <Compile Include="Repositories\ContactTitleTypeRepository.cs" />
+    <Compile Include="Repositories\ActivityLocationRepository.cs" />
+    <Compile Include="Repositories\ActivityContactBridgeRepository.cs" />
+    <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\ActivityScheduleFrequencyBridgeRepository.cs" />
+    <Compile Include="Repositories\ActivityScheduleRepository.cs" />
+    <Compile Include="Repositories\ActivityTypeRepository.cs" />
+    <Compile Include="Repositories\CityRepository.cs" />
+    <Compile Include="Repositories\ContactRepository.cs" />
+    <Compile Include="Repositories\CountryRepository.cs" />
+    <Compile Include="Repositories\EmployabilityPlanRepository.cs" />
+    <Compile Include="Repositories\EnrolledProgramRepository.cs" />
+    <Compile Include="Repositories\FrequencyRepository.cs" />
+    <Compile Include="Repositories\FrequencyTypeRepository.cs" />
+    <Compile Include="Repositories\GoalEndReasonRepository.cs" />
+    <Compile Include="Repositories\GoalRepository.cs" />
+    <Compile Include="Repositories\GoalStepRepository.cs" />
+    <Compile Include="Repositories\GoalTypeRepository.cs" />
+    <Compile Include="Repositories\ParticipantRepository.cs" />
+    <Compile Include="Repositories\NonSelfDirectedActivityRepository.cs" />
+    <Compile Include="Repositories\StateRepository.cs" />
+    <Compile Include="Repositories\SupportiveServiceRepository.cs" />
+    <Compile Include="Repositories\SupportiveServiceTypeRepository.cs" />
+    <Compile Include="Repositories\WageHourRepository.cs" />
+    <Compile Include="Repositories\OfficeRepository.cs" />
+    <Compile Include="Repositories\PullDownDateRepository.cs" />
+    <Compile Include="Repositories\WorkerRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DCF.Common\DCF.Common.csproj">
+      <Project>{339CB03A-E916-4679-9499-111139A22710}</Project>
+      <Name>DCF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.Model.Interface\Dcf.Wwp.Model.Interface.csproj">
+      <Project>{41D99D81-12F1-4321-AA8E-ECFBDBEE279D}</Project>
+      <Name>Dcf.Wwp.Model.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+</Project>

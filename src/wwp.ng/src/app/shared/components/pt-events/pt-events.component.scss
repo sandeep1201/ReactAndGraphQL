@@ -1,0 +1,29 @@
+a {
+  color:#007bff;
+  &:not([href]) {
+    &:hover {
+      cursor: pointer;
+    color:#007bff;
+    text-decoration: underline !important;
+  }
+  }
+}
+  .cal-events {
+     flex: 1 0 0;
+    align-items: flex-start;
+    margin: 0px;
+    line-height: 10px;
+    flex-direction:column;
+    flex-wrap: wrap;
+  //   .cal-event {
+  //   margin: 5px 0px 5px 0px;
+  // }
+  }
+    .cal-buttons {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+  }

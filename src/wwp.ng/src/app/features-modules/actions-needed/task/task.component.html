@@ -1,0 +1,63 @@
+<div class="task-card">
+    <div class="c-head cell">
+        <div *ngIf="this.isLoading === false" class="status-holder dont-print">
+            <span class="ongoing" (click)="changeState()" *ngIf="task.getTaskStatus() === 'onGoing'"><i class="far fa-circle"></i></span>
+            <span class="completed" *ngIf="task.getTaskStatus() === 'completed'"><i class="far fa-check-circle"></i></span>
+            <span class="not-completed" *ngIf="task.getTaskStatus() === 'notCompleted'"><i class="far fa-times-circle"></i></span>
+        </div>
+        <div *ngIf="this.isLoading === true" class="status-holder dont-print">
+            <span><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i></span>
+        </div>
+        <div class="main-info-holder">
+            <div class="titles">
+                <span class="page dont-print">{{task.pageName}}</span>
+                <span *ngIf="task.pageName != 'Other' && task.actionItemName" class="action-item">{{task.actionItemName}}</span>
+            </div>
+            <div class="follow-up">{{task.followUpTask}}</div>
+        </div>
+    </div>
+    <div class="c-details cell dont-print" *ngIf="task.details">
+        <div class="details tgrey4">{{task.details}}</div>
+    </div>
+    <div class="c-info dont-print">
+        <div class="info-thirds">
+            <div class="info-completed" [class.hidden]="task.getTaskStatus() != 'onGoing'">
+                <!-- if ongoing -->
+                <span class="ci-label"><i class="fa fa-calendar"></i> Date Completed</span>
+                <span class="ci-value tgrey3">Ongoing</span>
+            </div>
+            <div class="info-completed" [class.hidden]="task.getTaskStatus() !=  'completed'">
+                <!-- if completed -->
+                <span class="ci-label tgreen3"><i class="fa fa-calendar-check"></i> Date Completed</span>
+                <span class="ci-value">{{task.completionDate | dateMmDdYyyy}}</span>
+            </div>
+            <div class="info-completed" [class.hidden]="task.getTaskStatus() != 'notCompleted'">
+                <!-- if not completed -->
+                <span class="tred ci-label"><i class="fa fa-calendar-times"></i> Date Completed</span>
+                <span class="ci-value">Did Not Complete</span>
+            </div>
+            <div class="info-due" [class.overdue]="task.isOverDueDate()" [class.due-soon]="task.isDueDateSoon()">
+                <!-- add condition for overdue and appraching due date -->
+                <span class="ci-label"><i class="fa fa-calendar"></i> Due Date</span>
+                <span class="ci-value" *ngIf="!task.isNoDueDate" [class.tyellow]="task.whichColorIsDueDate() === 'yellow'" [class.tred]="task.whichColorIsDueDate() === 'red'">{{task.dueDate | dateMmDdYyyy}}</span>
+                <span class="ci-value" *ngIf="task.isNoDueDate">No Due Date</span>
+            </div>
+            <div class="info-priority" [class.low]="false" [class.high]="true">
+                <span class="ci-label"><i class="fa fa-exclamation-triangle"></i> Priority</span>
+                <span class="ci-value">{{task.priorityName}}</span>
+            </div>
+        </div>
+        <div class="info-edit dont-print">
+            <ul class="app-option-list">
+                <li *ngIf="!this.isReadOnly  && this.accessType === AccessType.edit" (click)="this.editTask()" class="app-option app-edit">
+                    <a><i class="fa fa-pencil-alt"></i></a>
+                </li>
+                <li *ngIf="!this.isReadOnly && this.accessType === AccessType.edit" (click)="this.tryDelete()" class="app-option app-delete">
+                    <a><i class="fa fa-trash-alt"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog *ngIf="inConfirmDeleteView" (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" title="Delete Task" confirmButtonText="Delete Task" cancelButtonText="Cancel" message="Deleting a task will remove its information throughout the entire application. Are you sure you want to do this?"></app-confirm-dialog>

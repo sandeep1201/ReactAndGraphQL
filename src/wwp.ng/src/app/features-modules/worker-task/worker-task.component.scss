@@ -1,0 +1,57 @@
+.info-pill {
+  border: 1px solid #95a5a6;
+  color:#fff;
+  display: inline-block;
+  margin-right:3px;
+  padding-left:0.25em;
+  background:#95a5a6;
+  overflow: hidden;
+  border-radius: 3px;
+
+}
+
+.info-pill span {
+  background:#fff;
+  color:#7f8c8d;
+  padding:0.5em;
+}
+
+.status-holder {
+  font-size: 2em;
+  user-select: none;
+  span {
+    padding-right: 0.25em;
+    color: #95a5a6;
+    transition: all 0.5s;
+  }
+  span.ongoing:hover {
+    cursor: pointer;
+    color: #7f8c8d;
+  }
+}
+
+.border-class {
+  border-bottom: 1px solid #bdc3c7;
+}
+
+input.search {
+  border: 1px solid #bdc3c7;
+  font-weight: normal;
+  line-height: 1em;
+  vertical-align: bottom;
+  padding: 0.5em;
+  display: inline-block;
+  margin: 0;
+}
+
+input.search.dirty {
+  border-left-color: #bdc3c7!important;
+}
+
+[class^="wwp-"]:before {
+  font-size: inherit;
+}
+
+.cursor-style {
+  cursor: pointer;
+}

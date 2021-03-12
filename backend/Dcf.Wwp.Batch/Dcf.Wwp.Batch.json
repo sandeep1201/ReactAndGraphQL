@@ -1,0 +1,104 @@
+{
+  "modules": [
+    {
+      "type": "Dcf.Wwp.Batch.AutofacModule, Dcf.Wwp.Batch",
+      "properties": {
+        "Message": "Hello from Dcf.Wwp.Batch",
+        "LogLevel": "DEBUG", // values = { "ALL" , "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF" }
+        "LogPath": "Logs",
+        "OutputPath": "Output",
+        "PreferredSection": "csvPath",
+        "EmailSection": "emailAddr",
+        "WWPPath": "wwpPath"
+      }
+    }
+  ],
+  "csvPath": [
+    {
+      "env": "WWPDEV",
+      "filepath": "\\\\dcfint.wistate.us\\proc\\FSE\\WWP\\dev\\WWP\\CSV\\PEPs.csv"
+    },
+    {
+      "env": "WWPSYS",
+      "filepath": "\\\\dcfint.wistate.us\\proc\\FSE\\WWP\\dev\\WWP\\CSV\\PEPs.csv"
+    },
+    {
+      "env": "WWPACC",
+      "filepath": "\\\\dcfint.wistate.us\\proc\\FSE\\WWP\\acc\\WWP\\CSV\\PEPs.csv"
+    },
+    {
+      "env": "WWP",
+      "filepath": "\\\\dcfint.wistate.us\\proc\\FSE\\WWP\\prod\\WWP\\CSV\\PEPs.csv"
+    }
+  ],
+  "emailAddr": {
+    "smtpServer": "smtpout.wi.gov",
+    "smtpPort": 25,
+    "from": "DCFDLWWPBITSSupport@wisconsin.gov",
+    "fromName": "DCF DL WWP BITS Support",
+    "sendAddrs": [
+      {
+        "jobName": "JWWWP06",
+
+        "to": [
+          "BWFWorkProgramsHD@wisconsin.gov"
+        ],
+        "cc": [
+          "Danise2.Doudna@wisconsin.gov"
+        ]
+      },
+      {
+        "jobName": "JWWWP10",
+
+        "to": [
+          "DCFDLWWPBITSSupport@wisconsin.gov"
+        ],
+        "cc": [
+          "silambholi.tholkappian@wisconsin.gov"
+        ]
+      },
+      {
+        "jobName": "JWWWP11",
+
+        "to": [
+          "DCFDLWWPBITSSupport@wisconsin.gov"
+        ],
+        "cc": [
+          "silambholi.tholkappian@wisconsin.gov"
+        ]
+      },
+      {
+        "jobName": "JWWWP12",
+
+        "to": [
+          "DCFDLWWPBITSSupport@wisconsin.gov"
+        ],
+        "cc": [
+          "silambholi.tholkappian@wisconsin.gov"
+        ]
+      }
+    ]
+  },
+  "wwpPath": [
+    {
+      "env": "WWPDEV",
+      "path": "http://localhost:11001/"
+    },
+    {
+      "env": "WWPSYS",
+      "path": "https://wwpdev.wisconsin.gov/"
+    },
+    {
+      "env": "WWPACC",
+      "path": "https://wwpacc.wisconsin.gov/"
+    },
+    {
+      "env": "WWPTRN",
+      "path": "https://wwptrn.wisconsin.gov/"
+    },
+    {
+      "env": "WWP",
+      "path": "https://wwp.wisconsin.gov/"
+    }
+  ]
+}

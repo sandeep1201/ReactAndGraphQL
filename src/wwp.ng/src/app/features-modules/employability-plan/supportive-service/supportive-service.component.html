@@ -1,0 +1,45 @@
+<fieldset id="app-container">
+  <div *ngIf="!this.isLoaded"
+    class="row">
+    <div class="col-md-12">
+      <blockquote class="jumbotron tcenter">
+        <div class="lg tgrey2 tcenter pad2">
+          <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+        </div>
+        <span>Loading Supportive Service(s)</span>
+      </blockquote>
+    </div>
+  </div>
+  <div *ngIf="this.isLoaded">
+    <h4>Supportive Services</h4>
+    <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+    <div class="row pad0-1">
+      <div id="lang-list"
+        class="col-md-12 repeater">
+        <app-service-repeater [cachedInitialModels]="originalModel"
+          [modelErrors]="modelErrors['supportiveServices']"
+          [serviceDropList]="supportiveServiceTypes"
+          (ngModelChange)="model = $event; checkState()"
+          [(ngModel)]="model"></app-service-repeater>
+      </div>
+    </div>
+
+    <div class="row justify-content-end">
+      <div class="col-md-5 d-flex justify-content-end">
+        <span *ngIf="hadSaveError">There was an error saving.</span>
+        <span *ngIf="!this.isSaving"
+          class="btn btn-save"
+          (click)="clickSave(false)">
+          <span class="btn-save-text">Save</span>
+          <button class="btn btn-cont"
+            (click)="clickSave(true)">+ Exit</button>
+        </span>
+        <span *ngIf="this.isSaving"
+          class="btn btn-save">
+          <span class="btn btn-save btn-save-text btn-cont disabled"><i
+              class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</fieldset>

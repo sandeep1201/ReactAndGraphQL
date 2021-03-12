@@ -1,0 +1,70 @@
+<div *ngIf="!this.isLoaded" class="flex-row">
+  <div class="col-md-12">
+    <blockquote class="jumbotron tcenter">
+      <div class="lg tgrey2 tcenter pad2">
+        <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+      </div>
+      <span>Loading Historical Goal(s)</span>
+    </blockquote>
+  </div>
+</div>
+<div class="app-content" *ngIf="isLoaded">
+    <app-sub-header pageTitle="Historical Goals" [pin]="pin" [goBackUrl]="goBackUrl"
+    [participant]="participant" [helpComponent]="'historical-goals'"></app-sub-header>
+</div>
+
+<div class="row" *ngIf="isLoaded && !this.goals?.length">
+  <blockquote class="tcenter pad2">
+    <p>Participant does not have any Goals.</p>
+  </blockquote>
+</div>
+
+  <div class="row list-item p-1 card-body" *ngFor="let goal of this.goals | paginate: config">
+    <div *ngIf="isLoaded" class="item col-md-12" (click)="singleEntry(goal)">
+      <div class="row">
+          <div class="col-md-2">
+              <p class="programFont">{{goal.program}}</p>
+          </div>
+        <div class="col-md-5">
+          <h6>Goal Type:</h6>
+          <p class="tgrey3 wrapword">{{goal.goalTypeName}}</p>
+          <h6>Goal Name:</h6>
+          <p class="tgrey3 wrapword">{{goal.name}}</p>
+          <h6>Goal Description:</h6>
+          <p class="tgrey3 wrapword">{{goal.details}}</p>
+        </div>
+        <div class="col-md-5">
+          <h6>Begin Date:</h6>
+          <p class="tgrey3 wrapword">{{goal.beginDate | date:'MM/dd/yyyy'}}</p>
+          <div *ngIf="goal.endReasonId !== null">
+            <h6>End Date:</h6>
+            <p class="tgrey3 wrapword">{{goal.endDate | date:'MM/dd/yyyy'}}</p>
+            <h6>End Reason:</h6>
+            <p class="tgrey3 wrapword">{{goal.endReasonName}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="tcenter full pad1-0">
+        <pagination-template *ngIf="goals?.length > config.itemsPerPage" #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event"
+          class="center">
+          <button class="btn btn-add" (click)="p.previous()" *ngIf="!p.isFirstPage()">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          <button class="btn btn-add disabled" *ngIf="p.isFirstPage()">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          <span class="paging-info pad0-1">
+            {{numberInView(config, p, goals?.length)}} of {{goals?.length}}
+          </span>
+          <button class="btn btn-add" (click)="p.next()" *ngIf="!p.isLastPage()">
+            <i class="fa fa-angle-right"></i>
+          </button>
+          <button class="btn btn-add disabled" *ngIf="p.isLastPage()">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </pagination-template>
+
+      </div>

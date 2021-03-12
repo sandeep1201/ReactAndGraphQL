@@ -1,0 +1,27 @@
+.grid-container-5-1fr {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: 1.4fr 1.4fr 1fr 1fr .2fr;
+  -ms-grid-columns: 1.4fr 1.4fr 1fr 1fr .2fr;
+  @for $i from 1 through 12 {
+      .grid-item:nth-child(#{$i}) {
+          -ms-grid-column: ($i);
+          grid-column: ($i);
+      }
+      ;
+  }
+}
+
+.del-rfa {
+  width: 100%;
+  margin: auto;
+  font-size: 1.6em;
+  text-align: center;
+  padding: .1em 0 .1em 0;
+  cursor: pointer;
+}
+
+.add-rfa-child {
+  grid-column: 9;
+  -ms-grid-column: 9;
+}

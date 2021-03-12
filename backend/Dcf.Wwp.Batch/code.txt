@@ -1,0 +1,156 @@
+﻿-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+var cb = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddEnvironmentVariables("WWP_")
+            .AddJsonFile($"{appName}.json")
+            .Build();
+
+			var config   = cb.GetSection("App");
+			var settings = config.Get<BatchSettings>();
+-----------------------------------------------------------
+-----------------------------------------------------------
+//var coEnrolledList    = resultsList.Where(i => i.CoEnrolled == true).ToList();
+//var nonCoEnrolledList = resultsList.Where(i => i.CoEnrolled == false).ToList();
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+
+    //builder.Register((c, p) => new ExportAsCsv(c.Resolve<IBatchJobOptions>(), c.Resolve<ILog>())).Named<IExportable>("csv");
+    //builder.Register((c, p) => new ExportAsXml(c.Resolve<IBatchJobOptions>(), c.Resolve<ILog>())).Named<IExportable>("xml");
+    //builder.Register((c, p) => new ExportJWWWP02AsCsv(c.Resolve<IBatchJobOptions>(), c.Resolve<ILog>())).Named<IExportable>("JWWWP02");
+
+    //builder.Register((c, p) => new ExportAsCsv(c.Resolve<IJobOptions>(),c.Resolve<ILog>())).As<IExportable>();
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+
+                        dataView.RowFilter = "CoEnrolled = true";
+                        var dvFiltered = dataView;
+
+                        var c = dvFiltered.Count;
+
+                        var resultsList = dataTable.AsEnumerable()
+                                                   .Select(r => new
+                                                                {
+                                                                    PinNumber         = r.Field<decimal?>("PinNumber"),
+                                                                    PEPId             = r.Field<int?>("PEPId"),
+                                                                    EnrolledProgramCd = r.Field<string>("EnrolledProgram"),
+                                                                    StatusDate        = r.Field<DateTime?>("StatusDate"),
+                                                                    PEPStatus         = r.Field<string>("PEPStatus"),
+                                                                    CoEnrolled        = r.Field<bool?>("CoEnrolled")
+                                                                });
+                        //.ToList();
+
+                        var x = dataTable.AsEnumerable()
+                                         .Where(r => r.Field<bool?>("CoEnrolled") == true)
+                                         .Select(r => new
+                                                      {
+                                                          PinNumber         = r.Field<decimal?>("PinNumber"),
+                                                          PEPId             = r.Field<int?>("PEPId"),
+                                                          EnrolledProgramCd = r.Field<string>("EnrolledProgram"),
+                                                          StatusDate        = r.Field<DateTime?>("StatusDate"),
+                                                          PEPStatus         = r.Field<string>("PEPStatus"),
+                                                          CoEnrolled        = r.Field<bool?>("CoEnrolled")
+                                                      })
+                                         .ToList();
+
+-----------------------------------------------------------
+
+// job logger (experimental)
+
+var jobLogger = (Logger) LogManager.GetLogger($"{appName}.job").Logger;
+jobLogger.Parent     = logger;
+jobLogger.Level      = ParseLogLevel(LogLevel);
+jobLogger.Additivity = true;
+-----------------------------------------------------------
+-----------------------------------------------------------
+var dt = new DataTable();
+                        dt.Clear();
+                        dt.Columns.Add("PinNumber", typeof(decimal));
+                        dt.Columns.Add("PEPId", typeof(int));
+                        dt.Columns.Add("EnrolledProgramStatusCodeId", typeof(int));
+                        dt.Columns.Add("DisenrollmentDate", typeof(DateTime));
+
+                        var dr = dt.NewRow();
+                        dr["PinNumber"]                   = 3009035047;
+                        dr["PEPId"]                       = 11752;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"]           = new DateTime(9999, 12, 31);
+                        dt.Rows.Add(dr);
+
+                        dr = dt.NewRow();
+                        dr["PinNumber"]                   = 5008888048;
+                        dr["PEPId"]                       = 11740;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"]           = new DateTime(9999, 12, 31);
+                        dt.Rows.Add(dr);
+
+                        dr = dt.NewRow();
+                        dr["PinNumber"] = 5009475049;
+                        dr["PEPId"] = 11741;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"] = new DateTime(9999, 12, 31);
+                        dt.Rows.Add(dr);
+
+                        dr = dt.NewRow();
+                        dr["PinNumber"] = 6008894901;
+                        dr["PEPId"] = 11730;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"] = new DateTime(9999, 12, 31);
+                        dt.Rows.Add(dr);
+
+                        dr = dt.NewRow();
+                        dr["PinNumber"] = 6009241529;
+                        dr["PEPId"] = 11755;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"] = new DateTime(9999, 12, 31);
+                        dt.Rows.Add(dr);
+-----------------------------------------------------------
+                        var dt = new DataTable("ResultSet");
+                        dt.Clear();
+                        //dt.Columns.Add("PinNumber");
+                        //dt.Columns.Add("RFANumber");
+                        //dt.Columns.Add("RFAStatus");
+
+                        //var dr = dt.NewRow();
+                        //dr["PinNumber"] = "8009562785";
+                        //dr["RFANumber"] = "4003760247";
+                        //dr["RFAStatus"] = "In Progress";
+                        //dt.Rows.Add(dr);
+
+
+                        dt.Clear();
+                        dt.Columns.Add("PinNumber",typeof(decimal));
+                        dt.Columns.Add("PEPId",typeof(int));
+                        dt.Columns.Add("EnrolledProgramStatusCodeId",typeof(int));
+                        dt.Columns.Add("DisenrollmentDate",typeof(DateTime));
+
+                        var dr = dt.NewRow();
+                        dr["PinNumber"] = 3009035047;
+                        dr["PEPId"] = 11752;
+                        dr["EnrolledProgramStatusCodeId"] = 3;
+                        dr["DisenrollmentDate"] = new DateTime(9999,12,31);
+                        dt.Rows.Add(dr);
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------

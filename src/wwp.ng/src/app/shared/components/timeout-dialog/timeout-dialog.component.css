@@ -1,0 +1,26 @@
+.timeout-modal{
+  background: #333; /* Fallback color */
+  background: rgba(0,0,0,0.75);
+  overflow: auto; /* Enable scroll if needed */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1050;
+  cursor: not-allowed;
+  display: block;
+  transition:none;
+}
+
+.dialog-content{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+
+.modal-container{
+  width: 600px;
+  min-height: 20px; /* overriding the system standard */
+}

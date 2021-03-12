@@ -1,0 +1,10 @@
+<div class="card">
+  <div class="card-header">
+    <app-ep-card-header [showEdit]="showEdit" [title]="'Supportive Services'" (editSec)="editSection()">
+    </app-ep-card-header>
+  </div>
+  <div class="card-body flex pad1" *ngFor="let s of this.supportiveServices">
+    <div class="item">Service: <span class="tgrey3 ">{{s.supportiveServiceTypeName}}</span></div>
+    <div class="item w-100" *ngIf="s.details != null">Details: <span class="tgrey3 w-100">{{s.details}}</span></div>
+  </div>
+</div>

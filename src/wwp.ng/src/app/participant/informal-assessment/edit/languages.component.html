@@ -1,0 +1,160 @@
+<h2 class="poplegend">
+  Languages
+  <!--<button class="label label-info sec-help help-label" (click)="help.open('lg')"><i class="fa fa-question"></i></button>-->
+  <app-help-button [featureName]="'ia-languages-help'"></app-help-button>
+</h2>
+
+<!-- We should load this dynamically -->
+<blockquote class="popdesc">The following questions are about the language or languages that you read, write and speak.
+</blockquote>
+
+<fieldset *ngIf="model && isActive" class="form-page">
+
+  <!--This is where we show validation errors-->
+  <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+  <app-modified-stamp *ngIf="model?.modifiedBy" [author]="model?.modifiedBy" [lastModified]="model?.modifiedDate"
+    [readOnly]="true"></app-modified-stamp>
+
+  <table class="table table-borderless" id="opt-lang">
+
+    <thead>
+      <tr class="d-flex form-group">
+        <td class="col-md-4">
+          &nbsp;
+        </td>
+        <td class="col-md-4">Language</td>
+        <td class="col-md-1">Read</td>
+        <td class="col-md-1">Write</td>
+        <td class="col-md-1">Speak</td>
+        <td class="col-md-1">&nbsp;</td>
+      </tr>
+
+    </thead>
+    <tbody id="lang-primary" class="flex-wrap">
+
+      <tr class="d-flex form-group">
+        <td class="col-md-4">
+          What language do you use at home?
+          <input type="hidden" id="lang-home-id" name="lang-home-id" value="0" />
+        </td>
+
+        <td class="col-md-4">
+          <app-auto-complete [defaultRequired]="true" [isValidByParent]="modelErrors['homeLanguageTypeId']"
+            [cacheInnerValue]="cached?.homeLanguageTypeId"
+            (ngModelChange)="model.homeLanguageTypeId = $event; checkState();" [isRequired]="true" *ngIf="model"
+            [(ngModel)]="model.homeLanguageTypeId" [dropDownList]="languageDrop"></app-auto-complete>
+        </td>
+
+        <td class="col-md-1">
+          <app-yes-no (ngModelChange)="model.isAbleToReadHomeLanguage = $event; checkState();"
+            [cacheInnerValue]="cached?.isAbleToReadHomeLanguage" [isInvalid]="modelErrors['isAbleToReadHomeLanguage']"
+            [defaultRequired]="true" [radioButtonStyle]="true"
+            [ButtonsStates]="[model.isAbleToReadHomeLanguage, model.isAbleToWriteHomeLanguage, model.isAbleToSpeakHomeLanguage]"
+            [(ngModel)]="model.isAbleToReadHomeLanguage"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">
+          <app-yes-no (ngModelChange)="model.isAbleToWriteHomeLanguage = $event; checkState();"
+            [cacheInnerValue]="cached?.isAbleToWriteHomeLanguage" [isInvalid]="modelErrors['isAbleToWriteHomeLanguage']"
+            [defaultRequired]="true" [radioButtonStyle]="true"
+            [ButtonsStates]="[model.isAbleToReadHomeLanguage, model.isAbleToWriteHomeLanguage, model.isAbleToSpeakHomeLanguage]"
+            [(ngModel)]="model.isAbleToWriteHomeLanguage"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">
+          <app-yes-no (ngModelChange)="model.isAbleToSpeakHomeLanguage = $event; checkState();"
+            [cacheInnerValue]="cached?.isAbleToSpeakHomeLanguage" [isInvalid]="modelErrors['isAbleToSpeakHomeLanguage']"
+            [defaultRequired]="true" [radioButtonStyle]="true"
+            [ButtonsStates]="[model.isAbleToReadHomeLanguage, model.isAbleToWriteHomeLanguage, model.isAbleToSpeakHomeLanguage]"
+            [(ngModel)]="model.isAbleToSpeakHomeLanguage"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">&nbsp;</td>
+      </tr>
+
+      <tr class="d-flex form-group know-english"
+        *ngIf="model?.homeLanguageTypeId != null && model?.homeLanguageTypeId.toString() !== '' && model?.homeLanguageTypeId != englishId">
+
+        <td class="col-md-4">
+          Which English skills do you have?
+          <input type="hidden" id="lang-eng-id" name="lang-eng-id" value="0" />
+
+        </td>
+        <td class="col-md-4">
+          <button type="button" class="btn btn-default disabled full tleft">English</button>
+        </td>
+
+        <td class="col-md-1">
+          <!--Lang Eng Read-->
+          <app-yes-no [defaultRequired]="true" [isInvalid]="modelErrors['isAbleToReadEnglish']"
+            [cacheInnerValue]="cached?.isAbleToReadEnglish"
+            (ngModelChange)="model.isAbleToReadEnglish = $event; checkState();" [radioButtonStyle]="true"
+            [(ngModel)]="model.isAbleToReadEnglish"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">
+          <!--Lang Eng Write-->
+          <app-yes-no [defaultRequired]="true" [isInvalid]="modelErrors['isAbleToWriteEnglish']"
+            [cacheInnerValue]="cached?.isAbleToWriteEnglish"
+            (ngModelChange)="model.isAbleToWriteEnglish = $event; checkState();" [radioButtonStyle]="true"
+            [(ngModel)]="model.isAbleToWriteEnglish"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">
+          <app-yes-no [defaultRequired]="true" [isInvalid]="modelErrors['isAbleToSpeakEnglish']"
+            [cacheInnerValue]="cached?.isAbleToSpeakEnglish"
+            (ngModelChange)="model.isAbleToSpeakEnglish = $event; checkState();" [radioButtonStyle]="true"
+            [(ngModel)]="model.isAbleToSpeakEnglish"></app-yes-no>
+        </td>
+
+        <td class="col-md-1">&nbsp;</td>
+      </tr>
+    </tbody>
+
+    <tbody id="lang-list" class="repeater">
+      <app-language-repeater class="w-100" (onCheckState)="checkState($event)" (onDirty)="checkState($event)"
+        [modelErrors]="modelErrors['knownLanguages']" [cachedInitialModels]="this.cached?.knownLanguages"
+        [dropDownList]="languageDrop" (ngModelChange)="model.knownLanguages = $event; checkState()"
+        [(ngModel)]="model.knownLanguages"></app-language-repeater>
+    </tbody>
+
+  </table>
+
+  <hr class="spacer" />
+
+  <div class="row px-3 interpreter-holder"
+    *ngIf="model && model.homeLanguageTypeId != null && model.homeLanguageTypeId != englishId">
+
+    <div class="col-md-5">
+      <label class="control-label" for="lang-interpreter">Do you need an interpreter?</label>
+    </div>
+
+    <div class="col-md-2">
+      <div class="right">
+        <app-yes-no-basic *ngIf="model" [errorIndicator]="modelErrors['isNeedingInterpreter']"
+          [cacheInnerValue]="cached?.isNeedingInterpreter" [isRequired]="true"
+          (ngModelChange)="model.isNeedingInterpreter = $event; checkState();" [(ngModel)]="model.isNeedingInterpreter">
+        </app-yes-no-basic>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <app-text-area [maxlength]="380" [isAutoSizeable]="true" [placeholder]="'Details'"
+        [cacheInnerValue]="cached?.interpreterDetails"
+        (ngModelChange)="model.interpreterDetails = $event; checkState();" [(ngModel)]="model.interpreterDetails">
+      </app-text-area>
+    </div>
+
+  </div>
+
+  <hr />
+
+  <div class="px-3">
+    <div class="clearfix">
+      <app-text-area (ngModelChange)="model.notes = $event; checkState();" [cacheInnerValue]="cached?.notes"
+        [(ngModel)]="model.notes"></app-text-area>
+    </div>
+  </div>
+
+</fieldset>

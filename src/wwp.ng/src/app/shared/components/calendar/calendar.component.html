@@ -1,0 +1,92 @@
+<div>
+  <div *ngIf="!iseventsLoaded"
+    class="flex-row">
+    <div class="col-md-12">
+      <blockquote class="jumbotron tcenter">
+        <div class="lg tgrey2 tcenter pad2">
+          <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+        </div>
+        <span>Loading calendar with events</span>
+      </blockquote>
+    </div>
+  </div>
+  <div class="cal-month-view"
+    *ngIf="iseventsLoaded">
+    <div class="wrapper">
+      <div class="row">
+        <div class="col-md-1"
+          *ngIf="isCloseButtonRequired">
+          <a class="btn btn-back btn-secondary-outline btn-sm"
+            (click)="close()"
+            title="Close Calendar">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+        <h3 class="d-flex justify-content-center"
+          [class.col-md-10]="isCloseButtonRequired"
+          [class.col-md-12]="!isCloseButtonRequired">
+          <div [class.disabled]="isBackwardingDisabled">
+            <a class='btn btn-sm border border-secondary'
+              [class.disabled]="isBackwardingDisabled"
+              (click)='previousClicked() '>
+              <i class="fa fa-chevron-left"></i></a>
+          </div>
+          <div class="px-2 pt-1"
+            *ngIf="!isPTPeriod">{{headerMonth}}-{{viewDate.getFullYear()}}</div>
+          <div class="px-2 pt-1"
+            *ngIf="isPTPeriod">Participation Period: {{headerMonth}} 16<sup>th</sup>
+            {{viewDate.getFullYear()}} - {{headerNextMonth}} 15<sup>th</sup><span *ngIf="headerNextMonth === 'January'; else elsePart"> {{ viewDate.getFullYear() +1}} </span><ng-template #elsePart> {{ viewDate.getFullYear()}} </ng-template> </div>
+          <div [class.disabled]="isForwardingDisabled">
+            <a class='btn btn-sm border border-secondary'
+              [class.disabled]="isForwardingDisabled"
+              (click)='nextClicked()'><i class="fa fa-chevron-right"></i></a>
+          </div>
+        </h3>
+      </div>
+      <div class="cal-cell-row cal-header">
+        <div class="cal-cell"
+          *ngFor="let day of columnHeaders; trackBy: trackByWeekDayHeaderDate"
+          [class.cal-past]="day?.isPast"
+          [class.cal-future]="day?.isFuture"
+          [class.cal-weekend]="day?.isWeekend">
+          <span *ngIf="day.date"> {{ day.date.toLocaleDateString('en-US', { weekday: 'long' })}}</span>
+          <span *ngIf="day.title"> {{ day.title}}</span>
+        </div>
+      </div>
+      <div class="cal-days">
+        <div *ngFor="let rowIndex of viewRender.rowOffSetsWithWeekly; trackBy: trackByRowOffset">
+          <div class="cal-cell-row">
+            <div *ngFor="let day of viewRender.days | slice: rowIndex:rowIndex + viewRender.totalDaysVisibleInWeek;
+                trackBy: trackByDate"
+              class="cal-cell cal-day-cell"
+              [class.cal-past]="day?.isPast"
+              [class.cal-future]="day?.isFuture"
+              [class.cal-weekend]="day?.isWeekend">
+              <div class="cal-cell-top"
+                *ngIf="day?.date">
+                <span class="cal-day-number">{{
+                                                  day?.date?.getUTCDate()
+                                                }}</span>
+              </div>
+              <div [ngSwitch]="eventsName">
+                <app-ep-events *ngSwitchCase="'epEvents'"
+                  [day]="day"></app-ep-events>
+                <app-pt-events *ngSwitchCase="'ptEvents'"
+                  [canEdit]="canEdit"
+                  [day]="day"
+                  (clickedActivity)="clickedActivity($event)"
+                  (buttonClick)="clickedBtn($event)"></app-pt-events>
+                <app-ct-events *ngSwitchCase="'cftEvents'"
+                  [canEdit]="canEdit"
+                  [day]="day"
+                  (clickedActivity)="clickedActivity($event)"
+                  (buttonClick)="clickedBtn($event)"></app-ct-events>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

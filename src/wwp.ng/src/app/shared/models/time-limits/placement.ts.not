@@ -1,0 +1,39 @@
+import { AppService } from 'src/app/core/services/app.service';
+import { Timeline } from './timeline';
+import { DateRange, range } from '../../moment-range';
+import * as moment from 'moment';
+
+
+export class Placement {
+    Id: number;
+    /** Paid Placements */
+    static get W2T(): Placement { return new Placement('W2T'); }
+    static get CSJ(): Placement { return new Placement('CSJ'); }
+    static get CS1(): Placement { return new Placement('CS1'); }
+    static get CS2(): Placement { return new Placement('CS2'); }
+    static get CS3(): Placement { return new Placement('CS3'); }
+    static get TMP(): Placement { return new Placement('TMP'); }
+    static get TNP(): Placement { return new Placement('TNP'); }
+    static get TJB(): Placement { return new Placement('TJB'); }
+    static get CMC(): Placement { return new Placement('CMC'); }
+    static get JOB(): Placement { return new Placement('JOB'); }
+    static get ARP(): Placement { return new Placement('ARP'); }
+
+    /** Unpaid placements */
+    static get CMD(): Placement { return new Placement('CMD'); }
+    static get CMU(): Placement { return new Placement('CMU'); }
+    static get CMF(): Placement { return new Placement('CMF'); }
+    static get CMJ(): Placement { return new Placement('CMJ'); }
+    dateRange: DateRange;
+
+    constructor(public name: string, start: moment.MomentInput = null, end: moment.MomentInput = null) {
+        if (start != null) {
+            end = end || moment(Utilities.currentDate).endOf('month'); // if unspecified, we will assume it goes through tht current month
+            this.dateRange = range(start, end);
+        }
+    }
+
+    equals(other: Placement) {
+        return this.name === this.name && (this.dateRange && other.dateRange && this.dateRange.isSame(other.dateRange));
+    }
+}

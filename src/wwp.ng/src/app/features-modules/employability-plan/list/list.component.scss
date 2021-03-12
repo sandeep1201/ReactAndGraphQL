@@ -1,0 +1,22 @@
+.list-item {
+  font-size: 1.2em;
+  &.disabled {
+    color: #bdc3c7 !important;
+    pointer-events: none;
+
+    &:hover,
+    &:active {
+      color: #bdc3c7;
+      background: #fff;
+      pointer-events: none;
+      cursor: not-allowed;
+      box-shadow: none;
+      text-decoration: none;
+      pointer-events: none;
+    }
+  }
+}
+
+.add-ep-btn{
+padding: 0 15px 5px 0;
+}

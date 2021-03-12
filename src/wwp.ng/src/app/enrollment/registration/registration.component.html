@@ -1,0 +1,779 @@
+<div class="ani-slide-in-top"
+  id="app-container">
+
+  <app-dialog-box *ngIf="appService?.isDialogPresent"
+    (dialogClose)="exitRegistrationIgnoreChanges($event)"
+    [doesNotNavigateBack]="true"></app-dialog-box>
+
+  <header class="nav-header">
+    <div class="wrapper">
+      <div class="clearfix">
+        <a class="btn btn-back btn-secondary-outline btn-sm"
+          title="Close Record"
+          (click)="exitRegistration()">
+          <i class="fa fa-times"></i>
+        </a>
+        <h1 id="pageTitle"
+          *ngIf="!isEditDemographicsMode || isReadOnly"
+          class="px-3">Client Registration</h1>
+        <!-- IF NEW -->
+        <h1 id="pageTitle"
+          *ngIf="isEditDemographicsMode && !isReadOnly"
+          class="px-3">Edit Client Registration</h1>
+        <!-- IF EDIT -->
+        <div class="pad0-1">
+          <app-help-button [featureName]="'client-registration-help'"></app-help-button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div *ngIf="isLoaded === false"
+    class="app-content">
+    <div class="flex-row lg tgrey2 fb-jc-c  pad2">
+      <div class="flex-col">
+        <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+      </div>
+    </div>
+    <div class="flex-row fb-jc-c">
+      <div class="tgrey3 tcenter">Loading Participant...</div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoaded"
+    class="app-content">
+    <div class="wrapper pad1">
+
+      <div class="row pad1-0">
+
+        <aside id="sidebar"
+          [class.col-md-3]="!isCollapsed"
+          [class.col-md-1]="isCollapsed">
+          <div class="toggle-side"
+            (click)="sidebarToggle()">
+            <i class="fa fa-bars"></i>
+          </div>
+          <ul class="participant-menu popmenu">
+            <li class="menu-item"
+              (click)="scroll('#reg-personal')">Personal Information</li>
+            <li class="menu-item"
+              (click)="scroll('#reg-race')">Ethnicity / Race</li>
+            <li class="menu-item"
+              (click)="scroll('#reg-alias')">Alias Information</li>
+            <li class="menu-item"
+              *ngIf="!inEAMode"
+              (click)="scroll('#reg-address')">Address Information</li>
+          </ul>
+        </aside>
+
+        <main id="main-registration"
+          [class.col-md-9]="!isCollapsed"
+          [class.col-md-11]="isCollapsed">
+
+          <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+          <fieldset id="reg-personal"
+            *ngIf="model?.name">
+
+            <h4 class="part-title">Personal Information</h4>
+
+            <div class="clearance-info read-only">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>First Name</label>
+                  <app-generic-text-input [isDisabled]="isPersonInformationReadOnly"
+                    [isInvalid]="modelErrors['firstName']"
+                    [cacheInnerValue]="originalModel?.name?.firstName"
+                    [isRequired]="model.isFirstNameRequired"
+                    [NGMaxLength]="15"
+                    [(ngModel)]="model.name.firstName"
+                    (ngModelChange)="model.name.firstName = $event; validate();"></app-generic-text-input>
+                </div>
+                <div class="col-md-1">
+                  <label>MI</label>
+                  <app-generic-text-input [isDisabled]="isPersonInformationReadOnly"
+                    [isInvalid]="modelErrors['middleInitial']"
+                    [cacheInnerValue]="originalModel?.name?.middleInitial"
+                    [NGMaxLength]="1"
+                    [(ngModel)]="model.name.middleInitial"
+                    (ngModelChange)="model.name.middleInitial = $event; validate();"></app-generic-text-input>
+                </div>
+                <div class="col-md-5">
+                  <label>Last Name</label>
+                  <app-generic-text-input [isDisabled]="isPersonInformationReadOnly"
+                    [isInvalid]="modelErrors['lastName']"
+                    [cacheInnerValue]="originalModel?.name?.lastName"
+                    [isRequired]="model.isLastNameRequired"
+                    [NGMaxLength]="20"
+                    [(ngModel)]="model.name.lastName"
+                    (ngModelChange)="model.name.lastName = $event; validate();"></app-generic-text-input>
+                </div>
+                <div class="col-md-2">
+                  <label>Suffix</label>
+                  <app-select [isDisabled]="isPersonInformationReadOnly"
+                    [(ngModel)]="model.name.suffixTypeId"
+                    (ngModelChange)="model.name.suffixTypeId = $event; validate();"
+                    [isIdString]="true"
+                    [cacheInnerValue]="originalModel?.name?.suffixTypeId"
+                    [isInvalid]="modelErrors['suffix']"
+                    [dropDownList]="suffixTypesDrop"></app-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label>DOB</label>
+                  <app-date-mm-dd-yyyy [isReadOnly]="isPersonInformationReadOnly"
+                    [isInvalid]="modelErrors['dateOfBirthMmDdYyyy']"
+                    [cacheInnerValue]="originalModel?.dateOfBirthMmDdYyyy"
+                    [isRequired]="model.isDobRequired && !isPersonInformationReadOnly"
+                    [(ngModel)]="model.dateOfBirthMmDdYyyy"
+                    (ngModelChange)="model.dateOfBirthMmDdYyyy = $event; validate();"></app-date-mm-dd-yyyy>
+                </div>
+                <div class="col-md-2">
+                  <label>Gender</label>
+                  <app-tab-selector [isDisabled]="isPersonInformationReadOnly"
+                    [isInValid]="modelErrors['genderIndicator']"
+                    [cacheInnerValue]="originalModel?.genderIndicator"
+                    [(ngModel)]="model.genderIndicator"
+                    [isRequired]="model.isGenderRequired"
+                    (ngModelChange)="model.genderIndicator = $event; validate();"
+                    [tabs]="genderDrop">
+                  </app-tab-selector>
+                </div>
+                <div class="col-md-5">
+                  <label class="mx-4">SSN</label>
+                  <div *ngIf="!appService.isUserAuthorized(Auth.canViewSsn)"
+                    class="padl ml-2 input-group">
+                    <app-numerical-input [isInvalid]="modelErrors['ssn']"
+                      [isSSN]="true"
+                      [allowDash]="true"
+                      [isRequired]="model.isSsnRequired"
+                      [isReadOnly]="true"
+                      [NGPlaceHolder]="'***-**-****'">
+                    </app-numerical-input>
+                    <app-radio-button [isDisabled]="true"
+                      [NgLabel]="'No SSN'"
+                      class="input-group-addon input-group-append input-group-text"></app-radio-button>
+                  </div>
+
+                  <div *ngIf="appService.isUserAuthorized(Auth.canViewSsn)"
+                    class="padl ml-2 input-group">
+                    <app-numerical-input [isInvalid]="modelErrors['ssn']"
+                      [cacheInnerValue]="originalModel?.ssn | padPipe:9"
+                      [isSSN]="true"
+                      [allowDash]="true"
+                      [NGMaxLength]="11"
+                      [isRequired]="model.isSsnRequired"
+                      [isReadOnly]="isPersonInformationReadOnly || isReadOnly || isReadOnlyBasedOnSsnVerificationCode"
+                      [isDisabled]="model.isNoSsn"
+                      [(ngModel)]="model.ssn"
+                      (ngModelChange)="model.ssn = $event; validate();"></app-numerical-input>
+                    <app-radio-button [(ngModel)]="model.isNoSsn"
+                      (ngModelChange)="model.isNoSsn = $event;  validate();"
+                      [isDisabled]="isPersonInformationReadOnly || isReadOnly || isReadOnlyBasedOnSsnVerificationCode"
+                      [NgLabel]="'No SSN'"
+                      class="input-group-addon input-group-append input-group-text"></app-radio-button>
+                  </div>
+
+                </div>
+                <div class="col-md-3">
+                  <label>SSN Verification Status</label>
+                  <app-generic-text-input [isDisabled]="true"
+                    [ngModel]="model.displaySsnVerificationText">
+                  </app-generic-text-input>
+                </div>
+              </div>
+            </div>
+
+            <hr class="spacer" />
+
+            <fieldset *ngIf="model?.raceEthnicity"
+              id="reg-race">
+
+              <!-- <h4 class="part-title">Race / Ethnicity</h4> -->
+
+              <h5>Ethnicity</h5>
+              <div class="row">
+                <!-- all optional -->
+                <div class="col-md-6">
+                  <app-tab-selector [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [tabs]="hispanicDropdowns"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isHispanic"
+                    [(ngModel)]="model.raceEthnicity.isHispanic"
+                    (ngModelChange)="model.raceEthnicity.isHispanic = $event; validate();"></app-tab-selector>
+                  <!-- <app-yes-no-basic [(ngModel)]="model.raceEthnicity.isHispanic"></app-yes-no-basic> -->
+                </div>
+                <div class="col-md-6">
+                  <label>&nbsp;</label>
+                  <br /> &nbsp;
+                </div>
+              </div>
+
+              <h5>Race</h5>
+              <div class="row">
+                <!-- all optional -->
+                <div class="col-md-4">
+                  <label>American Indian / Alaskan Native</label>
+                  <app-yes-no-basic [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isAmericanIndian"
+                    [(ngModel)]="model.raceEthnicity.isAmericanIndian"
+                    (ngModelChange)="model.raceEthnicity.isAmericanIndian = $event; validate();">
+                  </app-yes-no-basic>
+                </div>
+                <div class="col-md-4">
+                  <label>Hawaiian / Other Pacific Islander</label>
+                  <app-yes-no-basic [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isPacificIslander"
+                    [(ngModel)]="model.raceEthnicity.isPacificIslander"
+                    (ngModelChange)="model.raceEthnicity.isPacificIslander = $event; validate();">
+                  </app-yes-no-basic>
+                </div>
+                <div class="col-md-4">
+                  <label>Asian</label>
+                  <app-yes-no-basic [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isAsian"
+                    [(ngModel)]="model.raceEthnicity.isAsian"
+                    (ngModelChange)="model.raceEthnicity.isAsian = $event; validate();"></app-yes-no-basic>
+                </div>
+              </div>
+              <div class="row">
+                <!-- all optional -->
+                <div class="col-md-4">
+                  <label>White</label>
+                  <app-yes-no-basic [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isWhite"
+                    [(ngModel)]="model.raceEthnicity.isWhite"
+                    (ngModelChange)="model.raceEthnicity.isWhite = $event; validate();"></app-yes-no-basic>
+                </div>
+                <div class="col-md-4">
+                  <label>Black / African American </label>
+                  <app-yes-no-basic [isDisabled]="isEthnicityAndRaceReadOnly || isReadOnly"
+                    [cacheInnerValue]="originalModel?.raceEthnicity?.isBlack"
+                    [(ngModel)]="model.raceEthnicity.isBlack"
+                    (ngModelChange)="model.raceEthnicity.isBlack = $event; validate();"></app-yes-no-basic>
+                </div>
+                <div class="col-md-4">
+                  <label>&nbsp;</label>
+                  <br /> &nbsp;
+                </div>
+              </div>
+
+            </fieldset>
+
+            <h5 id="reg-alias">Alias</h5>
+            <div class="row">
+              <div class="col-md-12">
+                <!-- This repeater cannot be edited. Edits have to be full deletes and then adds. -->
+                <app-alias-repeater [(ngModel)]="model.aliases"
+                  (ngModelChange)="model.aliases = $event; validate();"
+                  [aliasTypesDrop]="aliasTypesDropNameAsId"
+                  [isNonSearch]="true"
+                  [isReadOnly]="isAliasReadOnly"
+                  [suffixTypesDrop]="suffixTypesDropNameAsId"
+                  [modelErrors]="modelErrors['aliases']"
+                  [modelsDeleted]="model.deletedAliases"
+                  [areInputFieldsReadonly]="true"
+                  [cachedInitialModels]="originalModel?.aliases"></app-alias-repeater>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <label>Make PIN Confidential</label>
+                <app-yes-no-basic [(ngModel)]="model.isPinConfidential"
+                  (ngModelChange)="model.isPinConfidential = $event; validate();"
+                  [errorIndicator]="modelErrors['isPinConfidential']"
+                  [isRequired]="model.isPinConfidentialRequired && !isPinConfidentialReadOnly"
+                  [isDisabled]="isPinConfidentialReadOnly"
+                  [cacheInnerValue]="originalModel?.isPinConfidential">
+                </app-yes-no-basic>
+                <!-- <app-radio-button [(ngModel)]="model.isPinConfidential" [NgLabel]="'Make Pin Confidential'"
+                                        class="checkbox"></app-radio-button> -->
+              </div>
+            </div>
+
+            <div *ngIf="!inEAMode">
+              <div class="row">
+                <div class="col-md-12">
+                  <app-alias-ssn-repeater [ssnTypesDrop]="ssnTypesDrop"
+                    [(ngModel)]="model.altSsns"
+                    [isReadOnly]="isReadOnly"
+                    (ngModelChange)="model.altSsns = $event; validate();"
+                    [modelErrors]="modelErrors['altSsns']"
+                    [cachedInitialModels]="originalModel?.altSsns">
+                  </app-alias-ssn-repeater>
+                  <!-- <label class="control-label">Has Alternative SSN/ITIN?</label> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Primary Phone</label>
+                  <app-numerical-input [(ngModel)]="model.primaryPhone.phoneNumber"
+                    [isReadOnly]="isReadOnly"
+                    [isInvalid]="modelErrors['primaryPhone.phoneNumber']"
+                    (ngModelChange)="model.primaryPhone.phoneNumber = $event; validate();"
+                    [cacheInnerValue]="originalModel?.primaryPhone?.phoneNumber"
+                    [isPhoneNumber]="true"
+                    [NGMaxLength]="14"
+                    [isRequired]="primaryPhoneRequired"> </app-numerical-input>
+                </div>
+                <div class="col-md-2">
+                  <label>Can Text?</label>
+                  <app-yes-no-basic [(ngModel)]="model.primaryPhone.canText"
+                    [isDisabled]="isReadOnly"
+                    [errorIndicator]="modelErrors['primaryPhone.canText']"
+                    (ngModelChange)="model.primaryPhone.canText = $event; validate(); checkIfPhoneNumberRequired();"
+                    [cacheInnerValue]="originalModel?.primaryPhone?.canText"></app-yes-no-basic>
+                </div>
+                <div class="col-md-3">
+                  <label>Can Leave Voicemail?</label>
+                  <app-yes-no-basic [(ngModel)]="model.primaryPhone.canVoiceMail"
+                    [isDisabled]="isReadOnly"
+                    [errorIndicator]="modelErrors['primaryPhone.canVoiceMail']"
+                    (ngModelChange)="model.primaryPhone.canVoiceMail = $event; validate(); checkIfPhoneNumberRequired();"
+                    [cacheInnerValue]="originalModel?.primaryPhone?.canVoiceMail"></app-yes-no-basic>
+                </div>
+                <div class="col-md-2">
+                  <label>&nbsp;</label>
+                  <br /> &nbsp;
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Secondary Phone</label>
+                  <app-numerical-input [(ngModel)]="model.secondaryPhone.phoneNumber"
+                    [isInvalid]="modelErrors['secondaryPhone.phoneNumber']"
+                    (ngModelChange)="model.secondaryPhone.phoneNumber = $event; validate();"
+                    [cacheInnerValue]="originalModel?.secondaryPhone?.phoneNumber"
+                    [isReadOnly]="isReadOnly"
+                    [isPhoneNumber]="true"
+                    [NGMaxLength]="14"
+                    [isRequired]="secondaryPhoneRequired"></app-numerical-input>
+                </div>
+                <div class="col-md-2">
+                  <label>Can Text?</label>
+                  <app-yes-no-basic [(ngModel)]="model.secondaryPhone.canText"
+                    [isDisabled]="isReadOnly"
+                    [errorIndicator]="modelErrors['secondaryPhone.canText']"
+                    (ngModelChange)="model.secondaryPhone.canText = $event; validate(); checkIfPhoneNumberRequired();"
+                    [cacheInnerValue]="originalModel?.secondaryPhone?.canText"></app-yes-no-basic>
+                </div>
+                <div class="col-md-3">
+                  <label>Can Leave Voicemail?</label>
+                  <app-yes-no-basic [(ngModel)]="model.secondaryPhone.canVoiceMail"
+                    [isDisabled]="isReadOnly"
+                    [errorIndicator]="modelErrors['secondaryPhone.canVoiceMail']"
+                    (ngModelChange)="model.secondaryPhone.canVoiceMail = $event; validate(); checkIfPhoneNumberRequired();"
+                    [cacheInnerValue]="originalModel?.secondaryPhone?.canVoiceMail"></app-yes-no-basic>
+                </div>
+                <div class="col-md-2">
+                  <label>&nbsp;</label>
+                  <br /> &nbsp;
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Email Address</label>
+                  <app-generic-text-input [NGMaxLength]="245"
+                    [(ngModel)]="model.emailAddress"
+                    [isInvalid]="modelErrors['emailAddress']"
+                    [isDisabled]="isReadOnly"
+                    (ngModelChange)="model.emailAddress = $event; validate();"
+                    [cacheInnerValue]="originalModel?.emailAddress"></app-generic-text-input>
+                </div>
+                <div class="col-md-7">
+                  <label>&nbsp;</label>
+                  <br /> &nbsp;
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Home Language</label>
+                  <app-auto-complete [dropDownList]="languagesDrop"
+                    [cacheInnerValue]="originalModel?.homeLanguageId"
+                    [isValidByParent]="modelErrors['homeLanguageId']"
+                    [isRequired]="true"
+                    [isDisabled]="isReadOnly"
+                    [(ngModel)]="model.homeLanguageId"
+                    (ngModelChange)="model.homeLanguageId = $event; validate();">
+                  </app-auto-complete>
+                </div>
+                <div *ngIf="model.isInterpreterNeededDisplayed(englishId)"
+                  class="col-md-3">
+                  <!-- if NOT english -->
+                  <label>Interpreter Needed?</label>
+                  <app-yes-no-basic [isRequired]="model.isInterpreterNeededDisplayed(englishId)"
+                    [isDisabled]="isReadOnly"
+                    [cacheInnerValue]="originalModel?.isInterpreterNeeded"
+                    [errorIndicator]="modelErrors['isInterpreterNeeded']"
+                    [(ngModel)]="model.isInterpreterNeeded"
+                    (ngModelChange)="model.isInterpreterNeeded = $event; validate();"></app-yes-no-basic>
+                </div>
+                <div *ngIf="model.isInterpreterNeededDisplayed(englishId)"
+                  class="col-md-5">
+                  <!-- if NOT english -->
+                  <label>&nbsp;</label>
+                  <br />
+                  <app-text-area [(ngModel)]="model.interpreterDetails"
+                    [isDisabled]="isReadOnly"
+                    (ngModelChange)="model.interpreterDetails = $event; validate();"
+                    [isInvalid]="modelErrors['interpreterDetails']"
+                    [cacheInnerValue]="originalModel?.interpreterDetails"
+                    [placeholder]="'Details'"
+                    [maxlength]="380"
+                    [isDetails]="true"
+                    [isAutoSizeable]="true">
+                  </app-text-area>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <label>Refugee?</label>
+                  <app-yes-no-basic [isRequired]="model.isRefugeeRequired"
+                    [isDisabled]="isReadOnly"
+                    [errorIndicator]="modelErrors['isRefugee']"
+                    [cacheInnerValue]="originalModel?.isRefugee"
+                    [(ngModel)]="model.isRefugee"
+                    (ngModelChange)="model.isRefugee = $event; validate();">
+                  </app-yes-no-basic>
+                </div>
+                <div *ngIf="model.isRefugee"
+                  class="col-md-5">
+                  <!-- if YES -->
+                  <label>Month of Entry</label>
+                  <div class="input-group">
+                    <app-date-mm-yyyy [isRequired]="model.isDateOfEntryRequired"
+                      [isDisabled]="model.isDateOfEntryDisabled || isReadOnly"
+                      [isInvalid]="modelErrors['dateOfEntryMmYyyy']"
+                      [cacheInnerValue]="originalModel?.dateOfEntryMmYyyy"
+                      [(ngModel)]="model.dateOfEntryMmYyyy"
+                      (ngModelChange)="model.dateOfEntryMmYyyy = $event; validate();"></app-date-mm-yyyy>
+                    <app-radio-button [(ngModel)]="model.refugeeEntryDateUnknown"
+                      [isDisabled]="isReadOnly"
+                      (ngModelChange)="model.refugeeEntryDateUnknown = $event;  validate();"
+                      [NgLabel]="'Unknown'"
+                      class="input-group-addon input-group-append input-group-text"></app-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="model.isRefugee"
+                  class="col-md-4">
+                  <!-- if YES -->
+                  <label>Country of Origin</label>
+                  <app-auto-complete [isRequired]="model.isCountryOriginRequired"
+                    [isValidByParent]="modelErrors['countryOfOriginId']"
+                    [cacheInnerValue]="originalModel?.countryOfOriginId"
+                    [dropDownList]="countriesDrop"
+                    [isRequired]="true"
+                    [(ngModel)]="model.countryOfOriginId"
+                    [isDisabled]="isReadOnly"
+                    (ngModelChange)="model.countryOfOriginId = $event; validate();"></app-auto-complete>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Are you a member of an American Indian tribe or an Alaskan Native or child or
+                    grandchild
+                    of a member?</label>
+                  <app-yes-no-basic [(ngModel)]="model.isInTribe"
+                    [isDisabled]="isReadOnly"
+                    (ngModelChange)="model.isInTribe = $event; validate();"
+                    [isValidByParent]="modelErrors['isInTribe']"
+                    [cacheInnerValue]="originalModel?.isInTribe"></app-yes-no-basic>
+                </div>
+              </div>
+              <div class="row">
+                <!-- IF yes -->
+                <div *ngIf="model.isTribeDisplayed"
+                  class="col-md-4">
+                  <label>Tribe</label>
+                  <app-select [dropDownList]="tribeDrop"
+                    [isDisabled]="isReadOnly"
+                    [(ngModel)]="model.tribeId"
+                    (ngModelChange)="model.tribeId = $event; validate();"
+                    [isInvalid]="modelErrors['tribeId']"
+                    [cacheInnerValue]="originalModel?.tribeId"></app-select>
+                </div>
+                <div *ngIf="model.isTribeDetailsDisplayed(otherId)"
+                  class="col-md-8">
+                  <label>&nbsp;</label>
+                  <app-text-area [(ngModel)]="model.tribalDetails"
+                    (ngModelChange)="model.tribalDetails = $event; validate();"
+                    [placeholder]="'Details'"
+                    [isInvalid]="modelErrors['tribalDetails']"
+                    [isDetails]="true"
+                    [isDisabled]="isReadOnly"
+                    [maxlength]="380"
+                    [isAutoSizeable]="true"
+                    [cacheInnerValue]="originalModel?.tribalDetails">
+                  </app-text-area>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+
+          <fieldset id="reg-address"
+            *ngIf="!inEAMode">
+
+            <h4 class="part-title">Address Information</h4>
+
+            <div class="row pb-1">
+              <div class="col-md-3">
+                <label>County of Residence</label>
+                <app-auto-complete [(ngModel)]="model.countyOfResidenceId"
+                  (ngModelChange)="model.countyOfResidenceId = $event; validate();"
+                  [isValidByParent]="modelErrors['countyOfResidenceId']"
+                  [cacheInnerValue]="originalModel?.countyOfResidenceId"
+                  [isDisabled]="isReadOnly"
+                  [dropDownList]="countiesDrop"
+                  [isRequired]="true"></app-auto-complete>
+              </div>
+              <div class="col-md-9">
+              </div>
+            </div>
+
+            <div class="row pt-1">
+              <div class="col-md-3">
+                <h5 class="part-title">Household&nbsp;Information</h5>
+              </div>
+              <div class="col-md-2">
+                <label>
+                  <input [(ngModel)]="model.isHomeless"
+                    (ngModelChange)="model.isHomeless = $event; validate();validateHouseholdMailingSwitch()"
+                    [disabled]="isReadOnly"
+                    type="checkbox"
+                    name="checkbox"
+                    value="true">Homeless</label>
+              </div>
+            </div>
+
+            <div *ngIf="model.isHomeless != true">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Address</label>
+                  <app-generic-text-input [(ngModel)]="model.householdAddress.addressLine1"
+                    [NGMaxLength]="50"
+                    (ngModelChange)="model.householdAddress.addressLine1 = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="true"
+                    [cacheInnerValue]="originalModel?.householdAddress.addressLine1"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    [isInvalid]="modelErrors['householdAddress-AddressLine1']"></app-generic-text-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>City</label>
+                  <app-generic-text-input [(ngModel)]="model.householdAddress.city"
+                    [NGMaxLength]="28"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    (ngModelChange)="model.householdAddress.city = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="true"
+                    [cacheInnerValue]="originalModel?.householdAddress?.city"
+                    [isInvalid]="modelErrors['householdAddress-City']"></app-generic-text-input>
+
+                </div>
+                <div class="col-md-4">
+                  <label>State</label>
+                  <app-generic-text-input [(ngModel)]="model.householdAddress.state"
+                    [isDisabled]="true"
+                    [NGMaxLength]="2"
+                    (ngModelChange)="model.householdAddress.state = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="true"
+                    [cacheInnerValue]="originalModel?.householdAddress?.state">
+                  </app-generic-text-input>
+
+                </div>
+                <div class="col-md-4">
+                  <label>ZIP</label>
+                  <app-generic-text-input [(ngModel)]="model.householdAddress.zip"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    [NGMaxLength]="10"
+                    (ngModelChange)="model.householdAddress.zip = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="true"
+                    [cacheInnerValue]="originalModel?.householdAddress?.zip"
+                    [isInvalid]="modelErrors['householdAddress-Zip']"></app-generic-text-input>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+
+            <div *ngIf="model.isHouseholdSameMailingAddressDisplayed"
+              class="row">
+              <div class="col-md-8">
+                <label class="control-label">Is your household address the same as your mailing
+                  address?
+                </label>
+              </div>
+              <div class="col-md-4 tright">
+                <div class="right">
+                  <app-yes-no-basic [(ngModel)]="model.isMailingSameAsHouseholdAddress"
+                    (ngModelChange)="model.isMailingSameAsHouseholdAddress = $event; validate();validateHouseholdMailingSwitch();"
+                    [errorIndicator]="modelErrors['isMailingSameAsHouseholdAddress']"
+                    [isRequired]="model.isMailingSameAsHouseholdAddressRequired"
+                    [isDisabled]="isReadOnly"
+                    [cacheInnerValue]="originalModel?.isMailingSameAsHouseholdAddress"></app-yes-no-basic>
+                </div>
+              </div>
+            </div>
+
+            <h5 *ngIf="model.isMailingAddressDisplayed">Mailing Address</h5>
+            <div *ngIf="model.isMailingAddressDisplayed">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Address</label>
+                  <app-generic-text-input [(ngModel)]="model.mailingAddress.addressLine1"
+                    [NGMaxLength]="50"
+                    [isRequired]="true"
+                    (ngModelChange)="model.mailingAddress.addressLine1 = $event; validate(); validateFinalistAddress();"
+                    [cacheInnerValue]="originalModel?.mailingAddress.addressLine1"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    [isInvalid]="modelErrors['mailingAddress-AddressLine1']"></app-generic-text-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>City</label>
+                  <app-generic-text-input [(ngModel)]="model.mailingAddress.city"
+                    [NGMaxLength]="28"
+                    (ngModelChange)="model.mailingAddress.city = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="true"
+                    [cacheInnerValue]="originalModel?.mailingAddress.city"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    [isInvalid]="modelErrors['mailingAddress-City']">
+                  </app-generic-text-input>
+
+                </div>
+                <div class="col-md-4">
+                  <label>State</label>
+                  <app-generic-text-input [(ngModel)]="model.mailingAddress.state"
+                    [isDisabled]="true"
+                    [NGMaxLength]="2"
+                    (ngModelChange)="model.mailingAddress.state = $event; validate(); validateFinalistAddress();"
+                    [isRequired]="false"
+                    [cacheInnerValue]="originalModel?.mailingAddress.state">
+                  </app-generic-text-input>
+
+                </div>
+                <div class="col-md-4">
+                  <label>ZIP</label>
+                  <app-generic-text-input [(ngModel)]="model.mailingAddress.zip"
+                    [NGMaxLength]="10"
+                    [isRequired]="true"
+                    (ngModelChange)="model.mailingAddress.zip = $event; validate(); validateFinalistAddress();"
+                    [cacheInnerValue]="originalModel?.mailingAddress.zip"
+                    [isDisabled]="isReadOnly || isAddressDisabled"
+                    [isInvalid]="modelErrors['mailingAddress-Zip']"></app-generic-text-input>
+
+                </div>
+              </div>
+
+
+
+              <div class="col-md-1">
+                <label>&nbsp;</label>
+                <br /> &nbsp;
+              </div>
+            </div>
+            <div class="wrapper tright">
+              <button class="btn btn-primary disabled"
+                *ngIf="isAddressValidated || isReadOnly">Validate</button>
+              <button class="btn btn-primary"
+                *ngIf="!isAddressValidated"
+                (click)="validateAddressFromFinalist();">Validate</button>
+            </div>
+            <div *ngIf="finalistAddressLoaded">
+              <div class="row">
+                <h4 class="part-title">Address Search Result</h4>
+
+              </div>
+
+              <div class="row col-md-12">
+                <div *ngIf="errorMsg?.length ===0"
+                  class="col-md-8 pb-1">
+                  <label>The following address was found :</label>
+                  {{suggestedAddressFromFinalist}} </div>
+                <div *ngIf="errorMsg?.length >0"
+                  class="col-md-8 pb-1">
+                  <label>Address is not valid</label>
+                </div>
+                <div class="col-md-4 address-options">
+                  <div *ngIf="errorMsg?.length ===0">
+
+                    <app-radio-button class="address-options-padding"
+                      [(ngModel)]="useSuggestedAddress"
+                      (ngModelChange)="useSuggestedAddress = $event; validate(); validateUserClickSuggested(); validateFinalistAddress();"
+                      [disabled]="isReadOnly"
+                      [NgLabel]="'Use the address suggested'"></app-radio-button>
+                  </div>
+                  <app-radio-button class="address-options-padding"
+                    [(ngModel)]="resubmitAddress"
+                    (ngModelChange)="resubmitAddress = $event; validate(); validateUserClickResubmit(); validateFinalistAddress();"
+                    [disabled]="isReadOnly"
+                    [NgLabel]="'Resubmit the address'"></app-radio-button>
+
+                  <app-radio-button class="address-options-padding"
+                    [(ngModel)]="useEnteredAddress"
+                    (ngModelChange)="useEnteredAddress = $event; validate(); validateUserClickEntered(); validateFinalistAddress();"
+                    [disabled]="isReadOnly"
+                    [NgLabel]="'Use the address as entered'"></app-radio-button>
+
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset id="reg-notes"
+            *ngIf="!inEAMode">
+            <hr />
+            <div id="destination"
+              class="row">
+              <div class="col-md-12">
+                <app-text-area [isDisabled]="isReadOnly"
+                  [cacheInnerValue]="originalModel?.notes"
+                  [(ngModel)]="model.notes"
+                  (ngModelChange)="model.notes; validate()"></app-text-area>
+              </div>
+            </div>
+          </fieldset>
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <footer *ngIf="isLoaded"
+    class="nav-footer">
+    <div class="wrapper tright">
+      <div *ngIf="hadSaveError"
+        class="display-inline font-color-error">There was an error saving.</div>
+      <div *ngIf="this.savingStatus?.errorMessages.length > 0"
+        class="display-inline font-color-error">
+        {{this.savingStatus.errorMessages[0]}}</div>
+      <button class="btn btn-primary btn-save disabled"
+        *ngIf="isSaving">
+        <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+      <button class="btn btn-primary btn-save disabled"
+        *ngIf="!showSaveButton">Save
+        &amp; Exit</button>
+      <button class="btn btn-primary btn-save"
+        *ngIf="!isSaving && !isReadOnly && showSaveButton"
+        (click)="saveAndExit();">Save
+        &amp; Exit</button>
+      <button class="btn btn-primary btn-save"
+        *ngIf="isReadOnly"
+        (click)="exitRegistrationIgnoreChanges($event)">Close</button>
+      <!-- *ngIf="!isSaving" [ngClass]="{disabled: !isSectionValid}"  -->
+    </div>
+  </footer>
+
+</div>

@@ -1,0 +1,135 @@
+<fieldset class="ncp-repeat repeat rel py-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Other Parent</h4>
+    </div>
+    <div class="col-md-6">
+      <h4>Children</h4>
+    </div>
+  </div>
+
+  <div class="row caretaker-holder">
+    <div class="col-md-12">
+      <div class="row caretaker" *ngFor="let otherParent of models; let i=index">
+        <div class="col-md-6">
+          <fieldset class="caretaker-repeater">
+            <div class="row">
+              <div class="col-md-6">
+                <label title="First Name">First Name</label><br />
+                <app-text-input [isRequired]="isRepeaterRowRequired(i)"
+                  [isInvalid]="isModelErrorsItemInvalid(i, 'firstName')" [maxLength]="120" type="text"
+                  [(ngModel)]="otherParent.firstName"
+                  [cacheInnerValue]="getInitialModelValue(otherParent.id, 'firstName')"
+                  (ngModelChange)="otherParent.firstName = $event; onChangeCallback(models);"></app-text-input>
+              </div>
+              <div class="col-md-6">
+                <label title="Last Name">Last Name</label><br />
+                <app-text-input [maxLength]="120" [isInvalid]="isModelErrorsItemInvalid(i, 'lastName')" type="text"
+                  [(ngModel)]="otherParent.lastName"
+                  [cacheInnerValue]="getInitialModelValue(otherParent.id, 'lastName')"
+                  (ngModelChange)="otherParent.lastName = $event; onChangeCallback(models);"></app-text-input>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <label title="Is this parent currently working or available for work?">Is this parent currently working
+                  or available for work?</label><br />
+                <div class="row">
+                  <div class="col-md-4">
+                    <app-yes-no-basic [(ngModel)]="otherParent.isAvailableOrWorking"
+                      [cacheInnerValue]="getInitialModelValue(otherParent.id, 'isAvailableOrWorking')"
+                      (ngModelChange)="otherParent.isAvailableOrWorking = $event; onChangeCallback(models);">
+                    </app-yes-no-basic>
+                  </div>
+                  <div class="col-md-8 pl-0">
+                    <app-text-area [maxlength]="380" [isAutoSizeable]="true"
+                      [(ngModel)]="otherParent.availableOrWorkingDetails"
+                      [cacheInnerValue]="getInitialModelValue(otherParent.id, 'availableOrWorkingDetails')"
+                      (ngModelChange)="otherParent.availableOrWorkingDetails = $event; onChangeCallback(models);"
+                      [placeholder]="'Details'"></app-text-area>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <label title="Do you think this parent would be interested in participating in a work program?">Do you
+                  think this parent would be interested in participating in a work program?</label><br />
+                <div class="row">
+                  <div class="col-md-4">
+                    <app-yes-no-basic [(ngModel)]="otherParent.isInterestedInWorkProgram"
+                      [cacheInnerValue]="getInitialModelValue(otherParent.id, 'isInterestedInWorkProgram')"
+                      (ngModelChange)="otherParent.isInterestedInWorkProgram = $event; onChangeCallback(models);"
+                      [errorIndicator]="isModelErrorsItemInvalid(i, 'isInterestedInWorkProgram')"></app-yes-no-basic>
+                  </div>
+                  <div class="col-md-8 pl-0">
+                    <app-text-area [maxlength]="380" [isAutoSizeable]="true"
+                      [(ngModel)]="otherParent.interestedInWorkProgramDetails"
+                      [cacheInnerValue]="getInitialModelValue(otherParent.id, 'interestedInWorkProgramDetails')"
+                      (ngModelChange)="otherParent.interestedInWorkProgramDetails = $event; onChangeCallback(models);"
+                      [placeholder]="'Details'"></app-text-area>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <label title="Do you know how to get in contact with this parent?">Do you know how to get in contact
+                  with this parent?</label><br />
+                <app-yes-no-basic [(ngModel)]="otherParent.isContactKnownWithParent"
+                  [cacheInnerValue]="getInitialModelValue(otherParent.id, 'isContactKnownWithParent')"
+                  (ngModelChange)="otherParent.isContactKnownWithParent = $event; onChangeCallback(models);"
+                  [errorIndicator]="isModelErrorsItemInvalid(i, 'isContactKnownWithParent')"></app-yes-no-basic>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <app-contacts-embed *ngIf="otherParent.isContactKnownWithParent" [pin]="this.pin"
+                  [(ngModel)]="otherParent.contactId"
+                  [cacheInnerValue]="getInitialModelValue(otherParent.id, 'contactId')" class="compact">
+                </app-contacts-embed>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <app-ncpr-child-repeater [(ngModel)]="otherParent.children"
+            (ngModelChange)="otherParent.children = $event; onChangeCallback(models);"
+            (moveNonCustodialChild)="moveNonCustodialChild($event)" [nonCustodialOtherParentModel]="otherParent"
+            [parentIndex]="i" [availableParentsDrop]="availableParentsDrop"
+            [cachedInitialModels]="getInitialModelValue(otherParent.id, 'children')"
+            [modelsDeleted]="otherParent.deletedChildren" [modelErrors]="getModelErrors(i, 'children')"
+            [contactIntervalDrop]="contactIntervalDrop"></app-ncpr-child-repeater>
+        </div>
+
+        <hr *ngIf="areChildrenEmpty(i)" />
+
+        <div class="col-md-12 control">
+          <div class="del-reason-holder" *ngIf="areChildrenEmpty(i)">
+            <app-delete-reason-button [type]="'ncpCareTaker'" [objectWatched]="otherParent"
+              (deletedObject)="this.deleteFromRepeater($event); onChangeCallback(models);"></app-delete-reason-button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="add-holder d-flex col-md-12 justify-content-end">
+      <button class="btn btn-add" (click)="addToRepeater()"><i class="fa fa-plus"></i> Add Other Parent &amp;
+        Child(ren)</button>
+    </div>
+  </div>
+
+
+
+
+</fieldset>

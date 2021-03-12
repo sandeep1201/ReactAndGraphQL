@@ -1,0 +1,104 @@
+<div *ngIf="isLoaded"
+  id="contact-modal">
+  <header class="nav-header pad1">
+    <div class="clearfix">
+      <a (click)="exit()"
+        class="btn btn-back btn-secondary-outline btn-sm"
+        title="Close Record">
+        <i class="fa fa-times"></i>
+      </a>
+      <h1 id="pageTitle">Enroll Participant</h1>
+    </div>
+  </header>
+  <div *ngIf="model && model.programs"
+    class="app-content">
+    <div class="wrapper">
+      <div id="enrollment"
+        name="enrollment"
+        class="pad1-0 center">
+        <div class="pad2">&nbsp;</div>
+        <div class="row control-group">
+          <div class="col-md-6">
+            <label>Program</label>
+            <app-select [(ngModel)]="selectedProgramName"
+              (ngModelChange)="selectedProgramName= $event; programChange(); validate();"
+              [isIdString]="true"
+              [isDisabled]="selectedProgramNameDisabled"
+              [isInvalid]="modelErrors['selectedProgramName']"
+              [dropDownList]="programDrop"
+              [isRequired]="true"></app-select>
+          </div>
+          <div *ngIf="selectedProgramCd != null && selectedProgramCd.trim() != ''"
+            class="col-md-6">
+            <label *ngIf="selectedProgramCd.trim() === 'CF'">CF Case Manager</label>
+            <label *ngIf="selectedProgramCd.trim() === 'TMJ'">TMJ Worker</label>
+            <label *ngIf="selectedProgramCd.trim() === 'TJ'">TJ Worker</label>
+            <label *ngIf="selectedProgramCd.trim() === 'WW'">FEP ID</label>
+            <label *ngIf="selectedProgramCd.trim() === 'LF'">Learnfare Case Manager</label>
+            <label *ngIf="selectedProgramCd.trim() === 'FCD'">FCDP Case Manager</label>
+            <app-auto-complete [isShortHeightStyle]="true"
+              [(ngModel)]="selectedWorkerId"
+              (ngModelChange)="selectedWorkerId = $event; validate();"
+              [cacheInnerValue]="originalSelectedWorkerId"
+              [isValidByParent]="modelErrors['selectedWorkerId']"
+              [dropDownList]="workerDrop"
+              [isRequired]="true">
+            </app-auto-complete>
+          </div>
+        </div>
+
+        <div class="row control-group">
+          <div class="col-md-12">
+            <label>&nbsp;</label>
+            <ul *ngIf="enrollmentEligibility == null"
+              class="list-group">
+              <li></li>
+            </ul>
+            <ul *ngIf="enrollmentEligibility?.status === true"
+              class="list-group">
+              <li class="list-group-item list-group-item-success">Participant is eligible for enrollment</li>
+            </ul>
+            <ul *ngIf="enrollmentEligibility?.errors != null"
+              class="list-group">
+              <li *ngFor="let error of enrollmentEligibility.errors"
+                class="list-group-item list-group-item-danger">
+                {{error}}</li>
+            </ul>
+            <ul *ngIf="enrollmentEligibility?.warnings != null"
+              class="list-group">
+              <li *ngFor="let warning of enrollmentEligibility.warnings"
+                class="list-group-item list-group-item-warning">{{warning}}</li>
+            </ul>
+            &nbsp;
+          </div>
+        </div>
+
+        <div class="pad2">&nbsp;</div>
+        <div class="pad2">&nbsp;</div>
+
+      </div>
+
+    </div>
+  </div>
+  <footer class="nav-footer">
+    <div class="wrapper tright">
+      <div class="error"
+        *ngIf="this.preCheckError">There was an error while checking enrollment eligibility.</div>
+      <div class="error"
+        *ngIf="hadSaveError">There was an error saving.</div>
+      <div *ngIf="this.savingStatus?.errorMessages.length > 0"
+        class="display-inline font-color-error">
+        {{this.savingStatus.errorMessages[0]}}</div>
+      <button class="btn btn-add"
+        (click)="exit()">Cancel</button>
+      <button class="btn btn-primary disabled"
+        *ngIf="isSaving">
+        <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+      <button (click)="saveAndExit()"
+        *ngIf="!isSaving"
+        class="btn btn-primary"
+        [class.disabled]="!isSaveAble"
+        [disabled]="!isSaveAble">Enroll</button>
+    </div>
+  </footer>
+</div>

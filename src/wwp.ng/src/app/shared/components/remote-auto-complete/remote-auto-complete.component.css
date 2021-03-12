@@ -1,0 +1,72 @@
+:host {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+}
+
+:host .input-field {
+  position: relative;
+}
+
+:host input.loading {
+  background: url('/assets/img/loading.gif') repeat center scroll #fff;
+}
+
+:host .suggestions {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #bdc3c7;
+  width: 100%;
+  z-index: 500;
+  max-height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  margin-top: -2px;
+  border-left: 4px solid #bdc3c7;
+}
+
+:host .suggestions ul {
+  margin: 0;
+}
+
+:host .suggestions ul li {
+  padding: 0;
+}
+
+:host .suggestions ul li a {
+  border-top: #ddd;
+  padding: 0.25rem;
+  color: #7f8c8d;
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.25rem;
+}
+
+:host .suggestions ul li a:hover {
+  color: #2980b9;
+  background: #eee;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.remote-auto-complete::-ms-clear {
+  display: none;
+}
+
+
+
+/*input.default {
+    border-left: 4px solid  #bdc3c7;
+}*/
+/* 
+.required {
+  border-left: 4px solid #9B59B6;
+}
+
+.dirty {
+  border-left: 4px solid #f1c40f;
+}
+
+.error {
+  border-left: 4px solid #c0392b!important;
+} */

@@ -1,0 +1,134 @@
+<div class="modal-overlay"
+  *ngIf="model">
+  <div class="modal-container">
+    <header>
+      <h4 class="left">Edit Month</h4>
+      <div class="padhalf right tgrey3">{{model.date | amDateFormat : 'MMM YYYY' }}</div>
+    </header>
+    <section class="dialog-content pad1-0">
+      <fieldset *ngIf="hadSaveError">
+        <div class="col col-xs-12">
+          <div class="alert alert-danger">
+            <strong>Sorry! There was an error performing the requested action.</strong>
+            <p *ngIf="errorMessage">{{errorMessage}}</p>
+          </div>
+        </div>
+      </fieldset>
+      <div class="container">
+        <fieldset class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="timelimit-type">Time Limit Type</label>
+              <app-select [ngModel]="clockType"
+                (ngModelChange)="setClockType($event);"
+                [dropDownList]="timelimitsTypeDrop"
+                [isRequired]="true"
+                [isInvalid]="modelErrors['clockType']"
+                [cacheInnerValue]="model.cachedOriginalModel?.tick"></app-select>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col col-xs-4">
+                  <label for="placement-limit">24 Month Limit</label><br>
+                  <button class="btn readonly"
+                    [disabled]="true">{{ isPlacement | yesNo }}</button>
+                </div>
+                <div class="col col-xs-4">
+                  <label for="state-limit">State Limit</label><br>
+                  <button class="btn readonly"
+                    disabled="disabled"
+                    *ngIf="!canToggleState">{{ isState | yesNo }}</button>
+                  <app-yes-no-basic *ngIf="canToggleState"
+                    [ngModel]="isState"
+                    [isDisabled]="false"
+                    [isReadOnly]="false"
+                    (ngModelChange)="toggleStateIndicator($event);validate()"></app-yes-no-basic>
+                </div>
+                <div class="col col-xs-4">
+                  <label for="federal-limit">Federal Limit</label><br>
+                  <button class="btn readonly"
+                    disabled="disabled"
+                    *ngIf="!canToggleFederal">{{ isState | yesNo }}</button>
+                  <app-yes-no-basic [ngModel]="isFederal"
+                    *ngIf="canToggleFederal"
+                    (ngModelChange)="toggleFederalIndicator($event);validate();"></app-yes-no-basic>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="container py-1">
+        <fieldset>
+          <div class="row col-md-12">
+            <label>Reason For Change</label>
+            <div class="reason-for-change input-group">
+              <app-select [ngModel]="model.reasonForChange"
+                (ngModelChange)="model.reasonForChange = +$event; validate()"
+                [cacheInnerValue]="model.cachedOriginalModel?.reasonForChange"
+                [isRequired]="true"
+                [dropDownList]="reasonsForChangeDrop"
+                [isInvalid]="modelErrors['reasonForChange']"
+                class="first w-50"></app-select>
+              <span class="input-group-addon gapless"></span>
+              <app-text-input class="lastish w-50"
+                [maxLength]="380"
+                [ngModel]="model.reasonForChangeDetails"
+                (ngModelChange)="model.reasonForChangeDetails = $event;validate();"
+                [isRequired]="true"
+                [placeholder]="'Details'"
+                [cacheInnerValue]="model.cachedOriginalModel?.reasonForChangeDetails"></app-text-input>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div *ngIf="isOTF"
+        class="container py-2">
+        <fieldset>
+          <div class="row">
+            <div class="col-md-4 px-01">
+              <label for="state">State</label>
+              <app-select [ngModel]="model.tick.state"
+                (ngModelChange)="model.tick.state = $event;validate();"
+                [cacheInnerValue]="model.cachedOriginalModel.tick.state"
+                [dropDownList]="statesDrop"
+                [isRequired]="true"
+                [isInvalid]="modelErrors['state']"></app-select>
+            </div>
+            <div class="col-md-8">
+              <label for="additional-months">Additional Month(s)</label>
+              <app-month-selector [startMonth]="model.date"
+                [minMonth]="minEditDate"
+                [excludedMonths]="excludedMonths"
+                [(ngModel)]="selectedMonths"></app-month-selector>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="container py-3">
+        <fieldset class="my-2">
+          <div class="row col-md-12">
+            <app-text-area [autoResize]="true"
+              [height]="'4em'"
+              [shrinkOnBlur]="false"
+              [ngModel]="notes"
+              (ngModelChange)="notesChanged($event)"
+              [cacheInnerValue]="model.cachedOriginalModel?.tick?.notes"></app-text-area>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+    <footer class="nav-footer">
+      <div class="wrapper tright">
+        <button class="btn btn-add"
+          (click)="exit()">Cancel</button>
+        <button class="btn btn-primary disabled"
+          *ngIf="isSaving"><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+        <button class="btn btn-primary"
+          *ngIf="!isSaving"
+          (click)="saveAndExit()"
+          [disabled]="!canSave">Save</button>
+      </div>
+    </footer>
+  </div>
+</div>

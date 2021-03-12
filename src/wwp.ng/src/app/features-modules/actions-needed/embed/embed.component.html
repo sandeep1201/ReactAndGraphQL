@@ -1,0 +1,83 @@
+<div *ngIf="this.value && this.readOnly != true"
+  class="app-embed"
+  [class.required]="isRequired"
+  [class.dirty]="isModified"
+  [class.error]="this.isActionErrored">
+  <header class="an-head">
+    <h4 class="app-title"><a class="icon"
+        target="_blank"
+        href="{{this.pinActionNeededUrl}}"><i class="wwp-action"></i></a> Action Needed
+      <app-help-button [featureName]="'action-needed-embed-help'"></app-help-button>
+    </h4>
+    <app-radio-button class="no-action right"
+      [(ngModel)]="this.value.isNoActionNeeded"
+      [isDisabled]="this.isAnyTaskNotCompleted()"
+      (ngModelChange)="this.value.isNoActionNeeded= $event; this.postActionNeeded(); this.onChangeCallback(value);"
+      [NgLabel]="'No Action Needed'"></app-radio-button>
+  </header>
+  <div class="clearfix"></div>
+
+
+  <div *ngIf="this.value.isNoActionNeeded !== true"
+    class="actions-holder">
+    <div *ngFor="let task of this.allPossibleActionNeededs"
+      class="action-item">
+
+      <app-action-needed-embed-task [(ngModel)]="this.value.tasks"
+        [taskId]="task.id"
+        [taskItemName]="task.name"
+        (updated)="this.areAllTasksCompleted()"
+        (edit)="this.editTask($event)"
+        (delete)="this.tryDelete($event)"
+        (quickAdd)="this.quickAddTask($event)"></app-action-needed-embed-task>
+    </div>
+    <!-- end action-item -->
+
+  </div>
+  <!-- end action-item-holder -->
+</div>
+
+
+<app-confirm-dialog *ngIf="inConfirmDeleteView"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()"
+  title="Delete Task"
+  confirmButtonText="Delete Task"
+  cancelButtonText="Cancel"
+  message="Deleting a task will remove its information throughout the entire application. Are you sure you want to do this?">
+</app-confirm-dialog>
+
+
+
+<!-- read only -->
+
+
+
+<div *ngIf="this.value && this.readOnly === true"
+  class=""
+  [class.error]="this.isActionErrored">
+  <header class="an-head">
+    <h4 class="app-title left"><a class="icon"
+        target="_blank"
+        href="{{this.pinActionNeededUrl}}"><i class="wwp-action"></i></a></h4>
+    <span *ngIf="this.value.isNoActionNeeded == true"
+      class="ovval no-action right">No Action Needed</span>
+  </header>
+  <div class="clearfix"></div>
+
+
+  <div *ngIf="this.value.isNoActionNeeded !== true"
+    class="actions-holder">
+    <div *ngFor="let task of this.allPossibleActionNeededs"
+      class="action-item">
+      <app-action-needed-embed-task [readOnly]="true"
+        [(ngModel)]="this.value.tasks"
+        [taskId]="task.id"
+        [taskItemName]="task.name"
+        (edit)="this.editTask($event)"
+        (delete)="this.tryDelete($event)"
+        (quickAdd)="this.quickAddTask($event)"></app-action-needed-embed-task>
+    </div>
+  </div>
+
+</div>

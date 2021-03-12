@@ -1,0 +1,93 @@
+<hr class="mt-0" />
+<div class="row px-3">
+  <label [attr.for]="'income-type-income'"
+    class="col-md-3 control-label"
+    title="Type of Income">Type of Income</label>
+  <label [attr.for]="'income-monthly'"
+    class="col-md-2 control-label"
+    title="Monthly Income">Monthly Income</label>
+  <label [attr.for]="'income-verification'"
+    class="col-md-3 control-label"
+    title="Verification">Verification</label>
+  <label [attr.for]="'income-group-member'"
+    class="col-md-3 control-label"
+    title="Group Member">Group Member</label>
+</div>
+<fieldset *ngFor="let income of models; let i=index"
+  class="deg-repeat repeat rel deg-1">
+  <input type="hidden"
+    id="income-id-{{i}}"
+    name="income-id-1"
+    value="0" />
+  <div class="pad1 pb-0">
+    <div class="row">
+      <div class="col-md-3 pr-0">
+        <app-generic-text-input [NGMaxLength]="120"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [(ngModel)]="income.incomeType"
+          (ngModelChange)="income.incomeType = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'incomeType')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(income.id, 'incomeType')"></app-generic-text-input>
+      </div>
+      <div class="input-group col-md-2 pr-0 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-currency-input class="w-100 last"
+          [(ngModel)]="income.monthlyIncome"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [isReadOnly]="isReadOnly"
+          (ngModelChange)="income.monthlyIncome = $event; onChangeCallback(models); calculateTotal(this.models);"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'monthlyIncome')"
+          [cacheInnerValue]="getInitialModelValue(income.id, 'monthlyIncome')"
+          [NGMaxLength]="10"></app-currency-input>
+      </div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="income.verificationTypeId"
+          (ngModelChange)="income.verificationTypeId = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'verificationTypeId')"
+          [isIdString]="true"
+          [isReadOnly]="isReadOnly"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="verificationDrop"
+          [cacheInnerValue]="getInitialModelValue(income.id, 'verificationTypeId')"></app-select>
+      </div>
+      <div class="col-md-3 pr-0">
+        <app-select [(ngModel)]="income.groupMember"
+          (ngModelChange)="income.groupMember = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'groupMember')"
+          [isReadOnly]="isReadOnly"
+          [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="groupMembersDrop"
+          [cacheInnerValue]="getInitialModelValue(income.id, 'groupMember')"></app-select>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-add"
+          [disabled]="isReadOnly"
+          (click)="deleteFromRepeater(income); calculateTotal(this.models);"><i class="fa fa-trash-alt"
+            title="delete"></i></button>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<div class="row pt-3 px-3">
+  <div class="col-md-5 add-holder">
+    <div class="row">
+      <div class="col-md-6 p-0"><label class="control-label right">Total Income</label></div>
+      <div class="input-group col-md-6 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-numerical-input class="w-100 last"
+          [ngModel]="totalIncome"
+          [isMoney]="true"
+          [isReadOnly]="true"></app-numerical-input>
+      </div>
+    </div>
+  </div>
+  <div class="tright col-md-7 add-holder">
+    <button class="btn btn-sm btn-add add-deg"
+      [disabled]="isReadOnly"
+      (click)="addToRepeater()">+ &nbsp; Add Income</button>
+  </div>
+</div>

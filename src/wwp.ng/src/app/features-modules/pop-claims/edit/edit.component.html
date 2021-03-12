@@ -1,0 +1,260 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Add POP Claims'"></app-loading>
+  <ng-container *ngIf="isLoaded">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="container">
+        <div class="row p-1 border-bottom">
+          <div class="col-lg-6">
+            <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+              (click)="cancel()"
+              title="Close POP Claims">
+              <i class="fa fa-times"></i>
+            </a>
+            <h1 id="editPageTitle"
+              class="px-3">Add POP Claim</h1>
+            <app-help-button [featureName]="'pop-claim-edit'"></app-help-button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="edit-content">
+      <div class="container pt-3">
+        <div class="row pt-1">
+          <main class="col-md-12">
+            <div class="row control-group pb-1">
+              <div class="col-md-12">
+                <label>&nbsp;</label>
+                <ul *ngIf="precheck == null"
+                  class="list-group">
+                  <li></li>
+                </ul>
+                <ul *ngIf="precheck?.errors != null"
+                  class="list-group">
+                  <li *ngFor="let error of precheck.errors"
+                    class="list-group-item list-group-item-danger">{{error}}</li>
+                </ul>
+                <ul *ngIf="precheck?.warnings != null"
+                  class="list-group">
+                  <li *ngFor="let warning of precheck.warnings"
+                    class="list-group-item list-group-item-warning">
+                    {{warning}}</li>
+                </ul>
+                &nbsp;
+              </div>
+            </div>
+            <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">PIN</label>
+              </div>
+              <div class="col-md-3">
+                <app-text-input [ngModel]="participant.pin"
+                  [isReadOnly]="true"
+                  ></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Participant Name</label>
+              </div>
+              <div class="col-md-3">
+                <app-text-input [ngModel]="participant.displayName"
+                  [isReadOnly]="true"
+                  ></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Type</label>
+              </div>
+              <div class="col-md-9">
+                <app-select [(ngModel)]="model.popClaimTypeId"
+                  (ngModelChange)="model.popClaimTypeId = $event; checkForAlreadySubmittedPOPClaims(); calculateClaimEffectiveDate();isHighWagePOPClaimSelected();  validate() "
+                  [cacheInnerValue]="cachedModel?.popClaimTypeId"
+                  [dropDownList]="POPClaimTypes"
+                  [isInvalid]="modelErrors.popClaimTypeId"
+                  [isRequired]="true"
+                  [isDisabled]=""
+                  [isResizable]="true"></app-select>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-2 d-flex justify-content-start">
+                <label class="rowSpace">Employments</label>
+              </div>
+              <div class="col-md-10 d-flex justify-content-end">
+                <label class="rowSpace">Primary Employment</label>
+              </div>
+            </div>
+            <ng-container *ngIf="model.popClaimEmployments">
+              <div class="card">
+                <div class="card-body border-bottom" *ngFor="let emp of model.popClaimEmployments; index as i">
+                  <div class="row ">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                  <div class="row align-items-center">
+                    <div *ngIf="!isReadOnly && !isHighWagePOPClaimSelectedbool"
+                      class="col-md-1 d-flex justify-content-center">
+                      <app-radio-button [NgLabel]="''"
+                         [scaleButton]="true"
+                        [(ngModel)]="emp.isSelected"
+                        (ngModelChange)="checked = $event; validate();"></app-radio-button>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class=" col-md-6">
+                          <h6>Job Type</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobTypeName}}</p>
+                          <h6>Position</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobPosition}}</p>
+                          <h6>Company/Organization Name</h6>
+                          <p class="tgrey3 wrapword">{{emp.companyName}}</p>
+                          <ng-container *ngIf="isHighWagePOPClaimSelectedbool">
+                            <h6>Starting Wage</h6>
+                          <p class="tgrey3 wrapword" *ngIf="emp.startingWage">{{emp.startingWage}}/{{emp.startingWageUnit}}</p>
+                        </ng-container>
+                        </div>
+                        <div class=" col-md-6">
+                          <h6>Job Begin Date</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobBeginDate | dateMmDdYyyy}}</p>
+                          <h6>Job End Date</h6>
+                          <p *ngIf="emp.jobEndDate"
+                            class="tgrey3 wrapword">{{emp.jobEndDate | dateMmDdYyyy}}</p>
+                          <p *ngIf="!emp.jobEndDate"
+                            class="tgrey3 wrapword"><br /></p>
+                          <h6>Avg Weekly Hours</h6>
+                          <p class="tgrey3 wrapword">{{emp.averageWeeklyHours}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center" *ngIf="emp.isSelected || model.popClaimEmployments.length === 1 || isHighWagePOPClaimSelectedbool">
+                          <app-radio-button2 [NgLabel]="''"
+                            [(ngModel)]="primaryPOPEmployment"
+                            [valueBinding]="emp"
+                            [name]="'isPrimary'"
+                            (ngModelChange)="checked = $event; selectedPrimaryEmployment(primaryPOPEmployment);validate();"></app-radio-button2>
+                    </div>
+                  </div>
+                  <div class="row"
+                    *ngIf="emp.isSelected && !isHighWagePOPClaimSelectedbool">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class="col-md-6 d-flex align-items-center">
+                            <span>
+                          Hours
+                            </span>
+                        <span class="p-2">
+                          <app-numerical-input [(ngModel)]="emp.hoursWorked"
+                            (ngModelChange)="emp.hoursWorked = $event;validate();"
+                            [isRequired]="emp.isSelected"
+                            [NGMaxLength]="3"
+                            [isInvalid]="isChildModelErrorsItemInvalid(i,'employments','hoursWorked')"
+                            [cacheInnerValue]="getInitialModelValue(i,'hoursWorked',model.popClaimEmployments)"
+                            [isReadOnly]="false" ></app-numerical-input>
+                        </span>
+                        </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <span>
+                          Earnings
+                        </span>
+                        <span class="p-2">
+                            <div class="input-group">
+                              <div class="input-group-prepend"><span class="input-group-text">$</span>
+                              </div>
+                <app-numerical-input class="w-99 last" [isMoney]="true" [(ngModel)]="emp.earnings"
+                (ngModelChange)="emp.earnings = $event; validate();"
+                [isRequired]="emp.isSelected"
+                [NGMaxLength]="9"
+                  [isInvalid]="isChildModelErrorsItemInvalid(i,'employments','earnings')"
+                  [isReadOnly]="false" [cacheInnerValue]="getInitialModelValue(i,'earnings')">
+                </app-numerical-input>
+              </div>
+                        </span>
+                    </div>
+                  </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+
+              </div>
+            </ng-container>
+            <div class="row p-2">
+               <div class="col-md-6">
+                  <label class="rowSpace">Use the Primary Employment Begin Date as the Claim Period Begin Date?</label>
+               </div>
+               <div class="col-md-4">
+                  <app-yes-no-basic [isDisabled]="isPEBDToCPBDDisabled()"
+                   [isRequired]="true"
+                    [errorIndicator]="modelErrors.canUsePEBDForCPBD"
+                    [(ngModel)]="model.canUsePEBDForCPBD"
+                    [cacheInnerValue]="cachedModel?.canUsePEBDForCPBD"
+                    (ngModelChange)="canUsePEBDForCPBD = $event; calculateClaimPeriodBeginDate(); validate();">
+                  </app-yes-no-basic>
+                </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Period Begin Date</label>
+              </div>
+              <div class="col-md-2">
+                <app-date-mm-dd-yyyy [(ngModel)]="model.claimPeriodBeginDate"
+                  [isRequired]="true"
+                  [isReadOnly]="model.canUsePEBDForCPBD"
+                  [datePickerRequired]="true"
+                  [isInvalid]="modelErrors.claimPeriodBeginDate"
+                  (ngModelChange)="model.claimPeriodBeginDate = $event; calculateClaimEffectiveDate(); validate();"
+                  [cacheInnerValue]="cachedModel?.claimPeriodBeginDate">
+                </app-date-mm-dd-yyyy>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Effective Date</label>
+              </div>
+              <div class="col-md-2">
+                <app-date-mm-dd-yyyy [(ngModel)]="model.claimEffectiveDate"
+                  [isReadOnly]="true"
+                  [isInvalid]="modelErrors.claimEffectiveDate"
+                  (ngModelChange)="model.claimEffectiveDate = $event; validate();"
+                  [cacheInnerValue]="cachedModel?.claimEffectiveDate">
+                </app-date-mm-dd-yyyy>
+
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Details</label>
+              </div>
+              <div class="col-md-9">
+                <app-text-area [(ngModel)]="model.details"
+                  (ngModelChange)="model.details = $event; validate()"
+                  [cacheInnerValue]="cachedModel?.details"
+                  [isRequired]="true"
+                  [maxlength]="380"
+                  [placeholder]="'Details'"
+                  [textLength]="model.details?.length"
+                  [isInvalid]="modelErrors.details"
+                  [isTextLengthGiven]="true"></app-text-area>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <app-cancel-save-footer [isReadOnly]="isReadOnly"
+        [isSaving]="isSaving"
+        [isDisabled]="isSectionValid && isSectionValidFromPreCheck"
+        (cancelEvent)="cancel()"
+        (saveEvent)="save()"
+        [saveLabel]="'Submit'">
+      </app-cancel-save-footer>
+    </div>
+  </ng-container>
+</div>

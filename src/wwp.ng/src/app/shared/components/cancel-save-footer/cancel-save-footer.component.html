@@ -1,0 +1,49 @@
+<ng-container class="nav-footer"
+  *ngIf="!isReadOnly">
+  <div class="container">
+    <div class="row justify-content-end align-items-center"
+      [class.p-3]="pad">
+      <div *ngIf="hadSaveError"
+        class="mr-1">There was an error saving.</div>
+      <button class="btn btn-add mr-1"
+        (click)="clickCancel()">Cancel</button>
+      <button class="btn mr-1"
+        *ngIf="!isSaving && canSubmit"
+        [ngClass]="{'btn-primary': !showSubmitInGreen, 'btn-save': showSubmitInGreen}"
+        [disabled]="!isDisabled"
+        (click)="clickSubmit()"><i *ngIf="showSubmitInGreen"
+          class="fa fa-paper-plane">&nbsp;</i>Submit</button>
+      <button class="btn btn-primary"
+        *ngIf="!isSaving && canWithdraw"
+        [disabled]="!isDisabled"
+        (click)="clickWithdraw()">Withdraw</button>
+      <button class="btn btn-primary btn-warning"
+        *ngIf="!isSaving && canSaveWithWarning"
+        [disabled]="!isDisabled"
+        (click)="clickSaveWithWarning()">Save with Warning</button>
+      <button class="btn btn-primary disabled"
+        *ngIf="isSaving">
+        <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>
+        Saving </button>
+      <button class="btn btn-primary"
+        *ngIf="!isSaving && !canSubmit && !canSaveWithWarning"
+        [disabled]="!isDisabled"
+        (click)="clickSave()">{{saveLabel}}</button>
+    </div>
+  </div>
+</ng-container>
+<ng-container class="nav-footer"
+  *ngIf="isReadOnly">
+  <div class="container">
+    <div class="row justify-content-end align-items-center p-3">
+      <button type="button"
+        class="btn btn-add mr-1"
+        (click)="clickCancel()">
+        <i class="fa fa-angle-left"></i> Back to List</button>
+      <button class="btn btn-primary"
+        *ngIf="canSaveOnReadOnly"
+        [disabled]="!isDisabled"
+        (click)="clickSave()">{{saveLabel}}</button>
+    </div>
+  </div>
+</ng-container>

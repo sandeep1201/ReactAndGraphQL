@@ -1,0 +1,413 @@
+<app-sub-header pageTitle="Work History"
+  [goBackUrl]="goBackUrl"
+  [participant]="participant"
+  [helpComponent]="'work-history-app-single'"></app-sub-header>
+<app-sub-header-nav [mode]="'App'"
+  activeItem="work-history"
+  [pin]="pin"></app-sub-header-nav>
+
+<div class="row px-1">
+  <!--<main id="main" [class.loading]="!isLoaded">-->
+  <main id="main"
+    *ngIf="model"
+    class="padl w-100">
+    <div class="right">
+      <app-app-history-header [rowVersion]="model?.rowVersion"
+        [isEditHidden]="this.hasEditAccess"
+        [historyDrop]="this.appHistoryManager?.historyDrop"
+        [historyArrayLength]="this.appHistoryManager?.history.length"
+        (onHistory)="this.toggledHistory($event)"
+        (onHistorySelected)="this.loadHistorySection($event)">
+      </app-app-history-header>
+    </div>
+    <section id="job-title">
+      <div class="row">
+        <div class="col-md-6 wrapword">
+          <h2 class="job-title">
+            <!-- JOB TITLE -->{{model.jobPosition}}
+          </h2>
+
+          <div class="left job-info">
+            <p class="job-hours"><i class="fas fa-clock"></i>
+              <strong>{{model.wageHour?.currentAverageWeeklyHours}}</strong>
+              hr/week</p>
+            <p class=""><i class="far fa-money-bill-alt"></i>
+              <span *ngIf="calculateHourlyWage(model)?.isCalculated">&asymp;</span>
+              <span *ngIf="calculateHourlyWage(model)?.isCalculated !== null"> $
+                <strong>{{calculateHourlyWage(model)?.value}}</strong>/{{calculateHourlyWage(model)?.units}}
+              </span>
+              <span *ngIf="calculateHourlyWage(model)?.isCalculated === null"> No Pay</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <blockquote *ngIf="model && model?.modifiedByName"
+            class="history">
+            <app-modified-stamp *ngIf="model.deleteReasonId == null"
+              [readOnly]="true"
+              [author]="model.modifiedByName"
+              [lastModified]="model.modifiedDate"></app-modified-stamp>
+            <app-modified-stamp *ngIf="model.deleteReasonId != null"
+              [label]="'Deleted by'"
+              [deleteReason]="model.deleteReasonName"
+              [showPencil]="false"
+              [showTrash]="true"
+              [readOnly]="true"
+              [author]="model.modifiedByName"
+              [lastModified]="model.modifiedDate"></app-modified-stamp>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+    <section id="job-location">
+      <div class="row">
+        <div class="col-md-4 wrapword">
+          <h4 class="job-employer">
+            {{model.companyName}}
+          </h4>
+          <p><span class="denote">{{model.jobTypeName}}</span>
+            <span class="denote"
+              *ngIf=canShowProgramTypeName(model.jobTypeName)>&amp;
+              {{model.employmentProgramTypeName}}</span></p>
+          <div *ngIf="model?.employerOfRecordId">Employer of Record:{{employerOfRecordSelectedValue}}</div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="col-md-4">
+          <div class="dates">
+            <span class="workHistory left"><i class="fa fa-calendar"
+                aria-hidden="true"></i>
+              {{model.jobBeginDate}}</span>
+            <span *ngIf="model.isCurrentlyEmployed"
+              class="workHistory right">Present</span>
+            <span *ngIf="!model.isCurrentlyEmployed"
+              class="workHistory right">{{model.jobEndDate}}</span>
+          </div>
+          <div class="clearfix"></div>
+          <div class="tcenter duration">
+            <p>
+              &nbsp;{{model.jobDateDuration}}&nbsp;
+            </p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="col-md-4">
+
+          <div class="job-pin right">
+            <a href="https://www.google.com/maps/search/{{model.location?.fullAddress}}%20{{model.location?.description}}"
+              target="_blank">
+              <i class="fa fa-map-marker-alt"
+                aria-hidden="true"></i></a>
+          </div>
+
+          <div class="job-address right tright">
+            <p *ngIf="model.location?.fullAddress">{{model.location?.fullAddress}}</p>
+            <p *ngIf="model.location?.description">{{model.location?.description}}</p> <span
+              *ngIf="model.location?.zipAddress">{{model.location.zipAddress}}</span>
+          </div>
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+
+    </section>
+    <section id="employer-of-record"
+      class="border-bottom"
+      *ngIf="employerOfRecordSelectedValue==='Other'">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 *ngIf="model?.employerOfRecordDetails">Employer of Record </h4>
+          <div>{{model?.employerOfRecordDetails.companyName}}</div>
+        </div>
+        <div class="col-md-4">
+          <dl class="row"
+            *ngIf="model?.employerOfRecordDetails.fein">
+            <dt class="col-md-3">FEIN</dt>
+            <dd class="col-sm-9">
+              {{model?.employerOfRecordDetails.fein | mask: '00-0000000'}}
+            </dd>
+          </dl>
+          <dl class="row"
+            *ngIf="model.employerOfRecordDetails?.jobSectorId">
+            <dt class="col-md-5">Private/Public</dt>
+            <dd class="col-md-7">
+              {{model.employerOfRecordDetails?.jobSectorName}}
+            </dd>
+          </dl>
+        </div>
+        <div class="col-md-4">
+
+          <div class="job-pin right">
+            <a href="https://www.google.com/maps/search/{{model.employerOfRecordDetails.location?.fullAddress}}%20{{model.employerOfRecordDetails.location?.description}}"
+              target="_blank">
+              <i class="fa fa-map-marker-alt"
+                aria-hidden="true"></i>
+            </a>
+          </div>
+
+          <div class="job-address right tright">
+            <p *ngIf="model.employerOfRecordDetails.location?.fullAddress">
+              {{model.employerOfRecordDetails.location?.fullAddress}}</p>
+            <p *ngIf="model.employerOfRecordDetails.location?.description">
+              {{model.employerOfRecordDetails.location?.description}}</p>
+            <span
+              *ngIf="model.employerOfRecordDetails.location?.zipAddress">{{model.employerOfRecordDetails.location.zipAddress}}</span>
+          </div>
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+      <div class="row pad1 twothird center">
+        <div class="col-md-12">
+          <app-contacts-embed [pin]="participant?.pin"
+            [(ngModel)]="model.employerOfRecordDetails.contactId"
+            isReadOnly="true"></app-contacts-embed>
+        </div>
+      </div>
+    </section>
+
+    <section id="job-details">
+      <div class="row">
+        <div class="col-md-4">
+          <p *ngIf="model.fein">FEIN: <span class="denote">{{model.fein | mask: '00-0000000'}}</span></p>
+        </div>
+        <div class="col-md-4">&nbsp;</div>
+        <div class="col-md-4 tright">
+          <!-- IF TMI -->&nbsp;
+          <!-- PRIVATE/PUBLIC -->
+        </div>
+      </div>
+
+      <div class="pad1 twothird center">
+
+        <dl class="row"
+          *ngIf="model?.jobDuties">
+          <dt class="col-md-3">Job Duties</dt>
+          <dd class="col-sm-9 wrapword">
+            <!-- duty -->
+            <ul>
+              <li *ngFor="let duty of model?.jobDuties">{{duty?.details}}</li>
+            </ul>
+          </dd>
+          <!-- foreach-->
+        </dl>
+
+        <dl class="row"
+          *ngIf="model.expectedScheduleDetails">
+          <dt class="col-md-3">Expected Schedule</dt>
+          <dd class="col-sm-9">
+            {{model.expectedScheduleDetails}}
+          </dd>
+        </dl>
+
+        <dl class="row"
+          *ngIf="model.jobAction.jobActionNames.length">
+          <dt class="col-md-3">Benefits Offered</dt>
+          <dd class="col-sm-9">
+            <ul>
+              <li *ngFor="let benifit of model?.jobAction.jobActionNames">{{benifit}}</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="row"
+          *ngIf="model.jobSectorName">
+          <dt class="col-md-3">Private/Public</dt>
+          <dd class="col-sm-9">
+            {{model.jobSectorName}}
+          </dd>
+        </dl>
+        <!-- Removing based on US2480 -->
+        <!-- <dl class="row" *ngIf="model?.isLocatedTmiArea !== null">
+          <dt class="col-md-3">Located in TMI area</dt>
+          <dd class="col-sm-9">
+            {{model.isLocatedTmiArea | yesNo }}
+          </dd>
+        </dl> -->
+        <dl class="row"
+          *ngIf="model?.jobFoundMethodName">
+          <dt class="col-md-3">How was this job found?</dt>
+          <dd class="col-sm-3">
+            {{model.jobFoundMethodName}}
+          </dd>
+          <dd class="col-md-3"
+            *ngIf="model.workerId">{{model?.workerId}}</dd>
+          <dd class="col-md-3 wrapword"
+            *ngIf="model.jobFoundMethodDetails">{{model?.jobFoundMethodDetails}}</dd>
+        </dl>
+        <dl class="row"
+          *ngIf="model?.workProgramId">
+          <dt class="col-md-3">Work Program</dt>
+          <dd class="col-sm-3">
+            {{selectedWorkProgram}}
+          </dd>
+        </dl>
+
+        <dl class="row"
+          *ngIf="model.leavingReasonName">
+          <dt class="col-md-3">Reason for Leaving</dt>
+          <dd class="col-sm-3">
+            {{model.leavingReasonName}}
+          </dd>
+          <dd class="col-md-6">{{model.leavingReasonDetails}}</dd>
+        </dl>
+
+        <div class="row">
+          <div class="col-md-12">
+            <app-contacts-embed [pin]="participant?.pin"
+              [(ngModel)]="model.contactId"
+              isReadOnly="true">
+            </app-contacts-embed>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="job-wage"
+      class="pad1-0">
+      <h4 *ngIf="model.isCurrentlyEmployed"
+        class="part-title">Current or Most Recent Wage/Hours</h4>
+      <h4 *ngIf="!model.isCurrentlyEmployed"
+        class="part-title">Wage/Hours</h4>
+
+      <div class="current-wage">
+
+        <div class="row">
+          <div class="col-md-3"
+            *ngIf="model?.jobTypeName != 'Volunteer'">
+            <h5 *ngIf="!model.isCurrentlyEmployed">Ending Wage</h5>
+            <p *ngIf="model?.wageHour?.currentEffectiveDate">Effective Date: <span
+                class="denote">{{model?.wageHour?.currentEffectiveDate}}</span></p>
+          </div>
+          <div class="col-md-6">
+            <dl class="row">
+              <dt class="col-md-3">Calculated Hourly Wage</dt>
+              <dd class="col-md-9"
+                *ngIf="calculateHourlyWage(model)?.isCalculated !== null">
+                <span *ngIf="calculateHourlyWage(model)?.isCalculated">&asymp;</span> $
+                {{calculateHourlyWage(model)?.value}}/{{calculateHourlyWage(model)?.units}}
+              </dd>
+              <dd class="col-md-9"
+                *ngIf="calculateHourlyWage(model)?.isCalculated === null">
+                No Pay
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.wageHour?.currentPayRateIntervalName || model?.wageHour?.pastEndPayRateIntervalName || model?.wageHour?.unchangedPastPayRateIndicator">
+              <dt class="col-md-3">Reported Wage</dt>
+              <dd class="col-md-9"
+                *ngIf="model?.wageHour?.currentPayRate">
+                $ {{model?.wageHour?.currentPayRate}}/{{model?.wageHour?.currentPayRateIntervalName}}
+              </dd>
+              <dd class="col-md-9"
+                *ngIf="model?.wageHour?.pastEndPayRate">
+                $ {{model?.wageHour?.pastEndPayRate}}/{{model?.wageHour?.pastEndPayRateIntervalName}}
+              </dd>
+              <dd class="col-md-9"
+                *ngIf="model?.wageHour?.unchangedPastPayRateIndicator">
+                $ {{model?.wageHour?.pastBeginPayRate}}/{{model?.wageHour?.pastBeginPayRateIntervalName}}
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.wageHour?.currentHourlySubsidyRate">
+              <dt class="col-md-3">Hourly Subsidy</dt>
+              <dd class="col-md-9">
+                {{model?.wageHour?.currentHourlySubsidyRate}}
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.wageHour?.workSiteContribution">
+              <dt class="col-md-3">Work Site Contribution</dt>
+              <dd class="col-md-9">
+                {{model?.wageHour?.workSiteContribution}}
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.jobTypeName != 'Volunteer'">
+              <dt class="col-md-3">Pay Types</dt>
+              <dd class="col-md-9">
+                <span>{{model?.wageHour?.currentPayType?.jobActionNames.join(', ')}}&nbsp;</span>
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.wageHour?.currentPayTypeDetails">
+              <dt class="col-md-3">Pay Type Details</dt>
+              <dd class="col-md-9">
+                {{model?.wageHour?.currentPayTypeDetails}}
+              </dd>
+            </dl>
+            <dl class="row"
+              *ngIf="model?.wageHour?.currentAverageWeeklyHours">
+              <dt class="col-md-3">Avg Weekly Hours</dt>
+              <dd class="col-md-9">
+                {{model?.wageHour?.currentAverageWeeklyHours}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-3"
+            *ngIf="model?.jobTypeName != 'Volunteer' && model.wageHour.pastBeginPayRate">
+            <h5>Beginning Wage</h5>
+            <!-- <p>Effective Date: <span class="denote">{{model.wageHour.jobBeginDate}}</span></p> -->
+          </div>
+          <div class="col-md-6">
+            <dl class="row"
+              *ngIf="model?.wageHour?.pastBeginPayRateIntervalName || model?.wageHour?.pastBeginPayRateIntervalName">
+              <dt class="col-md-3">Reported Wage</dt>
+              <dd class="col-sm-9 col-md-3"
+                *ngIf="model?.wageHour?.currentPayRate">
+                $ {{model?.wageHour?.pastBeginPayRate}}/{{model?.wageHour?.pastBeginPayRateIntervalName}}
+              </dd>
+              <dd class="col-sm-9 col-md-3"
+                *ngIf="model?.wageHour?.pastBeginPayRate">
+                $ {{model?.wageHour?.pastBeginPayRate}}/{{model?.wageHour?.pastBeginPayRateIntervalName}}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <app-work-history-wage-history
+        *ngIf="model.wageHour && model.wageHour.wageHourHistories != null && model.wageHour.wageHourHistories.length != 0"
+        [displayModifiedStamp]="false"
+        [readOnly]="true"
+        [jobTypeId]="model.jobTypeId"
+        [(ngModel)]="model.wageHour.wageHourHistories">
+      </app-work-history-wage-history>
+
+    </section>
+
+    <section id="job-leave"
+      *ngIf="model.absences != null && model.absences.length != 0">
+      <h4 class="part-title">Leave of Absence</h4>
+      <app-work-history-leave-history [displayModifiedStamp]="false"
+        [readOnly]="true"
+        [(ngModel)]="model.absences">
+      </app-work-history-leave-history>
+    </section>
+
+    <section id="notes"
+      *ngIf="model.notes != null">
+      <hr />
+      <div class="row">
+        <div class="col-md-12 wrapword">
+          <p>{{model.notes}}</p>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section class="tright">
+      <hr />
+      <button type="button"
+        class="btn btn-add"
+        (click)="goBackToList()"><i class="fa fa-angle-left"></i> Back to List
+      </button>
+    </section>
+
+  </main>
+</div>

@@ -1,0 +1,4 @@
+<app-sub-header pageTitle="Participant Barriers" [goBackUrl]="goBackUrl" [participant]="participant" [helpComponent]="'participant-barriers-list'"></app-sub-header>
+<app-sub-header-nav  [mode]="'App'" activeItem="participant-barriers" [pin]="pin" [participant]="participant"></app-sub-header-nav>
+
+<app-participant-barriers-list [isReadOnly]="this.isReadOnly" [pin]="pin"></app-participant-barriers-list>

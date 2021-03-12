@@ -1,0 +1,1 @@
+<input class="form-control number-input" [ngClass]="{error: isInvalid, required: isRequired, dirty: isModified}" [disabled]="isDisabled" maxlength="4"  placeholder="YYYY" [(ngModel)]="value" (keydown)="keyDown($event)"/>

@@ -1,0 +1,58 @@
+:host .container {
+    display: block;
+    width: 100%;
+    padding: 0;
+    /* padding-top:0.25em; */
+    border-left-width: 4px;
+    border-color: #bdc3c7;
+    border: 1px solid #bdc3c7;
+    border-left-width: 4px;
+    border-radius: .25rem;
+    -webkit-transition: border 0.5s, box-shadow 0.5s;
+    transition: border 0.5s, box-shadow 1s;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #55595c;
+    background-color: #fff;
+    overflow:hidden;
+}
+
+:host .container textarea {
+    height: 2em;
+    padding: 0.25em 0.5em;
+    border-bottom: 1px solid #bdc3c7;
+    width: 100%;
+    display: flex;
+    overflow: visible;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+:host.required .container {
+    border-left-color:#9B59B6;
+}
+
+:host .required {
+    border-left-color:#9B59B6;
+}
+
+
+:host .dirty {
+    border-left-color: #f1c40f;
+}
+
+:host .error {
+    border-left-color: #c0392b!important;
+} 
+
+:host .focus {
+    border-left-color: #31B0D5!important;
+    box-shadow:0 0 2px #31B0D5!important;
+}
+
+:host .container .focus, 
+:host.dirty .container .focus,
+:host.required .container .focus, 
+:host.dirty .required .container .focus {
+    border-left-color: #31B0D5!important;
+    box-shadow:0 0 2px #31B0D5!important;
+}

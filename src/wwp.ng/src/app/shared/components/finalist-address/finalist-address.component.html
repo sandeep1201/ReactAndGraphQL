@@ -1,0 +1,109 @@
+<div class="col-md-12">
+  <div class="row">
+    <div [ngClass]="addressLine1GridSize">
+      <label>{{addressHeader}} </label>
+      <app-generic-text-input [(ngModel)]="locationAddress.addressLine1"
+        (ngModelChange)="locationAddress.addressLine1 = $event; registerModelChange($event);"
+        [NGMaxLength]="50"
+        [isRequired]="isRequired"
+        [cacheInnerValue]="this.originalModel?.addressLine1"
+        [isInvalid]="modelErrors['addressLine1'+additionalValidationErrorParameter]"
+        [isDisabled]="isReadOnly || isAddressDisabled"></app-generic-text-input>
+
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <label>City</label>
+      <app-generic-text-input [(ngModel)]="locationAddress.city"
+        [NGMaxLength]="28"
+        (ngModelChange)="locationAddress.city = $event; registerModelChange($event);"
+        [isRequired]="isRequired"
+        [cacheInnerValue]="this.originalModel?.city"
+        [isInvalid]="modelErrors['city'+additionalValidationErrorParameter]"
+        [isDisabled]="isReadOnly || isAddressDisabled"></app-generic-text-input>
+
+    </div>
+    <div class="col-md-4">
+      <label>State</label>
+      <app-generic-text-input *ngIf="isWIDefault"
+        [(ngModel)]="locationAddress.state"
+        [isDisabled]="isWIDefault || isReadOnly || isAddressDisabled"
+        [NGMaxLength]="2"
+        [cacheInnerValue]="this.originalModel?.state"
+        [isInvalid]="modelErrors['state'+additionalValidationErrorParameter]"
+        (ngModelChange)="locationAddress.state = $event; registerModelChange($event);"
+        [isRequired]="isRequired"></app-generic-text-input>
+      <app-select *ngIf="!isWIDefault"
+        [(ngModel)]="activeStateID"
+        [isDisabled]="isWIDefault || isReadOnly || isAddressDisabled"
+        (ngModelChange)="this.activeStateID = $event; setActiveStateCode(); registerModelChange($event);"
+        [isInvalid]="modelErrors['state'+additionalValidationErrorParameter]"
+        [cacheInnerValue]="cachedStateID"
+        [isRequired]="isRequired"
+        [dropDownList]="statesDrop">
+      </app-select>
+
+    </div>
+    <div class="col-md-4">
+      <label>ZIP</label>
+      <app-generic-text-input [cacheInnerValue]="this.originalModel?.zip"
+        [isInvalid]="modelErrors['zip'+additionalValidationErrorParameter]"
+        [(ngModel)]="locationAddress.zip"
+        [isDisabled]="isReadOnly || isAddressDisabled"
+        [NGMaxLength]="10"
+        (ngModelChange)="locationAddress.zip = $event; registerModelChange($event);"
+        [isRequired]="isRequired"></app-generic-text-input>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isDisplayed">
+    <div class="p-1">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary disabled"
+          *ngIf="isAddressDisabled || isReadOnly || !isAddressEntered">Validate</button>
+        <button class="btn btn-primary"
+          *ngIf="!isAddressDisabled && isAddressEntered"
+          (click)="validateAddressFromFinalist();">Validate</button>
+      </div>
+    </div>
+
+    <div *ngIf="finalistAddressLoaded">
+      <div class="row">
+        <h4 class="part-title">Address Search Result</h4>
+
+      </div>
+
+      <div class="row col-md-12">
+        <div *ngIf="errorMsg?.length === 0"
+          class="col-md-8 pb-1">
+          <label>The following address was found :</label>
+          {{suggestedAddressFromFinalist}} </div>
+        <div *ngIf="errorMsg?.length > 0"
+          class="col-md-8 pb-1">
+          <label>Address is not valid</label>
+        </div>
+        <div class="col-md-4 address-options">
+          <div *ngIf="errorMsg?.length === 0">
+            <app-radio-button class="address-options-padding"
+              [(ngModel)]="useSuggestedAddress"
+              (ngModelChange)="useSuggestedAddress = $event; validateUserClickSuggested();validateFinalistAddress();"
+              [disabled]="isReadOnly"
+              [NgLabel]="'Use the address suggested'"></app-radio-button>
+          </div>
+          <app-radio-button class="address-options-padding"
+            [(ngModel)]="resubmitAddress"
+            (ngModelChange)="resubmitAddress = $event; validateUserClickResubmit();validateFinalistAddress(); "
+            [disabled]="isReadOnly"
+            [NgLabel]="'Resubmit the address'"></app-radio-button>
+
+          <app-radio-button class="address-options-padding"
+            [(ngModel)]="useEnteredAddress"
+            (ngModelChange)="useEnteredAddress = $event; validateUserClickEntered();validateFinalistAddress();"
+            [disabled]="isReadOnly"
+            [NgLabel]="'Use the address as entered'"></app-radio-button>
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
