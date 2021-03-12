@@ -1,0 +1,427 @@
+<section class="overview ia fields participant-barriers current" id="ia-participant-barriers">
+
+  <app-overview-card-header [title]="'Participant Barriers'" [rowVersion]="section?.rowVersion"
+    [showHistoryIcon]="showHistoryIcon" [isEditHidden]="hasEditAccess && !canRequestPBAccess"
+    [historyDrop]="historyManager?.historyDrop" [historyArrayLength]="historyManager?.history.length"
+    (onEdit)="onEdit($event)" (onHistory)="toggleHistory($event)" (onHistorySelected)="loadHistorySection($event)"
+    (onCollapse)="toggleCollapse($event)"></app-overview-card-header>
+
+  <app-alert-warning *ngIf="!section?.rowVersion" [hasFcdpRole]="hasFcdpRole" [section]="'Participant Barriers'">
+  </app-alert-warning>
+
+  <app-validation-summary *ngIf="section?.rowVersion && !canRequestPBAccess" [errors]='validationManager?.errors'>
+  </app-validation-summary>
+
+  <div class="part participant-barriers" [class.collapse]="isCollapsed || canRequestPBAccess"
+    *ngIf="section?.rowVersion" [class.history]="isHistoryActive">
+
+    <div class="row reprow">
+      <span class="ovtitle reptitle">Physical Health</span>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isPhysicalHealthHardToManage']">
+        <span class="ovtitle" title="Do you have any health problems that make it hard to manage your daily life?">Do
+          any health problems impact daily life?</span>
+        <span class="ovval">{{section?.isPhysicalHealthHardToManage?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isPhysicalHealthHardToManageDetails']"
+        [class.blank]="section?.isPhysicalHealthHardToManage?.details == null || section?.isPhysicalHealthHardToManage?.details == ''">
+        <span class="ovtitle"
+          title="Do you have any health problems that make it hard to manage your daily life? - Details">Details</span>
+        <span class="ovval">{{section?.isPhysicalHealthHardToManage?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem"
+        [class.error]="modelErrors['isPhysicalHealthHardToParticipate']">
+        <span class="ovtitle"
+          title="Do you have concerns that problems with your health will make it hard to participate in work activities?">concerns
+          about participation?</span>
+        <span class="ovval">{{section?.isPhysicalHealthHardToParticipate?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isPhysicalHealthHardToParticipateDetails']"
+        [class.blank]="section?.isPhysicalHealthHardToParticipate?.details == null || section?.isPhysicalHealthHardToManage?.details == ''">
+        <span class="ovtitle"
+          title="Do you have concerns that problems with your health will make it hard to participate in work activities? - Details">Details</span>
+        <span class="ovval">{{section?.isPhysicalHealthHardToParticipate?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div *ngIf="section?.isPhysicalHealthTakeMedicationDisplayed(yesId)" class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isPhysicalHealthTakeMedication']">
+        <span class="ovtitle"
+          title="Do you currently see a health care provider or take medications for health problem(s)?">health care
+          provider or medications?</span>
+        <span class="ovval">{{section?.isPhysicalHealthTakeMedication?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isPhysicalHealthTakeMedicationDetails']"
+        [class.blank]="section?.isPhysicalHealthTakeMedication?.details == null || section?.isPhysicalHealthTakeMedication?.details == ''">
+        <span class="ovtitle"
+          title="Do you currently see a health care provider or take medications for health problem(s)? - Details">Details</span>
+        <span class="ovval">{{section?.isPhysicalHealthTakeMedication?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-history-alert *ngIf="isHistoryActive"></app-history-alert>
+        <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Physical Health" class="tabled"
+          [allParticipantBarriers]="allParticipantBarriers" isReadOnly="true"></app-participant-barriers-embed>
+      </div>
+    </div>
+
+    <div class="row reprow">
+      <span class="ovtitle reptitle">Mental Health</span>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isMentalHealthDiagnosed']">
+        <span class="ovtitle"
+          title="Have you ever met with a counselor or psychiatrist for mental health services or been diagnosed with a mental health condition?">Ever
+          met with counselor/psychiatrist or diagnosed with MH condition?</span>
+        <span class="ovval">{{section?.isMentalHealthDiagnosed?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isMentalHealthDiagnosedDetails']"
+        [class.blank]="section?.isMentalHealthDiagnosed?.details == null || section?.isMentalHealthDiagnosed?.details == ''">
+        <span class="ovtitle"
+          title="Have you ever met with a counselor or psychiatrist for mental health services or been diagnosed with a mental health condition? - Details">Details</span>
+        <span class="ovval">{{section?.isMentalHealthDiagnosed?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isMentalHealthHardToManage']">
+        <span class="ovtitle"
+          title="Do you have any mental health conditions that make it hard for you to manage your daily life?">Do any
+          MH conditions impact daily life?</span>
+        <span class="ovval">{{section?.isMentalHealthHardToManage.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isMentalHealthHardToManageDetails']"
+        [class.blank]="section?.isMentalHealthHardToManage?.details == null || section?.isMentalHealthHardToManage?.details == ''">
+        <span class="ovtitle"
+          title="Do you have any mental health conditions that make it hard for you to manage your daily life? - Details">Details</span>
+        <span class="ovval">{{section?.isMentalHealthHardToManage?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isMentalHealthHardToParticipate']">
+        <span class="ovtitle"
+          title="Do you have concerns that a mental health condition will make it hard for you to participate in work activities?">Concerns
+          about participation?</span>
+        <span class="ovval">{{section?.isMentalHealthHardToParticipate?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isMentalHealthHardToParticipateDetails']"
+        [class.blank]="section?.isMentalHealthHardToParticipate?.details == null || section?.isMentalHealthHardToParticipate?.details == ''">
+        <span class="ovtitle"
+          title="Do you have concerns that a mental health condition will make it hard for you to participate in work activities? - Details">Details</span>
+        <span class="ovval">{{section?.isMentalHealthHardToParticipate?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div *ngIf="section?.isMentalHealthTakeMedicationDisplayed(yesId)" class="row">
+      <div class="overview-field col-md-6 overviewItem" [class.error]="modelErrors['isMentalHealthTakeMedication']">
+        <span class="ovtitle"
+          title="Do you currently see a counselor or psychiatrist for mental health services or take medication for a mental health condition?">Currently
+          see a counsellor or psychiatrist/take medication?</span>
+        <span class="ovval">{{section?.isMentalHealthTakeMedication?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-6 overviewItem"
+        [class.error]="modelErrors['isMentalHealthTakeMedicationDetails']"
+        [class.blank]="section?.isMentalHealthTakeMedication?.details == null || section?.isMentalHealthTakeMedication?.details == ''">
+        <span class="ovtitle"
+          title="Do you currently see a counselor or psychiatrist for mental health services or take medication for a mental health condition? - Details">Details</span>
+        <span class="ovval">{{section?.isMentalHealthTakeMedication?.details}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-history-alert *ngIf="isHistoryActive"></app-history-alert>
+        <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Mental Health" class="tabled"
+          [allParticipantBarriers]="allParticipantBarriers" isReadOnly="true"></app-participant-barriers-embed>
+      </div>
+    </div>
+
+    <div class="row reprow">
+      <span class="ovtitle reptitle">AODA</span>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isAodaHardToManage']">
+        <span class="ovtitle" title="Does alcohol or drug use make it hard for you to manage your daily life?">Does
+          alcohol or drug use impact daily life?</span>
+        <span class="ovval">{{section?.isAodaHardToManage?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isAodaHardToManageDetails']"
+        [class.blank]="section?.isAodaHardToManage?.details == null || section?.isAodaHardToManage?.details == ''">
+        <span class="ovtitle"
+          title="Does alcohol or drug use make it hard for you to manage your daily life? - Details">Details</span>
+        <span class="ovval">{{section?.isAodaHardToManage?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isAodaHardToParticipate']">
+        <span class="ovtitle"
+          title="Do you have concerns that alcohol or drug use will make it hard for you to participate in work activities?">Concerns
+          about participation?</span>
+        <span class="ovval">{{section?.isAodaHardToParticipate?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isAodaHardToParticipateDetails']"
+        [class.blank]="section?.isAodaHardToParticipate?.details == null || section?.isAodaHardToParticipate?.details == ''">
+        <span class="ovtitle"
+          title="Do you have concerns that alcohol or drug use will make it hard for you to participate in work activities? - Details">Details</span>
+        <span class="ovval">{{section?.isAodaHardToParticipate?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="section?.isAodaTakeTreatmentDisplayed(yesId)">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isAodaTakeTreatment']">
+        <span class="ovtitle" title="Are you currently in any alcohol or drug treatment services?"> currently in
+          treatment?</span>
+        <span class="ovval">{{section?.isAodaTakeTreatment?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isAodaTakeTreatmentDetails']"
+        [class.blank]="section?.isAodaTakeTreatment?.details == null || section?.isAodaTakeTreatment?.details == ''">
+        <span class="ovtitle"
+          title="Are you currently in any alcohol or drug treatment services? - Details">Details</span>
+        <span class="ovval">{{section?.isAodaTakeTreatment?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-history-alert *ngIf="isHistoryActive"></app-history-alert>
+        <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="AODA" class="tabled"
+          [allParticipantBarriers]="allParticipantBarriers" isReadOnly="true"></app-participant-barriers-embed>
+      </div>
+    </div>
+
+    <div class="row reprow">
+      <span class="ovtitle reptitle">Cognitive and Learning Needs</span>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-7 overviewItem" [class.error]="modelErrors['isLearningDisabilityDiagnosed']">
+        <span class="ovtitle"
+          title="Did you ever have problems learning in school or have you ever been diagnosed with a learning disability?">Any
+          Problems learning in school/diagnosed with a learning disability?</span>
+        <span class="ovval">{{section?.isLearningDisabilityDiagnosed?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.error]="modelErrors['isLearningDisabilityDiagnosedDetails']"
+        [class.blank]="section?.isLearningDisabilityDiagnosed?.details == null || section?.isLearningDisabilityDiagnosed?.details == ''">
+        <span class="ovtitle"
+          title="Did you ever have problems learning in school or have you ever been diagnosed with a learning disability? - Details">Details</span>
+        <span class="ovval">{{section?.isLearningDisabilityDiagnosed?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem" [class.error]="modelErrors['isLearningDisabilityHardToManage']">
+        <span class="ovtitle" title="Do you have learning problems that make it hard to manage your daily life?">Do
+          learning problems impact daily life?</span>
+        <span class="ovval">{{section?.isLearningDisabilityHardToManage?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isLearningDisabilityHardToManageDetails']"
+        [class.blank]="section?.isLearningDisabilityHardToManage?.details == null || section?.isLearningDisabilityHardToManage?.details == ''">
+        <span class="ovtitle"
+          title="Do you have learning problems that make it hard to manage your daily life? - Details">Details</span>
+        <span class="ovval">{{section?.isLearningDisabilityHardToManage?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 overviewItem"
+        [class.error]="modelErrors['isLearningDisabilityHardToParticipate']">
+        <span class="ovtitle"
+          title="Do you have concerns that learning problems will make it hard to participate in work activities?">Concerns
+          about participation?</span>
+        <span class="ovval">{{section?.isLearningDisabilityHardToParticipate?.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-7 overviewItem"
+        [class.error]="modelErrors['isLearningDisabilityHardToParticipateDetails']"
+        [class.blank]="section?.isLearningDisabilityHardToParticipate?.details == null || section?.isLearningDisabilityHardToParticipate?.details == ''">
+        <span class="ovtitle"
+          title="Do you have concerns that learning problems will make it hard to participate in work activities? - Details">Details</span>
+        <span class="ovval">{{section?.isLearningDisabilityHardToParticipate?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-history-alert *ngIf="isHistoryActive"></app-history-alert>
+        <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Cognitive and Learning"
+          [allParticipantBarriers]="allParticipantBarriers" class="tabled" isReadOnly="true">
+        </app-participant-barriers-embed>
+      </div>
+    </div>
+
+    <div class="row reprow">
+      <span *ngIf="section?.isSafeAppropriateToAsk" class="ovtitle reptitle"></span>
+      <span *ngIf="!section?.isSafeAppropriateToAsk" class="ovtitle reptitle"></span>
+    </div>
+    <div class="row">
+      <div class="overview-field col-md-5 alert-info d-block" [class.error]="modelErrors['isSafeAppropriateToAsk']">
+        <span class="ovtitle" title="Display next section?">Display next section?
+          <span class="right">
+            <a (click)="toggleDVCollapse()">
+              <i *ngIf="!isDVCollapsed" class="fa fa-compress"></i>
+              <i *ngIf="isDVCollapsed" class="fa fa-expand"></i>
+            </a>
+          </span>
+        </span>
+        <span class="ovval"></span>
+        <!-- Not showing the value based on bug 2310 -->
+        <!-- <span class="ovval">{{section?.isSafeAppropriateToAsk | yesNo}}&nbsp;</span> -->
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceHurtingYouOrOthers.status == null">
+        <span class="ovtitle"
+          title="Is someone hurting you, your children, your other family or friends, or your pet(s)?">Hurting you, your
+          children, your other family or friends, or pet(s)?</span>
+        <span class="ovval">{{section?.isDomesticViolenceHurtingYouOrOthers.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceHurtingYouOrOthers?.details == null || section?.isDomesticViolenceHurtingYouOrOthers?.details == ''">
+        <span class="ovtitle"
+          title="Is someone hurting you, your children, your other family or friends, or your pet(s)? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceHurtingYouOrOthers?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceEverHarmedPhysicallyOrSexually.status == null">
+        <span class="ovtitle"
+          title="Have you ever been in a relationship in which your partner has harmed you either physically or sexually? (examples: punching, grabbing, pushing, choking, restraining)">Harmed
+          you either physically or sexually?</span>
+        <span class="ovval">{{section?.isDomesticViolenceEverHarmedPhysicallyOrSexually.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceEverHarmedPhysicallyOrSexually?.details == null || section?.isDomesticViolenceEverHarmedPhysicallyOrSexually?.details == ''">
+        <span class="ovtitle"
+          title="Have you ever been in a relationship in which your partner has harmed you either physically or sexually? (examples: punching, grabbing, pushing, choking, restraining) - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceEverHarmedPhysicallyOrSexually?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolencePartnerControlledMoney.status == null">
+        <span class="ovtitle"
+          title="Has your partner ever refused to let you have money, made you ask for money, or took money from you against your will?">Partner
+          ever controlled money?</span>
+        <span class="ovval">{{section?.isDomesticViolencePartnerControlledMoney.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolencePartnerControlledMoney?.details == null || section?.isDomesticViolencePartnerControlledMoney?.details == ''">
+        <span class="ovtitle"
+          title="Has your partner ever refused to let you have money, made you ask for money, or took money from you against your will? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolencePartnerControlledMoney?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceReceivedServicesOrLivedInShelter.status == null">
+        <span class="ovtitle"
+          title="Have you ever received services or lived in a shelter for victims of domestic abuse or sexual assault?">Lived
+          in a shelter for victims of domestic abuse or sexual assault?</span>
+        <span class="ovval">{{section?.isDomesticViolenceReceivedServicesOrLivedInShelter.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceReceivedServicesOrLivedInShelter?.details == null || section?.isDomesticViolenceReceivedServicesOrLivedInShelter?.details == ''">
+        <span class="ovtitle"
+          title="Have you ever received services or lived in a shelter for victims of domestic abuse or sexual assault? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceReceivedServicesOrLivedInShelter?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceEmotionallyOrVerballyAbusing.status == null">
+        <span class="ovtitle" title="Is someone emotionally or verbally abusing you or your children?">Is someone
+          emotionally or verbally abusing you or your children?</span>
+        <span class="ovval">{{section?.isDomesticViolenceEmotionallyOrVerballyAbusing.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceEmotionallyOrVerballyAbusing?.details == null || section?.isDomesticViolenceEmotionallyOrVerballyAbusing?.details == ''">
+        <span class="ovtitle"
+          title="Is someone emotionally or verbally abusing you or your children? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceEmotionallyOrVerballyAbusing?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceCallingHarassingStalkingAtWork.status == null">
+        <span class="ovtitle"
+          title="Does your current or former partner call, harass, or stalk you at work or training classes?">Does
+          partner call, harass, or stalk you at work or training classes?</span>
+        <span class="ovval">{{section?.isDomesticViolenceCallingHarassingStalkingAtWork.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceCallingHarassingStalkingAtWork?.details == null || section?.isDomesticViolenceCallingHarassingStalkingAtWork?.details == ''">
+        <span class="ovtitle"
+          title="Does your current or former partner call, harass, or stalk you at work or training classes? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceCallingHarassingStalkingAtWork?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceMakingItDifficultToWork.status == null">
+        <span class="ovtitle"
+          title="Is your partner doing anything to make it difficult for you to work or do other activities in your daily life?">Does
+          partner make it difficult for you to work or do other activities?</span>
+        <span class="ovval">{{section?.isDomesticViolenceMakingItDifficultToWork.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceMakingItDifficultToWork?.details == null || section?.isDomesticViolenceMakingItDifficultToWork?.details == ''">
+        <span class="ovtitle"
+          title="Is your partner doing anything to make it difficult for you to work or do other activities in your daily life? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceMakingItDifficultToWork?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault.status == null">
+        <span class="ovtitle"
+          title="Are you or any of your children feeling overwhelmed with the trauma of a rape or sexual assault?">Feeling
+          overwhelmed with the trauma of a rape or sexual assault?</span>
+        <span class="ovval">{{section?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault?.details == null || section?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault?.details == ''">
+        <span class="ovtitle"
+          title="Are you or any of your children feeling overwhelmed with the trauma of a rape or sexual assault? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault?.details}}&nbsp;</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="overview-field col-md-7 overviewItem"
+        [class.blank]="section?.isDomesticViolenceInvolvedInCourts.status == null">
+        <span class="ovtitle"
+          title="Are you involved with the court system due to domestic violence or sexual assault?">Involved with court
+          system due to domestic violence or sexual assault?</span>
+        <span class="ovval">{{section?.isDomesticViolenceInvolvedInCourts.statusName}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-5 overviewItem"
+        [class.blank]="section?.isDomesticViolenceInvolvedInCourts?.details == null || section?.isDomesticViolenceInvolvedInCourts?.details == ''">
+        <span class="ovtitle"
+          title="Are you involved with the court system due to domestic violence or sexual assault? - Details">Details</span>
+        <span class="ovval">{{section?.isDomesticViolenceInvolvedInCourts?.details}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isDVCollapsed">
+      <div class="col-md-12">
+        <app-history-alert *ngIf="isHistoryActive"></app-history-alert>
+        <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Domestic Violence"
+          [allParticipantBarriers]="allParticipantBarriers" class="tabled" isReadOnly="true">
+        </app-participant-barriers-embed>
+      </div>
+    </div>
+
+    <div class="row"></div>
+    <div class="row">
+      <div class="overview-field col-md-12 overviewItem" [class.error]="modelErrors['notes']"
+        [class.blank]="isStringEmptyOrNull(section.notes)">
+        <span class="ovtitle" title="Notes">Notes</span>
+        <span class="ovval">{{section?.notes | emptyStringIfNull}}&nbsp;</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>

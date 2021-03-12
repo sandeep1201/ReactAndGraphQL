@@ -1,0 +1,29 @@
+<ul id="subBoxes" class="boxes pt-2">
+  <li *ngIf="this.isEnrollEnabled()" class="box">
+    <a (click)="this.enroll()">
+      <i class="fa fa-user-plus"></i>
+      <p>Enroll Participant</p>
+    </a>
+  </li>
+  <li *ngIf="this.isDisenrollEnabled()" class="box">
+    <a (click)="this.disenroll()">
+      <i class="fa fa-user-times"></i>
+      <p>Disenroll Participant</p>
+    </a>
+  </li>
+  <li *ngIf="this.isTransferEnabled()" class="box right">
+    <a (click)="this.transfer()">
+      <i class="fa fa-exchange-alt"></i>
+      <p>Office Transfer</p>
+    </a>
+  </li>
+  <li *ngIf="this.isReassignEnabled()" class="box right">
+    <a (click)="this.reassign()">
+      <i class="wwp-reassign"></i>
+      <p>Reassign Worker</p>
+    </a>
+  </li>
+  <!-- <li></li> -->
+</ul>
+
+<app-registration [regId]="regId" (onSaveAndExit)="exitReg()" *ngIf="inEditView"></app-registration>

@@ -1,0 +1,42 @@
+
+ .error {
+    border-color: #c0392b;
+    border-left-color:#c0392b!important;
+}
+
+/*.required  {
+    border-left-color: #9B59B6;
+}
+
+.required:disabled {
+    border-left-color: #BDC3C7;
+} */
+:host input {
+    height:38px;
+}
+
+input + label:before {
+    top:3px;
+}
+
+:host input:disabled {
+    border-left: 4px solid #BDC3C7;
+}
+
+:host.first input {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right: none;
+}
+
+:host.last input {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.error {
+    border-left: 4px solid #c0392b !important;
+}
+.textIndent {
+    text-indent: 999px !important;
+}
+

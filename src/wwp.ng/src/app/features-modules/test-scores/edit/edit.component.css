@@ -1,0 +1,204 @@
+section.dialog-content {
+  margin: 3em 0;
+  min-height: 250px;
+}
+
+.modal-container {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+}
+
+header.test-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #bdc3c7;
+  padding: 0.5em;
+  display: block;
+}
+
+header.test-head .btn-back {
+  position: relative;
+  margin: 0;
+  padding: 0.5em;
+  font-size: 1.2em;
+  color: #95a5a6!important;
+  float: right;
+}
+
+h1#pageTitle {
+  float: left;
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0.25em;
+}
+
+.form-header {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5em;
+  padding-top: 0;
+}
+
+.form-header label {
+  margin-bottom: 0;
+  padding: 0.4em 1em 0 0;
+}
+
+.form-header app-select,
+.form-header app-date-mm-dd-yyyy-new {
+  width: 50%;
+}
+
+section.modal-container {
+  min-height: 550px;
+}
+
+:host #test-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #bdc3c7;
+  display: block;
+  padding-bottom: 0.75em;
+}
+
+
+/* :host #test-footer div.btn-holder {
+
+} */
+
+:host h1#pageTitle {
+  float: left;
+  font-size: 1.8rem;
+  margin: 0;
+  padding: 0.25em;
+}
+
+table.scores-table {
+  border-collapse:collapse;
+}
+
+table.scores-table thead th {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #63899D;
+  text-align: center;
+  padding: 0.5em 0;
+}
+
+tbody td {
+  color: #7f8c8d;
+  width: 165px;
+  border-bottom: 5px solid #ecf0f1!important;
+  border-right: 1px solid #ecf0f1!important;
+}
+
+tbody.scores-content td {
+  background: #fff;
+}
+
+/* tbody.scores-content td.sc-score {
+  position: relative;
+  background:transparent;
+} */
+
+tbody.scores-content td.error {
+  box-shadow: 0 0 3px #e74c3c;
+  background: #FDEDEB;
+}
+
+tbody.scores-content td.blank {
+  background: #ecf0f1;
+}
+
+tbody.scores-content td.blank>>>textarea {
+  border: none;
+  border-radius: 0;
+}
+
+tbody.scores-content td i {
+  color: #bdc3c7;
+}
+
+tbody.scores-content td.sc-score span.per,
+tbody.scores-content td.grade-equ span.per {
+  /* position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 100%; */
+  position: relative;
+  top:0.5em;
+  z-index: 200;
+  text-align: center;
+  pointer-events: none;
+}
+
+tbody.scores-content td.grade-equ span.per {
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 100%;
+  z-index: 200;
+  text-align: center;
+  pointer-events: none;
+}
+
+tbody.scores-content td.sc-subject {
+  background: none;
+  color: #7f8c8d;
+}
+
+tbody.scores-content input,
+tbody.scores-content>>>input,
+tbody.scores-content select,
+tbody.scores-content>>>select {
+  border-radius: 0;
+  padding: 0.6em 0.5em;
+  line-height: 1em;
+  vertical-align: middle;
+  border: none;
+  display: inline-block;
+}
+
+tbody.scores-content td.sc-score app-numerical-input {
+  width: 45%;
+  display: inline-block;
+  position: relative;
+  z-index: 300;
+}
+
+tbody.scores-content td.sc-score app-numerical-input>>>input,
+tbody.scores-content td.grade-equ app-numerical-input>>>input,
+tbody.scores-content td.grade-equ app-text-input>>>input,
+tbody.scores-content td.sc-date-passed app-text-input>>>input {
+  background: none;
+}
+
+:host >>> input.required.ng-untouched.error,
+:host >>> textarea.required.ng-untouched.error,
+:host >>> select.required.ng-untouched.error  {
+    border-color:#BDC3C7!important;
+    border-left-color: #9B59B6!important;
+    box-shadow: none!important;
+}
+
+:host >>> input.ng-untouched.error,
+:host >>> textarea.ng-untouched.error,
+:host >>> select.ng-untouched.error {
+    border-color:#BDC3C7!important;
+    border-left-color: #BDC3C7!important;
+    box-shadow: none!important;
+}
+
+:host >>> input.ng-untouched:focus,
+:host >>> textarea.ng-untouched:focus,
+:host >>> select.ng-untouched:focus,
+:host >>> input.ng-untouched.error:focus,
+:host >>> textarea.ng-untouched.error:focus,
+:host >>> select.ng-untouched.error:focus {
+    border-color: #31B0D5!important;
+    border-left-color: #31B0D5!important;
+    box-shadow:0 0 2px #31B0D5!important;
+}

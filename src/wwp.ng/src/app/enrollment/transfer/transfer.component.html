@@ -1,0 +1,77 @@
+<div *ngIf="isLoaded" id="contact-modal">
+  <header class="nav-header pad1">
+    <div class="clearfix">
+      <a (click)="this.exit()" class="btn btn-back btn-secondary-outline btn-sm" title="Close Record">
+        <i class="fa fa-times"></i>
+      </a>
+      <h1 id="pageTitle">Transfer Participant</h1>
+    </div>
+  </header>
+  <!-- *ngIf="this.model && this.model.programs && this.model.currentEnrolledProgram.assignedWorker"  -->
+  <div class="app-content">
+    <div class="wrapper">
+      <!-- <p class="tgrey3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper nisl quis eleifend fermentum. Vestibulum ante ipsum
+        primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent facilisis imperdiet porta. Curabitur vehicula
+        egestas bibendum. Mauris a fringilla augue.</p> -->
+
+      <div id="enrollment" name="enrollment" class="pad1-0 ninetyWidth center">
+
+
+        <div class="flex-row">
+          <div class="col-md-4 pad1">
+            <label>Program</label>
+            <app-select [(ngModel)]="this.programId" (ngModelChange)="this.programId = $event; programChange();" [cacheInnerValue]="originalProgramId" [dropDownList]="this.programDrop"  [isRequired]="true" [isDisabled]="isProgramDropDisabled"></app-select>
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <div class="col-md-6">
+            <label>Work Program Office</label>
+            <app-auto-complete [(ngModel)]="this.workProgramOfficeId" [cacheInnerValue]="originalWorkProgramOfficeId" (ngModelChange)="this.workProgramOfficeId = $event; validate(); preCheck(); this.workerId = null;; this.loadWorkers($event);"
+              [dropDownList]="this.officeDrop" [isRequired]="true"></app-auto-complete>
+          </div>
+          <div class="col-md-6">
+            <label *ngIf="programId == null || programId == 0">Worker</label>
+            <label *ngIf="pepW2Id == programId">FEP</label>
+            <label *ngIf="pepTJId == programId">TJ Worker</label>
+            <label *ngIf="pepLFId == programId">Learnfare Case Manager</label>
+            <label *ngIf="pepCFId == programId">CF Case Manager</label>
+            <label *ngIf="pepTmjId == programId">TMJ Worker</label>
+            <app-auto-complete [(ngModel)]="this.workerId" (ngModelChange)="this.workerId = $event; validate();"  [cacheInnerValue]="originalWorkerId" [isDisabled]="this.workerDrop?.length == 0" [dropDownList]="this.workerDrop" [isRequired]="this.isWorkerRequired"></app-auto-complete>
+          </div>
+        </div>
+
+
+      <div *ngIf="this.precheckMsgs != null"  class="flex-row py-1">
+          <div class="col-md-12">
+                  <ul *ngIf="this.precheckMsgs?.status === true" class="list-group">
+                      <li class="list-group-item list-group-item-success">Participant is eligible for transfer</li>
+                  </ul>
+                  <ul *ngIf="this.precheckMsgs?.errors != null" class="list-group">
+                      <li *ngFor="let error of this.precheckMsgs.errors" class="list-group-item list-group-item-danger">{{error}}</li>
+                  </ul>
+                  <ul *ngIf="this.precheckMsgs?.warnings != null" class="list-group">
+                      <li *ngFor="let warning of this.precheckMsgs.warnings" class="list-group-item list-group-item-warning">{{warning}}</li>
+                  </ul>
+                  &nbsp;
+          </div>
+      </div>
+
+  </div>
+</div>
+
+  <div class="pad2">&nbsp;</div>
+
+  <div class="pad2">&nbsp;</div>
+
+  <footer class="nav-footer">
+    <div class="wrapper tright">
+      <div class="error" *ngIf="hadSaveError">There was an error saving.</div>
+      <button class="btn btn-add" (click)="this.exit()">Cancel</button>
+      <button class="btn btn-primary disabled" *ngIf="isSaving">
+        <i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i> Saving </button>
+      <button (click)="this.saveAndExit()" *ngIf="!isSaving" class="btn btn-primary" [class.disabled]="!this.isValid" [disabled]="!this.isValid">Transfer</button>
+    </div>
+  </footer>
+
+</div>

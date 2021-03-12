@@ -1,0 +1,4 @@
+<select [ngClass]="{required: isRequired, compact: false, error: isInvalid}" class="form-control" [(ngModel)]="value">
+  <option value=""></option>
+  <option *ngFor="let item of items" value={{item.id}}>{{item.name}}</option>
+</select>

@@ -1,0 +1,123 @@
+<div class="row pad1">
+
+  <section id="top-options"
+    *ngIf="tabeClasEExams?.length != 0 || bestExams?.length != 0 || tabe910Exams?.length != 0 || gedExams?.length != 0 || tabe1112Exams?.length != 0"
+    class="row border-bottom">
+    <ul class="nav test-tabs col-md-8">
+      <li (click)="clickTestType(this.gedHsed)"
+        [class.select]="this.testType == this.gedHsed"
+        *ngIf="gedExams?.length != 0"
+        class="m-1">
+        <a>{{this.gedHsed}}</a> </li>
+      <li (click)="clickTestType(this.abeAse)"
+        [class.select]="this.testType == this.abeAse"
+        *ngIf="tabe910Exams?.length != 0"
+        class="m-1">
+        <a>{{this.abeAse}}</a> </li>
+      <li (click)="clickTestType(this.eslEll)"
+        [class.select]="this.testType == this.eslEll"
+        *ngIf="tabeClasEExams?.length != 0 || bestExams?.length != 0"
+        class="m-1">
+        <a>{{this.eslEll}}</a> </li>
+      <li (click)="clickTestType(this.tabe1112Name)"
+        [class.select]="this.testType == this.tabe1112Name"
+        *ngIf="tabe1112Exams?.length != 0"
+        class="m-1">
+        <a>{{this.tabe1112Name}}</a> </li>
+      <li (click)="clickTestType(this.casasName)"
+        [class.select]="this.testType == this.casasName"
+        *ngIf="casasExams?.length != 0"
+        class="m-1">
+        <a>{{this.casasName}}</a> </li>
+
+    </ul>
+    <div class="col-md-4 d-flex justify-content-end p-2">
+      <button *ngIf="!this.isReadOnly"
+        type="button"
+        (click)="openAdd()"
+        class="btn btn-add">+ Add Test</button>
+    </div>
+
+  </section>
+
+  <app-testscores-edit *ngIf="isInEdit"
+    [pin]="pin"
+    [examId]="examId"
+    (close)="handleModalClosed($event)"
+    [examTypeId]="defaultExamTypeId"
+    (hasSaved)="handleModelSaved($event)"></app-testscores-edit>
+
+  <div class="clearfix"></div>
+
+  <section *ngIf="testScores"
+    id="cards">
+    <app-test-score-card *ngIf="isGedCardDisplayed && gedExams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'GED/HSED'"
+      [testScores]="gedExams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [failStatusId]="this.failStatusId"></app-test-score-card>
+    <app-test-score-card *ngIf="isTabe910CardDisplayed && tabe910Exams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'TABE 9 & 10'"
+      [testScores]="tabe910Exams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [failStatusId]="this.failStatusId"></app-test-score-card>
+    <app-test-score-card *ngIf="isBestCardDisplayed && bestExams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'BEST'"
+      [testScores]="bestExams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [passStatusId]="this.failStatusId"></app-test-score-card>
+    <app-test-score-card *ngIf="isTabeClasECardDisplayed && tabeClasEExams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'TABE CLAS E'"
+      [testScores]="tabeClasEExams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [failStatusId]="this.failStatusId"></app-test-score-card>
+    <app-test-score-card *ngIf="isTabe1112CardDisplayed && tabe1112Exams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'TABE 11 & 12'"
+      [testScores]="tabe1112Exams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [failStatusId]="this.failStatusId"></app-test-score-card>
+    <app-test-score-card *ngIf="isCasasCardDisplayed && casasExams?.length != 0"
+      [isReadOnly]="this.isReadOnly"
+      (showEditModalWithId)="openEdit($event)"
+      (deletedTestScore)="handleModelDeleted($event)"
+      [cardType]="'CASAS'"
+      [testScores]="casasExams"
+      [pin]="pin"
+      [passStatusId]="this.passStatusId"
+      [failStatusId]="this.failStatusId"></app-test-score-card>
+  </section>
+
+  <section class="empty pad1-0"
+    *ngIf="tabeClasEExams?.length == 0 && bestExams?.length == 0 && tabe910Exams?.length == 0 && gedExams?.length == 0 && tabe1112Exams?.length == 0 && casasExams?.length == 0">
+    <blockquote class="jumbotron tcenter">No Test Scores</blockquote>
+    <div class="full">
+      <span class="right">
+        <button *ngIf="!this.isReadOnly"
+          id="add-test"
+          class="btn btn-add"
+          (click)="openAdd()">+ Add Test</button>
+      </span>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,12 @@
+<app-sub-header pageTitle="Work History"
+  [goBackUrl]="goBackUrl"
+  [participant]="participant"
+  [helpComponent]="'work-history-app-list'"></app-sub-header>
+<app-sub-header-nav [mode]="'App'"
+  activeItem="work-history"
+  [pin]="pin"></app-sub-header-nav>
+
+<app-work-history-list [isReadOnly]="this.isReadOnly"
+  [pin]="pin"
+  [isHD]="isHD"
+  [hasEditAuth]="hasEditAuth"></app-work-history-list>

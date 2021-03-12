@@ -1,0 +1,80 @@
+<app-sub-header-nav *ngIf="!isInEditMode"
+  [mode]="'App'">
+</app-sub-header-nav>
+<div *ngIf="!isLoaded"
+  class="row justify-content-center">
+  <div class="">
+    <blockquote class="">
+      <div class="lg tgrey2 pad2">
+        <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+      </div>
+      <span>Loading Location</span>
+    </blockquote>
+  </div>
+</div>
+<div *ngIf="isLoaded">
+  <div class="row justify-content-end">
+    <button [class.disabled]="!canAdd"
+      [disabled]="!canAdd"
+      class="btn btn-add"
+      (click)="onAdd()">+ Add Location</button>
+    <hr />
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center"
+    *ngIf="!isInEditMode && !finalistlocations?.length">
+    <div *ngIf="!finalistlocations?.length && isLoaded">
+      <blockquote class=" pad2">
+        <p>No Location(s)</p>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isInEditMode && finalistlocations?.length && isLoaded">
+  <div class="container">
+    <div class="row p-1 border-bottom">
+      <label class="control-label">Location(s)</label>
+    </div>
+    <div class="row list-item p-1"
+      *ngFor="let location of finalistlocations">
+      <div class="col-md-12 pad1">
+        <div class="row">
+          <div class="col-md-7">
+            <app-finalist-address [isReadOnly]="true"
+              [isDisplayed]="false"
+              [locationAddress]="location.finalistAddress"
+              (ngModelChange)="location.finalistAddress = $event;"
+              [addressLine1GridSize]="'col-md-10'"></app-finalist-address>
+          </div>
+          <div class="col-md-2 right">
+            <label class="control-label m-0 mb-3">Effective Date</label>
+            <app-date-mm-dd-yyyy [isReadOnly]="true"
+              [(ngModel)]="location.effectiveDate"
+              (ngModelChange)="location.effectiveDate = $event;"></app-date-mm-dd-yyyy>
+          </div>
+          <div class="col-md-2 right">
+            <label class="control-label m-0 mb-3">End Date</label>
+            <app-date-mm-dd-yyyy [isReadOnly]="true"
+              [isDisabled]="!location.endDate"
+              [(ngModel)]="location.endDate"
+              (ngModelChange)="location.endDate = $event;"></app-date-mm-dd-yyyy>
+          </div>
+          <div class="col-md-1 btn-item">
+            <button *ngIf="isEditable(location, location.id)"
+              class="btn btn-del edit"
+              (click)="edit(location, false)">
+              <i class="fa fa-pencil-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-org-info-edit [finalistLocation]="finalistLocation"
+  [organizationId]="organizationId"
+  [programId]="programId"
+  (isInEditMode)="closeEdit($event)"
+  *ngIf="isInEditMode">
+</app-org-info-edit>

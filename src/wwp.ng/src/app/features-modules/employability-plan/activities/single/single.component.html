@@ -1,0 +1,136 @@
+<div id="app-container">
+  <app-loading [isLoaded]="this.isLoaded"
+    [loadingLabel]="'Activity Edit'"></app-loading>
+  <div *ngIf="this.isLoaded">
+
+    <header class="nav-header">
+      <div class="wrapper">
+        <div class="clearfix">
+          <a class="btn btn-back btn-secondary-outline btn-sm"
+            (click)="cancel()"
+            title="Close Single Entry">
+            <i class="fa fa-times"></i>
+          </a>
+          <h1 id="pageTitle">View Activity</h1>
+          <!-- <app-help-button [featureName]="'participant-barriers-add-edit-help'"></app-help-button> -->
+        </div>
+      </div>
+    </header>
+
+    <div class="app-content">
+      <div class="wrapper pad1">
+
+        <div class="row pad1-0">
+          <!--  *ngIf="model" -->
+
+          <main id="main-work-history"
+            class="col-md-9">
+
+            <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+            <div class="row"
+              *ngIf="activity.modifiedBy != null">
+              <app-modified-stamp [readOnly]="true"
+                [author]="activity.modifiedBy"
+                [lastModified]="activity.modifiedDate"></app-modified-stamp>
+            </div>
+            <fieldset id="wh-details"
+              class="flex-row">
+              <label class="part-title">Activity</label>
+              <app-auto-complete [(ngModel)]="activity.activityTypeId"
+                [dropDownList]="activityTypes"
+                [isRequired]="true"></app-auto-complete>
+              <label class="pt-1">Activity Description</label>
+              <app-text-area class="pb-1"
+                [maxlength]="120"
+                [(ngModel)]="activity.description"></app-text-area>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <h4>Activity Location</h4>
+              <div class="row pad1-0">
+                <div class="col-md-9">
+                  <app-tab-selector [(ngModel)]="activity.activityLocationId"
+                    [tabs]="activityLocationType"></app-tab-selector>
+                </div>
+              </div>
+              <div class="row pad1"
+                *ngIf="displayBusinessLocationDetails(activity.activityLocationId)">
+                <div class="row">
+                  <label class="col-md-3 control-group">Business Name</label>
+                </div>
+                <div class="row">
+                  <app-text-input [maxLength]="120"
+                    class="col-md-9 control-group"
+                    [(ngModel)]="activity?.nonSelfDirectedActivity.businessName"
+                    [placeholder]="''"
+                    [isRequired]="true"></app-text-input>
+                </div>
+                <div class="row pad1-0">
+                  <div class="col-md-4">
+                    <label>Location</label>
+                    <br />
+                    <!-- #7 -->
+
+                    <app-remote-auto-complete [(ngModel)]="activity.nonSelfDirectedActivity.businessLocation">
+                    </app-remote-auto-complete>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Street Address</label>
+                    <br />
+                    <!-- #8 -->
+                    <!-- TODO: fix this so its inside of the component. It's weird here because the location object is changed by another component -->
+                    <app-remote-auto-suggest *ngIf="activity.nonSelfDirectedActivity.businessLocation"
+                      [googlePlaceIdInput]="activity?.nonSelfDirectedActivity.businessLocation.googlePlaceId"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessStreetAddress">
+                    </app-remote-auto-suggest>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Zip</label>
+                    <br />
+                    <app-numerical-input *ngIf="activity.nonSelfDirectedActivity.businessLocation"
+                      [(ngModel)]="activity.nonSelfDirectedActivity.businessLocation.zipAddress">
+                    </app-numerical-input>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-md-3 control-group">Phone Number</label>
+                </div>
+                <div class="row">
+                  <app-numerical-input class="col-md-9 control-group"
+                    [(ngModel)]="activity.nonSelfDirectedActivity.businessPhoneNumber">
+                  </app-numerical-input>
+
+                </div>
+              </div>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <h4>Activity Contact</h4>
+              <app-contacts-repeater [(ngModel)]="activity.contacts"
+                [pin]="pin"
+                [maxContacts]="5"></app-contacts-repeater>
+            </fieldset>
+            <fieldset>
+              <h4>Additional Information</h4>
+              <app-text-area [maxlength]="380"
+                [(ngModel)]="activity.additionalInformation"></app-text-area>
+            </fieldset>
+
+            <!--</div>-->
+          </main>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="nav-footer p-1">
+      <div class="wrapper tright">
+        <!-- <div *ngIf="">There was an error saving.</div> -->
+        <button class="btn btn-add"
+          (click)="cancel()">Cancel </button>
+        <!-- <button [ngClass]="{disabled: !isSectionValid}" (click)="save()" class="btn btn-primary btn-save">Save</button> -->
+      </div>
+    </footer>
+  </div>
+
+</div>

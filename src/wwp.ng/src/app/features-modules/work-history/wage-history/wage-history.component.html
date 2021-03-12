@@ -1,0 +1,175 @@
+<h4 class="part-title">
+  Wage/Hours History</h4>
+
+<app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+<div *ngIf="!readOnly && modelWorkHistory.isCurrentlyEmployed"
+  class="row">
+  <div class="col-md-12 tright small">
+    <button (click)="addWageHistoryRecord()"
+      class="btn btn-light btn-add"
+      [class.baseless]="model?.length > 0">+
+      Add Change</button>
+  </div>
+</div>
+
+<fieldset class="hist-table"
+  [class.readonly]="readOnly">
+
+  <div *ngFor="let m of model; let i=index"
+    class="hist-table-holder pad0-1">
+    <fieldset [disabled]="isDisabled(m)"
+      class="leave item leave-item"
+      [class.ie]="isIE()">
+      <div class="content">
+        <div class="row">
+          <div class="col-md-3 required">
+            <span class="ovtitle">Effective Date</span>
+            <app-date-mm-dd-yyyy [isInvalid]="isErrored(m,'effectiveDate')"
+              [(ngModel)]="m.effectiveDate"
+              [datePickerRequired]="!readOnly"
+              (ngModelChange)="m.effectiveDate = $event; registerModelChange(m)"></app-date-mm-dd-yyyy>
+          </div>
+          <div class="col-md-3 required"
+            *ngIf="isPayTypeHidden(m)">
+            <span class="ovtitle">Avg Weekly Hours</span>
+            <app-numerical-input [isInvalid]="isErrored(m,'averageWeeklyHours')"
+              [maxValue]="120"
+              [NGMaxLength]="3"
+              [(ngModel)]="m.averageWeeklyHours"
+              (ngModelChange)="m.averageWeeklyHours = $event; onChangeCallback(model); registerModelChange(m);">
+            </app-numerical-input>
+          </div>
+          <div [class.col-md-9]="!isPayTypeHidden(m)"
+            [class.col-md-6]="isPayTypeHidden(m)"
+            [class.required]="!isPayTypeHidden(m)">
+            <span class="ovtitle">Pay Types <span class="small">(Select all that apply.)</span></span>
+            <app-multi-select-dropdown class="tabled"
+              *ngIf="m.historyPayType && !isPayTypeHidden(m)"
+              [(ngModel)]="m.historyPayType.jobActionTypes"
+              (ngModelChange)="m.historyPayType.jobActionTypes = $event; onChangeCallback(model); registerModelChange(m);"
+              [isInvalid]="isErrored(m,'historyPayType')"
+              [isHistorical]="true"
+              [isValueLocked]="isDisabled(m)"
+              [options]="payTypesDrop"></app-multi-select-dropdown>
+            <input *ngIf="isPayTypeHidden(m)"
+              disabled
+              value="No Pay" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"
+            [class.required]="isPayTypeDetailsRequired(m)">
+            <span class="ovtitle">Pay Type Details</span>
+            <textarea [(ngModel)]="m.payTypeDetails"
+              (ngModelChange)="m.payTypeDetails = $event; onChangeCallback(model); registerModelChange(m);"
+              [ngClass]="{error: isErrored(m,'payTypeDetails')}"
+              AutoResize
+              maxlength="380"
+              type="text"></textarea>
+          </div>
+        </div>
+        <ng-container *ngIf="!isPayTypeHidden(m)">
+          <div class="row">
+            <div class="col-md-3 required">
+              <span class="ovtitle">Avg Weekly Hours</span>
+              <app-numerical-input [isInvalid]="isErrored(m,'averageWeeklyHours')"
+                [NGMaxLength]="3"
+                [(ngModel)]="m.averageWeeklyHours"
+                (ngModelChange)="m.averageWeeklyHours = $event; onChangeCallback(model); registerModelChange(m);">
+              </app-numerical-input>
+            </div>
+            <div class="col-md-3 required">
+              <span class="ovtitle">Pay Rate Amount</span>
+              <app-currency-input [errorIndicator]="isErrored(m,'payRate')"
+                [isDisabled]="isPayRateDisabled(m)"
+                [NGMaxLength]="9"
+                [(ngModel)]="m.payRate"
+                (ngModelChange)="m.payRate = $event; onChangeCallback(model); registerModelChange(m);">
+              </app-currency-input>
+            </div>
+
+            <div class="col-md-3 required">
+              <span class="ovtitle">Pay Rate Interval</span>
+              <app-select [isInvalid]="isErrored(m,'payRateIntervalId')"
+                [isDisabled]="isPayRateDisabled(m)"
+                [(ngModel)]="m.payRateIntervalId"
+                (ngModelChange)="m.payRateIntervalId = $event; onChangeCallback(model); registerModelChange(m);"
+                [dropDownList]="filteredIntervalTypes || intervalTypesDrop"></app-select>
+            </div>
+            <div class="col-md-3 required">
+              <span class="ovtitle">Hourly Subsidy</span>
+              <app-currency-input [isDisabled]="isHourlySubsidyDisabled"
+                [errorIndicator]="isErrored(m,'hourlySubsidyRate')"
+                [NGMaxLength]="5"
+                [(ngModel)]="m.hourlySubsidyRate"
+                (ngModelChange)="m.hourlySubsidyRate = $event; onChangeCallback(model); registerModelChange(m);">
+              </app-currency-input>
+            </div>
+          </div>
+          <div class="row"
+            *ngIf="!readOnly && m.isTJOrTMJSubsidizedJob(jobTypeId,modelIds?.tjSubsidizedId,modelIds?.tmjSubsidizedId)">
+            <div class="col-md-3 required">
+              <span class="ovtitle">Work Site Contribution</span>
+              <app-currency-input [isDisabled]="isHourlySubsidyDisabled"
+                [errorIndicator]="isErrored(m,'workSiteContribution')"
+                [NGMaxLength]="5"
+                [(ngModel)]="m.workSiteContribution"
+                (ngModelChange)="m.workSiteContribution = $event; onChangeCallback(model); registerModelChange(m);">
+              </app-currency-input>
+            </div>
+            <span></span>
+          </div>
+          <div class="row"
+            *ngIf="readOnly && m?.workSiteContribution">
+            <div class="col-md-3 required">
+              <span class="ovtitle">Work Site Contribution</span>
+              <app-currency-input [isDisabled]="isHourlySubsidyDisabled"
+                [errorIndicator]="isErrored(m,'workSiteContribution')"
+                [NGMaxLength]="5"
+                [(ngModel)]="m.workSiteContribution"
+                (ngModelChange)="m.workSiteContribution = $event; onChangeCallback(model); registerModelChange(m);">
+              </app-currency-input>
+            </div>
+            <span></span>
+          </div>
+        </ng-container>
+
+
+      </div>
+
+      <ul *ngIf="!readOnly && modelWorkHistory.isCurrentlyEmployed"
+        class="controls">
+        <li [hidden]="!isDisabled(m)"
+          (click)="editWageHistoryRecord(m)"
+          class="table-action">
+          <i class="fa fa-pencil-alt"
+            title="edit"></i>
+        </li>
+        <!-- if fieldset is disabled -->
+        <li [hidden]="isDisabled(m)"
+          (click)="confirmWageHistoryRecord(m)"
+          [class.error]="!isValid"
+          class="table-action select">
+          <i class="fa fa-check"
+            title="save"></i>
+        </li>
+        <!-- if fieldset is being edited -->
+        <li (click)="deleteWageHistoryRecord(m)"
+          class="table-action">
+          <i class="fa fa-trash-alt"
+            title="delete"></i>
+        </li>
+      </ul>
+
+      <div class="controls"
+        *ngIf="readOnly && m.modifiedBy != null && displayModifiedStamp">
+        <app-modified-stamp [readOnly]="true"
+          [author]="m.modifiedBy"
+          [lastModified]="m.modifiedDate">
+        </app-modified-stamp>
+      </div>
+
+    </fieldset>
+  </div>
+</fieldset>

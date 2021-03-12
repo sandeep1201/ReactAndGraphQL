@@ -1,0 +1,6 @@
+<div class="container" [ngClass]="{required: isRequired, focus: isListingFocused, dirty: isModified, error: isErrored}">
+  <div  *ngFor="let v of value">
+    <textarea *ngIf="v.isDeleted != true" maxlength="380" focusOnInit AutoResize [focusOnInitEnabled]="enterPressed" (keyup.backspace)="onBackspacePress(v);"
+      (keydown.enter)="onEnter()" [(ngModel)]="v.details" (blur)="isFocused(false)" (focus)="isFocused(true)"></textarea>
+  </div>
+</div>

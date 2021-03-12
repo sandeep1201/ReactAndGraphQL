@@ -1,0 +1,65 @@
+<!--<div class="timeline-legend">
+  <div class="legend-header">
+    <span>Elapsed</span> <span>Future</span>
+  </div>
+  <div class="unused legend-row">
+    <label>Unused</label>
+    <div class="legend-key"></div>
+    <div class="legend-key future"></div>
+  </div>
+  <div class="used legend-row">
+    <label>Used</label>
+    <div class="legend-key"></div>
+    <div class="legend-key hidden future"></div>
+  </div>
+  <div class="paid legend-row">
+    <label>Paid</label>
+    <div class="legend-key"></div>
+    <div class="legend-key hidden future"></div>
+  </div>
+  <div class="selected legend-row">
+    <label>Selected</label>
+    <div class="legend-key"></div>
+    <div class="legend-key future"></div>
+  </div>
+  <div class="extension legend-row">
+    <label>Extension</label>
+    <div class="legend-key"></div>
+    <div class="legend-key future"></div>
+  </div>
+  <div class="edited legend-row">
+    <label>Edited</label>
+    <div class="legend-key"></div>
+    <div class="legend-key hidden future"></div>
+  </div>
+</div>-->
+<div class="timeline-graph">
+  <div class="action-bar clearfix">
+    <div class="mx-2" [class.active]="compactMode === 'ALL'"><a (click)="toggleCompactMode('ALL')" ><i class="fa fa-calendar"></i>Compact All</a></div>
+    <div [class.active]="compactMode === 'UNUSED'"><a (click)="toggleCompactMode('UNUSED')" ><i class="fa fa-calendar-times"></i><span>Compact Unused</span></a></div>
+    <div class="calendar-nav ml-2">
+      <span (click)="stepTimelineBackwards()" ><i class="fa fa-step-backward"></i></span>
+      <span (click)="stepTimelineLeft()"><i class="fa fa-small fa-chevron-left"></i></span>
+      <span (click)="stepTimelineCurrent()"><i class="fa fa-calendar-check"></i></span>
+      <span (click)="stepTimelineRight()"><i class="fa fa-small fa-chevron-right"></i></span>
+      <span (click)="stepTimelineForward()"><i class="fa fa-step-forward"></i></span>
+    </div>
+    <button [disabled]="!canAddExtension" class="btn btn-sm btn-add btn-add-deny" (click)="AddDenyExtension()">Add Extension Decision</button>
+    <button class="btn btn-sm btn-orange ml-2 " (click)="goToExtensionsPage()">View Extension Decisions</button>
+  </div>
+  <div class="timeline-scroll-wrapper" #timelineScroll *ngIf="months">
+    <div class="bar-labels label-left">
+      <span>Federal</span>
+      <span>State</span>
+      <span>24 Month</span>
+    </div>
+    <div class="bar-labels label-right">
+      <span>Federal</span>
+      <span>State</span>
+      <span>24 Month</span>
+    </div>
+    <div class="timeline-scroll-container" #timelineScrollContainer [class.compact-unused]="compactMode === 'UNUSED'" [class.compact-all]="compactMode === 'ALL'">
+      <app-month-box *ngFor="let item of months; let i = index;" [attr.id]="'month-container-' + i" [index]="i" [model]="item" [prev]="months[i-1]" [next]="months[i+1]" [isSelected]="i === selectedIndex" (selected)="selectMonth($event)"></app-month-box>
+    </div>
+  </div>
+</div>

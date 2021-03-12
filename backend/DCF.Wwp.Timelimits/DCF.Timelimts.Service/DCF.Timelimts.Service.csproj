@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B8785C4-0450-45BF-8012-BBDC2D6F532C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DCF.Timelimts.Service</RootNamespace>
+    <AssemblyName>DCF.Timelimts.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Prod|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Prod\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Enums.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Enums.NET.2.3.1\lib\net45\Enums.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExtensionNotice.cs" />
+    <Compile Include="ExtensionNoticeRecord.cs" />
+    <Compile Include="IDb2TimelimitService.cs" />
+    <Compile Include="ITimelimitService.cs" />
+    <Compile Include="NoticeTriggerService.cs" />
+    <Compile Include="TimeLimitDb2Service.cs" />
+    <Compile Include="TimelimitService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DCF.Common\DCF.Common.csproj">
+      <Project>{339CB03A-E916-4679-9499-111139A22710}</Project>
+      <Name>DCF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dcf.Wwp.Data.Sql\Dcf.Wwp.Data.Sql.csproj">
+      <Project>{cae074b9-c8b9-43e8-8065-c132b0fda499}</Project>
+      <Name>Dcf.Wwp.Data.Sql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dcf.Wwp.Model.Interface\Dcf.Wwp.Model.Interface.csproj">
+      <Project>{41D99D81-12F1-4321-AA8E-ECFBDBEE279D}</Project>
+      <Name>Dcf.Wwp.Model.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FileHelpers\FileHelpers.csproj">
+      <Project>{eb8633ff-ceed-40ee-8d1a-ca1bf5678c42}</Project>
+      <Name>FileHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Timelimits.Core\DCF.Timelimits.Core.csproj">
+      <Project>{6AA6D89D-E1CD-4DBD-9BE4-2D185CC46B62}</Project>
+      <Name>DCF.Timelimits.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Timelimits.Interfaces\DCF.Timelimits.Interfaces.csproj">
+      <Project>{036BE20D-E596-414A-A452-CF96DE5B24A0}</Project>
+      <Name>DCF.Timelimits.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Timelimits.Rules\DCF.Timelimits.Rules.csproj">
+      <Project>{E78C89CF-2F8A-4F2A-9C2A-71A89C16130C}</Project>
+      <Name>DCF.Timelimits.Rules</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

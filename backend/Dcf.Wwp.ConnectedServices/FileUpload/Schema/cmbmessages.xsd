@@ -1,0 +1,1925 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cm="http://www.ibm.com/xmlns/db2/cm/api/1.0/schema" xmlns:cmb="http://www.ibm.com/xmlns/db2/cm/beans/1.0/schema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.ibm.com/xmlns/db2/cm/beans/1.0/schema">
+  <xs:include schemaLocation="itemtype.xsd"/>
+  <xs:import schemaLocation="cmdatamodel.xsd" namespace="http://www.ibm.com/xmlns/db2/cm/api/1.0/schema"/>
+  <xs:element name="AuthenticationData">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:ServerDef"/>
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Credential" type="xs:base64Binary">
+
+          </xs:element>
+          <xs:element minOccurs="0" name="LoginData">
+
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="UserID" type="xs:string"/>
+                <xs:element name="Password" type="xs:string"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:sequence>
+      <xs:attribute name="connectString" type="xs:string" use="optional"/>
+      <xs:attribute name="configString" type="xs:string" use="optional"/>
+      <xs:attribute name="connectToWorkflow" type="xs:boolean" use="optional" default="false"/>
+
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RequestList">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element ref="cmb:AddItemToFolderRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ChangePasswordRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CheckInItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CheckOutItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CreateItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CreateLinkRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:DeleteLinkRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:DeleteItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:GetPrivilegesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListSchemaRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListServersRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:MoveItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RemoveItemFromFolderRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveFolderItemsRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveFoldersForItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RunQueryRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:UpdateItemRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ContinueProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListActionRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListActionNamesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListNextWorkPackageRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessNamesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkListNamesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkListsRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkNodeRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkNodesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkPackageCheckOutOptionRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkPackagesRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:StartProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ResumeProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:SuspendProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:TerminateProcessRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:UpdateWorkPackageRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListPIDtoRecordIDMappingsRequest" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReplyList">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element ref="cmb:AddItemToFolderReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ChangePasswordReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CheckInItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CheckOutItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CreateItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:CreateLinkReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:DeleteLinkReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:DeleteItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:GetPrivilegesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListSchemaReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListServersReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:MoveItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RemoveItemFromFolderReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveFolderItemsReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveFoldersForItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RetrieveItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:RunQueryReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:UpdateItemReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ContinueProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListActionReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListActionNamesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListNextWorkPackageReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListProcessNamesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkListNamesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkListsReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkNodeReply"/>
+      <xs:element ref="cmb:ListWorkNodesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkPackageCheckOutOptionReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListWorkPackagesReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:StartProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ResumeProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:SuspendProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:TerminateProcessReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:UpdateWorkPackageReply" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="cmb:ListPIDtoRecordIDMappingsReply" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Requests" type="cmb:RequestList"/>
+  <xs:element name="Replies" type="cmb:ReplyList"/>
+  <xs:element name="BatchRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData"/>
+        <xs:sequence>
+          <xs:any xmlns="http://www.w3.org/2001/XMLSchema" processContents="skip" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BatchReply">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:sequence>
+          <xs:any xmlns="http://www.w3.org/2001/XMLSchema" processContents="skip" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServerDef">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:ServerType" minOccurs="0"/>
+        <xs:element name="ServerName" type="xs:string">
+
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServerType" default="ICM">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="ICM"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ListServersRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:ServerType" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListServersReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:ServerDef" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EntityList">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Entity" minOccurs="0" maxOccurs="unbounded">
+
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="all" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListSchemaRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:EntityList"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListSchemaReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:EntityList"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangePasswordRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="NewPassword" type="xs:string"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangePasswordReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RunQueryRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:QueryCriteria"/>
+      </xs:sequence>
+      <xs:attribute name="maxResults" type="xs:string" use="optional" default="NO_MAX"/>
+      <xs:attribute name="version" type="xs:string" use="optional" default="LATEST_VERSION"/>
+      <xs:attribute name="retrieveOption" use="optional" default="IDONLY">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="IDONLY"/>
+            <xs:enumeration value="ATTRONLY"/>
+            <xs:enumeration value="ITEMTREE"/>
+            <xs:enumeration value="CONTENT"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="contentOption" use="optional" default="URL">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="URL"/>
+            <xs:enumeration value="ATTACHMENTS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RunQueryReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element name="ResultSet" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence minOccurs="0">
+              <xs:element ref="cmb:Item" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="count" type="xs:int" default="0"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="mtomRef" type="cmb:MTOMAttachment" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item" maxOccurs="unbounded" minOccurs="0">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="retrieveOption" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="IDONLY"/>
+            <xs:enumeration value="ATTRONLY"/>
+            <xs:enumeration value="ITEMTREE"/>
+            <xs:enumeration value="CONTENT"/>
+            <xs:enumeration value="CONTENT_WITH_LINKS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="contentOption" use="optional" default="URL">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="URL"/>
+            <xs:enumeration value="ATTACHMENTS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="version" type="xs:string" use="optional"/>
+      <xs:attribute name="checkout" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:Item" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="mtomRef" type="cmb:MTOMAttachment" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveFolderItemsRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Folder">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute name="retrieveOption" use="optional" default="IDONLY">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="IDONLY"/>
+            <xs:enumeration value="ATTRONLY"/>
+            <xs:enumeration value="ITEMTREE"/>
+            <xs:enumeration value="CONTENT"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="maxItems" type="xs:string" use="optional" default="NO_MAX"/>
+      <xs:attribute name="contentOption" use="optional" default="URL">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="URL"/>
+            <xs:enumeration value="ATTACHMENTS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveFolderItemsReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:FolderItems" minOccurs="0"/>
+        <xs:element name="mtomRef" type="cmb:MTOMAttachment" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="cmb:ItemXML"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="mtomRef" type="cmb:MTOMAttachment" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="schemaMappingName" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element name="Item" minOccurs="0">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckOutItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckOutItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckInItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckInItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Add" minOccurs="0">
+
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ChildItem" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ItemXML">
+
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:any processContents="skip"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="parentURI" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Content" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="index" type="xs:string" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Notelog" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="index" type="xs:string" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Annotation" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="index" type="xs:string" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Part" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="attrName" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Replace" minOccurs="0">
+
+          <xs:complexType>
+            <xs:sequence>
+
+              <xs:sequence>
+                <xs:element ref="cmb:ItemXML" minOccurs="0"/>
+                <xs:sequence minOccurs="0">
+                  <xs:element ref="cmb:Attribute" minOccurs="0" maxOccurs="unbounded"/>
+                  <xs:element name="ChildItem" minOccurs="0" maxOccurs="unbounded">
+
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="ItemXML">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:any processContents="skip"/>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                      <xs:attribute name="parentURI" type="xs:string" use="required"/>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:sequence>
+              <xs:element name="Annotation" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                  <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Content" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                  <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Notelog" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                  <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Part" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" ref="cmb:Attachment"/>
+                    <xs:element minOccurs="0" ref="cmb:URL"/>
+                  </xs:sequence>
+                  <xs:attribute name="attrName" type="xs:string" use="required"/>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Delete" minOccurs="0">
+
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ChildItem" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:attribute name="URI" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Annotation" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Content" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Notelog" minOccurs="0" maxOccurs="unbounded">
+
+                <xs:complexType>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Part" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="attrName" type="xs:string" use="required"/>
+                  <xs:attribute name="PID" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="mtomRef" type="cmb:MTOMAttachment" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+      <xs:attribute name="checkin" type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="checkout" type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="schemaMappingName" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element name="Item" minOccurs="0">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ItemXML">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="cmb:ECF_Document"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ErrorData">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:Item" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="returnCode" type="xs:short" use="required"/>
+      <xs:attribute name="errorMessage" type="xs:string" use="required"/>
+      <xs:attribute name="stackTrace" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequestStatus">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:ErrorData" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="success" type="xs:boolean" default="false"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Item">
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="cmb:ItemXML" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="URI" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="URL">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="mimetype" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Attachment">
+    <xs:complexType>
+      <xs:attribute name="content-id" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="QueryCriteria">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="QueryString" type="xs:string">
+
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="queryType" type="xs:string" use="optional" default="XPATH"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddItemToFolderRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Folder">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+      <xs:attribute name="checkout" type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="checkin" type="xs:boolean" use="optional" default="true"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddItemToFolderReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Folder">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:Item"/>
+        <xs:element ref="cmb:FolderItems"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FolderItems">
+
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element name="Item" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence minOccurs="0">
+              <xs:element ref="cmb:ItemXML" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveItemFromFolderRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Folder">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute name="newVersion" type="xs:boolean" use="optional" default="false"/>
+      <xs:attribute name="checkout" type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="checkin" type="xs:boolean" use="optional" default="true"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveItemFromFolderReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveFoldersForItemRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute name="retrieveOption" use="optional" default="IDONLY">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="IDONLY"/>
+            <xs:enumeration value="ITEMTREE"/>
+            <xs:enumeration value="CONTENT"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="contentOption" use="optional" default="URL">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="URL"/>
+            <xs:enumeration value="ATTACHMENTS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveFoldersForItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element name="Folder" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Attribute">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Value" type="xs:string" maxOccurs="unbounded">
+
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveItemRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="NewValues">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="cmb:ItemXML"/>
+            </xs:sequence>
+            <xs:attribute name="newEntityName" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="checkout" type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="checkin" type="xs:boolean" use="optional" default="true"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveItemReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateLinkRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="cm:links"/>
+            </xs:sequence>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateLinkReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLinkRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="cm:links"/>
+            </xs:sequence>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLinkReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivilegesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:Privileges" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPrivilegesRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element name="Item">
+
+          <xs:complexType>
+            <xs:attribute name="URI" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Privileges">
+
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element name="Privilege" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="authorized" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="YES"/>
+                  <xs:enumeration value="NO"/>
+                  <xs:enumeration value="UNKNOWN"/>
+                  <xs:enumeration value=""/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkPackagesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkListName"/>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkPackagesReply">
+
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkPackage" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListNextWorkPackageRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+        <xs:element ref="cmb:WorkListName"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListNextWorkPackageReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkPackage" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkListNamesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkListNamesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkListName" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessNamesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessNamesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:ProcessName" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:ProcessName"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:Process" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListProcessReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:Process" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkListsRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkListsReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkList" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkNodeReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkNode" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkNodeRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkNodeName"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkNodesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkNodesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkNode" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkPackageCheckOutOptionRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+        <xs:element name="CheckOutItem">
+          <xs:simpleType>
+            <xs:restriction base="xs:boolean">
+              <xs:pattern value="false"/>
+              <xs:pattern value="true"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListWorkPackageCheckOutOptionReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:WorkPackage" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListActionNamesRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:ActionListName"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListActionNamesReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:ActionName" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListActionRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:ActionName">
+
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListActionReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:Action" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartProcessRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:ProcessName"/>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+        <xs:element ref="cmb:Priority" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:ItemIDURI"/>
+        <xs:element ref="cmb:ContainerData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartProcessReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinueProcessRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+        <xs:element name="RouteSelected">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element ref="cmb:ContainerData" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinueProcessReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResumeProcessRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResumeProcessReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SuspendProcessRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+        <xs:element name="Duration" type="xs:nonNegativeInteger" default="0" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="ResumeListDefinition" type="cmb:ResumeListDefinitionType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SuspendProcessReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TerminateProcessRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TerminateProcessReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateWorkPackageRequest">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageURI"/>
+        <xs:element ref="cmb:ContainerData" minOccurs="0"/>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+        <xs:element ref="cmb:Priority" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateWorkPackageReply">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:RequestStatus"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Process">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:ProcessName"/>
+        <xs:element ref="cmb:Description" minOccurs="0"/>
+        <xs:element ref="cmb:LongDescription" minOccurs="0"/>
+        <xs:element ref="cmb:ACLName"/>
+        <xs:element ref="cmb:Extension" minOccurs="0"/>
+        <xs:element ref="cmb:Route" minOccurs="0"/>
+        <xs:element name="TimeLimit" type="xs:int" default="0" minOccurs="0">
+
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="WorkList">
+
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="cmb:WorkListName"/>
+        <xs:element ref="cmb:ACLName"/>
+        <xs:element name="SelectionFilterOnNotify" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+              <xs:enumeration value="2"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="SelectionFilterOnSuspend" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+              <xs:enumeration value="2"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="SelectionFilterOnOwner" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="SelectionOrder" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="WorkPackagesToReturn" type="xs:nonNegativeInteger" default="0" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:Description" minOccurs="0"/>
+        <xs:element name="WorkNodeName" minOccurs="0" maxOccurs="unbounded">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="WorkNode">
+
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="cmb:WorkNodeName">
+
+        </xs:element>
+        <xs:element ref="cmb:ACLName">
+
+        </xs:element>
+        <xs:element name="TimeLimit" type="xs:nonNegativeInteger" default="0" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="OverLoadLimit" type="xs:nonNegativeInteger" default="0" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="Type" default="0" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+              <xs:enumeration value="6"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EnterUserDLL" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="256"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="LeaveUserDLL" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="256"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="OverLoadUserDLL" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="256"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EnterUserFunction" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="128"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="LeaveUserFunction" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="128"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="OverLoadUserFunction" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="128"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element ref="cmb:ActionListName" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:Description" minOccurs="0"/>
+        <xs:element ref="cmb:LongDescription" minOccurs="0"/>
+        <xs:element name="CollectionResumeListEntry" minOccurs="0" maxOccurs="unbounded">
+
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FolderItemTypeName">
+
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="18"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RequiredItemTypeName">
+
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="18"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="QuantityNeeded" type="xs:int" default="0">
+
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cmb:ContainerDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="WorkNodeExt" minOccurs="0">
+
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NameValuePair" type="cmb:NameValuePairType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="WorkPackage">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cmb:WorkPackageURI"/>
+        <xs:element ref="cmb:ItemIDURI"/>
+        <xs:element ref="cmb:Priority" minOccurs="0"/>
+        <xs:element name="SuspendState" default="false" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:boolean">
+              <xs:pattern value="false"/>
+              <xs:pattern value="true"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="NotifyState" default="false" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:boolean">
+              <xs:pattern value="false"/>
+              <xs:pattern value="true"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="NotifyTime" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="ResumeTime" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="TimeLastMoved" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="UserLastMoved" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="WorkNodeName">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="ProcessCompletionTime" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:WorkPackageOwner" minOccurs="0"/>
+        <xs:element name="ProcessName">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="ResumeList" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ResumeListDefinition" type="cmb:ResumeListDefinitionType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cmb:ContainerData" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Priority" type="xs:nonNegativeInteger">
+
+  </xs:element>
+  <xs:element name="Action">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="AuditComment" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:Description" minOccurs="0"/>
+        <xs:element name="Icon" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element ref="cmb:ActionName">
+
+        </xs:element>
+        <xs:element name="DisplayName" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="Shortcut" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="ApplicationName" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="FunctionName" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="DLLName" type="xs:string" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="Predefined" type="xs:string">
+
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActionListName">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="Extension">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="NameValuePair" type="cmb:NameValuePairType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="NameValuePairType">
+
+    <xs:all>
+      <xs:element name="NVPName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="32"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="NVPValue">
+
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="254"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:element name="Owner">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+        <xs:enumeration value="0"/>
+        <xs:enumeration value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ACLName">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="Description">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="254"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="LongDescription">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="2048"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ContainerDefinition">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="ReadOnly" default="false" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:boolean">
+              <xs:pattern value="false"/>
+              <xs:pattern value="true"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Required" type="xs:boolean" default="false" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="ShowToUser" default="false">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:boolean">
+              <xs:pattern value="true"/>
+              <xs:pattern value="false"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="VariableLength" type="xs:nonNegativeInteger" default="0" minOccurs="0">
+
+        </xs:element>
+        <xs:element name="VariableType" default="0" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:nonNegativeInteger">
+              <xs:enumeration value="0"/>
+              <xs:enumeration value="1"/>
+              <xs:enumeration value="2"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="VariableValue" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="254"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="VariableName" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="VariablePrompt" minOccurs="0">
+
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RouteDefinition">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="From">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="To">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="RouteSelected">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="32"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element ref="cmb:Extension" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContainerData">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="NameValuePair" type="cmb:NameValuePairType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="ResumeListDefinitionType">
+
+    <xs:all>
+      <xs:element name="RequiredItemTypeName">
+
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="18"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="QuantityNeeded" type="xs:nonNegativeInteger" default="0">
+
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:element name="WorkPackageURI" type="xs:string">
+
+  </xs:element>
+  <xs:element name="ItemIDURI" type="xs:string">
+
+  </xs:element>
+  <xs:element name="Route">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RouteDefinition" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="WorkListName">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ProcessName">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="WorkNodeName">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="WorkPackageOwner">
+
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ActionName" type="xs:string">
+
+  </xs:element>
+  <xs:complexType name="MTOMAttachment">
+
+    <xs:simpleContent>
+      <xs:extension base="xs:base64Binary">
+        <xs:attribute name="ID" type="xs:string"/>
+        <xs:attribute name="MimeType" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:element name="PIDRecordIDPair">
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="PID" type="xs:string"/>
+        <xs:element minOccurs="0" name="RecordID" type="xs:long"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListPIDtoRecordIDMappingsRequest">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:AuthenticationData" minOccurs="0"/>
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PID" type="xs:string">
+
+          </xs:element>
+          <xs:element minOccurs="0" name="RecordID" type="xs:long">
+
+          </xs:element>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListPIDtoRecordIDMappingsReply">
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cmb:RequestStatus"/>
+        <xs:element ref="cmb:PIDRecordIDPair" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

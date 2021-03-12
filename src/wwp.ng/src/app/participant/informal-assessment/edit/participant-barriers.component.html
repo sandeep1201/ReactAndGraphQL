@@ -1,0 +1,204 @@
+<h2 class="poplegend">
+  Participant Barriers
+  <!--<button class="label label-info sec-help help-label" (click)="help.open('lg')"><i class="fa fa-question"></i></button>-->
+  <app-help-button [featureName]="'ia-participant-barriers-help'"></app-help-button>
+</h2>
+
+<blockquote class="popdesc">The following questions are about your health and wellness. We will use this information to help you get any
+accommodations that you may need to find and keep a job.</blockquote>
+<fieldset class="form-page" *ngIf="model">
+  <!-- *ngIf="model" -->
+
+  <app-validation-summary [errors]='validationManager?.errors'></app-validation-summary>
+  <app-modified-stamp *ngIf="model?.modifiedBy" [author]="model?.modifiedBy" [lastModified]="model?.modifiedDate" [readOnly]="true"></app-modified-stamp>
+  <hr class="spacer" />
+
+
+  <fieldset id="physcialHealth">
+    <h4 class="part-title">Physical Health</h4>
+
+    <app-yes-no-refuse [(ngModel)]="model.isPhysicalHealthHardToManage" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isPhysicalHealthHardToManage']"
+      [isDetailsInvalid]="modelErrors['isPhysicalHealthHardToManageDetails']" [isDetailsRequired]="isDetailsRequired(model.isPhysicalHealthHardToManage)"
+      (ngModelChange)="model.isPhysicalHealthHardToManage = $event; onChange();" [originalModel]="this.cached?.isPhysicalHealthHardToManage"
+      [question]="'Do you have any health problems that make it hard to manage your daily life?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isPhysicalHealthHardToParticipate" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isPhysicalHealthHardToParticipate']"
+      [isDetailsInvalid]="modelErrors['isPhysicalHealthHardToParticipateDetails']" [isDetailsRequired]="isDetailsRequired(model.isPhysicalHealthHardToParticipate)"
+      (ngModelChange)="model.isPhysicalHealthHardToParticipate = $event; onChange();" [originalModel]="this.cached?.isPhysicalHealthHardToParticipate"
+      [question]="'Do you have concerns that problems with your health will make it hard to participate in work activities?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse *ngIf="isPhysicalHealthTakeMedicationDisplayed()" [(ngModel)]="model.isPhysicalHealthTakeMedication" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+      [isYesNoInvalid]="modelErrors['isPhysicalHealthTakeMedication']" [isDetailsInvalid]="modelErrors['isPhysicalHealthTakeMedicationDetails']"
+      [isDetailsRequired]="isDetailsRequired(model.isPhysicalHealthTakeMedication)" (ngModelChange)="model.isPhysicalHealthTakeMedication = $event; onChange();"
+      [originalModel]="this.cached?.isPhysicalHealthTakeMedication" [question]="'Do you currently see a health care provider or take medications for health problem(s)?'"></app-yes-no-refuse>
+
+    <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Physical Health" (participantBarriersChange)="getParticipantBarrierList()"
+      [allParticipantBarriers]="allParticipantBarriers"></app-participant-barriers-embed>
+
+  </fieldset>
+
+  <fieldset id="mentalHealth">
+    <h4 class="part-title">Mental Health</h4>
+
+    <app-yes-no-refuse [(ngModel)]="model.isMentalHealthDiagnosed" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isMentalHealthDiagnosed']"
+      [isDetailsInvalid]="modelErrors['isMentalHealthDiagnosedDetails']" [isDetailsRequired]="isDetailsRequired(model.isMentalHealthDiagnosed)"
+      (ngModelChange)="model.isMentalHealthDiagnosed = $event; onChange();" [originalModel]="this.cached?.isMentalHealthDiagnosed"
+      [question]="'Have you ever met with a counselor or psychiatrist for mental health services or been diagnosed with a mental health condition?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isMentalHealthHardToManage" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isMentalHealthHardToManage']"
+      [isDetailsInvalid]="modelErrors['isMentalHealthHardToManageDetails']" [isDetailsRequired]="isDetailsRequired(model.isMentalHealthHardToManage)"
+      (ngModelChange)="model.isMentalHealthHardToManage = $event; onChange();" [originalModel]="this.cached?.isMentalHealthHardToManage"
+      [question]="'Do you have any mental health conditions that make it hard for you to manage your daily life?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isMentalHealthHardToParticipate" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isMentalHealthHardToParticipate']"
+      [isDetailsInvalid]="modelErrors['isMentalHealthHardToParticipateDetails']" [isDetailsRequired]="isDetailsRequired(model.isMentalHealthHardToParticipate)"
+      (ngModelChange)="model.isMentalHealthHardToParticipate = $event; onChange();" [originalModel]="this.cached?.isMentalHealthHardToParticipate"
+      [question]="'Do you have concerns that a mental health condition will make it hard for you to participate in work activities?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse *ngIf="isMentalHealthTakeMedicationDisplayed()" [(ngModel)]="model.isMentalHealthTakeMedication" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+      [isYesNoInvalid]="modelErrors['isMentalHealthTakeMedication']" [isDetailsInvalid]="modelErrors['isMentalHealthTakeMedicationDetails']"
+      [isDetailsRequired]="isDetailsRequired(model.isMentalHealthTakeMedication)" (ngModelChange)="model.isMentalHealthTakeMedication= $event; onChange();"
+      [originalModel]="this.cached?.isMentalHealthTakeMedication" [question]="'Do you currently see a counselor or psychiatrist for mental health services or take medication for a mental health condition?'"></app-yes-no-refuse>
+
+    <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Mental Health" (participantBarriersChange)="getParticipantBarrierList()"
+      [allParticipantBarriers]="allParticipantBarriers"></app-participant-barriers-embed>
+
+  </fieldset>
+
+  <fieldset id="aoda">
+    <h4 class="part-title">AODA</h4>
+
+    <app-yes-no-refuse [(ngModel)]="model.isAodaHardToManage" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isAodaHardToManage']"
+      [isDetailsRequired]="isDetailsRequired(model.isAodaHardToManage)" [isDetailsInvalid]="modelErrors['isAodaHardToManageDetails']"
+      (ngModelChange)="model.isAodaHardToManage = $event; onChange();" [originalModel]="this.cached?.isAodaHardToManage" [question]="'Does alcohol or drug use make it hard for you to manage your daily life?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isAodaHardToParticipate" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isAodaHardToParticipate']"
+      [isDetailsRequired]="isDetailsRequired(model.isAodaHardToParticipate)" [isDetailsInvalid]="modelErrors['isAodaHardToParticipateDetails']"
+      (ngModelChange)="model.isAodaHardToParticipate = $event; onChange();" [originalModel]="this.cached?.isAodaHardToParticipate"
+      [question]="'Do you have concerns that alcohol or drug use will make it hard for you to participate in work activities?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse *ngIf="isAodaTakeTreatmentDisplayed()" [(ngModel)]="model.isAodaTakeTreatment" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+      [isYesNoInvalid]="modelErrors['isAodaTakeTreatment']" [isDetailsRequired]="isDetailsRequired(model.isAodaTakeTreatment)"
+      [isDetailsInvalid]="modelErrors['isAodaTakeTreatmentDetails']" (ngModelChange)="model.isAodaTakeTreatment = $event; onChange();"
+      [originalModel]="this.cached?.isAodaTakeTreatment" [question]="'Are you currently in any alcohol or drug treatment services?'"></app-yes-no-refuse>
+
+    <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="AODA" (participantBarriersChange)="getParticipantBarrierList()"
+      [allParticipantBarriers]="allParticipantBarriers"></app-participant-barriers-embed>
+
+  </fieldset>
+
+  <fieldset id="cognitiveLerning">
+    <h4 class="part-title">Cognitive and Learning Needs</h4>
+
+    <app-yes-no-refuse [(ngModel)]="model.isLearningDisabilityDiagnosed" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isLearningDisabilityDiagnosed']"
+      [isDetailsRequired]="isDetailsRequired(model.isLearningDisabilityDiagnosed)" [isDetailsInvalid]="modelErrors['isLearningDisabilityDiagnosedDetails']"
+      (ngModelChange)="model.isLearningDisabilityDiagnosed = $event; onChange();" [originalModel]="this.cached?.isLearningDisabilityDiagnosed"
+      [question]="'Did you ever have problems learning in school or have you ever been diagnosed with a learning disability?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isLearningDisabilityHardToManage" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isLearningDisabilityHardToManage']"
+      [isDetailsRequired]="isDetailsRequired(model.isLearningDisabilityHardToManage)" [isDetailsInvalid]="modelErrors['isLearningDisabilityHardToManageDetails']"
+      (ngModelChange)="model.isLearningDisabilityHardToManage = $event; onChange();" [originalModel]="this.cached?.isLearningDisabilityHardToManage"
+      [question]="'Do you have learning problems that make it hard to manage your daily life?'"></app-yes-no-refuse>
+
+    <app-yes-no-refuse [(ngModel)]="model.isLearningDisabilityHardToParticipate" [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isYesNoInvalid]="modelErrors['isLearningDisabilityHardToParticipate']"
+      [isDetailsRequired]="isDetailsRequired(model.isLearningDisabilityHardToParticipate)" [isDetailsInvalid]="modelErrors['isLearningDisabilityHardToParticipateDetails']"
+      (ngModelChange)="model.isLearningDisabilityHardToParticipate = $event; onChange();" [originalModel]="this.cached?.isLearningDisabilityHardToParticipate"
+      [question]="'Do you have concerns that learning problems will make it hard to participate in work activities?'"></app-yes-no-refuse>
+
+    <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" barrierType="Cognitive and Learning" (participantBarriersChange)="getParticipantBarrierList()"
+      [allParticipantBarriers]="allParticipantBarriers"></app-participant-barriers-embed>
+
+  </fieldset>
+
+  <fieldset id="domesticViolence">
+    <h4 class="part-title" *ngIf="model.isSafeAppropriateToAsk === true"></h4>
+
+    <div class="alert alert-info">
+      <div class="row">
+        <div class="col-md-9">
+          <label class="control-label large">Display next section?</label>
+        </div>
+        <div class="col-md-3">
+          <div class="right">
+            <app-yes-no-basic [(ngModel)]="model.isSafeAppropriateToAsk" (ngModelChange)="model.isSafeAppropriateToAsk = $event; onChange();"
+              [cacheInnerValue]="this.cached?.isSafeAppropriateToAsk" [errorIndicator]="modelErrors['isSafeAppropriateToAsk']"
+              [isRequired]="true"></app-yes-no-basic>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dvQuestions" *ngIf="model.isSafeAppropriateToAsk">
+
+      <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p class="large">
+          <strong>Please read the following to the participant:</strong>
+        </p>
+        <p class="large">We are speaking with all families about safety and relationships because we want to address any potential challenges
+          that may prevent you from being able to work. This information will be kept confidential. If you are uncomfortable
+          with answering any of the questions, just let me know and we will move on to the next question.</p>
+      </div>
+
+      <!-- Start of new Q's -->
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceHurtingYouOrOthers" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+        [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceHurtingYouOrOthers']" [isDetailsInvalid]="modelErrors['isDomesticViolenceHurtingYouOrOthersDetails']"
+        (ngModelChange)="model.isDomesticViolenceHurtingYouOrOthers = $event; onChange();" [originalModel]="this.cached?.isDomesticViolenceHurtingYouOrOthers"
+        [question]="'Is someone hurting you, your children, your other family or friends, or your pet(s)?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceEverHarmedPhysicallyOrSexually"
+        [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceEverHarmedPhysicallyOrSexually']"
+        [isDetailsInvalid]="modelErrors['isDomesticViolenceEverHarmedPhysicallyOrSexuallyDetails']" (ngModelChange)="model.isDomesticViolenceEverHarmedPhysicallyOrSexually = $event; onChange();"
+        [originalModel]="this.cached?.isDomesticViolenceEverHarmedPhysicallyOrSexually" [question]="'Have you ever been in a relationship in which your partner has harmed you either physically or sexually? (examples: punching, grabbing, pushing, choking, restraining)'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolencePartnerControlledMoney  " [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+        [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolencePartnerControlledMoney  ']" [isDetailsInvalid]="modelErrors['isDomesticViolencePartnerControlledMoneyDetails']"
+        (ngModelChange)="model.isDomesticViolencePartnerControlledMoney = $event; onChange();" [originalModel]="this.cached?.isDomesticViolencePartnerControlledMoney"
+        [question]="'Has your partner ever refused to let you have money, made you ask for money, or took money from you against your will?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceReceivedServicesOrLivedInShelter"
+        [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceReceivedServicesOrLivedInShelter']"
+        [isDetailsInvalid]="modelErrors['isDomesticViolenceReceivedServicesOrLivedInShelterDetails']" (ngModelChange)="model.isDomesticViolenceReceivedServicesOrLivedInShelter = $event; onChange();"
+        [originalModel]="this.cached?.isDomesticViolenceReceivedServicesOrLivedInShelter" [question]="'Have you ever received services or lived in a shelter for victims of domestic abuse or sexual assault?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceEmotionallyOrVerballyAbusing"
+        [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceEmotionallyOrVerballyAbusing']"
+        [isDetailsInvalid]="modelErrors['isDomesticViolenceEmotionallyOrVerballyAbusingDetails']" (ngModelChange)="model.isDomesticViolenceEmotionallyOrVerballyAbusing = $event; onChange();"
+        [originalModel]="this.cached?.isDomesticViolenceEmotionallyOrVerballyAbusing" [question]="'Is someone emotionally or verbally abusing you or your children?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceCallingHarassingStalkingAtWork"
+        [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceCallingHarassingStalkingAtWork']"
+        [isDetailsInvalid]="modelErrors['isDomesticViolenceCallingHarassingStalkingAtWorkDetails']" (ngModelChange)="model.isDomesticViolenceCallingHarassingStalkingAtWork = $event; onChange();"
+        [originalModel]="this.cached?.isDomesticViolenceCallingHarassingStalkingAtWork" [question]="'Does your current or former partner call, harass, or stalk you at work or training classes?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceMakingItDifficultToWork" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+        [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceMakingItDifficultToWork']" [isDetailsInvalid]="modelErrors['isDomesticViolenceMakingItDifficultToWorkDetails']"
+        (ngModelChange)="model.isDomesticViolenceMakingItDifficultToWork = $event; onChange();" [originalModel]="this.cached?.isDomesticViolenceMakingItDifficultToWork"
+        [question]="'Is your partner doing anything to make it difficult for you to work or do other activities in your daily life?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceOverwhelmedByRapeOrSexualAssault"
+        [yesNoRefusedDrop]="this.yesNoRefusedDrop" [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceOverwhelmedByRapeOrSexualAssault']"
+        [isDetailsInvalid]="modelErrors['isDomesticViolenceOverwhelmedByRapeOrSexualAssaultDetails']" (ngModelChange)="model.isDomesticViolenceOverwhelmedByRapeOrSexualAssault = $event; onChange();"
+        [originalModel]="this.cached?.isDomesticViolenceOverwhelmedByRapeOrSexualAssault" [question]="'Are you or any of your children feeling overwhelmed with the trauma of a rape or sexual assault?'"></app-yes-no-refuse>
+
+      <app-yes-no-refuse *ngIf="model.isSafeAppropriateToAsk" [(ngModel)]="model.isDomesticViolenceInvolvedInCourts" [yesNoRefusedDrop]="this.yesNoRefusedDrop"
+        [isRequired]="false" [isYesNoInvalid]="modelErrors['isDomesticViolenceInvolvedInCourts']" [isDetailsInvalid]="modelErrors['isDomesticViolenceInvolvedInCourtsDetails']"
+        (ngModelChange)="model.isDomesticViolenceInvolvedInCourts = $event; onChange();" [originalModel]="this.cached?.isDomesticViolenceInvolvedInCourts"
+        [question]="'Are you involved with the court system due to domestic violence or sexual assault?'"></app-yes-no-refuse>
+
+      <app-participant-barriers-embed [pin]="pin" [hideDeleted]="true" *ngIf="model.isSafeAppropriateToAsk" (participantBarriersChange)="getParticipantBarrierList()"
+        barrierType="Domestic Violence" [allParticipantBarriers]="allParticipantBarriers"></app-participant-barriers-embed>
+    </div>
+
+  </fieldset>
+
+  <hr />
+
+  <div class="control-group clearfix">
+    <app-text-area [cacheInnerValue]="this.cached?.notes" [(ngModel)]="model.notes" (ngModelChange)="model.notes = $event; onChange();"></app-text-area>
+  </div>
+
+</fieldset>

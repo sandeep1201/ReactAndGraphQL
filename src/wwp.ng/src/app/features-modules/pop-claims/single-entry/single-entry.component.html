@@ -1,0 +1,275 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'POP Claims Single Entry'"></app-loading>
+  <ng-container *ngIf="isLoaded">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="container">
+        <div class="row p-1 border-bottom">
+          <div class="col-lg-6">
+            <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+              (click)="cancel()"
+              title="Close POP Claims">
+              <i class="fa fa-times"></i>
+            </a>
+            <h1 id="editPageTitle"
+              class="px-3">POP Claims</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="edit-content">
+      <div class="container pt-3">
+        <div class="row pt-1">
+          <main class="col-md-12">
+            <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+          <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">PIN</label>
+              </div>
+              <div class="col-md-3">
+                <app-text-input [ngModel]="popClaim.pinNumber"
+                  [isReadOnly]="isReadOnly"
+                  ></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Participant Name</label>
+              </div>
+              <div class="col-md-3">
+                <app-text-input [ngModel]="popClaim.participantName"
+                  [isReadOnly]="isReadOnly"
+                  ></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Type</label>
+              </div>
+              <div class="col-md-4">
+               <app-text-input [ngModel]="popClaim.popClaimTypeName"
+                  [isReadOnly]="isReadOnly"
+                  ></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Worker</label>
+              </div>
+              <div class="col-md-3">
+                <app-text-input [(ngModel)]="popClaim.modifiedBy"
+                  [isReadOnly]="isReadOnly"></app-text-input>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Agency</label>
+              </div>
+                  <div class="col-md-3">
+                    <app-text-input [(ngModel)]="popClaim.agencyName"
+                              [isReadOnly]="isReadOnly"></app-text-input>
+                  </div>
+              </div>
+              <div class="row p-2" *ngIf="popClaim.activityCode">
+              <div class="col-md-3">
+                <label class="rowSpace">Activity</label>
+              </div>
+                  <div class="col-md-3">
+                    <app-text-input [(ngModel)]="popClaim.activityCode"
+                              [isReadOnly]="isReadOnly"></app-text-input>
+                  </div>
+              </div>
+              <div class="row p-2" *ngIf="popClaim.activityBeginDate">
+              <div class="col-md-3">
+                <label class="rowSpace">Begin Date</label>
+              </div>
+                  <div class="col-md-3">
+                    <app-text-input [(ngModel)]="popClaim.activityBeginDate"
+                              [isReadOnly]="isReadOnly"></app-text-input>
+                  </div>
+              </div>
+              <div class="row p-2" *ngIf="popClaim.activityEndDate">
+              <div class="col-md-3">
+                <label class="rowSpace">Actual End Date</label>
+              </div>
+                  <div class="col-md-3">
+                    <app-text-input [(ngModel)]="popClaim.activityEndDate"
+                              [isReadOnly]="isReadOnly"></app-text-input>
+                  </div>
+              </div>
+            <div class="row p-2" *ngIf="!isEmploymentsEmpty">
+              <div class="col-md-2 d-flex justify-content-start">
+                <label class="rowSpace">Employments</label>
+              </div>
+              <div class="col-md-10 d-flex justify-content-end">
+                <label class="rowSpace">Primary Employment</label>
+              </div>
+            </div>
+            <ng-container *ngIf="!isEmploymentsEmpty">
+              <div class="card">
+                <div class="card-body border-bottom" *ngFor="let emp of popClaim.popClaimEmployments; index as i">
+                  <div class="row"
+                >
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                  <div class="row align-items-center">
+                    <div class="col-md-1 d-flex justify-content-center">
+                    </div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class=" col-md-6">
+                          <h6>Job Type</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobTypeName}}</p>
+                          <h6>Position</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobPosition}}</p>
+                          <h6>Company/Organization Name</h6>
+                          <p class="tgrey3 wrapword">{{emp.companyName}}</p>
+                        </div>
+                        <div class=" col-md-6">
+                          <h6>Job Begin Date</h6>
+                          <p class="tgrey3 wrapword">{{emp.jobBeginDate | dateMmDdYyyy}}</p>
+                          <h6>Job End Date</h6>
+                          <p *ngIf="emp.jobEndDate"
+                            class="tgrey3 wrapword">{{emp.jobEndDate | dateMmDdYyyy}}</p>
+                          <p *ngIf="!emp.jobEndDate"
+                            class="tgrey3 wrapword"><br /></p>
+                          <h6>Avg Weekly Hours</h6>
+                          <p class="tgrey3 wrapword">{{emp.averageWeeklyHours}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                      <label></label>
+                      <input type="radio"
+                        [value]="emp.isPrimary"
+                        [checked]="popClaim.popClaimEmployments.length === 1 || emp.isPrimary"
+                        name="isPrimary">
+                    </div>
+                  </div>
+                  <div class="row"
+                    *ngIf="emp.isSelected">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class="col-md-6 d-flex align-items-center">
+                        <span>
+                          Hours
+                        </span>
+                        <span class="p-2">
+                          <app-numerical-input [ngModel]="emp.hoursWorked"
+                            [NGMaxLength]="3"
+                            [isReadOnly]="isReadOnly"></app-numerical-input>
+                        </span>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <span>
+                          Earnings
+                        </span>
+                        <span class="p-2">
+                            <div class="input-group">
+                              <div class="input-group-prepend"><span class="input-group-text">$</span>
+                              </div>
+                <app-numerical-input class="w-99 last"
+                [isRequired]="emp.isSelected"
+                  [(ngModel)]="emp.earnings"
+                   [NGMaxLength]="9"
+                  [isReadOnly]="isReadOnly">
+                </app-numerical-input>
+              </div>
+                        </span>
+                    </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+                </div>
+
+              </div>
+            </ng-container>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Period Begin Date</label>
+              </div>
+              <div class="col-md-2">
+                <app-date-mm-dd-yyyy [ngModel]="popClaim.claimPeriodBeginDate"
+                  [isReadOnly]="isReadOnly">
+                </app-date-mm-dd-yyyy>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Claim Effective Date</label>
+              </div>
+              <div class="col-md-2">
+                <app-date-mm-dd-yyyy [ngModel]="popClaim.claimEffectiveDate"
+                  [isReadOnly]="isReadOnly">
+                </app-date-mm-dd-yyyy>
+              </div>
+            </div>
+            <div class="row p-2" *ngIf="isStatusEditable">
+              <div class="col-md-3">Status</div>
+              <div class="col-md-3">
+                <app-select [(ngModel)]="popClaim.claimStatusTypeId"
+                (ngModelChange)="popClaim.claimStatusTypeId = $event;setClaimStatusTypeCode();validate();"
+                [isInvalid]="modelErrors.claimStatusTypeId"
+                  [isRequired]="true"
+                  [dropDownList]="filteredStatusTypesDrop"
+                  [isResizable]="false" [cacheInnerValue]="cachedModel?.claimStatusTypeId"></app-select>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-md-3">
+                <label class="rowSpace">Details</label>
+              </div>
+              <div class="col-md-9">
+                <app-text-area [(ngModel)]="popClaim.details"
+                [cacheInnerValue]="cachedModel?.details"
+                [placeholder]="'Details'"
+                [textLength]="popClaim.details?.length"
+                [isInvalid]="modelErrors.details"
+                  [isReadOnly]="!isDetailsEditable"
+                  [maxlength]="380"
+                  [isRequired]="isDetailsEditable"
+                  [isTextLengthGiven]="true"
+                  (ngModelChange)="popClaim.details = $event; validate()"></app-text-area>
+              </div>
+            </div>
+            <div *ngIf="popClaim.popClaimStatuses"
+              class="pt-3">
+              <div class="row topborder border-bottom p-1 font-weight-bold">
+                <div class="col-md-3">Claim Status</div>
+                <div class="col-md-2">Claim Status Date</div>
+                <div class="col-md-5">Details</div>
+                <div class="col-md-2">Last Updated By</div>
+              </div>
+              <div class="list-item p-1 row"
+                *ngFor="let status of popClaim.popClaimStatuses">
+                <div class="col-md-3"> {{status.popClaimStatusDisplayName}}
+                </div>
+                <div class="col-md-2"> {{status.popClaimStatusDate | date :'MM/dd/yyyy'}}
+                </div>
+                <div class="col-md-5 wrapword"> {{status.details}}
+                </div>
+                <div class="col-md-2"> {{status.modifiedBy}}
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <app-cancel-save-footer [isReadOnly]="isFooterReadOnly"
+        [isSaving]="isSaving"
+        [isDisabled]="isSectionValid"
+        (cancelEvent)="cancel()"
+        (saveEvent)="save()">
+      </app-cancel-save-footer>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,149 @@
+
+header{
+    display:flex;
+}
+
+header > fieldset{
+    margin-left:auto;
+}
+
+header button.btn{
+    background-color:#fff;
+    border:1px solid #bdc3c7;
+    color:#7f8c8d;
+    padding:.25rem 1.5rem
+}
+
+table{
+    table-layout: fixed;
+}
+
+thead th,
+thead th a{
+    color:#63899D;
+    text-transform: uppercase;
+    font-size: .8rem;
+}
+
+thead th a{
+    cursor: pointer;
+}
+
+thead th a:after{
+    content:"\f0dc";
+    font-family: 'Font Awesome 5 Free';;
+    padding-left:0.5em;
+    color:#bdc3c7;
+}
+
+thead th a.sort:after{
+    content:"\f0dd";
+}
+
+thead th a.sort.asc:after{
+    content:"\f0de";
+}
+
+tbody tr:hover{
+    background-color:#fff;
+    cursor: pointer;
+}
+
+tbody td, thead th{
+    border-bottom:1px solid #c9d2d6;
+}
+
+tbody td{
+    cursor: pointer;
+
+
+}
+tbody td.no-overflow{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+tbody td.decision{
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .7em;
+}
+
+tbody td.decision span{
+    color:#7D8A8B;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.table-actions{
+    display:block;
+    text-align: right;
+    /*flex-wrap: nowrap;*/
+}
+
+.table-actions a, .table-actions .dropdown {
+    display: inline-block;
+}
+
+.table-actions a{
+    color:#95A5A6;
+    padding:0 .25em;
+}
+
+tbody tr.active:not(.deleted) td{
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color:#D35400;
+  color:#D35400;
+  background: rgba(243, 156, 18, .1);
+}
+tbody tr.active td:first-child{
+  border-left-width:1px;
+}
+tbody tr.active td:first-child{
+  border-right-width:1px;
+}
+
+tbody tr.deleted td{
+    opacity: .4;
+}
+
+
+tbody tr.add-row td{
+    padding:0;
+    border:0;
+}
+tbody tr.add-row:hover{
+    background-color: transparent;
+}
+
+tr.add-row button{
+    border-top-width: 0px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding:.25rem 1.5rem;
+}
+
+.btn-group app-multi-select-dropdown{
+  float:left;
+}
+.btn-group app-multi-select-dropdown >>> .btn {
+  border-left-width: 1px;
+}
+
+.btn-group-sm app-multi-select-dropdown >>> .btn,.btn-group-sm app-multi-select-dropdown >>> .btn-sm{
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: .875rem;
+  border-radius: .2rem;
+}
+
+.btn-group app-multi-select-dropdown:first-child:not(:last-child) >>> span > .btn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0
+}
+
+
+.table-actions > a:hover{
+    color:#d2d2d2;
+} 

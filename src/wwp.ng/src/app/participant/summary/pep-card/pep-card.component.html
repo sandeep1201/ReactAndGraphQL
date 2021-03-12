@@ -1,0 +1,157 @@
+<main>
+  <h4 class="pt-1"
+    *ngIf="this.enrolledProgram.isWW || this.enrolledProgram.isLF">
+    <img src="/assets/img/wwp_data_logo.png"
+      width="50"
+      height="50"
+      style="margin-top:-2px;" /> Enrollment Information
+  </h4>
+  <h4 class="pt-1"
+    *ngIf="this.enrolledProgram.isTj || this.enrolledProgram.isTmj || this.enrolledProgram.isCF ||  this.enrolledProgram.isFCDP">
+    Enrollment Information
+  </h4>
+  <div class="flex-row">
+    <div class="col-md-2"
+      *ngIf="this.enrolledProgram.isTj || this.enrolledProgram.isTmj || this.enrolledProgram.isCF || this.enrolledProgram.isFCDP">
+      <label>RFA Number</label>
+      <small>{{this.enrolledProgram.rfaNumber | padPipe: 10}}</small>
+    </div>
+    <div class="col-md-2">
+      <label *ngIf="enrolledProgram.isCF">CF Status</label>
+      <label *ngIf="enrolledProgram.isTmj">TMJ Status</label>
+      <label *ngIf="enrolledProgram.isTj">TJ Status</label>
+      <label *ngIf="enrolledProgram.isWW">W-2 Status</label>
+      <label *ngIf="enrolledProgram.isLF">W-2 LF Status</label>
+      <label *ngIf="enrolledProgram.isFCDP && showFcdpFeature">FCDP Status</label>
+      <small>{{this.enrolledProgram.status}}</small>
+    </div>
+    <div class="col-md-2">
+      <label *ngIf="enrolledProgram.isCF">CF Status Date</label>
+      <label *ngIf="enrolledProgram.isTmj">TMJ Status Date</label>
+      <label *ngIf="enrolledProgram.isTj">TJ Status Date</label>
+      <label *ngIf="enrolledProgram.isWW">W-2 Status Date</label>
+      <label *ngIf="enrolledProgram.isLF">W-2 LF Status Date</label>
+      <label *ngIf="enrolledProgram.isFCDP && showFcdpFeature">FCDP Status Date</label>
+      <small>{{this.enrolledProgram.statusDate | dateMmDdYyyy}}</small>
+    </div>
+    <div class="col-md-2">
+      <label>Referral Date</label>
+      <small>{{this.enrolledProgram.referralDate | dateMmDdYyyy}}</small>
+    </div>
+    <div class="col-md-2">
+      <label>Enrollment Date</label>
+      <small>{{this.enrolledProgram.enrollmentDate | dateMmDdYyyy}}</small>
+    </div>
+    <div class="col-md-2">
+      <label>Disenrollment Date</label>
+      <small>{{this.enrolledProgram.disenrollmentDate | dateMmDdYyyy}}</small>
+    </div>
+  </div>
+
+  <div *ngIf="this.enrolledProgram.isCF"
+    class="flex-row py-1">
+    <div class="col-md-4">
+      <label>County/Tribe where court ordered</label>
+      <small>{{this.enrolledProgram.courtOrderedCounty}}</small>
+    </div>
+    <div class="col-md-4">
+      <label>Effective Date of Court Order</label>
+      <small>{{this.enrolledProgram.courtOrderedDate | dateMmDdYyyy}}</small>
+    </div>
+  </div>
+  <div *ngIf="this.enrolledProgram.isFCDP && showFcdpFeature"
+    class="flex-row py-1">
+    <div class="col-md-4">
+      <label>County/Tribe where court ordered</label>
+      <!-- this should be the courtdate of fcdp -->
+      <small>{{this.enrolledProgram.courtOrderedCounty}}</small>
+    </div>
+    <div class="col-md-4">
+      <label>Effective Date of Court Order</label>
+      <small>{{this.enrolledProgram.courtOrderedDate | dateMmDdYyyy}}</small>
+    </div>
+    <div class="col-md-4">
+      <label>VOLUNTARY</label>
+      <small>{{this.enrolledProgram.isVoluntary?'Yes':'No'}}</small>
+    </div>
+  </div>
+
+  <div class="flex-row pt-1">
+    <div class="col-md-2">
+      <label *ngIf="this.enrolledProgram.isLF">FEP</label>
+      <label *ngIf="this.enrolledProgram.isTj">TJ-Contractor</label>
+      <label *ngIf="this.enrolledProgram.isTmj">TMJ-Contractor</label>
+      <label *ngIf="this.enrolledProgram.isCF">CF Agency</label>
+      <label *ngIf="this.enrolledProgram.isWW">FEP</label>
+      <label *ngIf="this.enrolledProgram.isFCDP && showFcdpFeature">FCDP Agency</label>
+      <small
+        *ngIf="this.enrolledProgram.isTj || this.enrolledProgram.isTmj || this.enrolledProgram.isCF || (this.enrolledProgram.isFCDP && showFcdpFeature)">{{this.enrolledProgram.agencyName}}</small>
+      <small
+        *ngIf="this.enrolledProgram.isWW || this.enrolledProgram.isLF">{{this.enrolledProgram.assignedWorker?.fullNameWithMiddleInitialTitleCase }}
+      </small>
+    </div>
+    <div class="col-md-2"
+      *ngIf="this.enrolledProgram.isLF">
+      <label>LearnFare Case Manager</label>
+      <small>{{this.enrolledProgram.learnFareFEP?.fullNameTitleCase}}-
+        {{ this.enrolledProgram.learnFareFEP.workerId }}</small>
+    </div>
+    <div class="col-md-2">
+      <!-- <label *ngIf="this.enrolledProgram.isCFTmjTJProgram">FEP Worker</label> -->
+      <label *ngIf="this.enrolledProgram.isCF">CF Case Manager</label>
+      <label *ngIf="this.enrolledProgram.isTj">TJ Worker</label>
+      <label *ngIf="this.enrolledProgram.isTmj">TMJ Worker</label>
+      <label *ngIf="this.enrolledProgram.isWW ">W-2-Contractor</label>
+      <label *ngIf="this.enrolledProgram.isLF ">Contractor</label>
+      <label *ngIf="this.enrolledProgram.isFCDP && showFcdpFeature">FCDP Case Manager</label>
+      <small
+        *ngIf="this.enrolledProgram.isCF || this.enrolledProgram.isTj || this.enrolledProgram.isTmj || (this.enrolledProgram.isFCDP && showFcdpFeature)">{{this.enrolledProgram.assignedWorker?.fullNameWithMiddleInitialTitleCase }}&nbsp;
+      </small>
+      <small
+        *ngIf="this.enrolledProgram.isWW || this.enrolledProgram.isLF">{{this.enrolledProgram.agencyName}}
+        &nbsp;</small>
+    </div>
+    <div class="col-md-3">
+      <!-- <label *ngIf="this.enrolledProgram.isCFTmjTJProgram">FEP Worker</label> -->
+      <label *ngIf="this.enrolledProgram.isCF">CF Completion Reason</label>
+      <label *ngIf="this.enrolledProgram.isTj">TJ Completion Reason</label>
+      <label *ngIf="this.enrolledProgram.isTmj">TMJ Completion Reason</label>
+      <label *ngIf="this.enrolledProgram.isFCDP && showFcdpFeature">FCDP Completion Reason</label>
+      <small
+        *ngIf="this.enrolledProgram.isCF || this.enrolledProgram.isTj || this.enrolledProgram.isTmj || (this.enrolledProgram.isFCDP && showFcdpFeature)">{{completionReason}}&nbsp;</small>
+    </div>
+    <div class="col-md-5 wrapword"
+      *ngIf="this.enrolledProgram?.isDisenrollmentDetailsRequiredForDisenrollment">
+      <label *ngIf="this.enrolledProgram.isCF">CF Completion Reason Details</label>
+      <label *ngIf="this.enrolledProgram.isFCDP && showFcdpFeature">FCDP Completion Reason Details</label>
+      <small
+        *ngIf="this.enrolledProgram.isCF || (this.enrolledProgram.isFCDP && showFcdpFeature)">{{this.enrolledProgram?.completionReasonDetails}}&nbsp;</small>
+    </div>
+  </div>
+  <div class="flex-row pt-1">
+    <div class="col-md-4">
+      <div *ngIf="this.enrolledProgram.isFCDP">
+        <label>COUNTY OF SERVICE</label>
+        <small>{{this.enrolledProgram.officeCounty}}</small>
+      </div>
+      <div *ngIf="!this.enrolledProgram.isFCDP">
+        <label>WP OFFICE</label>
+        <small>{{this.enrolledProgram.officeCounty}} -
+          {{ this.enrolledProgram.officeNumber | padPipe: 4 }}</small>
+      </div>
+    </div>
+    <div class="col-md-4"
+      *ngIf="this.enrolledProgram.isWW || this.enrolledProgram.isLF">
+      <label>W-2 Geographic Area</label>
+      <small>{{this.wpGeoArea}}</small>
+    </div>
+  </div>
+  <div class="flex-row pt-1">
+    <div class="col-md-12"
+      *ngIf="this.enrolledProgram.isTmj || this.enrolledProgram.isTj">
+      <label>Total LifeTIme TJ/TMJ Subsidized Hours Used</label>
+      <small>{{participant.totalLifeTimeSubsidizedHours}}</small>
+    </div>
+  </div>
+
+</main>

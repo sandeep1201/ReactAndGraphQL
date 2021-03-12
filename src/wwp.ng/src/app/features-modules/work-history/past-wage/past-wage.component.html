@@ -1,0 +1,113 @@
+<h4 *ngIf="model"
+  class="part-title">Current or Most Recent Wage/Hours</h4>
+
+<div *ngIf="model"
+  class="row">
+  <div class="col-md-6">
+    <label>Pay Types <span class="small">(Select all that apply.)</span></label><br />
+    <div class="input-group">
+      <app-multi-select-dropdown class="first input-group-btn"
+        *ngIf="model.currentPayType && !isPayTypeHidden()"
+        [isRequired]="true"
+        [isInvalid]="modelErrors['currentPayType']"
+        [(ngModel)]="model.currentPayType.jobActionTypes"
+        (ngModelChange)="model.currentPayType.jobActionTypes = $event; registerModelChange($event);"
+        [cacheInnerValue]="this.originalModel?.currentPayType?.jobActionTypes"
+        [options]="payTypesDrop">
+      </app-multi-select-dropdown>
+      <span class="input-group-btn"
+        *ngIf="isPayTypeHidden()">
+        <button class="btn btn-light first"
+          disabled>No Pay</button>
+      </span>
+      <span class="input-group-addon gapless"></span>
+      <app-text-area [(ngModel)]="model.currentPayTypeDetails"
+        [placeholder]="'Details'"
+        (ngModelChange)="model.currentPayTypeDetails = $event; registerModelChange($event);"
+        [isRequired]="isPayDetailsRequired()"
+        [isInvalid]=" modelErrors['currentPayTypeDetails']"
+        [isDetails]="true"
+        [cacheInnerValue]="this.originalModel?.currentPayTypeDetails"
+        [isAutoSizeable]="true"
+        class="last">
+      </app-text-area>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <label>Avg Weekly Hours</label><br />
+    <app-numerical-input [isRequired]="true"
+      [NGMaxLength]="3"
+      [(ngModel)]="model.currentAverageWeeklyHours"
+      (ngModelChange)="model.currentAverageWeeklyHours = $event; registerModelChange($event);"
+      [isInvalid]="modelErrors['currentAverageWeeklyHours']"
+      [cacheInnerValue]="this.originalModel?.currentAverageWeeklyHours">
+    </app-numerical-input>
+  </div>
+  <!--<div class="col-md-3">
+        No Hourly Subsidy for Past Jobs
+        <label>Hourly Subsidy</label><br />
+        #30
+
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <app-currency-input class="last" [isDisabled]="true" [NGMaxLength]="5" [(ngModel)]="model.currentHourlySubsidyRate"
+                (ngModelChange)="model.currentHourlySubsidyRate = $event; registerModelChange($event);"
+                [cacheInnerValue]="this.originalModel?.currentHourlySubsidyRate"></app-currency-input>
+        </div>
+    </div> -->
+
+</div>
+
+<div *ngIf="model"
+  class="row">
+  <div class="col-md-5">
+    <label>Beginning Rate</label><br />
+    <div class="input-group row m-0">
+      <span class="input-group-addon input-group-text">$</span>
+      <app-currency-input [(ngModel)]="model.pastBeginPayRate"
+        (ngModelChange)="model.pastBeginPayRate = $event; registerModelChange($event);"
+        [errorIndicator]="modelErrors['pastBeginPayRate']"
+        [cacheInnerValue]="this.originalModel?.pastBeginPayRate"
+        [isRequired]="true"
+        [isDisabled]="isBeginningPayDisabled()"
+        class="first last col-md-4 p-0"></app-currency-input>
+      <span class="input-group-addon input-group-text">per</span>
+      <app-select [(ngModel)]="model.pastBeginPayRateIntervalId"
+        (ngModelChange)="model.pastBeginPayRateIntervalId = $event; registerModelChange($event);"
+        [isInvalid]="modelErrors['pastBeginPayRateIntervalId']"
+        [cacheInnerValue]="this.originalModel?.pastBeginPayRateIntervalId"
+        class="last col-md-4 p-0"
+        [isRequired]="true"
+        [isDisabled]="isBeginningPayDisabled()"
+        [dropDownList]="intervalTypesDrop"></app-select>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <label>Ending Rate</label><br />
+    <div class="input-group">
+      <span class="input-group-addon input-group-text">$</span>
+      <app-currency-input [(ngModel)]="model.pastEndPayRate"
+        (ngModelChange)="model.pastEndPayRate = $event; registerModelChange($event);"
+        [errorIndicator]="modelErrors['pastEndPayRate']"
+        class="first last"
+        [cacheInnerValue]="this.originalModel?.pastEndPayRate"
+        [isRequired]="true"
+        [isDisabled]="isEndPayDisabled()">
+      </app-currency-input>
+      <span class="input-group-addon input-group-text">per</span>
+      <app-select [(ngModel)]="model.pastEndPayRateIntervalId"
+        (ngModelChange)="model.pastEndPayRateIntervalId = $event; registerModelChange($event);"
+        [isInvalid]="modelErrors['pastEndPayRateIntervalId']"
+        [cacheInnerValue]="this.originalModel?.pastEndPayRateIntervalId"
+        class="first last"
+        [isRequired]="true"
+        [dropDownList]="intervalTypesDrop"
+        [isDisabled]="isEndPayDisabled()"></app-select>
+      <app-radio-button [(ngModel)]="model.unchangedPastPayRateIndicator"
+        (ngModelChange)="model.unchangedPastPayRateIndicator = $event; registerModelChange($event);"
+        NgLabel="no change"
+        class="input-group-addon"
+        [isDisabled]="isUnchangedPastPayRateIndicatorDisabled()"></app-radio-button>
+    </div>
+  </div>
+</div>

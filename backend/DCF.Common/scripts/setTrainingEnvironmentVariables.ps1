@@ -1,0 +1,1 @@
+﻿((get-content -path ..\s\DCF.Common\Configuration\DatabaseConfiguration.cs -raw) -replace 'var envSet = string.Empty;', 'var envSet = "2";') | Set-Content -Path ..\s\DCF.Common\Configuration\DatabaseConfiguration.cs

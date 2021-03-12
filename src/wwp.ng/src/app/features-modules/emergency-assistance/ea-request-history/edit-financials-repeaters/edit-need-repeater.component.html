@@ -1,0 +1,91 @@
+<hr />
+<div class="row px-3">
+  <label [attr.for]="'income-type-income'"
+    class="col-md-5 control-label"
+    title="Financial Need">Financial Need</label>
+  <label [attr.for]="'income-monthly'"
+    class="col-md-2 control-label"
+    title="Amount">Amount</label>
+</div>
+<fieldset *ngFor="let need of models; let i=index"
+  class="deg-repeat repeat rel deg-1">
+  <input type="hidden"
+    id="s-id-{{i}}"
+    name="need-id-1"
+    value="0" />
+  <div class="pad1 pb-0">
+    <div class="row">
+      <div class="col-md-5 pr-0">
+        <app-select [(ngModel)]="need.financialNeedTypeId"
+          (ngModelChange)="need.financialNeedTypeId = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'financialNeedTypeId')"
+          [isIdString]="true"
+          [isRequired]="isRequired ? isRepeaterRowRequired(i) : false"
+          [dropDownList]="financialNeedDrop"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(need.id, 'financialNeedTypeId')"></app-select>
+      </div>
+      <div class="input-group col-md-2 pr-0 flex-nowrap">
+        <div class="input-group-prepend"><span class="input-group-text">$</span>
+        </div>
+        <app-currency-input class="w-100 last"
+          [(ngModel)]="need.amount"
+          [isRequired]="isRequired ? isRepeaterRowRequired(i) : false"
+          (ngModelChange)="need.amount = $event; onChangeCallback(models); calculateTotal(models);"
+          [errorIndicator]="isModelErrorsItemInvalid(i, 'amount')"
+          [cacheInnerValue]="getInitialModelValue(need.id, 'amount')"
+          [isReadOnly]="isReadOnly"
+          [NGMaxLength]="10"></app-currency-input>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-add"
+          [disabled]="isReadOnly"
+          (click)="deleteFromRepeater(need); calculateTotal(models);"><i class="fa fa-trash-alt"
+            title="delete"></i></button>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<div class="row pt-3 px-3">
+  <div class="col-md-5 add-holder">
+    <label class="control-label right">Total Financial Need</label>
+  </div>
+  <div class="input-group col-md-2 add-holder flex-nowrap pl-3 mb-0">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-numerical-input class="w-100 last"
+      [ngModel]="totalValue"
+      [isMoney]="true"
+      [isReadOnly]="true"></app-numerical-input>
+  </div>
+  <div class="tright col-md-5 add-holder">
+    <button class="btn btn-sm btn-add add-deg"
+      [disabled]="isReadOnly"
+      (click)="addToRepeater()">+ &nbsp; Add Need</button>
+  </div>
+</div>
+<div class="row px-3">
+  <div class="col-md-5 pr-0">
+    <label class="control-label right">Maximum Payment Amount</label>
+  </div>
+  <div class="input-group col-md-2 pr-0 flex-nowrap">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-currency-input class="w-100 last"
+      [ngModel]="maxAmount"
+      [isReadOnly]="true"></app-currency-input>
+  </div>
+</div>
+<div class="row px-3 pt-2">
+  <div class="col-md-5 pr-0 text-right">Lesser Amount
+  </div>
+  <div class="input-group col-md-2 pr-0 flex-nowrap">
+    <div class="input-group-prepend"><span class="input-group-text">$</span>
+    </div>
+    <app-currency-input class="w-100 last"
+      [ngModel]="lesserAmount"
+      [isReadOnly]="true"></app-currency-input>
+  </div>
+</div>
+<hr class="mb-0" />

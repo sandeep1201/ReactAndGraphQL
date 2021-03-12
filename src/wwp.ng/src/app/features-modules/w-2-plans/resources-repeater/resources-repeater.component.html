@@ -1,0 +1,20 @@
+<label>Resources</label>
+<div class="row form-page">
+<div class="col-md-12">
+  <fieldset *ngFor ="let resource of models;let i=index">
+  <app-text-area [(ngModel)]="resource.resource"
+            (ngModelChange)="resource.resource = $event; validate();"
+            [cacheInnerValue]="getInitialModelValue(i, 'resource')" [isInvalid]="getInitialModelValue(i, 'resource')"
+            [maxlength]="300"  [placeholder]="'Resource'" [isDisabled]="disabled"></app-text-area>
+          </fieldset>
+</div>
+</div>
+
+          <div class="row p-1">
+            <div class="col-md-12 d-flex add-holder justify-content-end">
+    <button class="btn btn-sm btn-add add-deg"
+      [disabled]="isReadOnly || disabled || models.length === 4"
+      (click)="addToRepeater()">+ &nbsp; Add Resource</button>
+  </div>
+          </div>
+

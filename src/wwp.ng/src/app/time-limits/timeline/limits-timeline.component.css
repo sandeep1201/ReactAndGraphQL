@@ -1,0 +1,252 @@
+:host {
+    display: flex;
+}
+
+/*.timeline-legend {
+    flex-basis: 150px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-size: .6em;
+    color: #95A5A6;
+    padding: 0 1em 0 0;
+}
+.timeline-legend .legend-header {
+    text-transform: uppercase;
+    color: #63899D;
+    font-weight: 700;
+    margin-bottom: 1em;
+    text-align: right;
+}
+.timeline-legend .legend-row {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+}*/
+div.action-bar {
+    margin-bottom: 4px;
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+ div.action-bar > div {
+    font-size: .8em;
+}
+
+.action-bar .calendar-nav span{
+    color:#95A5A6;
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease;
+}
+
+.action-bar .active i {
+    color: #3498DB;
+}
+
+.action-bar a:hover,
+.action-bar .calendar-nav span:hover
+ {
+    color: #3498DB;
+    text-decoration: none;
+    cursor: pointer;
+}
+.action-bar  i {
+    margin-right:10px;
+    font-size:1.5em;
+}
+
+.action-bar  i.fa-small{
+    font-size:.6em;
+}
+
+.calendar-nav{
+    display:flex;
+    align-items: center;
+}
+
+.calendar-nav span{
+    display:inline-block;
+    margin:0 1.1em;
+    cursor: pointer;
+}
+.calendar-nav span i{
+    font-size:.9em;
+    margin:0;
+}
+
+.calendar-nav span i.fa-small{
+    font-size:.6em;
+}
+
+.action-bar button{
+    padding: 0.4em 2em;
+    line-height: 1em;
+}
+
+.action-bar .btn-add-deny{
+    margin-left:auto;
+}
+
+.action-bar .btn-orange{
+    color:#fff;
+    background-color:#E67E22;
+    border:1px solid #E67E22;
+}
+
+.action-bar .btn-orange:hover{
+    background-color:#E5A064;
+}
+
+.timeline-legend {}
+ .timeline-graph {
+    /*flex-shrink: 1;*/
+    width:100%;
+    padding-top:.7em;
+    overflow: hidden;
+}
+/*.legend-header {}
+ .legend-key {
+    border: 1px solid #BDC3C7;
+    background-color: #FFFFFF;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    margin: 0 1em .5em;
+}
+.legend-key.hidden,
+.legend-key.hidden:after {
+    border: none !important;
+    background: none !important;
+}
+
+
+.legend-row .legend-key:last-child, .month-container.future .month-box {
+    border-style: dashed;
+}
+.legend-row.used .legend-key, .month-container.used .month-box {
+    border-color: #95A5A6;
+    background-color: #BDC3C7;
+    color:#FFFFFF;
+}
+.legend-row.paid .legend-key, .month-container.paid .month-box {
+    border-color: #16A085;
+    background-color: #1ABC9C;
+    color:#FFFFFF;
+    padding-bottom: 2px;
+}
+
+.legend-row.edited .legend-key {
+    position: relative;
+    border-color: #BDC3C7;
+    background-color: #BDC3C7;
+}
+
+.legend-row.extension .legend-key, .month-container.extension .month-box {
+    border-color: #D35400;
+    background-color: #FF9940;
+    color:#FFFFFF;
+}
+
+
+.legend-row.selected .legend-key, .month-container.selected .month-box, .month-container .month-box:hover {
+    border-color: #2980B9;
+    background-color: #3498DB;
+    color:#FFFFFF;
+}
+.legend-row.extension.future .legend-key,
+.month-container.extension.future .month-box{
+    background-color: #F5CBA7;
+}
+
+.legend-row.selected.future .legend-key, .month-container.selected.future .month-box, .month-container.future .month-box:hover{
+    background-color: #53B4F5;
+}
+
+.legend-row.edited .legend-key:after,
+.month-container.edited .month-box:after
+ {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 0;
+    height: 0;
+    border-color: #fff transparent transparent transparent;
+    border-style: solid;
+    border-width: 15px 15px 0 0;
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease;
+}*/
+
+
+/*.month-container.edited.used .month-box:after{border-top-color: #95A5A6;}
+.month-container.edited.paid .month-box:after{border-top-color: #16A085;}
+.month-container.edited.extension .month-box:after{border-top-color: #D35400;}
+.month-container.edited.selected .month-box:after{border-top-color: #2980B9;}
+
+.month-container.edited .month-box:hover:after{border-top-color: #2980B9;}*/
+
+.timeline-scroll-wrapper {
+    position: relative;
+    border: 1px solid #BDC3C7;
+    background-color: #fff;
+}
+
+.timeline-scroll-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    padding: 0 2px 22px;
+    position:relative;
+}
+.bar-labels {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    z-index: 200;
+    font-size: .6em;
+    line-height:1em;
+    color: #95A5A6;
+    text-transform: uppercase;
+}
+
+.bar-labels.label-right{
+    left:auto;
+    right:0;
+}
+
+.bar-labels span {
+    display: block;
+    padding: 0px 7px 9px;
+}
+
+.bar-labels span:first-child {
+  /*padding-bottom: 8px;*/
+}
+
+.bar-labels div .right {
+    font-weight: 700;
+}
+
+/deep/ .timeline-scroll-container.compact-all .month-container.edited .month-box:after,
+/deep/ .timeline-scroll-container.compact-unused .month-container.edited:not(.used) .month-box:after{
+    border-top-width: 5px !important;
+    border-right-width: 5px !important;
+}
+
+/deep/ .timeline-scroll-container.compact-all .month-container .month-box,
+/deep/ .timeline-scroll-container.compact-unused .month-container:not(.used) .month-box{
+    min-width: 10px;
+}
+
+/deep/ .timeline-scroll-container.compact-all .month-container .month-box .month,
+/deep/ .timeline-scroll-container.compact-unused .month-container:not(.used) .month-box .month,
+/deep/ .timeline-scroll-container.compact-all .month-container .month-box .clock-type,
+/deep/ .timeline-scroll-container.compact-unused .month-container:not(.used) .month-box .clock-type
+{
+    display:none;
+}

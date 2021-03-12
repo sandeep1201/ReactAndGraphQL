@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{41D99D81-12F1-4321-AA8E-ECFBDBEE279D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dcf.Wwp.Model.Interface</RootNamespace>
+    <AssemblyName>Dcf.Wwp.Model.Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TestUnitSCE|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\TestUnitSCE\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Prod|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Prod\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ActivityScheduleFrequencyName.cs" />
+    <Compile Include="Constants\Authorization.cs" />
+    <Compile Include="Constants\AuxiliaryReason.cs" />
+    <Compile Include="Constants\MinHoursEarning.cs" />
+    <Compile Include="Constants\SpecialInitiatives.cs" />
+    <Compile Include="Constants\WorkerTaskStatus.cs" />
+    <Compile Include="Constants\AgencyCode.cs" />
+    <Compile Include="Constants\AuxiliaryStatusType.cs" />
+    <Compile Include="Constants\ActivityCompletionReason.cs" />
+    <Compile Include="Constants\AgeCategory.cs" />
+    <Compile Include="Constants\ActionNeededPage.cs" />
+    <Compile Include="Constants\AddressVerificationType.cs" />
+    <Compile Include="Constants\ActivityCode.cs" />
+    <Compile Include="Constants\AssessmentType.cs" />
+    <Compile Include="Constants\BarrierType.cs" />
+    <Compile Include="Constants\ContractArea.cs" />
+    <Compile Include="Constants\CountyAndTribe.cs" />
+    <Compile Include="Constants\EAEmergencyType.cs" />
+    <Compile Include="Constants\POPClaimStatusType.cs" />
+    <Compile Include="Constants\TimeLimitTypeNames.cs" />
+    <Compile Include="Constants\EmployerOfRecordType.cs" />
+    <Compile Include="Constants\County.cs" />
+    <Compile Include="Constants\DeleteReasonLookup.cs" />
+    <Compile Include="Constants\EmployeeProgramType.cs" />
+    <Compile Include="Constants\EmployabilityPlanStatus.cs" />
+    <Compile Include="Constants\EnrolledProgram.cs" />
+    <Compile Include="Constants\EnrolledProgramStatusCode.cs" />
+    <Compile Include="Constants\ExamPassType.cs" />
+    <Compile Include="Constants\JobType.cs" />
+    <Compile Include="Constants\ModuleStatus.cs" />
+    <Compile Include="Constants\NonCustodialParentRelationship.cs" />
+    <Compile Include="Constants\ParticipationStatus.cs" />
+    <Compile Include="Constants\PopulationType.cs" />
+    <Compile Include="Constants\ReferralContactInterval.cs" />
+    <Compile Include="Constants\RequestForAssistanceStatus.cs" />
+    <Compile Include="Constants\RuleReason.cs" />
+    <Compile Include="Constants\TransactionTypes.cs" />
+    <Compile Include="Constants\TransportationSectionLookUps.cs" />
+    <Compile Include="Constants\WageTypeLookup.cs" />
+    <Compile Include="Constants\WorkerTaskCategoryCodes.cs" />
+    <Compile Include="Constants\YesNoRefusedLookup.cs" />
+    <Compile Include="Constants\YesNoSkipLookup.cs" />
+    <Compile Include="Content\IContentModule.cs" />
+    <Compile Include="Content\IContentModuleMeta.cs" />
+    <Compile Include="Content\IContentPage.cs" />
+    <Compile Include="Core\GeoArea.cs" />
+    <Compile Include="Cww\ICurrentAddressDetails.cs" />
+    <Compile Include="Cww\ICurrentChild.cs" />
+    <Compile Include="Cww\IFsetStatus.cs" />
+    <Compile Include="Cww\ILearnfare.cs" />
+    <Compile Include="Cww\ISocialSecurityStatus.cs" />
+    <Compile Include="Delegates\DetailsProvider.cs" />
+    <Compile Include="Delegates\LatLongProvider.cs" />
+    <Compile Include="FileUpload\ICMServiceRequest.cs" />
+    <Compile Include="IEmploymentVerification.cs" />
+    <Compile Include="IParticipantEnrolledProgramCutOverBridge.cs" />
+    <Compile Include="IEARequestParticipantBridge.cs" />
+    <Compile Include="IJobTypeLeavingReasonBridge.cs" />
+    <Compile Include="ITransaction.cs" />
+    <Compile Include="IWeeklyHoursWorked.cs" />
+    <Compile Include="IAssociatedOrganization.cs" />
+    <Compile Include="IAddressVerificationTypeLookup.cs" />
+    <Compile Include="IEmployabilityPlanStatusType.cs" />
+    <Compile Include="IEPEIBridge.cs" />
+    <Compile Include="IFinalistAddress.cs" />
+    <Compile Include="ISpecialInitiative.cs" />
+    <Compile Include="IActivity.cs" />
+    <Compile Include="IFCDPRfaDetail.cs" />
+    <Compile Include="IParticipationStatusType.cs" />
+    <Compile Include="IParticipationStatu.cs" />
+    <Compile Include="IEmployabilityPlanGoalBridge.cs" />
+    <Compile Include="IEmployabilityPlanActivityBridge.cs" />
+    <Compile Include="IActivityContactBridge.cs" />
+    <Compile Include="IActivityLocation.cs" />
+    <Compile Include="IActivitySchedule.cs" />
+    <Compile Include="IActivityScheduleFrequencyBridge.cs" />
+    <Compile Include="IActivityType.cs" />
+    <Compile Include="IAKA.cs" />
+    <Compile Include="IEmployabilityPlan.cs" />
+    <Compile Include="IEnrolledProgramEPActivityTypeBridge.cs" />
+    <Compile Include="IFeatureURL.cs" />
+    <Compile Include="IFrequency.cs" />
+    <Compile Include="IFrequencyType.cs" />
+    <Compile Include="IGoal.cs" />
+    <Compile Include="IGoalEndReason.cs" />
+    <Compile Include="IGoalStep.cs" />
+    <Compile Include="IGoalType.cs" />
+    <Compile Include="IGoogleApi.cs" />
+    <Compile Include="IGoogleCity.cs" />
+    <Compile Include="IGooglePlace.cs" />
+    <Compile Include="IGoogleStreetAddress.cs" />
+    <Compile Include="IPEPOtherInformation.cs" />
+    <Compile Include="INonSelfDirectedActivity.cs" />
+    <Compile Include="IWorkerTaskList.cs" />
+    <Compile Include="IWorkerTaskCategory.cs" />
+    <Compile Include="IWorkerTaskStatus.cs" />
+    <Compile Include="Model\CommitStatus.cs" />
+    <Compile Include="Model\TimeLimitTicks.cs" />
+    <Compile Include="Model\TimeLimitWSSummary.cs" />
+    <Compile Include="Model\TimeLimitWebService.cs" />
+    <Compile Include="ICFRfaDetail.cs" />
+    <Compile Include="ITJTMJRfaDetail.cs" />
+    <Compile Include="ISP_DB2_PreCheck_POP_Claim_Result.cs" />
+    <Compile Include="ISP_DB2_RFAs_Result.cs" />
+    <Compile Include="ISP_GetCARESCaseNumber_Result.cs" />
+    <Compile Include="ISP_MostRecentFEPFromDB2_Result.cs" />
+    <Compile Include="ISupportiveService.cs" />
+    <Compile Include="ISupportiveServiceType.cs" />
+    <Compile Include="ITableauApi.cs" />
+    <Compile Include="ITableauData.cs" />
+    <Compile Include="IUSP_GetLastWWOrLFInstance.cs" />
+    <Compile Include="IUSP_MostRecentPrograms_Result.cs" />
+    <Compile Include="IUSP_ProgramStatus_Recent_Result.cs" />
+    <Compile Include="Repository\IWorkerTaskListRepository.cs" />
+    <Compile Include="Repository\IActivityLocationTypeRepository.cs" />
+    <Compile Include="Repository\IActivityRepository.cs" />
+    <Compile Include="Repository\IActivityTypeRepository.cs" />
+    <Compile Include="Repository\IAkaRepository.cs" />
+    <Compile Include="IAliasType.cs" />
+    <Compile Include="IAlternateMailingAddress.cs" />
+    <Compile Include="ICompletionReason.cs" />
+    <Compile Include="IConfidentialPinInformation.cs" />
+    <Compile Include="IContractArea.cs" />
+    <Compile Include="IElevatedAccess.cs" />
+    <Compile Include="IElevatedAccessReason.cs" />
+    <Compile Include="IEligibilityByFPL.cs" />
+    <Compile Include="IEmployerOfRecordInformation.cs" />
+    <Compile Include="IEmployerOfRecordType.cs" />
+    <Compile Include="IGenderType.cs" />
+    <Compile Include="IGoogleData.cs" />
+    <Compile Include="IOrganization.cs" />
+    <Compile Include="IOtherDemographic.cs" />
+    <Compile Include="IParticipantContactInfo.cs" />
+    <Compile Include="IRequestForAssistanceRuleReason.cs" />
+    <Compile Include="IRequestForAssistancePopulationTypeBridge.cs" />
+    <Compile Include="IRequestForAssistanceChild.cs" />
+    <Compile Include="IRequestForAssistanceEligibilityCheck.cs" />
+    <Compile Include="IRequestForAssistanceStatus.cs" />
+    <Compile Include="IRequestForAssistance.cs" />
+    <Compile Include="IDisabledPopulationType.cs" />
+    <Compile Include="IEnrolledProgramOrganizationPopulationTypeBridge.cs" />
+    <Compile Include="IPopulationTypeDto.cs" />
+    <Compile Include="IPopulationType.cs" />
+    <Compile Include="IReference.cs" />
+    <Compile Include="IAbsence.cs" />
+    <Compile Include="IAbsenceReason.cs" />
+    <Compile Include="IAccommodation.cs" />
+    <Compile Include="IActionAssignee.cs" />
+    <Compile Include="IActionItem.cs" />
+    <Compile Include="IActionNeededPage.cs" />
+    <Compile Include="IActionNeededPageActionItemBridge.cs" />
+    <Compile Include="IActionNeededTask.cs" />
+    <Compile Include="IActionPriority.cs" />
+    <Compile Include="IAgeCategory.cs" />
+    <Compile Include="IApplicationStatusType.cs" />
+    <Compile Include="IAssessmentType.cs" />
+    <Compile Include="IAuthorization.cs" />
+    <Compile Include="ICommon2Model.cs" />
+    <Compile Include="ICommonAssessmentSection.cs" />
+    <Compile Include="ICommonTypeModel.cs" />
+    <Compile Include="IContactInterval.cs" />
+    <Compile Include="ICommonDelCreatedModel.cs" />
+    <Compile Include="ICountyAndTribe.cs" />
+    <Compile Include="IDeleteReasonByRepeater.cs" />
+    <Compile Include="IDriversLicenseInvalidReasonType.cs" />
+    <Compile Include="IEducationAssessmentSection.cs" />
+    <Compile Include="IEmploymentWorkHistoryBridge.cs" />
+    <Compile Include="IEnrolledProgram.cs" />
+    <Compile Include="IEnrolledProgramStatusCode.cs" />
+    <Compile Include="IGoogleLocation.cs" />
+    <Compile Include="IHasDeleteReason.cs" />
+    <Compile Include="IHousingAssessmentSection.cs" />
+    <Compile Include="ILanguageAssessmentSection.cs" />
+    <Compile Include="ILegalIssuesAssessmentSection.cs" />
+    <Compile Include="IMilitaryTrainingAssessmentSection.cs" />
+    <Compile Include="INonCustodialParentsReferralAssessmentSection.cs" />
+    <Compile Include="IOffice.cs" />
+    <Compile Include="IOfficeTransfer.cs" />
+    <Compile Include="IRecentParticipant.cs" />
+    <Compile Include="IRuleReason.cs" />
+    <Compile Include="ISP_CwwReferredParticipantReturnType.cs" />
+    <Compile Include="ISP_ParticipantDetailsReturnType.cs" />
+    <Compile Include="ISSNType.cs" />
+    <Compile Include="ISuffixType.cs" />
+    <Compile Include="IUSP_ParticipantbyWorker_ProgramStatus_Result.cs" />
+    <Compile Include="IUSP_RecentlyAccessedQueryType_Result.cs" />
+    <Compile Include="ISP_PreCheckDisenrollment_Result.cs" />
+    <Compile Include="IT0459_IN_W2_LIMITS.cs" />
+    <Compile Include="IExtensionReason.cs" />
+    <Compile Include="IAssistanceGroupMember.cs" />
+    <Compile Include="IBarrierAccommodation.cs" />
+    <Compile Include="IBarrierAssessmentSection.cs" />
+    <Compile Include="IBarrierDetail.cs" />
+    <Compile Include="IBarrierDetailContactBridge.cs" />
+    <Compile Include="IBarrierSection.cs" />
+    <Compile Include="IBarrierSubtype.cs" />
+    <Compile Include="IBarrierType.cs" />
+    <Compile Include="IBarrierTypeBarrierSubTypeBridge.cs" />
+    <Compile Include="IBarrierTypeBarrierSubTypeBridgeRepository.cs" />
+    <Compile Include="IBenefitsOfferedAction.cs" />
+    <Compile Include="IBenefitsOfferedType.cs" />
+    <Compile Include="ICertificateIssuingAuthority.cs" />
+    <Compile Include="IChangeReason.cs" />
+    <Compile Include="IChild.cs" />
+    <Compile Include="IChildCareArrangement.cs" />
+    <Compile Include="IChildCareChildWithDisability.cs" />
+    <Compile Include="IChildYouthSection.cs" />
+    <Compile Include="IChildYouthSectionChild.cs" />
+    <Compile Include="IChildYouthSupportsAssessmentSection.cs" />
+    <Compile Include="ICity.cs" />
+    <Compile Include="ICommonDelModel.cs" />
+    <Compile Include="ICommonModel.cs" />
+    <Compile Include="IComplexModel.cs" />
+    <Compile Include="IContact.cs" />
+    <Compile Include="IContactTitleType.cs" />
+    <Compile Include="IConviction.cs" />
+    <Compile Include="IConvictionType.cs" />
+    <Compile Include="ICountry.cs" />
+    <Compile Include="ICourtDate.cs" />
+    <Compile Include="IDegreeType.cs" />
+    <Compile Include="IDeleteContact.cs" />
+    <Compile Include="IDeleteReason.cs" />
+    <Compile Include="IDriverLicense.cs" />
+    <Compile Include="IDriverLicenseType.cs" />
+    <Compile Include="IEducationExam.cs" />
+    <Compile Include="IEmploymentInformation.cs" />
+    <Compile Include="IEmploymentInformationBenefitsOfferedTypeBridge.cs" />
+    <Compile Include="IEmploymentInformationJobDutiesDetailsBridge.cs" />
+    <Compile Include="IEmploymentPreventionType.cs" />
+    <Compile Include="IEmploymentProgramType.cs" />
+    <Compile Include="IEmploymentStatusType.cs" />
+    <Compile Include="IExamEquivalencyType.cs" />
+    <Compile Include="IExamPassType.cs" />
+    <Compile Include="IExamResult.cs" />
+    <Compile Include="IExamSubjectMaxScoreType.cs" />
+    <Compile Include="IExamSubjectType.cs" />
+    <Compile Include="IExamType.cs" />
+    <Compile Include="IExamVersionType.cs" />
+    <Compile Include="IExceptionAudit.cs" />
+    <Compile Include="IFamilyBarriersAssessmentSection.cs" />
+    <Compile Include="IFamilyBarriersDetail.cs" />
+    <Compile Include="IFamilyBarriersSection.cs" />
+    <Compile Include="IFamilyMember.cs" />
+    <Compile Include="IFamilyNeed.cs" />
+    <Compile Include="IFamilyNeedDetail.cs" />
+    <Compile Include="IFamilySupplementalSecurityIncomeNeed.cs" />
+    <Compile Include="IFamilySupplementalSecurityIncomeNeedDetail.cs" />
+    <Compile Include="IFormalAssessment.cs" />
+    <Compile Include="IHasId.cs" />
+    <Compile Include="IHousingHistory.cs" />
+    <Compile Include="IHousingSection.cs" />
+    <Compile Include="IHousingSituation.cs" />
+    <Compile Include="IIntervalType.cs" />
+    <Compile Include="IIsCreated.cs" />
+    <Compile Include="IIsDeleted.cs" />
+    <Compile Include="ILoginRole.cs" />
+    <Compile Include="INonCustodialCaretaker.cs" />
+    <Compile Include="INonCustodialChild.cs" />
+    <Compile Include="INonCustodialParentRelationship.cs" />
+    <Compile Include="INonCustodialParentsAssessmentSection.cs" />
+    <Compile Include="INonCustodialParentsReferralSection.cs" />
+    <Compile Include="INonCustodialParentsSection.cs" />
+    <Compile Include="INonCustodialReferralChild.cs" />
+    <Compile Include="INonCustodialReferralParent.cs" />
+    <Compile Include="IParticipantChildRelationshipBridge.cs" />
+    <Compile Include="IPostSecondaryEducationAssessmentSection.cs" />
+    <Compile Include="IReferralContactInterval.cs" />
+    <Compile Include="IRelationship.cs" />
+    <Compile Include="IRole.cs" />
+    <Compile Include="IRoleAuthorization.cs" />
+    <Compile Include="ISymptom.cs" />
+    <Compile Include="IT0460_IN_W2_EXT.cs" />
+    <Compile Include="IT0754_LTR_RQST.cs" />
+    <Compile Include="ITimeLimit.cs" />
+    <Compile Include="ITimeLimitExtension.cs" />
+    <Compile Include="ITimeLimitState.cs" />
+    <Compile Include="ITimeLimitSummary.cs" />
+    <Compile Include="ITimeLimitType.cs" />
+    <Compile Include="ITransportationAssessmentSection.cs" />
+    <Compile Include="ITransportationSectionMethodBridge.cs" />
+    <Compile Include="IUSP_ReferralsAndTransfers_Result.cs" />
+    <Compile Include="IWageAction.cs" />
+    <Compile Include="IJobDutiesDetail.cs" />
+    <Compile Include="IJobFoundMethod.cs" />
+    <Compile Include="IJobSector.cs" />
+    <Compile Include="IJobType.cs" />
+    <Compile Include="ILeavingReason.cs" />
+    <Compile Include="ILicenseType.cs" />
+    <Compile Include="IMilitaryRank.cs" />
+    <Compile Include="INRSType.cs" />
+    <Compile Include="IOtherJobInformation.cs" />
+    <Compile Include="IParticipantEnrolledProgram.cs" />
+    <Compile Include="IPolarLookup.cs" />
+    <Compile Include="IActionNeeded.cs" />
+    <Compile Include="ISchoolCollegeEstablishment.cs" />
+    <Compile Include="IInformalAssessment.cs" />
+    <Compile Include="IInvolvedWorkProgram.cs" />
+    <Compile Include="IKnownLanguage.cs" />
+    <Compile Include="ILanguage.cs" />
+    <Compile Include="ILanguageSection.cs" />
+    <Compile Include="IEducationSection.cs" />
+    <Compile Include="ILegalIssuesSection.cs" />
+    <Compile Include="IMilitaryBranch.cs" />
+    <Compile Include="IMilitaryDischargeType.cs" />
+    <Compile Include="IMilitaryTrainingSection.cs" />
+    <Compile Include="IParticipant.cs" />
+    <Compile Include="IPendingCharge.cs" />
+    <Compile Include="IPostSecondaryCollege.cs" />
+    <Compile Include="IPostSecondaryDegree.cs" />
+    <Compile Include="IPostSecondaryEducationSection.cs" />
+    <Compile Include="IPostSecondaryLicense.cs" />
+    <Compile Include="ISchool.cs" />
+    <Compile Include="ISchoolGradeLevel.cs" />
+    <Compile Include="ISchoolGraduationStatus.cs" />
+    <Compile Include="ISPLType.cs" />
+    <Compile Include="ISP_CWWChildCareEligibiltyStatus_Result.cs" />
+    <Compile Include="IState.cs" />
+    <Compile Include="ITransportationSection.cs" />
+    <Compile Include="ITransportationType.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="IWageHour.cs" />
+    <Compile Include="IWageHourHistory.cs" />
+    <Compile Include="IWageHourHistoryJobActionBridge.cs" />
+    <Compile Include="IWageHourHistoryWageTypeBridge.cs" />
+    <Compile Include="IWageHourWageTypeBridge.cs" />
+    <Compile Include="IWageType.cs" />
+    <Compile Include="IWorkHistoryAssessmentSection.cs" />
+    <Compile Include="IWorkHistorySection.cs" />
+    <Compile Include="IWorkHistorySectionEmploymentPreventionTypeBridge.cs" />
+    <Compile Include="IWorkProgram.cs" />
+    <Compile Include="IWorker.cs" />
+    <Compile Include="IWorkProgramAssessmentSection.cs" />
+    <Compile Include="IWorkProgramSection.cs" />
+    <Compile Include="IWorkProgramStatus.cs" />
+    <Compile Include="IYesNoRefused.cs" />
+    <Compile Include="Repository\IAliasTypeRepository.cs" />
+    <Compile Include="Repository\IAlternateMailingAddressRepository.cs" />
+    <Compile Include="Repository\IConfidentialPinInformationRepository.cs" />
+    <Compile Include="Repository\IContractAreaRepository.cs" />
+    <Compile Include="Repository\IElevatedAccessReasonRepository.cs" />
+    <Compile Include="Repository\IElevatedAccessRepository.cs" />
+    <Compile Include="Repository\IEmployerOfRecordTypeRepository.cs" />
+    <Compile Include="Repository\IEmployerOfRecordInformationRepository.cs" />
+    <Compile Include="Repository\IFeatureURLRepository.cs" />
+    <Compile Include="Repository\IGoalRepository.cs" />
+    <Compile Include="Repository\IGoalTypeRepository.cs" />
+    <Compile Include="Repository\IOrganizationRepository.cs" />
+    <Compile Include="Repository\IEARequestParticipantBridgeRepository.cs" />
+    <Compile Include="Repository\IOtherDemographicRepository.cs" />
+    <Compile Include="Repository\IParticipantContactInfoRepository.cs" />
+    <Compile Include="Repository\IRuleReasonRepository.cs" />
+    <Compile Include="Repository\ICompletionReasonRepository.cs" />
+    <Compile Include="Repository\IEligibilityRepository.cs" />
+    <Compile Include="Repository\IGenderTypeRepository.cs" />
+    <Compile Include="Repository\IParticipantEnrolledProgramRepository.cs" />
+    <Compile Include="Repository\IRequestForAssistanceRuleReasonRepository.cs" />
+    <Compile Include="Repository\IRequestForAssistancePopulationTypeBridgeRepository.cs" />
+    <Compile Include="Repository\IRequestForAssistanceStatusRepository.cs" />
+    <Compile Include="Repository\IRequestForAssistanceRepository.cs" />
+    <Compile Include="Repository\IContractorRepository.cs" />
+    <Compile Include="Repository\IPopulationTypeRepository.cs" />
+    <Compile Include="Repository\IDisabledPopulationTypeRepository.cs" />
+    <Compile Include="Repository\IEnrolledProgramRepository.cs" />
+    <Compile Include="Repository\INonCustodialParentsReferralAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IOfficeTransferRepository.cs" />
+    <Compile Include="IYesNoUnknownLookup.cs" />
+    <Compile Include="IYesNoSkipLookup.cs" />
+    <Compile Include="JobProcessing\IJobQueue.cs" />
+    <Compile Include="JobProcessing\IJobQueueItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IReferredParticipant.cs" />
+    <Compile Include="Repository\IAssistanceGroupRepository.cs" />
+    <Compile Include="Repository\IBarrierDetailContactBridgeRepository.cs" />
+    <Compile Include="Repository\IAccommodationRepository.cs" />
+    <Compile Include="Repository\IBarrierAccommodationRepository.cs" />
+    <Compile Include="Repository\IBarrierAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IBarrierDetailRepository.cs" />
+    <Compile Include="Repository\IBarrierSectionRepository.cs" />
+    <Compile Include="Repository\IBarrierSubtypeRepository.cs" />
+    <Compile Include="Repository\IBarrierTypeRepository.cs" />
+    <Compile Include="Repository\IContactIntervalRepository.cs" />
+    <Compile Include="Repository\ICountyAndTribeRepository.cs" />
+    <Compile Include="Repository\IDeleteReasonByRepeaterRepository.cs" />
+    <Compile Include="Repository\IDeleteReasonRepository.cs" />
+    <Compile Include="Repository\IEducationAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IEmploymentPreventionFactorRepository.cs" />
+    <Compile Include="Repository\IExamPassTypeRepository.cs" />
+    <Compile Include="Repository\IExtensionRepository.cs" />
+    <Compile Include="Repository\IFamilyBarriersAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IAbsenceReasonRepository.cs" />
+    <Compile Include="Repository\IAbsenceRepository.cs" />
+    <Compile Include="Repository\IAgeCategoryRepository.cs" />
+    <Compile Include="Repository\IApplicationStatusTypeRepository.cs" />
+    <Compile Include="Repository\IBenefitsOfferedTypeRepository.cs" />
+    <Compile Include="Repository\ICertificateIssuingAuthorityRepository.cs" />
+    <Compile Include="Repository\IChildCareArrangementRepository.cs" />
+    <Compile Include="Repository\IChildRepository.cs" />
+    <Compile Include="Repository\IChildYouthSectionChildRepository.cs" />
+    <Compile Include="Repository\IChildYouthSectionRepository.cs" />
+    <Compile Include="Repository\IChildYouthSupportsAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\ICityRepository.cs" />
+    <Compile Include="Repository\IContactRepository.cs" />
+    <Compile Include="Repository\IContactTitleTypeRepository.cs" />
+    <Compile Include="Repository\IConvictionRepository.cs" />
+    <Compile Include="Repository\IConvictionTypeRepository.cs" />
+    <Compile Include="Repository\ICountryRepository.cs" />
+    <Compile Include="Repository\ICourtDateRepository.cs" />
+    <Compile Include="Repository\ICwwRepository.cs" />
+    <Compile Include="Repository\IDegreeTypeRepository.cs" />
+    <Compile Include="Repository\IEducationExamRepository.cs" />
+    <Compile Include="Repository\IEducationSectionRepository.cs" />
+    <Compile Include="Repository\IEmploymentInformationJobDutiesDetailsBridgeRepository.cs" />
+    <Compile Include="Repository\IEmploymentProgramTypeRepository.cs" />
+    <Compile Include="Repository\IEmploymentRepository.cs" />
+    <Compile Include="Repository\IEmploymentStatusTypeRepository.cs" />
+    <Compile Include="Repository\IExamResultRepository.cs" />
+    <Compile Include="Repository\IExamSubjectMaxScoreTypeRepository.cs" />
+    <Compile Include="Repository\IExamSubjectTypeRepository.cs" />
+    <Compile Include="Repository\IExamTypeRepository.cs" />
+    <Compile Include="Repository\IFamilyBarriersSectionRepository.cs" />
+    <Compile Include="Repository\IFamilyMemberRepository.cs" />
+    <Compile Include="Repository\IFamilyBarriersDetailRepository.cs" />
+    <Compile Include="Repository\IFamilyNeedRepository.cs" />
+    <Compile Include="Repository\IFamilySupplementalSecurityIncomeNeedDetailRepository.cs" />
+    <Compile Include="Repository\IFamilySupplementalSecurityIncomeNeedRepository.cs" />
+    <Compile Include="Repository\IFieldDataRepository.cs" />
+    <Compile Include="Repository\IFormalAssessmentRepository.cs" />
+    <Compile Include="Repository\IHistoryRepository.cs" />
+    <Compile Include="Repository\IHousingAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IHousingHistoryRepository.cs" />
+    <Compile Include="Repository\IHousingSectionRepository.cs" />
+    <Compile Include="Repository\IHousingSituationRepository.cs" />
+    <Compile Include="Repository\IInformalAssessmentRepository.cs" />
+    <Compile Include="Repository\IIntervalTypeRepository.cs" />
+    <Compile Include="Repository\IInvolvedWorkProgramRepository.cs" />
+    <Compile Include="Repository\IJobDutyDetailRepository.cs" />
+    <Compile Include="Repository\IJobFoundMethodRepository.cs" />
+    <Compile Include="Repository\IJobSectorRepository.cs" />
+    <Compile Include="Repository\IJobTypeRepository.cs" />
+    <Compile Include="Repository\IKnownLanguageRepository.cs" />
+    <Compile Include="Repository\ILanguageAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\ILanguageRepository.cs" />
+    <Compile Include="Repository\ILanguageSectionRepository.cs" />
+    <Compile Include="Repository\ILeavingReasonRepository.cs" />
+    <Compile Include="Repository\ILegalIssuesAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\ILegalIssuesSectionRepository.cs" />
+    <Compile Include="Repository\ILicenseTypeRepository.cs" />
+    <Compile Include="Repository\IMilitaryBranchRepository.cs" />
+    <Compile Include="Repository\IMilitaryDischargeTypeRepository.cs" />
+    <Compile Include="Repository\IMilitaryRankRepository.cs" />
+    <Compile Include="Repository\IMilitaryTrainingAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IMilitaryTrainingSectionRepository.cs" />
+    <Compile Include="Repository\IEmploymentInformationBenefitsOfferedTypeBridgeRepository.cs" />
+    <Compile Include="Repository\INonCustodialCaretakerRepository.cs" />
+    <Compile Include="Repository\INonCustodialChildRepository.cs" />
+    <Compile Include="Repository\INonCustodialParentReferralSectionRepository.cs" />
+    <Compile Include="Repository\INonCustodialParentRelationshipRepository.cs" />
+    <Compile Include="Repository\INonCustodialParentsAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\INonCustodialParentSectionRepository.cs" />
+    <Compile Include="Repository\INonCustodialReferralChildRepository.cs" />
+    <Compile Include="Repository\INonCustodialReferralParentRepository.cs" />
+    <Compile Include="Repository\INrsTypeRepository.cs" />
+    <Compile Include="Repository\IOfficeRepository.cs" />
+    <Compile Include="Repository\IOtherJobInformationRepository.cs" />
+    <Compile Include="Repository\IParticipantRepository.cs" />
+    <Compile Include="Repository\IPendingChargeRepository.cs" />
+    <Compile Include="Repository\IPolarLookupRepository.cs" />
+    <Compile Include="Repository\IPostSecondaryCollegeRepository.cs" />
+    <Compile Include="Repository\IPostSecondaryDegreeRepository.cs" />
+    <Compile Include="Repository\IPostSecondaryEducationAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IPostSecondaryEducationRepository.cs" />
+    <Compile Include="Repository\IPostSecondaryLicenseRepository.cs" />
+    <Compile Include="Repository\IActionNeededRepository.cs" />
+    <Compile Include="Repository\IReferralContactIntervalRepository.cs" />
+    <Compile Include="Repository\IRelationshipRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\ISchoolGradeLevelRepository.cs" />
+    <Compile Include="Repository\ISchoolCollegeEstablishmentRepository.cs" />
+    <Compile Include="Repository\ISecurityRepository.cs" />
+    <Compile Include="Repository\ISplTypeRepository.cs" />
+    <Compile Include="Repository\ISSNTypeRepository.cs" />
+    <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ISuffixTypeRepository.cs" />
+    <Compile Include="Repository\ISupportiveServiceTypeRepository.cs" />
+    <Compile Include="Repository\ISymptomRepository.cs" />
+    <Compile Include="Repository\IT0459_IN_W2_LIMITSRepository.cs" />
+    <Compile Include="Repository\IT0460_IN_W2_EXTRepository.cs" />
+    <Compile Include="Repository\IT0754_LTR_RQST_Repository.cs" />
+    <Compile Include="Repository\ITimelimitRepository.cs" />
+    <Compile Include="Repository\ITransactionRepository.cs" />
+    <Compile Include="Repository\ITransportationAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\ITransportationSectionMethodBridgeRepository.cs" />
+    <Compile Include="Repository\ITransportationTypeRepository.cs" />
+    <Compile Include="Repository\ITransportationSectionRepository.cs" />
+    <Compile Include="Repository\IWageHourHistoryRepository.cs" />
+    <Compile Include="Repository\IWageHourHistoryWageTypeBridgeRepository.cs" />
+    <Compile Include="Repository\IWageHourRepository.cs" />
+    <Compile Include="Repository\IWageHourWageTypeBridgeRepository.cs" />
+    <Compile Include="Repository\IWageTypeRepository.cs" />
+    <Compile Include="Repository\IWorkHistoryAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IWorkHistorySectionEmploymentPreventionTypeBridgeRepository.cs" />
+    <Compile Include="Repository\IWorkingHistorySectionRepository.cs" />
+    <Compile Include="Repository\IWorkerRepository.cs" />
+    <Compile Include="Repository\IWorkProgramAssessmentSectionRepository.cs" />
+    <Compile Include="Repository\IWorkProgramRepository.cs" />
+    <Compile Include="Repository\IWorkProgramSectionRepository.cs" />
+    <Compile Include="Repository\IWorkProgramStatusRepository.cs" />
+    <Compile Include="Repository\ISchoolGraduationStatusRepository.cs" />
+    <Compile Include="Repository\IWpGeoAreaRepository.cs" />
+    <Compile Include="Services\IContentService.cs" />
+    <Compile Include="Services\IJobQueueService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Core\DCF.Timelimits.Core.csproj">
+      <Project>{6AA6D89D-E1CD-4DBD-9BE4-2D185CC46B62}</Project>
+      <Name>DCF.Timelimits.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Interfaces\DCF.Timelimits.Interfaces.csproj">
+      <Project>{036be20d-e596-414a-a452-cf96de5b24a0}</Project>
+      <Name>DCF.Timelimits.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCF.Wwp.Timelimits\DCF.Timelimits.Rules\DCF.Timelimits.Rules.csproj">
+      <Project>{E78C89CF-2F8A-4F2A-9C2A-71A89C16130C}</Project>
+      <Name>DCF.Timelimits.Rules</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

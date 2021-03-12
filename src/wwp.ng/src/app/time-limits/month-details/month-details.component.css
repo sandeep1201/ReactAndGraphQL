@@ -1,0 +1,140 @@
+:host{
+    position: relative;
+    display:block;
+}
+header{
+    padding:.2em 0;
+    border-bottom: 1px solid #c9d2d6;
+    margin-bottom: 1.5rem;
+    display:flex;
+    align-items: flex-end
+}
+
+header h3 {
+    font-size: 1.9em;
+    align-self: flex-start;
+    flex-grow: 1;
+    margin:0;
+    margin-top: 0.25em;
+}
+
+section{
+     display:flex;
+}
+.month-details{
+    min-width: 185px;
+    flex-basis: 185px;
+    margin-left:0px;
+}
+
+.month-details > div:not(:last-child){
+  margin-bottom:1rem;
+}
+
+.month-details h5, h3 span{
+    color:#7F8C8D;
+    font-size: 1rem;
+    margin-bottom:.2rem;
+}
+
+.month-details .time-limit-type i {
+  color:#000000;
+}
+
+ .notes-details{
+     min-width: 50%;
+     flex-shrink:1;
+    flex-grow:1;
+ }
+
+.action-history{
+  position:relative;
+}
+
+.action-history table{
+  table-layout: fixed;
+}
+
+.action-history table th,
+.action-history table td
+{
+  border-bottom:1px solid #BDC3C7;
+}
+
+.action-history table th{
+  text-transform: uppercase;
+  font-size: .8em;
+  font-weight: 700;
+  color: #63899D;
+  padding-bottom: 0;
+}
+
+.action-history .theader{
+  text-transform: uppercase;
+  font-size: .8em;
+  font-weight: 700;
+  color: #63899D;
+  padding-bottom: 0;
+}
+
+.action-history .tborder{
+  border-bottom: 1px solid #bdc3c7
+}
+
+.action-history table .col1{
+  width:180px;
+}
+
+.action-history table .col3,
+.action-history table .col4,
+.action-history table .col5{
+  width:100px;
+}
+.action-history table .col6{
+  width:150px;
+}
+
+.loading-wrapper{
+  min-height: 80px;
+}
+.history-loader{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color:#1F5673;
+  opacity: .6;
+  z-index: 950;
+  transition: all 0.6s;
+}
+
+.loader {
+  position: absolute;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.edit-month{
+  padding-top:2.5em;
+}
+
+
+>>> app-modified-stamp.inline{
+  display: inline-block;
+}
+
+>>> app-modified-stamp.inline blockquote.history{
+  margin:auto !important;
+  position: static !important;
+  top:auto !important;;
+  right:auto !important;;
+}
+
+>>> app-modified-stamp.inline blockquote.history div.lastEdit {
+      float: none !important;
+      text-align: left !important;
+      padding:0 !important;
+    }

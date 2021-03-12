@@ -1,0 +1,167 @@
+:host .task-card {
+    border: 1px solid #bdc3c7;
+    background: #fff;
+    line-height: 1em;
+    border-bottom-width: 3px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, .1);
+}
+
+:host div.cell {
+    border-bottom: 1px solid #bdc3c7;
+}
+
+:host div.cell>div {
+    padding: 0.5em;
+}
+
+.c-head {
+    display: flex;
+}
+
+.c-head > div {
+    vertical-align: top;
+}
+
+.c-head .status-holder {
+    font-size: 2em;
+    padding: 0.25em;
+    margin: 0.25em;
+    display: inline-block;
+    border-right: 1px solid #bdc3c7;
+    user-select: none;
+}
+
+.c-head .status-holder span {
+    padding-right: 0.25em;
+    color: #95a5a6;
+    transition: all 0.5s;
+}
+
+.c-head .status-holder span.ongoing:hover {
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.c-head .status-holder span.completed {
+    color: #27ae60;
+    opacity: 0.8;
+}
+
+.c-head .status-holder span.not-completed {
+    color: #e74c3c;
+    opacity: 0.8;
+}
+
+.c-head .main-info-holder {
+    display: inline-block;
+    padding: 0.5em 0;
+}
+
+.c-head .main-info-holder .titles {
+    padding: 0.25em 0;
+    font-size: 1.25em;
+    color: #7f8c8d;
+}
+
+.c-head .main-info-holder .titles span.page {
+    font-weight: 700;
+}
+
+.c-head .main-info-holder .titles span.action-item {
+    border-left: 1px solid #bdc3c7;
+    padding-left: 0.5em;
+    font-size: 0.75em;
+}
+
+.c-head .main-info-holder .follow-up {
+    padding: 0.25em 0;
+}
+
+div.cell.c-details {
+    background: #F9FAFA;
+}
+
+.div.c-info {
+    display: table-row;
+    width: 100%;
+    border-bottom: none;
+    background: #F9FAFA;
+}
+
+div.c-info .info-thirds {
+    display: table-cell;
+    width: 100%;
+    background: #F9FAFA;
+}
+
+div.c-info .info-thirds>div {
+    width: 33%;
+    border-right: 1px solid #bdc3c7;
+    display: block;
+    padding: 0.35em 0.5em;
+    float: left;
+}
+
+div.c-info .info-thirds>div:last-child {
+    border-right: none;
+}
+
+div.c-info .info-thirds>div.hidden {
+    display: none;
+}
+
+.ci-label {
+    clear: both;
+    display: block;
+    color: #63899D;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.ci-label i {
+    margin-right: 0.25em;
+    /* font-size:1rem; */
+    color: inherit;
+}
+
+.ci-value {
+    clear: both;
+    display: inline-block;
+    padding: 0.25em 0;
+    font-size: 0.9em;
+}
+
+div.c-info .info-edit {
+    padding: 0;
+    display: table-cell;
+    /* float:right; */
+}
+
+:host ul.app-option-list {
+    display: block;
+    margin: 0px -12px 0px 0px ;
+    width: 7em;
+}
+
+:host ul.app-option-list li {
+    border-left: 1px solid #c9d2d6;
+    display: block;
+    float: left;
+    height: 100%;
+}
+
+:host ul.app-option-list li a {
+    color: #95a5a6;
+    padding: 0.75em;
+    font-size: 1.25em;
+    display: block;
+    height: 100%;
+    background: #F9FAFA;
+}
+
+:host ul.app-option-list li a:hover {
+    cursor: pointer;
+    background: #fff;
+    color: #7f8c8d;
+}

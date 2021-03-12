@@ -1,0 +1,301 @@
+{
+  "wcfSoap": [
+    {
+      "env": "WWPDEV",
+      "endpoint": "https://dev.cares.esb.wisconsin.gov/esb/SOAPHttp",
+      "services": [
+        {
+          "name": "MCI",
+          "uid": "mciwwpsrvcuser",
+          "to": "http://mci/wwp_sys_V1"
+        },
+        {
+          "name": "CWWIndvService",
+          "uid": "cwwwwpsrvcuser",
+          "to": "http://cares/CWWIndividualService_sys_V1"
+        },
+        {
+          "name": "CWWKeySecService",
+          "uid": "cwwwwpkeysrvcuser",
+          "to": "http://cares/CWWKeySecurityService_sys_V1"
+        }
+      ],
+      "useWS": true
+    },
+    {
+      "env": "WWPSYS",
+      "endpoint": "https://dev.cares.esb.wisconsin.gov/esb/SOAPHttp",
+      "services": [
+        {
+          "name": "MCI",
+          "uid": "mciwwpsrvcuser",
+          "to": "http://mci/wwp_sys_V1"
+        },
+        {
+          "name": "CWWIndvService",
+          "uid": "cwwwwpsrvcuser",
+          "to": "http://cares/CWWIndividualService_sys_V1"
+        },
+        {
+          "name": "CWWKeySecService",
+          "uid": "cwwwwpkeysrvcuser",
+          "to": "http://cares/CWWKeySecurityService_sys_V1"
+        }
+      ],
+      "useWS": true
+    },
+    {
+      "env": "WWPACC",
+      "endpoint": "https://uat.cares.esb.wisconsin.gov/esb/SOAPHttp",
+      "services": [
+        {
+          "name": "MCI",
+          "uid": "mciwwpsrvcuser",
+          "to": "http://mci/wwp_uat_V1"
+        },
+        {
+          "name": "CWWIndvService",
+          "uid": "cwwwwpsrvcuser",
+          "to": "http://cares/CWWIndividualService_uat_V1"
+        },
+        {
+          "name": "CWWKeySecService",
+          "uid": "cwwwwpkeysrvcuser",
+          "to": "http://cares/CWWKeySecurityService_uat_V1"
+        }
+      ],
+      "useWS": true
+    },
+    {
+      "env": "WWPTRN",
+      "endpoint": "https://uat.cares.esb.wisconsin.gov/esb/SOAPHttp",
+      "services": [
+        {
+          "name": "MCI",
+          "uid": "mciwwpsrvcuser-trn",
+          "to": "http://mci/wwp_trn_V1"
+        },
+        {
+          "name": "CWWIndvService",
+          "uid": "cwwwwpsrvcuser-trn",
+          "to": "http://cares/CWWIndividualService_trn_V1"
+        },
+        {
+          "name": "CWWKeySecService",
+          "uid": "cwwwwpkeysrvcuser-trn",
+          "to": "http://cares/CWWKeySecurityService_trn_V1"
+        }
+      ],
+      "useWS": true
+    },
+    {
+      "env": "WWP",
+      "endpoint": "https://cares.esb.wisconsin.gov/esb/SOAPHttp",
+      "services": [
+        {
+          "name": "MCI",
+          "uid": "mciwwpsrvcuser",
+          "to": "http://mci/wwp_V1"
+        },
+        {
+          "name": "CWWIndvService",
+          "uid": "cwwwwpsrvcuser",
+          "to": "http://cares/CWWIndividualService_V1"
+        },
+        {
+          "name": "CWWKeySecService",
+          "uid": "cwwwwpkeysrvcuser",
+          "to": "http://cares/CWWKeySecurityService_V1"
+        }
+      ],
+      "useWS": true
+    }
+  ],
+  "google": {
+    "apiKey": "AIzaSyCe8b2xEeT9zXtjkpQwBzGme48b_tyVK_c",
+    "endpoints": [
+      {
+        "name": "getLatLong",
+        "url": "https://maps.googleapis.com/maps/api/place/details/json?key={API_KEY}&placeid={placeId}&fields=geometry"
+      },
+      {
+        "name": "getPlaceDetails",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/details/json?key={API_KEY}&placeid={placeId}&fields=address_component,formatted_address,geometry"
+      },
+      {
+        "name": "getPredictedUSCities",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&components=country:us&language=en&key={API_KEY}&input={cityName}"
+      },
+      {
+        "name": "getPredictedCities",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=en&key={API_KEY}&input={cityName}"
+      },
+      {
+        "name": "getPredictedSchools",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latLong[0]},{latLong[1]}&radius=20000&type=school&language=en&key={API_KEY}&keyword={schoolName}"
+      },
+      {
+        "name": "getPredictedStreetAddresses",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?types=address&location={latLong[0]},{latLong[1]}&radius=20000&language=en&key={API_KEY}&input={streetAddress}"
+      },
+      {
+        "name": "getPredictedUSStreetAddresses",
+        "url":
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?types=address&components=country:us&location={latLong[0]},{latLong[1]}&radius=20000&language=en&key={API_KEY}&input={streetAddress}"
+      }
+    ]
+  },
+  "finalist": {
+    "endpoints": [
+      {
+        "env": "WWPDEV",
+        "endpoint": "http://dev.finalistWeb.wi.gov/finalistWeb/services/USPostalAddress"
+      },
+      {
+        "env": "WWPSYS",
+        "endpoint": "http://dev.finalistWeb.wi.gov/finalistWeb/services/USPostalAddress"
+      },
+      {
+        "env": "WWPACC",
+        "endpoint": "http://test.finalistWeb.wi.gov/finalistWeb/services/USPostalAddress"
+      },
+      {
+        "env": "WWPTRN",
+        "endpoint": "http://finalistWeb.wi.gov/finalistWeb/services/USPostalAddress"
+      },
+      {
+        "env": "WWP",
+        "endpoint": "http://finalistWeb.wi.gov/finalistWeb/services/USPostalAddress"
+      }
+    ]
+  },
+  "entSec": [
+    {
+      "env": "WWPDEV",
+      "endpoint": "https://entsecdev.wisconsin.gov/",
+      "interopApplicationKey": "ZjUyK3J3SE9VajZjUURDcldIdTlRVTlXa3JESG9VVXZCQTJMTW15REFCVT0",
+      "applicationKey": "cUQ1Wkt5RVlWSXZhUUpaWW15ejkvTlhwaTNzMTBvVUtCQjJFTnhHTy93MD0"
+    },
+    {
+      "env": "WWPSYS",
+      "endpoint": "https://entsecacc.wisconsin.gov/",
+      "interopApplicationKey": "eHlLZkNEMmpORTlxalRXZnRaa2dycHZxTG9KSy94ZThOcGxrZE8yYWZwVT0",
+      "applicationKey": "dkVCekZoZEJXcnNSTStnTUN0NGhsNC83UEFjZDBjS2FBbGFVOHRiS2ZXTT0"
+    },
+    {
+      "env": "WWPACC",
+      "endpoint": "https://entsecacc.wisconsin.gov/",
+      "interopApplicationKey": "eHlLZkNEMmpORTlxalRXZnRaa2dycHZxTG9KSy94ZThOcGxrZE8yYWZwVT0",
+      "applicationKey": "dkVCekZoZEJXcnNSTStnTUN0NGhsNC83UEFjZDBjS2FBbGFVOHRiS2ZXTT0"
+    },
+    {
+      "env": "WWPTRN",
+      "endpoint": "https://entsecedu.wisconsin.gov/",
+      "interopApplicationKey": "TBD",
+      "applicationKey": "c1lpUkhQNklVN09nYjBCZmNZMndvWldBOHJWYlZOZHVMcVdBMzhLbzVkND0"
+    },
+    {
+      "env": "WWP",
+      "endpoint": "https://entsec.wisconsin.gov/",
+      "interopApplicationKey": "RXBoTGxqdnRIRERTM2drZ3d2QU1ldEMvN00zK2d3SURpaWFvYUhTMDdMTT0",
+      "applicationKey": "RFBJZWY4V1JETWxpZFVLZXl0b2M3TGwzYmxQWlBkMjRKVmY0dHVvR25Xdz0"
+    }
+  ],
+  "tableau": [
+    {
+      "env": "WWPDEV",
+      "endpoint": "https://devdoaenterprisebi.wi.gov/trusted",
+      "username": "DCF_W2",
+      "siteId": "DEV-DCF",
+      "ipAddress": "10.37.102.88"
+    },
+    {
+      "env": "WWPSYS",
+      "endpoint": "https://devdoaenterprisebi.wi.gov/trusted",
+      "username": "DCF_W2",
+      "siteId": "DEV-DCF",
+      "ipAddress": "10.37.102.88"
+    },
+    {
+      "env": "WWPACC",
+      "endpoint": "https://bi.wisconsin.gov/trusted",
+      "username": "DCF_W2",
+      "siteId": "DCF",
+      "ipAddress": "10.37.101.17"
+    },
+    {
+      "env": "WWPTRN",
+      "endpoint": "https://bi.wisconsin.gov/trusted",
+      "username": "DCF_W2",
+      "siteId": "DCF",
+      "ipAddress": "10.37.100.52"
+    },
+    {
+      "env": "WWP",
+      "endpoint": "https://bi.wisconsin.gov/trusted",
+      "username": "DCF_W2",
+      "siteId": "DCF",
+      "ipAddress": "10.37.100.51"
+    }
+  ],
+  "ecf": [
+    {
+      "env": "WWPDEV",
+      "endpoint": "https://cmwss.enterprise.wistate.us/CMBSpecificWebService/services/CMWebService",
+      "cmservername": "ICMNLSS1",
+      "cmuserid": "DCFCMGS",
+      "cmuserpwd": "SG07M28C"
+    },
+    {
+      "env": "WWPSYS",
+      "endpoint": "https://cmwss.enterprise.wistate.us/CMBSpecificWebService/services/CMWebService",
+      "cmservername": "ICMNLSS1",
+      "cmuserid": "DCFCMGS",
+      "cmuserpwd": "SG07M28C"
+    },
+    {
+      "env": "WWPACC",
+      "endpoint": "http://cmwsa.enterprise.wistate.us:9082/CMBSpecificWebService/services/CMWebService",
+      "cmservername": "ICMNLSA1",
+      "cmuserid": "DCFCMGA",
+      "cmuserpwd": "SG07M28C"
+    },
+    {
+      "env": "WWPTRN",
+      "endpoint": "http://cmwsa.enterprise.wistate.us:9082/CMBSpecificWebService/services/CMWebService",
+      "cmservername": "ICMNLSA1",
+      "cmuserid": "DCFCMGA",
+      "cmuserpwd": "SG07M28C"
+    },
+    {
+      "env": "WWP",
+      "endpoint": "http://cmwsp.enterprise.wistate.us:9082/CMBSpecificWebService/services/CMWebService",
+      "cmservername": "ICMNLSP1",
+      "cmuserid": "DCFCMGP",
+      "cmuserpwd": "SG07M28C"
+    }
+  ],
+  "emailAddr": {
+    "smtpServer": "smtpout.wi.gov",
+    "smtpPort": 25,
+    "from": "DCFDLWWPBITSSupport@wisconsin.gov",
+    "fromName": "DCF DL WWP BITS Support",
+    "sendAddrs": [
+      {
+        "jobName": "Update Placement Web Service",
+
+        "to": [
+          "DCFDLWWPBITSSupport@wisconsin.gov"
+        ],
+        "cc": [
+          "silambholi.tholkappian@wisconsin.gov"
+        ]
+      }
+    ]
+  }
+}

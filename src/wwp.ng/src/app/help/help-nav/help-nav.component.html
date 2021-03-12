@@ -1,0 +1,104 @@
+<!-- DO NOT MODIFY THE HIERARCHY OF THIS MENU -->
+<!-- DO NOT MODIFY THE HIERARCHY OF THIS MENU -->
+<!-- DO NOT MODIFY THE HIERARCHY OF THIS MENU -->
+<!-- DO NOT MODIFY THE HIERARCHY OF THIS MENU -->
+<!-- DO NOT MODIFY THE HIERARCHY OF THIS MENU -->
+
+<div class="bc">&nbsp;
+  <span class="tomain hidden"><i class="fa fa-angle-left"></i> Back</span>
+</div>
+
+  <ul id="topmenu" class="help-menu open">
+    <!--<li  class="menu-item">Employability Plan</li>-->
+    <li class="menu-item parent" data-target="informal-assessment">Informal Assessment</li>
+    <li class="menu-item parent" data-target="participant-tools">Participant Tools</li>
+    <li class="menu-item parent" data-target="time-limits">Time Limit</li>
+    <li class="menu-item parent" data-target="worker-tools">Worker Tools</li>
+    <li class="menu-item" (click)="menuItemClicked('home',$event)"><i class="fa fa-file-alt"></i> Home Page</li>
+    <li class="menu-item" (click)="menuItemClicked('history',$event)"><i class="fa fa-file-alt"></i> History Functionality</li>
+    <li class="menu-item" (click)="menuItemClicked('deleting',$event)"><i class="fa fa-file-alt"></i> Advanced Deleting</li>
+    <li class="menu-item" (click)="menuItemClicked('helpdesk',$event)"><i class="fa fa-file-alt"></i> Contacting Help Desk</li>
+  </ul>
+
+  <ul id="participant-tools" class="submenu">
+    <li class="parent"><span>Actions Needed</span>
+      <ul>
+        <li class="menu-item"  (click)="menuItemClicked('an-list',$event)"><i class="fa fa-file-alt"></i> Actions List</li>
+        <li class="menu-item" (click)="menuItemClicked('an-edit',$event)"><i class="fa fa-file-alt"></i> Add/Edit Follow-Up Item</li>
+      </ul>
+    </li>
+    <li class="parent"><span>Barriers</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('barr-list',$event)"><i class="fa fa-file-alt"></i> Barrier List</li>
+        <li class="menu-item" (click)="menuItemClicked('barr-edit',$event)"><i class="fa fa-file-alt"></i> Add/Edit Barrier</li>
+      </ul>
+    </li>
+    <li class="parent"><span>Contacts</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('cont-list',$event)"><i class="fa fa-file-alt"></i> Contacts List</li>
+        <li class="menu-item" (click)="menuItemClicked('cont-edit',$event)"><i class="fa fa-file-alt"></i> Add/Edit Contact</li>
+      </ul>
+    </li>
+    <li class="parent"><span>Test Scores</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('ts-list',$event)"><i class="fa fa-file-alt"></i> Test Score List</li>
+        <li class="menu-item" (click)="menuItemClicked('ts-edit',$event)"><i class="fa fa-file-alt"></i> Add/Edit Test Score</li>
+      </ul>
+    </li>
+    <li class="parent"><span>Work History</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('wh-list',$event)"><i class="fa fa-file-alt"></i> Work History List</li>
+        <li class="menu-item" (click)="menuItemClicked('wh-edit',$event)"><i class="fa fa-file-alt"></i> Add/Edit Work History</li>
+        <li class="menu-item" (click)="menuItemClicked('wh-sub',$event)"><i class="fa fa-file-alt"></i> Subsidized Period Tracking</li>
+        <li class="menu-item" (click)="menuItemClicked('wh-pay',$event)"><i class="fa fa-file-alt"></i> Payments</li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul id="informal-assessment" class="submenu">
+    <li class="parent"><span>Informal Assessment</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('ia-lang',$event)"><i class="fa fa-file-alt"></i> Languages</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-work',$event)"><i class="fa fa-file-alt"></i> Work History</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-work-programs',$event)"><i class="fa fa-file-alt"></i> Work Programs</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-edu',$event)"><i class="fa fa-file-alt"></i> Education History</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-post-sec',$event)"><i class="fa fa-file-alt"></i> Post-Secondary Education</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-military',$event)"><i class="fa fa-file-alt"></i> Military Service</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-housing',$event)"><i class="fa fa-file-alt"></i> Housing</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-trans',$event)"><i class="fa fa-file-alt"></i> Transportation</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-legal',$event)"><i class="fa fa-file-alt"></i> Legal Issues</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-parti-barriers',$event)"><i class="fa fa-file-alt"></i> Participant Barriers</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-child',$event)"><i class="fa fa-file-alt"></i> Child and Youth Supports</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-fam-barriers',$event)"><i class="fa fa-file-alt"></i> Family Barriers</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-ncp',$event)"><i class="fa fa-file-alt"></i> Non-Custodial Parents</li>
+        <li class="menu-item" (click)="menuItemClicked('ia-ncpr',$event)"><i class="fa fa-file-alt"></i> NCP Referral</li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul id="time-limits" class="submenu">
+    <li class="parent"><span>Time Limit</span>
+      <ul>
+        <li class="menu-item"(click)="menuItemClicked('tl-overview',$event)"><i class="fa fa-file-alt"></i> Overview</li>
+        <li class="menu-item"(click)="menuItemClicked('tl-ext-decisions',$event)"><i class="fa fa-file-alt"></i> Extension Decisions</li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul id="worker-tools" class="submenu">
+    <li class="parent"><span>Client Registration</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('cr-info',$event)"><i class="fa fa-file-alt"></i> Basic Information</li>
+        <li class="menu-item" (click)="menuItemClicked('cr-demo',$event)"><i class="fa fa-file-alt"></i> Demographics</li>
+        <li class="menu-item" (click)="menuItemClicked('cr-elig',$event)"><i class="fa fa-file-alt"></i> TJ/TMJ Eligibility</li>
+        <li class="menu-item" (click)="menuItemClicked('cr-child',$event)"><i class="fa fa-file-alt"></i> Children Information</li>
+        <li class="menu-item" (click)="menuItemClicked('cr-work',$event)"><i class="fa fa-file-alt"></i> Work Programs Referral</li>
+      </ul>
+    </li>
+    <li class="parent"><span>Enrollment</span>
+      <ul>
+        <li class="menu-item" (click)="menuItemClicked('en-main',$event)"><i class="fa fa-file-alt"></i> Basic Information</li>
+        <li class="menu-item" (click)="menuItemClicked('en-dis',$event)"><i class="fa fa-file-alt"></i> Disenrollment</li>
+      </ul>
+    </li>
+  </ul>

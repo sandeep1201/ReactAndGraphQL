@@ -1,0 +1,90 @@
+<ng-container *ngIf="isLoaded">
+  <div class="modal-overlay">
+    <div class="modal-container">
+      <header>
+        <h4>Weekly Hours Worked</h4>
+      </header>
+      <section>
+        <div
+          *ngIf="precheck && (precheck.errors && precheck.errors.length > 0) || (precheck.warnings && precheck.warnings.length > 0)"
+          class="row control-group pb-1">
+          <div class="col-md-12">
+            <ul *ngIf="precheck?.errors != null"
+              class="list-group">
+              <li *ngFor="let error of precheck.errors"
+                class="list-group-item list-group-item-danger">{{error}}</li>
+            </ul>
+            <ul *ngIf="precheck?.warnings != null"
+              class="list-group">
+              <li *ngFor="let warning of precheck.warnings"
+                class="list-group-item list-group-item-warning">
+                {{warning}}</li>
+            </ul>
+            &nbsp;
+          </div>
+        </div>
+        <!-- <app-dialog-box *ngIf="isDialogPresent"
+          (dialogClose)="exitweeklyHoursWorkedEntryEditIgnoreChanges($event)"
+          (cancel)="cancelOutOfDialogueView($event)"
+          [doesNotNavigateBack]="true"></app-dialog-box> -->
+        <app-validation-summary class="col-md-12"
+          [errors]='validationManager.errors'></app-validation-summary>
+        <fieldset class="form-group">
+          <div class="row m-0">
+            <div class="col-md-6">
+              <label>Start Date</label>
+              <app-date-mm-dd-yyyy [(ngModel)]="weeklyHoursWorkedEntry.startDate"
+                (ngModelChange)="weeklyHoursWorkedEntry.startDate = $event; validate()"
+                [isReadOnly]="isReadOnly"
+                [isInvalid]="modelErrors['startDate']"
+                [cacheInnerValue]="cachedWeeklyHoursWorkedEntry?.startDate"
+                [isRequired]="!isReadOnly"
+                [datePickerRequired]="true"
+                [allowOnlySundays]="true">
+              </app-date-mm-dd-yyyy>
+            </div>
+            <div class="col-md-6">
+              <label>Hours</label>
+              <app-numerical-input [(ngModel)]="weeklyHoursWorkedEntry.hours"
+                [allowPeriod]="true"
+                [isMoney]="true"
+                [isReadOnly]="isReadOnly"
+                [NGMaxLength]="5"
+                [isInvalid]="modelErrors['hours']"
+                [isRequired]="!isReadOnly"
+                (ngModelChange)="weeklyHoursWorkedEntry.hours = $event; isDetailsRequired(); validate()"
+                [cacheInnerValue]="cachedWeeklyHoursWorkedEntry?.hours">
+              </app-numerical-input>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="form-group">
+          <div class="row m-0">
+            <div class="col-md-12">
+              <label>Details</label>
+              <app-text-area [(ngModel)]="weeklyHoursWorkedEntry.details"
+                (ngModelChange)="weeklyHoursWorkedEntry.details = $event; validate()"
+                [cacheInnerValue]="cachedWeeklyHoursWorkedEntry?.details"
+                [isReadOnly]="isReadOnly"
+                [isRequired]="isDetailsRequiredBol"
+                [maxlength]="380"
+                [isInvalid]="modelErrors['details']"
+                [placeholder]="'Details'">
+              </app-text-area>
+            </div>
+          </div>
+        </fieldset>
+      </section>
+      <footer>
+        <app-cancel-save-footer [hadSaveError]="hadSaveError"
+          [isSaving]="isSaving"
+          [isDisabled]="isSectionValid"
+          [canSaveWithWarning]="precheck?.canSaveWithWarnings"
+          (cancelEvent)="exit()"
+          [isReadOnly]="isReadOnly"
+          (saveWithWarningEvent)="saveWithWarningAndExit()"
+          (saveEvent)="saveAndExit()"></app-cancel-save-footer>
+      </footer>
+    </div>
+  </div>
+</ng-container>

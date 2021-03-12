@@ -1,0 +1,134 @@
+<h2 class="poplegend">
+  Work History
+  <!--<button class="label label-info sec-help help-label" (click)="help.open('lg')"><i class="fa fa-question"></i></button>-->
+  <app-help-button [featureName]="'ia-work-history-help'"></app-help-button>
+</h2>
+
+<!-- We should load this dynamically -->
+<blockquote class="popdesc">The following questions will address your previous and current employments, as well as any
+  volunteer work. Additionally, we will discuss if there are any factors preventing you from working full time.
+</blockquote>
+
+<app-modified-stamp *ngIf="model?.modifiedBy" [author]="model?.modifiedBy" [lastModified]="model?.modifiedDate"
+  [readOnly]="true"></app-modified-stamp>
+
+
+<fieldset class="form-page" *ngIf="model">
+  <!--This is where we show validation errors-->
+  <app-validation-summary [errors]="validationManager.errors"></app-validation-summary>
+
+  <div class="pad1-0">
+    <div class="row">
+      <div class=" col-md-6">
+        <label class="control-label">What is your employment status?</label>
+      </div>
+      <div class="col-md-6">
+        <div class="right">
+          <app-tab-selector [(ngModel)]="model.employmentStatusTypeId"
+            (ngModelChange)="model.employmentStatusTypeId = $event; checkState();" [isRequired]="true"
+            [tabs]="workHistoryEmploymentStatuses" [isInValid]="modelErrors['employmentStatusTypeId']"
+            [cacheInnerValue]="model.cached?.employmentStatusTypeId"></app-tab-selector>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad1-0"
+    *ngIf="model && model.employmentStatusTypeId === unemployedId || model && model.employmentStatusTypeId === partTimeId">
+    <div class="row">
+      <div class="col-md-12">
+        <label>What is keeping you from working full-time? <span class="small">(Select all that apply.)</span></label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <app-multi-select-dropdown [(ngModel)]="model.preventionFactorIds"
+          (ngModelChange)="model.preventionFactorIds = $event; checkState();"
+          [cacheInnerValue]="model.cached?.preventionFactorIds" [isInvalid]="modelErrors['preventionFactorIds']"
+          [options]="employmentPreventionFactorsDrop" [isRequired]="true"></app-multi-select-dropdown>
+      </div>
+      <div class="col-md-7">
+        <app-text-area [(ngModel)]="model.nonFullTimeDetails"
+          (ngModelChange)="model.nonFullTimeDetails = $event; checkState();"
+          [isRequired]="this.model.isNonFullTimeDetailsRequired(employmentPreventionFactorsDrop)"
+          [cacheInnerValue]="model.cached?.nonFullTimeDetails" [isInvalid]="modelErrors['nonFullTimeDetails']"
+          [maxlength]="380" [isAutoSizeable]="true" [placeholder]="'Details'"></app-text-area>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pad1-0" *ngIf="model && this.employments.length < 1 && model.employmentStatusTypeId === unemployedId">
+    <div class="row">
+      <div class="col-md-8">
+        <label class="control-label">Have you ever been employed or performed volunteer work?</label>
+      </div>
+      <div class="col-md-4">
+        <div class="right">
+          <app-yes-no-basic [(ngModel)]="model.hasVolunteered"
+            (ngModelChange)="model.hasVolunteered = $event; checkState();"
+            [errorIndicator]="modelErrors['hasVolunteered']" [isRequired]="true"
+            [cacheInnerValue]="model.cached?.hasVolunteered"></app-yes-no-basic>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-work-history-embed [hideDeleted]="true" (onUpdate)="employmentsUpdated($event)"
+        [isInvalid]="modelErrors['workHistory']" (loaded)="this.employmentsLoaded()" (checkState)="this.checkState()"
+        (onInEditView)="this.disableIaHotKeys($event)" [pin]="pin" [isReadOnly]="this.whReadOnly"
+        [hasOnlyFcdp]="hasOnlyFcdp"></app-work-history-embed>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="pad1-0" *ngIf="showCareerFeature">
+    <div class="row">
+      <div class="col-md-12">
+        <label>Have you ever completed a career assessment either online, in a school setting or through a work
+          program?</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <app-tab-selector [(ngModel)]="model.hasCareerAssessment"
+          (ngModelChange)="model.hasCareerAssessment = $event; isCareerAssessmentNotesRequired(); checkState();"
+          [isInValid]="modelErrors['hasCareerAssessment']" [isRequired]="true"
+          [cacheInnerValue]="model.cached?.hasCareerAssessment" [tabs]="polarDrop"></app-tab-selector>
+      </div>
+      <div class="col-md-9">
+        <app-text-area [(ngModel)]="model.hasCareerAssessmentNotes"
+          (ngModelChange)="model.hasCareerAssessmentNotes = $event; checkState();"
+          [isRequired]="isCareerAssessmentNoteRequired" [cacheInnerValue]="model.cached?.hasCareerAssessmentNotes"
+          [isInvalid]="modelErrors['hasCareerAssessmentNotes']" [maxlength]="380" [isAutoSizeable]="true"
+          [placeholder]="'Details'"></app-text-area>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="control-group clearfix">
+    <app-text-area [(ngModel)]="model.notes" (ngModelChange)="model.notes = $event; checkState();"
+      [cacheInnerValue]="model.cached?.notes"></app-text-area>
+  </div>
+
+  <div *ngIf="viewRpeort" class="card pad1-2 paper">
+    <div class="card-header">
+      <span class="sectionTitle">KIDS Work History</span>
+      <nav class="right curPointer">
+        <a (click)="toggleCollapse()">
+          <i *ngIf="isReportColapsed" class="fa fa-expand"></i>
+          <i *ngIf="!isReportColapsed" class="fa fa-compress"></i>
+        </a>
+      </nav>
+    </div>
+    <div *ngIf="!isReportColapsed" class="report">
+      <app-reports [page]="'kids'" [pin]="pin"></app-reports>
+    </div>
+  </div>
+
+</fieldset>

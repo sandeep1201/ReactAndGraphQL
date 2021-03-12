@@ -1,0 +1,52 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+:host h1 {
+  float: left;
+  font-size: 2.4rem;
+  padding: 0 0.5em;
+  margin: 0;
+}
+
+:host .btn-back {
+  position: relative;
+  margin: 0.3em 0;
+  float: left;
+  padding: 0.25rem 0.75rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  border: 1px solid #bdc3c7;
+  color: #95a5a6 !important;
+}
+
+:host .btn-back:hover {
+  color: #fff !important;
+  background: #bdc3c7;
+}
+
+:host .parti-name {
+  color: #7f8c8d;
+  font-size: 1.4rem;
+}
+
+:host .parti-pin {
+  font-size: 0.9rem;
+  color: #95a5a6;
+}
+
+
+:host .btn-end {
+  background: rgba(255,255,255,.5);
+  border: 1px solid #bdc3c7;
+  font-size: 0.9em;
+  color: #7f8c8d;
+  line-height: 1.15em;
+  letter-spacing: 0px;
+  margin: 5px 0 0 3px;
+}
+
+:host .btn-end:hover {
+  background:#fff;
+}

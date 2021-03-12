@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:intf="http://bean.finalistws.doa.state.wi.gov" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns2="http://utility.finalistws.doa.state.wi.gov" xmlns:impl="http://bean.finalistws.doa.state.wi.gov" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://bean.finalistws.doa.state.wi.gov" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://bean.finalistws.doa.state.wi.gov">
+      <xsd:element name="validateUSPostalAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mailingAddressLine1" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingAddressLine2" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingCity" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingState" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validateUSPostalAddressResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="validateUSPostalAddressReturn" nillable="true" type="tns2:FinalistBroker" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validateAnalyzeUSPostalAddress">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mailingAddressLine1" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingAddressLine2" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingCity" nillable="true" type="xsd:string" />
+            <xsd:element name="mailingState" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validateAnalyzeUSPostalAddressResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="validateAnalyzeUSPostalAddressReturn" nillable="true" type="tns2:FinalistBroker" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://utility.finalistws.doa.state.wi.gov">
+      <xsd:complexType name="FinalistBroker">
+        <xsd:sequence>
+          <xsd:element name="infoCode01" nillable="true" type="xsd:string" />
+          <xsd:element name="city" nillable="true" type="xsd:string" />
+          <xsd:element name="countyName" nillable="true" type="xsd:string" />
+          <xsd:element name="generalReturnCode" nillable="true" type="xsd:string" />
+          <xsd:element name="poBox" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode1" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode10" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode11" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode12" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode2" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode3" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode4" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode5" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode6" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode7" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode8" nillable="true" type="xsd:string" />
+          <xsd:element name="reasonCode9" nillable="true" type="xsd:string" />
+          <xsd:element name="state" nillable="true" type="xsd:string" />
+          <xsd:element name="streetAddress" nillable="true" type="xsd:string" />
+          <xsd:element name="zipCode" nillable="true" type="xsd:string" />
+          <xsd:element maxOccurs="unbounded" name="errorMsg" nillable="true" type="xsd:string" />
+          <xsd:element maxOccurs="unbounded" name="logMsg" nillable="true" type="xsd:string" />
+          <xsd:element name="valid" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode02" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode03" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode04" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode05" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode06" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode07" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode08" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode09" nillable="true" type="xsd:string" />
+          <xsd:element name="infoCode10" nillable="true" type="xsd:string" />
+          <xsd:element name="aptnmbr" nillable="true" type="xsd:string" />
+          <xsd:element name="predrctn" nillable="true" type="xsd:string" />
+          <xsd:element name="pstdrctn" nillable="true" type="xsd:string" />
+          <xsd:element name="stname" nillable="true" type="xsd:string" />
+          <xsd:element name="stsfx1" nillable="true" type="xsd:string" />
+          <xsd:element name="stsfx2" nillable="true" type="xsd:string" />
+          <xsd:element name="unitdes" nillable="true" type="xsd:string" />
+          <xsd:element name="housnmbr" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="validateAnalyzeUSPostalAddressRequest">
+    <wsdl:part name="parameters" element="impl:validateAnalyzeUSPostalAddress" />
+  </wsdl:message>
+  <wsdl:message name="validateUSPostalAddressResponse">
+    <wsdl:part name="parameters" element="impl:validateUSPostalAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="validateAnalyzeUSPostalAddressResponse">
+    <wsdl:part name="parameters" element="impl:validateAnalyzeUSPostalAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="validateUSPostalAddressRequest">
+    <wsdl:part name="parameters" element="impl:validateUSPostalAddress" />
+  </wsdl:message>
+  <wsdl:portType name="USPostalAddress">
+    <wsdl:operation name="validateUSPostalAddress">
+      <wsdl:input name="validateUSPostalAddressRequest" message="impl:validateUSPostalAddressRequest" />
+      <wsdl:output name="validateUSPostalAddressResponse" message="impl:validateUSPostalAddressResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="validateAnalyzeUSPostalAddress">
+      <wsdl:input name="validateAnalyzeUSPostalAddressRequest" message="impl:validateAnalyzeUSPostalAddressRequest" />
+      <wsdl:output name="validateAnalyzeUSPostalAddressResponse" message="impl:validateAnalyzeUSPostalAddressResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="USPostalAddressSoapBinding" type="impl:USPostalAddress">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="validateUSPostalAddress">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="validateUSPostalAddressRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="validateUSPostalAddressResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validateAnalyzeUSPostalAddress">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="validateAnalyzeUSPostalAddressRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="validateAnalyzeUSPostalAddressResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="USPostalAddressService">
+    <wsdl:port name="USPostalAddress" binding="impl:USPostalAddressSoapBinding">
+      <wsdlsoap:address location="http://finalistweb.wi.gov:80/finalistWeb/services/USPostalAddress" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

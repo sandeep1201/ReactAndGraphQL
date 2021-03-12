@@ -1,0 +1,30 @@
+.history {
+  color: #7f8c8d;
+  right: 2em;
+  margin-top: 10px;
+}
+
+.history div.lastEdit {
+  font-size: 0.8em;
+  float: right;
+  text-align: right;
+  margin-top: -8px;
+}
+
+.history strong {
+  color:#63899D;
+  display:inline-block;
+  font-weight: 600;
+  padding:0 0.25em;
+}
+
+.history strong span {
+  color: #7f8c8d;
+  margin-right: 0.5em;
+  font-weight: normal;
+}
+
+.history strong sub {
+  font-weight:800;
+  bottom:0;
+}

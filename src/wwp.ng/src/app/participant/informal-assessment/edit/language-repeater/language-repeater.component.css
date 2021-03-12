@@ -1,0 +1,11 @@
+td , th {
+  display: block;
+}
+
+thead , tbody {
+  display: flex;
+}
+
+tr {
+  width: 100%;
+}

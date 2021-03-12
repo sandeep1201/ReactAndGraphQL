@@ -1,0 +1,96 @@
+<app-sub-header pageTitle="Transactions"
+  [goBackUrl]="goBackUrl"
+  [helpComponent]="'transactions-list'"
+  [participant]="participant">
+</app-sub-header>
+<div class="container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Transactions'"></app-loading>
+  <div class="app-content"
+    *ngIf="!isInEditMode && isLoaded">
+    <div class="row mb-2">
+      <div class="col-md-3">
+        <input class="w-100 search"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="filter()"
+          maxlength="120"
+          placeholder="Search" />
+      </div>
+      <button (click)="sortByDate()"
+        class="sort-btn sortbtnsort py-1 px-2"
+        [ngClass]="{sortbtnasc: !isSortByDateToggled, sortbtndesc: isSortByDateToggled}"
+        data-sort="date">Sort by Transaction Date</button>
+    </div>
+    <div class="row pb-3">
+      <div class="col-md-2 pr-0">
+        <div class="font-weight-bold">Filter</div>
+        <app-multi-select-dropdown [placeholder]="'Contractor'"
+          [options]="agencyDrop"
+          [(ngModel)]="agencyTypes"
+          (ngModelChange)="agencyTypes = $event; filter()"></app-multi-select-dropdown>
+      </div>
+      <div class="col-md-2">
+        <br />
+        <app-multi-select-dropdown [placeholder]="'Worker Name'"
+          [options]="workerDrop"
+          [(ngModel)]="workerTypes"
+          (ngModelChange)="workerTypes = $event; filter()"></app-multi-select-dropdown>
+      </div>
+      <div class="col-md-2 p-0">
+        <br />
+        <app-multi-select-dropdown [placeholder]="'Transaction Type'"
+          [options]="transactionTypeDrop"
+          [(ngModel)]="transactionTypes"
+          (ngModelChange)="transactionTypes = $event; filter()"></app-multi-select-dropdown>
+      </div>
+      <div class="col-md-2">
+        <label class="m-0">From</label>
+        <app-date-mm-dd-yyyy-new class=""
+          [(ngModel)]="fromDate"
+          (ngModelChange)="fromDate = $event; setGoFlag()">
+        </app-date-mm-dd-yyyy-new>
+      </div>
+      <div class="col-md-2 pl-0">
+        <label class="m-0">To</label>
+        <app-date-mm-dd-yyyy-new [(ngModel)]="toDate"
+          (ngModelChange)="toDate = $event; setGoFlag()">
+        </app-date-mm-dd-yyyy-new>
+      </div>
+      <div class="col-md-2 pl-0">
+        <br />
+        <button *ngIf="goDisableFlag"
+          class="btn btn-add disabled">Apply</button>
+        <button *ngIf="!goDisableFlag"
+          class="btn btn-add mr-2"
+          (click)="filter(true)">Apply</button>
+        <button class="btn btn-add"
+          (click)="resetFilter()">Reset</button>
+      </div>
+    </div>
+    <div class="row border-bottom font-weight-bold py-1">
+      <div class="col-md-3">Transaction Description</div>
+      <div class="col-md-1 pl-0">Transaction Date</div>
+      <div class="col-md-1 pl-3">Effective Date</div>
+      <div class="col-md-3 pl-5">Worker</div>
+      <div class="col-md-2">Contractor</div>
+      <div class="col-md-2">County</div>
+    </div>
+    <div class="row list-item py-2"
+      *ngFor="let transaction of transactions">
+      <div class="col-md-3">{{transaction.description}}</div>
+      <div class="col-md-1 pl-0">{{transaction.createdDate}}</div>
+      <div class="col-md-1 pl-3">{{transaction.effectiveDate}}</div>
+      <div class="col-md-3 pl-5">{{transaction.workerName}}</div>
+      <div class="col-md-2">{{transaction.agencyName}}</div>
+      <div class="col-md-2">{{transaction.countyName}}</div>
+    </div>
+    <div class="container"
+        *ngIf="!transactions?.length">
+      <div class="row justify-content-center">
+        <blockquote class="p-3 m-3">
+          <div>No Transactions</div>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,364 @@
+<app-sub-header pageTitle="Request for Assistance" [goBackUrl]="goBackUrl" [participant]="participant"
+  [helpComponent]="'rfa-single'"></app-sub-header>
+<app-sub-header-nav [mode]="'App'" activeItem="rfa" [pin]="pin"></app-sub-header-nav>
+
+
+<div class="app-content">
+  <div class="wrapper pad1">
+    <main *ngIf="model" class="container alert paper">
+      <fieldset id="wh-add">
+
+        <div class="flex-row">
+          <div class="col-md-8">
+            <legend>Program</legend>
+          </div>
+          <div class="col-md-4">
+            <app-modified-stamp [readOnly]="true" [author]="model.modifiedBy" [lastModified]="model.modifiedDate">
+            </app-modified-stamp>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="col-md-3">
+            <label>Program</label>
+            <br />
+            <small>{{this.model.programName}}</small>
+          </div>
+          <div class="col-md-3">
+            <label>County of Residence</label>
+            <br />
+            <small>{{this.model.countyOfResidenceName}}</small>
+          </div>
+          <div class="col-md-3">
+            <label *ngIf="this.model.isCFProgram">CF Status</label>
+            <label *ngIf="this.model.isTmjProgram">TMJ Status</label>
+            <label *ngIf="this.model.isTJProgram">TJ Status</label>
+            <label *ngIf="this.model.isFCDPProgram">FCDP Status</label>
+            <br />
+            <small>{{this.model.statusName}}</small>
+          </div>
+          <div class="col-md-3">
+            <label *ngIf="this.model.isCFProgram">Date of CF Status</label>
+            <label *ngIf="this.model.isTmjProgram">Date of TMJ Status</label>
+            <label *ngIf="this.model.isTJProgram">Date of TJ Status</label>
+            <label *ngIf="this.model.isFCDPProgram">Date of FCDP Status</label>
+            <br />
+            <small>{{this.model.statusDate | dateMmDdYyyy}}</small>
+          </div>
+        </div>
+        <div class="flex-row pt-1">
+          <div class="col-md-3">
+            <label *ngIf="this.model.isCFProgram">CF Completion Reason</label>
+            <label *ngIf="this.model.isTmjProgram">TMJ Completion Reason</label>
+            <label *ngIf="this.model.isTJProgram">TJ Completion Reason</label>
+            <label *ngIf="this.model.isFCDPProgram">FCDP Completion Reason</label>
+            <br />
+            <small>{{this.completionReason}}</small>
+          </div>
+          <div class="col-md-3" *ngIf="displayCompletionReasonDetails()">
+            <label>CF Completion Reason Details</label>
+            <br />
+            <small>{{this.model.completionReasonDetails}}</small>
+          </div>
+          <div class="col-md-3" *ngIf="displayFcdpCompletionReasonDetails()">
+            <label>FCDP Completion Reason Details</label>
+            <br />
+            <small>{{this.model.completionReasonDetails}}</small>
+          </div>
+        </div>
+
+        <hr class="" />
+
+      </fieldset>
+
+      <fieldset *ngIf="this.model.isCFProgram">
+
+        <div class="flex-row">
+          <div class="col-md-8">
+            <legend>Court Order Information</legend>
+          </div>
+        </div>
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-4">
+            <label>Agency</label>
+            <br />
+            <small>{{this.model.agencyName}}</small>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-4">
+            <label>County/Tribe Where Court Ordered</label>
+            <br />
+            <small>{{this.model.courtOrderCountyTribeName}} -
+              {{this.model.courtOrderCountyTribeNumber | padPipe: 2}}</small>
+          </div>
+          <div class="col-md-4">
+            <label>Effective Date of Court Order</label>
+            <br />
+            <small>{{this.model.courtOrderEffectiveDate | dateMmDdYyyy}}</small>
+          </div>
+        </div>
+
+        <div *ngIf="this.model.isCFProgram" class="flex-row bb-l-1p">
+          <div class="col-md-6">
+            <label>WP Office</label>
+            <br />
+            <small>{{this.model.displayedCountyWPOffice}}</small>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <fieldset *ngIf="this.model.isFCDPProgram">
+
+        <!-- <div class="flex-row">
+                        <div class="col-md-8">
+                            <legend>Court Order Information</legend>
+                        </div>
+                    </div> -->
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-3">
+            <label>KIDS PIN</label>
+            <br />
+            <small>{{this.model.kidsPin}}</small>
+          </div>
+          <div class="col-md-3">
+            <label>Agency</label>
+            <br />
+            <small>{{this.model.agencyName}}</small>
+          </div>
+          <div class="col-md-4">
+            <label>County of Service</label>
+            <br />
+            <small>{{this.model.agencyCountyName}}</small>
+          </div>
+        </div>
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-12">
+            <label>Referral Source</label>
+            <br />
+            <small>{{this.model.referralSource}}</small>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-4">
+            <label>Court Ordered or Voluntary</label>
+            <br />
+            <app-tab-selector [(ngModel)]="fcdpCourtOrderId" [tabs]="fcdpCourtOrderDrop" [isDisabled]="true">
+            </app-tab-selector>
+          </div>
+
+        </div>
+
+        <div *ngIf="this.model.courtOrderCountyTribeName || this.model.courtOrderEffectiveDate"
+          class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-4">
+            <label>County/Tribe Where Court Ordered</label>
+            <br />
+            <small>{{this.model.courtOrderCountyTribeName}} -
+              {{this.model.courtOrderCountyTribeNumber | padPipe: 2}}</small>
+          </div>
+          <div class="col-md-4">
+            <label>Effective Date of Court Order</label>
+            <br />
+            <small>{{this.model.courtOrderEffectiveDate | dateMmDdYyyy}}</small>
+          </div>
+        </div>
+
+        <!-- <div *ngIf="this.model.isCFProgram" class="flex-row bb-l-1p">
+                        <div class="col-md-6">
+                            <label>WP Office</label>
+                            <br />
+                            <small>{{this.model.displayedCountyWPOffice}}</small>
+                        </div>
+                    </div> -->
+      </fieldset>
+
+      <fieldset *ngIf="this.model.isTJTmjProgram">
+
+        <div class="flex-row">
+          <div class="col-md-8">
+            <legend>Eligibility</legend>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p pb-1">
+          <div class="col-md-12">
+            <label *ngIf="this.model.isTJProgram">TJ Contractor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label *ngIf="this.model.isTmjProgram">TMJ Contractor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <br />
+            <small>{{this.model.contractorName}}</small>
+          </div>
+        </div>
+        <div class="flex-row bb-l-1p pb-1">
+          <div class="col-md-3">
+            <label>Application Date</label>
+            <br />
+            <small>{{this.model.applicationDate | dateMmDdYyyy}}</small>
+          </div>
+          <div class="col-md-3">
+            <label>Application Due Date</label>
+            <br />
+            <small>{{this.model.applicationDueDate | dateMmDdYyyy}}</small>
+          </div>
+          <div class="col-md-3">
+            <label>Age</label>
+            <br />
+            <small>{{this.participantAge}}</small>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-10">
+            <label>Is the applicant the biological/adoptive parent - or relative and primary caregiver - of child(ren)
+              under the age of 18?</label>
+            <br />
+            <small>{{this.model.hasChildren | yesNo}}</small>
+          </div>
+          <div class="col-md-2 alignRight">
+
+          </div>
+        </div>
+
+        <div *ngIf="model.hasChildren" class="flex-row bb-l-1p pb-2 wrapword">
+          <div class="col-md-12">
+            <div></div>
+            <app-rfa-children-repeater [(ngModel)]="model.children" [isReadOnly]="true"></app-rfa-children-repeater>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-3">
+            <label>Household Size&nbsp;&nbsp;&nbsp;</label>
+            <br />
+            <small>{{this.model.householdSize}}</small>
+          </div>
+          <div class="col-md-3">
+            <label>Annual Household Income</label>
+            <br />
+            <small>{{this.model.annualHouseholdIncome | currency}}</small>
+          </div>
+
+          <div class="col-md-4">
+            <label>Last Date of Employment</label>
+            <br />
+            <small *ngIf="this.model.lastDateOfEmployment">{{this.model.lastDateOfEmployment | dateMmDdYyyy}}</small>
+            <small *ngIf="this.model.tjTmjHasNeverEmployed === true">Never Employed</small>
+          </div>
+        </div>
+
+        <div *ngIf="this.model.ishasWorked16HoursLessDisplayed" class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-10">
+            <label>In the last four weeks, has the applicant worked an average of 16 or less hours per week?</label>
+            <br />
+            <small>{{this.model.hasWorked16HoursLess | yesNo}}</small>
+          </div>
+          <div class="col-md-2 alignRight">
+          </div>
+        </div>
+
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-6">
+            <label>Eligible for Unemployment Insurance Benefits?</label>
+            <br />
+            <small>{{this.model.tjTmjIsEligibleForUnemployment | yesNo}}</small>
+          </div>
+
+          <div class="col-md-6">
+            <label>Is applicant receiving W-2 benefits or services?</label>
+            <br />
+            <small>{{this.model.tjTmjIsReceivingW2Benefits | yesNo}}</small>
+          </div>
+        </div>
+
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-10">
+            <label>Is applicant a U.S citizen or qualified non-citizen?</label>
+            <br />
+            <small>{{this.model.isUSCitizen | yesNo}}</small>
+          </div>
+          <div class="col-md-2 alignRight">
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-10">
+            <label>Has applicant worked a total of 1,040 hours in TMJ/TJ in the past?</label>
+            <br />
+            <small>{{this.model.tjTmjHasWorked1040Hours | yesNo}}</small>
+          </div>
+          <div class="col-md-2 alignRight">
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-6">
+            <label>Has application been completed and signed?</label>
+            <br />
+            <small>{{model.tjTmjIsAppCompleteAndSigned | yesNo}}</small>
+          </div>
+          <div class="col-md-6">
+            <label>Has eligibility information been verified?</label>
+            <br />
+            <small>{{model.tjTmjHasEligibilityBeenVerified | yesNo}}</small>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-10">
+            <label>Is applicant able to obtain and benefit from a subsidized job?</label>
+            <br />
+            <small>{{model.tjTmjIsBenefitFromSubsidizedJob | yesNo}}</small>
+          </div>
+          <div class="col-md-2 alignRight">
+          </div>
+        </div>
+
+        <div *ngIf="this.model.isCanAbleApplicantBenefitFromSubsidizedJobDetailsDisplayed"
+          class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-12">
+            <small>{{model.tjTmjBenefitFromSubsidizedJobDetails}}</small>
+          </div>
+        </div>
+
+        <div class="flex-row bb-l-1p read-only-group">
+          <div *ngIf="!this.isStringEmptyOrNull(this.model.populationTypesNamesCsv)" class="col-md-6">
+            <label>Population Types</label>
+            <br />
+            <small>{{this.model.populationTypesNamesCsv}}</small>
+          </div>
+          <div *ngIf="!this.isStringEmptyOrNull(this.model.populationTypeDetails)" class="col-md-6">
+            <label>Population Types - Details</label>
+            <br />
+            <small>{{this.model.populationTypeDetails}}</small>
+          </div>
+        </div>
+
+        <div *ngIf="this.model.workProgramOfficeNumber" class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-6">
+            <label>WP Office</label>
+            <br />
+            <small>{{this.model.displayedCountyWPOffice}}</small>
+          </div>
+        </div>
+
+        <div *ngIf="this.model.eligibilityCodes != null && model.eligibilityCodes.length > 0"
+          class="flex-row bb-l-1p read-only-group">
+          <div class="col-md-12">
+            <label>Denial Reasons</label>
+            <br />
+            <small *ngFor="let dr of model.eligibilityCodes">{{dr}}
+              <br />
+            </small>
+          </div>
+        </div>
+
+        <hr />
+
+      </fieldset>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:62600/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:11001/",
+      "environmentVariables": {
+        "WWP_DB_USER": "WWPDEV_APP",
+        "WWP_DB_NAME": "WWPDEV",
+        "TokenSecretKey": "A19ACB534DC4A4BD5FA16AF2B7CFB7BB1D42B48D5CF7EF1A5D72BCA8EF",
+        "WWP_DB_PASS": "Br0cc0l1",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "WWP_DB_SERVER": "DBWMAD0D2613, 2025"
+      }
+    },
+    "Dcf.Wwp.Api": {
+      "commandName": "Project",
+      "launchUrl": "http://localhost:11001",
+      "environmentVariables": {
+        "TokenSecretKey": "A19ACB534DC4A4BD5FA16AF2B7CFB7BB1D42B48D5CF7EF1A5D72BCA8EF",
+        "WWP_DB_SERVER": "DBWMAD0D2613, 2025",
+        "WWP_DB_NAME": "WWPDEV",
+        "WWP_DB_USER": "WWPDEV_APP",
+        "WWP_DB_PASS": "Br0cc0l1",
+        "WWP_MCI_CRED": "vSrXT5zF8J",
+        "WWP_CWW_INDV_CRED": "G4ngHQB5WX",
+        "WWP_CWW_KEYSEC_CRED": "Q8EunpUWDJ",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Dcf.Wwp.Api.sys": {
+      "commandName": "Project",
+      "launchUrl": "http://localhost:11001",
+      "environmentVariables": {
+        "WWP_DB_USER": "WWPDEV_APP",
+        "WWP_DB_NAME": "WWPSYS",
+        "WWP_CWW_INDV_CRED": "G4ngHQB5WX",
+        "TokenSecretKey": "A19ACB534DC4A4BD5FA16AF2B7CFB7BB1D42B48D5CF7EF1A5D72BCA8EF",
+        "WWP_DB_PASS": "Br0cc0l1",
+        "WWP_CWW_KEYSEC_CRED": "Q8EunpUWDJ",
+        "ASPNETCORE_ENVIRONMENT": "Systems",
+        "WWP_MCI_CRED": "vSrXT5zF8J",
+        "WWP_DB_SERVER": "DBWMAD0D2613, 2025"
+      }
+    },
+    "Dcf.Wwp.Api.acc": {
+      "commandName": "Project",
+      "launchUrl": "http://localhost:11001",
+      "environmentVariables": {
+        "WWP_DB_USER": "WWPACC_APP",
+        "WWP_DB_NAME": "WWPACC",
+        "WWP_CWW_INDV_CRED": "2xjjHCvjHs",
+        "TokenSecretKey": "A19ACB534DC4A4BD5FA16AF2B7CFB7BB1D42B48D5CF7EF1A5D72BCA8EF",
+        "WWP_DB_PASS": "Br0cc0l1ACC",
+        "WWP_CWW_KEYSEC_CRED": "wcgK7gLkhZ",
+        "ASPNETCORE_ENVIRONMENT": "Acceptance",
+        "WWP_MCI_CRED": "XCC8QX3Zzh",
+        "WWP_DB_SERVER": "DBWMAD0A2614,2027"
+      }
+    },
+    "Dcf.Wwp.Api.trn": {
+      "commandName": "Project",
+      "launchUrl": "http://localhost:11001",
+      "environmentVariables": {
+        "TokenSecretKey": "A19ACB534DC4A4BD5FA16AF2B7CFB7BB1D42B48D5CF7EF1A5D72BCA8EF",
+        "WWP_DB_SERVER2": "DBWMAD0D2613, 2025",
+        "WWP_DB_NAME2": "WWPDEV",
+        "WWP_DB_USER2": "WWPDEV_APP",
+        "WWP_DB_PASS2": "Br0cc0l1",
+        "WWP_MCI_CRED2": "vSrXT5zF8J",
+        "WWP_CWW_INDV_CRED2": "G4ngHQB5WX",
+        "WWP_CWW_KEYSEC_CRED2": "Q8EunpUWDJ",
+        "ASPNETCORE_ENVIRONMENT": "Training"
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4C254AD-C968-46DC-8C9F-63A97524E17A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dcf.Wwp.TelerikReport.Library</RootNamespace>
+    <AssemblyName>Dcf.Wwp.TelerikReport.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Windows.Documents.Core">
+      <HintPath>.\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed">
+      <HintPath>.\Telerik.Windows.Documents.Fixed.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip">
+      <HintPath>.\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R1 2021\bin\Telerik.Reporting.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\EmployabilityPlanReportDomain.cs" />
+    <Compile Include="Domain\BatchDetailsReportDomain.cs" />
+    <Compile Include="EPStockText.cs" />
+    <Compile Include="Interface\IReportDomain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interface\ReportContract.cs" />
+    <Compile Include="Domain\WorkHistoryReportDomain.cs" />
+    <Compile Include="TReport\BatchDetailsReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\BatchDetailsReport.Designer.cs">
+      <DependentUpon>BatchDetailsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TReport\EmploymentPlanReportSpanish.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\EmploymentPlanReportSpanish.Designer.cs">
+      <DependentUpon>EmploymentPlanReportSpanish.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="TReport\EmploymentPlanReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\EmploymentPlanReport.Designer.cs">
+      <DependentUpon>EmploymentPlanReport.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="TReport\EPESignReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\EPESignReport.Designer.cs">
+      <DependentUpon>EPESignReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TReport\EPESignSpanishReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\EPESignSpanishReport.Designer.cs">
+      <DependentUpon>EPESignSpanishReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TReport\WorkHistoryReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TReport\WorkHistoryReport.Designer.cs">
+      <DependentUpon>WorkHistoryReport.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="TReport\BatchDetailsReport.resx">
+      <DependentUpon>BatchDetailsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TReport\EmploymentPlanReportSpanish.resx">
+      <DependentUpon>EmploymentPlanReportSpanish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TReport\EmploymentPlanReport.resx">
+      <DependentUpon>EmploymentPlanReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TReport\EPESignReport.resx">
+      <DependentUpon>EPESignReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TReport\EPESignSpanishReport.resx">
+      <DependentUpon>EPESignSpanishReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TReport\WorkHistoryReport.resx">
+      <DependentUpon>WorkHistoryReport.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dcf.Wwp.ConnectedServices\Dcf.Wwp.ConnectedServices.csproj">
+      <Project>{07805906-6a90-4048-9fb0-8b96cd025e07}</Project>
+      <Name>Dcf.Wwp.ConnectedServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.DataAccess\Dcf.Wwp.DataAccess.csproj">
+      <Project>{1c037660-baaa-4417-a438-92d457e555c3}</Project>
+      <Name>Dcf.Wwp.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.Model.Interface\Dcf.Wwp.Model.Interface.csproj">
+      <Project>{41d99d81-12f1-4321-aa8e-ecfbdbee279d}</Project>
+      <Name>Dcf.Wwp.Model.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dcf.Wwp.ViewModel\Dcf.Wwp.Api.Library.csproj">
+      <Project>{44e8ff45-47b3-4fd0-8d80-3fe02242f7d8}</Project>
+      <Name>Dcf.Wwp.Api.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Telerik.Reporting.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="w2plans.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

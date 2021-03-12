@@ -1,0 +1,55 @@
+
+.vl {
+  border-left: 1px solid #bdc3c7;
+}
+
+.old-rfa:hover {
+  pointer-events: none;
+}
+
+.old-rfa {
+  opacity: .4 !important;
+}
+
+.clear-edit {
+  width: auto;
+}
+
+.clear-edit > div {
+  width: 100%;
+}
+
+button {
+  background: rgba(255,255,255,.5);
+  border: 1px solid #bdc3c7;
+  font-size: 0.9em;
+  color: #7f8c8d;
+  line-height: 1.15em;
+  letter-spacing: 0px;
+}
+
+button.sort:after  {
+  content:'\f0dc';
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  text-decoration: inherit;
+  padding-left:0.5em;
+  color:#bdc3c7;
+}
+
+button.asc:after {
+  content:"\f0de";
+}
+
+button.desc:after {
+  content:"\f0dd";
+}
+
+.main {
+  margin-bottom: 0px;
+  border-bottom: 5px;
+  border-bottom-width: 2px;
+  border-style: solid;
+  border-bottom-color: #cccccc;
+}

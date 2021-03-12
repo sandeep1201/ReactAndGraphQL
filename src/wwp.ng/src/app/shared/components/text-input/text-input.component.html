@@ -1,0 +1,7 @@
+<input [attr.placeholder]="placeholder"
+  [ngClass]="{required: isRequired, error: isInvalid, dirty: isModified, readOnly: isReadOnly, border: !isBorderRequired}"
+  [disabled]="isDisabled"
+  [readonly]="isReadOnly"
+  [attr.maxlength]="maxLength"
+  class="form-control"
+  [(ngModel)]="value">

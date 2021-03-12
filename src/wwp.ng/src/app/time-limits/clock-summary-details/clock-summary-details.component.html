@@ -1,0 +1,47 @@
+<div class="modal-overlay" *ngIf="clockType">
+    <div id="clock-summary-details-modal" class="modal-container" >
+        <header>
+            <div class="wrapper">
+                <h4 class="left">{{ clockType | clockTypeName }} Details</h4>
+                <button class="btn btn-close btn-secondary-outline btn-sm right" (click)="exit()"><i class="fa fa-times"></i></button>
+            </div>
+        </header>
+        <section class="dialog-content">
+            <div class="table-scroller">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Time Limit Type </th>
+                        <th *ngIf="showPayment">Payment</th>
+                        <th>Federal</th>
+                        <th>State</th>
+                        <th>24 Month</th>
+                    </thead>
+                    <tbody>
+                        <tr class="list-item" *ngFor="let item of months; let i=index" (click)="selectMonthAndExit(i)">
+                            <th>{{months.length - i}}</th>
+                            <td>{{ item.monthRange.start | amDateFormat : 'MMM YYYY' }}</td>
+                            <td>{{ item.tick.tickType | clockTypeName | default: '-' }}</td>
+                            <td *ngIf="showPayment">{{ !!item.paymentIssued | yesNo }}</td>
+                            <td><i class="fa" [class.fa-check]="item.tick.clockTypes.state.Federal" aria-hidden="true"></i></td>
+                            <td><i class="fa fa-check" [class.fa-check]="item.tick.clockTypes.state.State" aria-hidden="true"></i></td>
+                            <td><i class="fa fa-check" [class.fa-check]="item.tick.clockTypes.state.PlacementLimit && !item.tick.clockTypes.state.NOPlacementLimit" aria-hidden="true"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <footer class="nav-footer">
+          <div class="wrapper">
+            <div class="timelimit-totals left" *ngFor="let clockType of monthClockTypes">
+              <h5> {{ clockType | clockTypeName }} Used </h5>
+              <span> {{ clockTotal(clockType) | default:'-' }} </span>
+            </div>
+            <div class="right">
+                <button class="btn btn-add" (click)="exit()">Close</button>
+            </div>
+          </div>
+        </footer>
+    </div>
+</div>

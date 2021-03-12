@@ -1,0 +1,22 @@
+<div *ngIf="isLoaded"
+  class="card">
+  <div class="card-header">
+    <app-ep-card-header (elapsedSec)="showElapedActivity($event)"
+      [elapsedActivityFlag]="elapsedActivityFlag"
+      [showEdit]="showEdit"
+      [title]="'Activities'"
+      (editSec)="editSection()"
+      (elapsedSec)="elapsedSection()"></app-ep-card-header>
+
+  </div>
+  <!-- <div class="card-body flex pad1" *ngFor="let activity of this.activities">
+    <div class="item">Activity: <span>{{activity.activityTypeName}}</span></div>
+    <div class="item">Schedule Start Date: <span>12/12/2018</span></div>
+    <div class="item">Activity Description: <span>{{activity.description}}</span></div>
+  </div> -->
+  <app-activities-list [employabilityPlan]="employabilityPlan"
+    [activities]="activities"
+    [showControls]="false"
+    [isReadOnly]="true"
+    (goToSingleEntry)="singleEntry($event)"></app-activities-list>
+</div>

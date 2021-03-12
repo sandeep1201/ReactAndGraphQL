@@ -1,0 +1,84 @@
+<div class="container">
+  <div *ngIf="!isLoaded"
+    class="row justify-content-center">
+    <div class="col-md-3 text-center">
+      <blockquote>
+        <div class="lg tgrey2 p-1">
+          <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+        </div>
+        <span>Loading Employability Plan(s)</span>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoaded">
+  <div class="">
+    <div class="row justify-content-center"
+      *ngIf="employabilityPlans.length == 0">
+      <blockquote class="p-1 col-md-3">
+        <div>No Employability Plan to display.</div>
+      </blockquote>
+    </div>
+    <div  class="row justify-content-end p-1">
+      <div class="col-md-3 d-flex
+        justify-content-end"
+        *ngIf="!hasAnInProgressEp && !isReadOnly">
+        <button type="button" class="btn btn-add"
+          (click)="addEpClick()">
+           + New Employability Plan</button>
+      </div>
+    </div>
+  </div>
+  <main class="">
+    <div *ngFor="let p of this.employabilityPlans | paginate: config"
+      class="list-item p-1 border-bottom"
+      [ngClass]="{disabled: p.isDeleted}"
+      (click)="goToOverView(p)">
+      <div class="row">
+        <div class="col-md-6">{{p.enrolledProgramName}}:
+          <small>
+            <span>{{p.employabilityPlanStatusTypeName}}</span>
+          </small>
+        </div>
+        <div class="col-md-6"
+          *ngIf="p.submitDate !== null">
+          <small>Submit Date: {{p.submitDate}}</small>
+        </div>
+      </div>
+      <div class="row">
+        <small class="col-md-6">Begin Date: {{p.beginDate | dateMmDdYyyy}}</small>
+        <small class="col-md-6">End Date: {{p.endDate | dateMmDdYyyy}}</small>
+      </div>
+    </div>
+    <div class="row justify-content-center p-1">
+      <pagination-template #p="paginationApi"
+        *ngIf="employabilityPlans?.length > config.itemsPerPage"
+        [id]="config.id"
+        (pageChange)="config.currentPage = $event"
+        class="">
+        <button class="btn btn-add"
+          (click)="p.previous()"
+          *ngIf="!p.isFirstPage()">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <button class="btn btn-add disabled"
+          *ngIf="p.isFirstPage()">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <span class="paging-info pad0-1">
+          {{numberInView(config, p, employabilityPlans?.length)}} of {{employabilityPlans?.length}}
+        </span>
+        <button class="btn btn-add"
+          (click)="p.next()"
+          *ngIf="!p.isLastPage()">
+          <i class="fa fa-angle-right"></i>
+        </button>
+        <button class="btn btn-add disabled"
+          *ngIf="p.isLastPage()">
+          <i class="fa fa-angle-right"></i>
+        </button>
+      </pagination-template>
+
+    </div>
+  </main>
+</div>

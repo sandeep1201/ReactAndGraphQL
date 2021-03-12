@@ -1,0 +1,15 @@
+<div *ngIf="showOptions()" (click)="click()" class="allowClick">
+    <li class="del allowClick" [class.open]="this.isToggled">
+        <button class="btn btn-del allowClick"><i class="fa fa-trash-alt allowClick" title="delete"></i>
+    <span class="xsmall allowClick"><i class="fa fa-caret-down allowClick" aria-hidden="true"></i></span>
+    </button>
+        <ul *ngIf="this.isToggled" class="del-reason allowClick">
+            <li class="allowClick" *ngFor="let d of this.dropDown" (click)="select(d.id)">{{d.name}}</li>
+        </ul>
+    </li>
+</div>
+
+<div *ngIf="!showOptions()" (click)="select(0)" class="allowClick">
+    <li class="del allowClick" [class.open]="this.isToggled">
+        <button class="btn btn-del allowClick"><i class="fa fa-trash-alt allowClick" title="delete"></i> </button> </li>
+</div>

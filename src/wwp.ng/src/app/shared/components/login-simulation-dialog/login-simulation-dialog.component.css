@@ -1,0 +1,22 @@
+.modal-wrapper{
+    background: #333; /* Fallback color */
+    background: rgba(0,0,0,0.6);
+    overflow: auto; /* Enable scroll if needed */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1050;
+    cursor: not-allowed;
+    display: block;
+    transition:none;
+    
+}
+.dialog-content{
+    padding-top:50px;
+    padding-bottom: 100px;
+}
+.modal-container{
+    min-height: 400px;
+}

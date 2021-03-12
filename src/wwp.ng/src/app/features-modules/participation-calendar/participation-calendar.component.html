@@ -1,0 +1,31 @@
+<div *ngIf="!isLoaded">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Participation Tracking Calendar'"></app-loading>
+</div>
+<div *ngIf="isLoaded">
+  <app-sub-header [pageTitle]="'W-2 Participation Calendar'"
+    [goBackUrl]="goBackUrl"
+    [helpComponent]="'Participation-Calendar'"
+    [participant]="participant"></app-sub-header>
+  <app-calendar *ngIf="showCalendar"
+    (nextMonthClicked)="nextMonthClicked($event)"
+    (previousMonthClicked)="previousMonthClicked($event)"
+    [events]="events"
+    [viewDate]="viewDate"
+    [isWeeklyHoursRequired]="false"
+    [isPTPeriod]="true"
+    [iseventsLoaded]="iseventsLoaded"
+    [eventsName]="'ptEvents'"
+    [isForwardingDisabled]="isForwardingCalendarDisabled"
+    [isBackwardingDisabled]="isBackwardingDisabled"
+    (activityClicked)="loadPE($event)"
+    (buttonClicked)="makeFullOrNoParticipation($event)"
+    [isCloseButtonRequired]="false"
+    [canEdit]="canEdit"
+    [extraColumnWithButtons]="true"></app-calendar>
+  <app-participation-entry *ngIf="isPEEnabled"
+    [singlePTEvent]="singlePTEvent"
+    [pin]="pin"
+    [participantId]="participantId"
+    (saveEvent)="getEvents()"></app-participation-entry>
+</div>

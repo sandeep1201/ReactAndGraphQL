@@ -1,0 +1,24 @@
+<div class="modal-overlay" *ngIf="model">
+    <div class="modal-container" >
+        <header>
+            <div class="wrapper">
+                <h4 class="left" *ngIf="warningType === 'end'" >End Extension</h4>
+                <h4 class="left" *ngIf="warningType === 'delete'" >Delete Extension</h4>
+            </div>
+        </header>
+        <section class="dialog-content">
+           <span *ngIf="warningType === 'end'" >     Ending this extension will cause the decision to no longer effect its time limit. Please ensure this does not mistakenly cause the participant's placement to end.</span>
+           <span *ngIf="warningType === 'delete'" >Deleting this extension will cause the decision to no longer effect its time limit. Please ensure this does not mistakenly cause the participant's placement to end.</span>
+        </section>
+        <footer class="nav-footer">
+          <div class="wrapper">
+            <div class="right">
+                <button class="btn btn-add" [disabled]="isSaving" (click)="exit()">Cancel</button>
+                <button class="btn btn-primary disabled" [disabled]="true" *ngIf="isSaving">&nbsp;&nbsp;&nbsp;<i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>&nbsp;&nbsp;&nbsp;</button>
+                <button class="btn btn-primary" *ngIf="!isSaving && warningType === 'end'" (click)="endExtension()">Confirm</button>
+                <button class="btn btn-primary" *ngIf="!isSaving && warningType === 'delete'" (click)="deleteExtension()">Confirm</button>
+            </div>
+          </div>
+        </footer>
+    </div>
+</div>

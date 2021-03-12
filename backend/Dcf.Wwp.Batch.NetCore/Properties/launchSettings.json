@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Dcf.Wwp.Batch": {
+      "commandName": "Project",
+      "commandLineArgs": "-j JWWWP00",
+      "environmentVariables": {
+        "WWP_DB_USER": "WWPDEV_APP",
+        "WWP_DB_NAME": "WWPDEV",
+        "WWP_DB_PASS": "Br0cc0l1",
+        "WWP_APP_ENV": "DEV",
+        "WWP_DB_SERVER": "DBWMAD0D2613, 2025"
+      }
+    }
+  }
+}

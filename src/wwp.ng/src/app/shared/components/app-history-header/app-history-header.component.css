@@ -1,0 +1,264 @@
+
+
+.secTitle {
+  font-size: 1.5em;
+}
+
+/* :host {
+  display: table;
+  width: 100%;
+} */
+
+div.partTitle {
+  margin-top: 1em;
+}
+
+div.partTitle.btm-line {
+  border-bottom: 1px solid #bdc3c7;
+  margin-bottom: 0.5em;
+}
+
+div.partTitle span {
+  font-size: 1.5em;
+}
+
+div.partTitle nav {
+  font-size:0.8em;
+  margin: 0.5em 0;
+  padding-top: 2.15px;
+}
+
+div.partTitle nav a {
+  padding: 0.5em 1em;
+  border-left: 1px solid #bdc3c7;
+  color: #2980b9!important;
+}
+
+div.partTitle nav a:first-child {
+  border-left:none;
+}
+
+div.partTitle nav a:hover {
+  color: #31B0D5!important;
+  cursor: pointer!important;
+}
+
+div.partTitle nav a.history {
+  color:#e67e22!important;
+}
+
+:host div.part.history {
+  border-color: #e5ab7f;
+  background: #f9e4d4;
+}
+
+:host div.part.history .row,
+:host div.part.history .overview-field {
+  border-color: #e5ab7f!important;
+}
+
+:host div.part.history div.row.reprow {
+  background: #e5ab7f!important;
+}
+
+:host div.part.history .overview-field.caret::after {
+  border-color: #e5ab7f transparent transparent transparent;
+}
+
+.part {
+  margin-bottom:0.5em;
+  border-bottom: 1px solid #bdc3c7;
+  box-shadow:1px 2px 1px rgba(0,0,0,.1);
+  height:100%;
+}
+
+/* .part.collapse {
+  display: block;
+  height:0;
+  overflow: hidden;
+}
+
+.part .row {
+  border: 1px solid #bdc3c7;
+  margin: 0;
+  border-bottom:none;
+  background: rgba(255,255,255,.5);
+  height:auto;
+} */
+/*
+main {
+  opacity:1;
+  transform: translateY(0px);
+  transition-property: transform,opacity,width !important;
+  transition-duration: 0.5s !important;
+  transition-timing-function: ease-in-out !important;
+} */
+
+main.loading {
+  opacity:0;
+}
+
+.comment .overview-field.pin-comment {
+  background: #fff;
+}
+
+.overview-field {
+  border-left:1px solid #bdc3c7;
+  padding:0.25em 0.5em;
+  position:relative;
+}
+
+.row .overview-field:first-child {
+  border-left:none;
+}
+
+:host div.row.reprow {
+  background: #bdc3c7 !important;
+  color: #fff;
+  padding: 0.25em 0.5em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.9em;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 0px #7f8c8d;
+}
+
+.overview-field.caret::after {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:0;
+  border-color: #bdc3c7 transparent transparent transparent;
+  border-style:solid;
+  border-width:8px 8px 0 0;
+
+}
+/*
+.overview-field .ovtitle {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  display: block;
+  font-weight: 700;
+  color: #63899D;
+}
+
+.overview-field .ovval {
+  display: block;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.overview-field .ovval:after {
+  position:relative;
+  content: "\00a0";
+}
+
+.overview-field.blank {
+ background: rgba(0,0,0,.05);
+}
+
+.overview-field.blank .ovtitle {
+  color:#95a5a6;
+}
+
+.overview-field.error {
+  background:rgba(231, 76, 60,0.1);
+}
+
+.overview-field.error .ovtitle {
+  color:#c0392b;
+}
+
+.pin-comment {
+  padding-bottom: 1em;
+} */
+
+#sidebar {
+  opacity:1;
+  transform: translateX(0);
+  transition: opacity 0.5s, transform 0.5s, width 0.5s;
+  -webkit-transition: opacity 0.5s, transform 0.5s, width 0.5s;
+  transition-timing-function: ease-in-out !important;
+}
+
+#sidebar.loading {
+  opacity:0;
+  transform: translateX(-10%);
+}
+
+/* HISTORY */
+
+/* .overview-field.history {
+  background: rgba(211, 84, 0, .2);
+}
+
+.overview-field.history:hover {
+  cursor: pointer;
+}
+
+.overview-field.history .ovtitle {
+  color:#e67e22;
+  position: relative;
+}
+
+.overview-field.history .ovtitle:after {
+  content:"\f1da";
+  font-family:"FontAwesome";
+  margin-left: 0.5em;
+}
+
+.overview-field.history .ovval.deleted:after {
+  content:"\f1f8";
+  font-family:"FontAwesome";
+  color:#e5ab7f;
+  font-size:1.25em;
+  position: absolute;
+  top:0.8em;
+  padding:0;
+} */
+
+/* .row.action-needed, .row.action-needed .overview-field {
+  padding:0;
+} */
+
+.an-icon {
+  position: relative;
+  float:left;
+  background:#ecf0f1;
+}
+
+.an-icon a {
+  font-size: 1.5em;
+  padding: 0.3em 0.5em;
+  color: #7f8c8d;
+  display: block;
+}
+
+.an-icon a:hover {
+  cursor: pointer;
+  color:#95a5a6;
+  background:#fff;
+}
+
+.an-value {
+  display: inline-block;
+}
+
+/* .an-icon a i {
+
+} */
+
+.history-dropdown {
+  flex-direction: row-reverse;
+  flex-grow: 1;
+}
+
+ .line-height-75 {
+  line-height:0.75;
+}
+
+.disabledBtn {
+  border: 0px;
+}

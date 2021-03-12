@@ -1,0 +1,200 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'EA IPV Add/Edit'"></app-loading>
+  <div *ngIf="isLoaded">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitEdit()"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class=" row wrapper">
+        <div class="clearfix col-md-6">
+          <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+            (click)="cancel()"
+            title="Close EA IPV">
+            <i class="fa fa-times"></i>
+          </a>
+          <h1 id="editPageTitle"
+            class="px-3">{{isReadOnly ? "" : !ipvModel || ipvModel.id === 0 ? "New" : "Edit"}} EA IPV</h1>
+        </div>
+        <div class="history col-md-6"
+          *ngIf="ipvModel && ipvModel?.modifiedBy">
+          <app-modified-stamp [readOnly]="true"
+            [author]="ipvModel.modifiedBy"
+            [lastModified]="ipvModel.modifiedDate">
+          </app-modified-stamp>
+        </div>
+      </div>
+    </header>
+    <div class="edit-content">
+      <div class="wrapper pad1">
+        <div class="row pad1-0">
+          <main id="app-ipv-edit"
+            class="col-md-9">
+            <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+            <div class="row">
+              <div class="col-md-3">
+                <label>Determination Date</label>
+                <app-date-mm-dd-yyyy [(ngModel)]="ipvModel.determinationDate"
+                  (ngModelChange)="ipvModel.determinationDate = $event; validate()"
+                  [isRequired]="!(isReadOnly || ipvModel.isOverTurned)"
+                  [isInvalid]="modelErrors['determinationDate']"
+                  [isReadOnly]="isReadOnly || ipvModel.isOverTurned"
+                  [cacheInnerValue]="cachedIpvModel?.determinationDate">
+                </app-date-mm-dd-yyyy>
+              </div>
+            </div>
+            <div *ngIf="ipvModel?.id !== 0"
+              class="row pt-3">
+              <div class="col-md-3">
+                <label>IPV #</label>
+                <app-text-input [(ngModel)]="ipvModel.iPVNumber"
+                  [isReadOnly]="true">
+                </app-text-input>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-md-12 autoWidth">
+                <label>Reason(s) <span class="small">(Select all that apply.)</span></label>
+                <br />
+                <app-multi-select-dropdown [options]="reasonTypes"
+                  [(ngModel)]="ipvModel.reasonIds"
+                  (ngModelChange)="ipvModel.reasonIds = $event; validate();"
+                  [isReadOnly]="isReadOnly || ipvModel.isOverTurned"
+                  [isDisabled]="isReadOnly || ipvModel.isOverTurned"
+                  [isInvalid]="modelErrors['reasonIds']"
+                  [isRequired]="!isReadOnly"
+                  [cacheInnerValue]="cachedIpvModel?.reasonIds"
+                  [placeholder]="'Reasons'"
+                  [isHistorical]="true"></app-multi-select-dropdown>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-md-12">
+                <label>Occurrence</label>
+                <app-select [(ngModel)]="ipvModel.occurrenceId"
+                  (ngModelChange)="ipvModel.occurrenceId = $event; validate()"
+                  [cacheInnerValue]="cachedIpvModel?.occurrenceId"
+                  [dropDownList]="occurrenceTypes"
+                  [isInvalid]="modelErrors['occurrenceId']"
+                  [isRequired]="true"
+                  [isReadOnly]="isReadOnly || ipvModel.isOverTurned"
+                  [isResizable]="true"></app-select>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-md-3">
+                <label>WI County of Residence</label>
+                <app-auto-complete [(ngModel)]="ipvModel.countyId"
+                  (ngModelChange)="ipvModel.countyId = $event; validate();"
+                  [isValidByParent]="modelErrors['countyId']"
+                  [cacheInnerValue]="cachedIpvModel?.countyId"
+                  [dropDownList]="countiesDrop"
+                  [isDisabled]="isReadOnly || ipvModel.isOverTurned"
+                  [isRequired]="false"></app-auto-complete>
+              </div>
+              <div class="col-md-9">
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-md-12 pl-0">
+                <app-finalist-address [isReadOnly]="isReadOnly || ipvModel.isOverTurned"
+                  [isDisplayed]="!isReadOnly"
+                  [isWIDefault]="false"
+                  [modelErrors]="modelErrors"
+                  (modelChange)="ipvModel.mailingAddress = $event;  validate();"
+                  [locationAddress]="ipvModel.mailingAddress"
+                  (validateButtonStatus)="mailingAddressValidateStatus = $event"
+                  [addressHeader]="'Applicant Mailing Address'"></app-finalist-address>
+              </div>
+            </div>
+            <ng-container *ngIf="ipvModel?.id !== 0">
+              <div class="row pt-3">
+                <div class="col-md-12">
+                  <label>Status</label><br />
+                  <div class="row align-items-center">
+                    <app-text-input class="col-md-3"
+                      [(ngModel)]="ipvModel.statusName"
+                      [isReadOnly]="true"></app-text-input>
+                    <ng-container *ngIf="showOverTurned()">
+                      <label class="col-md-2 px-0">
+                        <input [(ngModel)]="ipvModel.isOverTurned"
+                          (ngModelChange)="setOverTurnedFields($event); validate();"
+                          type="checkbox"
+                          name="checkbox"
+                          value="true"
+                          [disabled]="isReadOnly || isOverTurnDisabled"
+                          class="mr-2 ml-4">Overturned</label>
+                      <ng-container *ngIf="ipvModel.isOverTurned">
+                        <label class="col-md-3 px-0">(Enter Date IPV Overturned)</label>
+                        <app-date-mm-dd-yyyy class="col-md-2 px-0"
+                          [(ngModel)]="ipvModel.overTurnedDate"
+                          (ngModelChange)="ipvModel.overTurnedDate = $event; validate()"
+                          [isRequired]="!isOverTurnedDateDisabled"
+                          [isInvalid]="modelErrors['overTurnedDate']"
+                          [isReadOnly]="isOverTurnedDateDisabled"
+                          [cacheInnerValue]="cachedIpvModel?.overTurnedDate">
+                        </app-date-mm-dd-yyyy>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-3">
+                <div class="col-md-3">
+                  <label>Penalty Start Date</label>
+                  <app-text-input [(ngModel)]="ipvModel.penaltyStartDate"
+                    [isReadOnly]="true"></app-text-input>
+                </div>
+              </div>
+              <div class="row pt-3">
+                <div class="col-md-3">
+                  <label>Penalty End Date</label>
+                  <app-text-input [(ngModel)]="ipvModel.displayPenaltyEndDate"
+                    [isReadOnly]="true"></app-text-input>
+                </div>
+              </div>
+            </ng-container>
+            <div class="form-page py-3">
+              <div class="col-md-12 pl-0">
+                <label>{{isReadOnly ? 'Description' : 'Description (text will not display on EA IPV Notice)'}}</label>
+                <app-text-area [(ngModel)]="ipvModel.description"
+                  (ngModelChange)="ipvModel.description = $event; validate();"
+                  [placeholder]="'Describe the IPV'"
+                  [isRequired]="true"
+                  [isReadOnly]="isReadOnly || ipvModel.isOverTurned"
+                  [cacheInnerValue]="cachedIpvModel?.description"
+                  [isInvalid]="modelErrors['description']"></app-text-area>
+              </div>
+            </div>
+            <div class="form-page"
+              *ngIf="ipvModel.id === 0">
+              <hr />
+              <div class="col-md-12 pl-0">
+                <label class="noteLabel">EA IPV Notice will automatically be generated when you
+                  Submit.</label>
+                <label class="noteText">Any additional notes you would like to include on the EA IPV Notice
+                  should be entered
+                  here.</label>
+                <app-text-area [(ngModel)]="ipvModel.notes"
+                  (ngModelChange)="ipvModel.notes = $event; validate();"
+                  [cacheInnerValue]="cachedIpvModel?.notes"
+                  [restrictCharactersForEA]="true"></app-text-area>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <footer class="edit-footer">
+      <app-cancel-save-footer [hadSaveError]="hadSaveError"
+        [isSaving]="isSaving"
+        [isReadOnly]="isReadOnly"
+        [isDisabled]="(ipvModel?.id === 0 || isSectionModified) && isSectionValid && mailingAddressValidateStatus"
+        [canSubmit]="ipvModel?.id === 0"
+        [showSubmitInGreen]="true"
+        (cancelEvent)="cancel()"
+        (submitEvent)="submit()"
+        (saveEvent)="submit()"></app-cancel-save-footer>
+    </footer>
+  </div>
+</div>

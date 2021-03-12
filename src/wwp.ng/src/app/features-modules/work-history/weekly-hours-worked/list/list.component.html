@@ -1,0 +1,139 @@
+<app-sub-header pageTitle="Weekly Hours Worked"
+  [goBackUrl]="goBackUrl"
+  [participant]="participant"
+  [isSectionModified]="false"
+  [helpComponent]="'work-history-app-list'"></app-sub-header>
+<app-sub-header-nav *ngIf="!isInEditMode"
+  [mode]="'App'"
+  activeItem="Weekly Hours Worked">
+</app-sub-header-nav>
+<app-loading [isLoaded]="isLoaded"
+  [loadingLabel]="'Hourly Entries(s)' "></app-loading>
+<ng-container *ngIf="!isInEditMode && isLoaded">
+  <div class="row">
+    <div class="col-md-6">
+      <button (click)="sortByDate()"
+        class="btn border"
+        [ngClass]="{sort: true, asc: isSortByDateToggled, desc: !isSortByDateToggled}"
+        data-sort="date">Sort by
+        Date</button></div>
+    <div class="col-md-6 d-flex justify-content-end" *ngIf="!isStateStaff">
+      <button id=""
+        class="btn btn-add"
+        [disabled]="totalLifeTimeTMJTJSubsidizedHours >= maximumLifeTimeSubsidizedHoursAllowed"
+        (click)="onAdd()">+ Add Weekly Hours</button>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="!weeklyHoursWorkedEntries?.length"
+      class="w-100">
+      <blockquote class="tcenter pad2">
+        <p>No Hourly Entries</p>
+      </blockquote>
+    </div>
+  </div>
+  <div class="border-bottom"
+    *ngIf="weeklyHoursWorkedEntries?.length > 0">
+    <div class="col-md-12 d-flex justify-content-center">
+      <p>{{totalSubsidizedHours}} Total Subsidized Hours</p>
+    </div>
+  </div>
+  <div *ngIf="weeklyHoursWorkedEntries?.length > 0">
+    <div class="list-item p-1"
+      *ngFor="let entry of weeklyHoursWorkedEntries | paginate: config">
+      <div class="row p-1">
+        <div class="col-md-2">
+          <h6>Start Date:
+            <span class="tgrey3 wrapword">{{entry.startDate | dateMmDdYyyy}}</span>
+          </h6>
+        </div>
+        <div class="col-md-2">
+          <h6>Hours:
+            <span class="tgrey3 wrapword">{{entry.hours }}</span>
+          </h6>
+        </div>
+        <div class="col-md-3">
+          <h6>Total Subsidy Amount:
+            <span class="tgrey3 wrapword">${{entry.totalSubsidyAmount }}</span>
+          </h6>
+        </div>
+        <div class="col-md-4">
+          <div class="history">
+            <div class="lastEdit">
+              <div><i class="fa fa-pencil-alt"></i> Last Edited by <strong
+                  class="languages-lastEdit-author">{{entry.modifiedBy}}</strong></div>
+              <div><i class="fa fa-calendar"></i> <strong
+                  class="languages-lastEdit-date">{{entry.modifiedDate | date:'short'}}</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 btn-item" *ngIf="!isStateStaff">
+          <button class="btn btn-del allowClick edit mr-1"
+            (click)="edit(entry)"
+            [disabled]="canEdit(entry)">
+            <i class="fa fa-pencil-alt"></i>
+          </button>
+          <button class="btn btn-del allowClick edit" *ngIf="!isStateStaff"
+            (click)="onDelete(entry)">
+            <i class="fa fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 offset-md-4">
+          <h6>Total Work Site Amount:
+            <span class="tgrey3 wrapword">${{entry.totalWorkSiteAmount }}</span>
+          </h6>
+        </div>
+      </div>
+
+      <div class="row p-1">
+        <div class="col-md-12">
+          <h6>Details:
+            <span class="tgrey3 wrapword">{{entry.details}}</span>
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tcenter full pad1-0">
+    <pagination-template *ngIf="weeklyHoursWorkedEntries?.length > config.itemsPerPage"
+      #p="paginationApi"
+      [id]="config.id"
+      (pageChange)="config.currentPage = $event"
+      class="center">
+      <button class="btn btn-add"
+        (click)="p.previous()"
+        *ngIf="!p.isFirstPage()"><i class="fa fa-angle-left"></i></button>
+      <button class="btn btn-add disabled"
+        *ngIf="p.isFirstPage()"><i class="fa fa-angle-left"></i></button>
+      <span class="paging-info pad0-1">
+        {{numberInView(config, p, weeklyHoursWorkedEntries?.length)}} of {{weeklyHoursWorkedEntries?.length}}
+      </span>
+      <button class="btn btn-add"
+        (click)="p.next()"
+        *ngIf="!p.isLastPage()"><i class="fa fa-angle-right"></i></button>
+      <button class="btn btn-add disabled"
+        *ngIf="p.isLastPage()"><i class="fa fa-angle-right"></i></button>
+    </pagination-template>
+  </div>
+</ng-container>
+
+
+<app-hourly-entry-edit *ngIf="isInEditMode"
+  [inputModel]="weeklyHoursWorkedEntry"
+  [weeklyHoursWorkedEntries]="weeklyHoursWorkedEntries"
+  [employment]="employment"
+  [pin]="pin"
+  [participant]="participant"
+  (cancel)="onExitEditView($event)">
+</app-hourly-entry-edit>
+
+<app-confirm-dialog *ngIf="inConfirmDeleteView"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()"
+  title="Delete Weekly Hours Worked"
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  message="Deleting a weekly hours worked entry will remove its information throughout the entire application. Are you sure you want to do this?">
+</app-confirm-dialog>

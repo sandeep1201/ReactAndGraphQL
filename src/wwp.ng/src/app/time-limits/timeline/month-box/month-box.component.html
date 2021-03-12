@@ -1,0 +1,14 @@
+<div class="month-container"  [class.selected]="isSelected" [ngClass]="containerClasses">
+  <div class="federal-bar" [ngClass]="federalBarClasses"></div>
+  <div class="state-bar" [ngClass]="stateBarClasses"></div>
+  <div class="placement-bar" [ngClass]="placementBarClasses"></div>
+  <div class="month-bar">
+    <div class="month-box" (click)="onMonthClick()">
+      <div class="clock-type">{{ model.tick.tickType | clockTypeName }}</div>
+      <div class="month">{{model.date | amDateFormat : 'MMM'}}</div>
+    </div>
+  </div>
+  <div class="year-bar">
+    <div class="year-label" *ngIf="model.isJanuary"><span>{{model.date | amDateFormat: 'YYYY' }}</span></div>
+  </div>
+</div>

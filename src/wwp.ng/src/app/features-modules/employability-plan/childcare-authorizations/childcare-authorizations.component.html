@@ -1,0 +1,38 @@
+<div id="edit-container">
+  <header class="edit-header">
+    <div class=" row wrapper">
+      <div class="clearfix col-md-6">
+        <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+          (click)="closeModal.emit(false)"
+          title="Close CC Authorizations">
+          <i class="fa fa-times"></i>
+        </a>
+        <h1 id="editPageTitle"
+          class="px-3">Child Care Authorizations</h1>
+      </div>
+    </div>
+  </header>
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Child Care Authorizations'"></app-loading>
+  <div class="edit-content"
+    *ngIf="isLoaded">
+    <div class="wrapper pad1">
+      <main class="col-md-9">
+        <div class="row pt-3">
+            <label>Effective Date:</label>&nbsp;
+            <div class="tgrey3">{{model.effectivePeriod}}</div>
+        </div>
+        <div class="pt-3" *ngFor="let period of model.periods">
+          <div class="row pb-2 border-bottom">
+            <div class="col-md-9">{{period.month+" "+period.year}}</div>
+            <div class="col-md-3">Authorized Hours</div>
+          </div>
+          <div class="row pt-2 tgrey3" *ngFor="let child of period.children">
+            <div class="col-md-9">{{child.name}}</div>
+            <div class="col-md-3">{{child.hours}}</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

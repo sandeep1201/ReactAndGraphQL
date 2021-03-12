@@ -1,0 +1,13 @@
+.app-content {
+  position: absolute;
+  top: 3em;
+  bottom: 2em;
+  width: 100%;
+  left: 0;
+}
+
+.autoWidth {
+  min-width: 486px;
+  width: fit-content;
+  overflow-wrap: break-word;
+}

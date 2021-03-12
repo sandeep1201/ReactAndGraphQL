@@ -1,0 +1,250 @@
+<div id="app-container">
+  <app-dialog-box *ngIf="appService?.isDialogPresent"
+    (dialogClose)="exitPartBarsIgnoreChanges($event)"
+    [doesNotNavigateBack]="true"></app-dialog-box>
+
+  <header class="nav-header">
+    <div class="wrapper">
+      <div class="clearfix">
+        <a class="btn btn-back btn-secondary-outline btn-sm"
+          title="Close Record"
+          (click)="exitPartBars()">
+          <i class="fa fa-times"></i>
+        </a>
+        <h1 id="pageTitle"
+          class="px-3">Participant Barrier</h1>
+        <app-help-button [featureName]="'participant-barriers-add-edit-help'"></app-help-button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-content">
+    <div class="wrapper pad1">
+
+      <div class="row pad1-0"
+        *ngIf="model && participantDOB">
+        <!--  *ngIf="model" -->
+
+        <aside id="sidebar"
+          [class.col-md-3]="!isCollapsed"
+          [class.col-md-1]="isCollapsed">
+          <div class="toggle-side"
+            (click)="sidebarToggle()">
+            <i class="fa fa-bars"></i>
+          </div>
+          <ul class="participant-menu popmenu">
+            <li class="menu-item wh-details"
+              data-goto="wh-details">Barrier Details</li>
+            <li class="menu-item wh-fa"
+              data-goto="wh-fc">Formal Assessment</li>
+            <li class="menu-item wh-acc"
+              data-goto="wh-acc">Accommodations</li>
+          </ul>
+
+        </aside>
+
+        <main id="main-work-history"
+          [class.col-md-9]="!isCollapsed"
+          [class.col-md-11]="isCollapsed">
+
+          <app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+          <fieldset id="wh-details">
+
+            <h4 class="part-title">Barrier Details</h4>
+            <blockquote></blockquote>
+
+            <div class="pad1-0">
+
+              <div class="row">
+
+                <div class="col-md-9">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Barrier Type</label><br />
+                      <app-select [dropDownList]="participantBarriersDrop"
+                        [(ngModel)]="model.barrierTypeId"
+                        (ngModelChange)="model.barrierTypeId = $event; initSubBarriersDrop(false); validate()"
+                        [cacheInnerValue]="this.originalModel?.barrierTypeId"
+                        [isInvalid]="modelErrors['barrierTypeId']"
+                        [isRequired]="true"></app-select>
+                    </div>
+                    <div class="col-md-5">
+                      <label>Barrier Subtype <span class="small">(Select all that apply.)</span></label><br />
+                      <app-multi-select-dropdown [options]="subBarriersDrop"
+                        [(ngModel)]="model.barrierSubType.barrierSubTypes"
+                        (ngModelChange)="model.barrierSubType.barrierSubTypes = $event; validate();"
+                        [cacheInnerValue]="this.originalModel?.barrierSubType?.barrierSubTypes"
+                        [isDisabled]="model.barrierTypeId == null || model.barrierTypeId == aodaId || model.barrierTypeId == domesticViolenceId"
+                        [isInvalid]="modelErrors['barrierSubType']"
+                        [isRequired]="isSubBarrierTypeRequired(model)">
+                      </app-multi-select-dropdown>
+                    </div>
+                    <div class="col-md-3">
+                      <label>Onset Month</label><br />
+                      <app-date-mm-yyyy [(ngModel)]="model.onsetDate"
+                        (ngModelChange)="model.onsetDate = $event; validate();"
+                        [cacheInnerValue]="this.originalModel?.onsetDate"
+                        [isRequired]="true"
+                        [isInvalid]="modelErrors['onsetDate']"></app-date-mm-yyyy>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>&nbsp;</label><br />
+                      <app-text-area [maxlength]="380"
+                        [(ngModel)]="model.details"
+                        (ngModelChange)="model.details = $event; validate();"
+                        [cacheInnerValue]="this.originalModel?.details"
+                        [isInvalid]="modelErrors['barrierDetails']"
+                        [isRequired]="subBarrierHasValue(model.barrierSubType.barrierSubTypes)"
+                        [isAutoSizeable]="true"
+                        [placeholder]="'Details'"></app-text-area>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12 standout"
+                      style="margin-top: -0.5em; top: -1px;">
+                      <label>End Month</label><br />
+                      <app-date-mm-yyyy [(ngModel)]="model.endDate"
+                        (ngModelChange)="model.endDate = $event; validate();"
+                        [cacheInnerValue]="this.originalModel?.endDate"
+                        [isRequired]="false"
+                        [isInvalid]="modelErrors['endDate']"></app-date-mm-yyyy>
+                      <div class="small tgrey3 padhalf">Entering an End Month will close the
+                        barrier once the month has elapsed.</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <app-contacts-repeater [(ngModel)]="model.contacts"
+                  (ngModelChange)="model.contacts = $event;"
+                  [pin]="pin"
+                  [maxContacts]="5"></app-contacts-repeater>
+                <!--<app-contacts-embed [pin]="pin" [(ngModel)]="model.treatmentProviderContactId"></app-contacts-embed><br />
+              <span class="right"><button class="btn btn-primary">+ Add Contact</button></span>-->
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset *ngIf="isFormalAssessmentDisplayed()"
+            id="wh-fc">
+
+            <h4 class="part-title">Formal Assessment</h4>
+
+            <div class="docs-holder row justify-content-center">
+              <a href="https://dcf.wisconsin.gov/files/forms/pdf/2012.pdf"
+                target="_blank"
+                class="btn btn-primary">
+                <span><i class="fa fa-file-alt"></i></span>
+                <p>Medical Examination and Capacity form</p>
+                <p class="small"><strong>DCF-F-DWSP2012</strong></p>
+                <br />
+              </a>
+
+              <a href="https://dcf.wisconsin.gov/files/forms/pdf/126.pdf"
+                target="_blank"
+                class="btn btn-primary">
+                <span><i class="fa fa-file-alt"></i></span>
+                <p>Mental Health Report form</p>
+                <p class="small"><strong>DCF-F-126</strong></p>
+                <br />
+              </a>
+
+              <a href="https://dcf.wisconsin.gov/files/forms/doc/2564.docx"
+                target="_blank"
+                class="btn btn-primary">
+                <span><i class="fa fa-file-alt"></i></span>
+                <p>Services and Accommodations<br />To Help You Do Your W-2 Activities</p>
+                <p class="small"><strong>DCF-F-2564-E</strong></p>
+              </a>
+
+              <a href="https://dcf.wisconsin.gov/files/forms/doc/2565.docx"
+                target="_blank"
+                class="btn btn-primary">
+                <span><i class="fa fa-file-alt"></i></span>
+                <p>W-2 Formal Assessment Agreement</p>
+                <p class="small"><strong>DCF-F-2565-E</strong></p>
+                <br />
+              </a>
+            </div>
+
+            <app-formal-assessments [(ngModel)]="model.formalAssessments"
+              (ngModelChange)="model.formalAssessments = $event; validate()"
+              [modelsDeleted]="model.deletedFormalAssessments"
+              [pin]="pin"
+              [cachedInitialModels]="this.originalModel?.formalAssessments"
+              [modelErrors]="modelErrors['formalAssessments']"
+              (intervalTypeDataEmit)='onIntervalTypeDataEmit($event)'>
+            </app-formal-assessments>
+
+          </fieldset>
+
+          <fieldset id="wh-acc">
+
+            <h4 class="part-title">Accommodations</h4>
+            <blockquote></blockquote>
+
+            <div class="pad1-0">
+              <div class="row">
+                <div class="col-md-8">
+                  <label class="control-label">Are accommodations needed for this barrier?</label>
+                </div>
+                <div class="col-md-4">
+                  <div class="right">
+                    <app-yes-no-basic [(ngModel)]="model.isAccommodationNeeded"
+                      (ngModelChange)="model.isAccommodationNeeded = $event; validate()"
+                      [cacheInnerValue]="this.originalModel?.isAccommodationNeeded"
+                      [isRequired]="isAccommodationNeededRequired()"
+                      [errorIndicator]="modelErrors['isAccommodationNeeded']"
+                      [isDisabled]="model.hasNonEmptyAccommodations"></app-yes-no-basic>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <app-accommodations [(ngModel)]="model.barrierAccommodations"
+              (ngModelChange)="model.barrierAccommodations = $event; validate()"
+              [modelsDeleted]="model.deletedBarrierAccommodations"
+              [modelErrors]="modelErrors['barrierAccommodations']"
+              [cachedInitialModels]="this.originalModel?.barrierAccommodations"
+              *ngIf="model.isAccommodationNeeded == true"></app-accommodations>
+
+          </fieldset>
+
+
+          <hr />
+
+
+          <!--</div>-->
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <footer *ngIf="model && participantDOB"
+    class="nav-footer p-1">
+    <div class="wrapper tright">
+      <div *ngIf="hadSaveError">There was an error saving.</div>
+      <button *ngIf="isSaving"
+        class="btn btn-primary btn-save disabled"><i class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>
+        Saving </button>
+      <button *ngIf="!isSaving"
+        [ngClass]="{disabled: !isSectionValid}"
+        (click)="saveAndExit()"
+        class="btn btn-primary btn-save">Save
+        &amp; Exit</button>
+    </div>
+  </footer>
+
+</div>

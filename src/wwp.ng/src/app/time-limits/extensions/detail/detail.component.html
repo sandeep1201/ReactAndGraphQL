@@ -1,0 +1,105 @@
+<app-sub-header [participant]="participant" [helpComponent]="'tl-ext-decisions'" pageTitle='Time Limit' [goBackUrl]="goBackUrl"></app-sub-header>
+<app-sub-header-nav mode="TimeLimits" [pin]="pin" [participant]="participant"></app-sub-header-nav>
+
+<div class="clearfix">
+<div class="left"> <h4>Extension Details</h4></div>
+<div class="right">
+    <button type="button" class="btn btn-toggle" (click)="toggleDeleted()" *ngIf="!showDeleted">Show Deleted Decisions</button>
+    <button type="button" class="btn btn-toggle" (click)="toggleDeleted()" *ngIf="showDeleted">Hide Deleted Decisions</button>
+    <br><br>
+  </div>
+</div>
+<main>
+
+<div class="desc-holder clearfix">
+  <div class="tabs-holder left">
+    <button class="btn btn-tab tcenter" *ngFor="let ext of extensions; let i = index;" (click)="selectExtension(ext.id)" [class.select]="ext.id === selectedExtension?.id" [class.deleted]="ext.isDeleted"> <!-- for each decision -->
+      <span class="dec">{{ ExtensionDecision[ext.decision] }}</span> <br />
+      <span class="date">{{ext.decisionDate | amDateFormat:"MM/YYYY"}}</span>
+    </button>
+  </div>
+
+  <div class="add-desc right">
+    <button class="btn btn-add" (click)="showExtensionForm()" [disabled]="!canAppendToSequence()"><i class="fa fa-plus"></i> Add Extension Decision</button>
+  </div>
+</div>
+
+<div class="details-holder">
+  <div class="detail-box" *ngIf="selectedExtension" [class.deleted]="selectedExtension.isDeleted"> <!-- for each decision -->
+
+      <div class="row pad1-0">
+        <div class="col-md-8">
+          <h5 class="left decision">{{ ExtensionDecision[selectedExtension.decision] }}</h5>
+          <span class="type pad0-1">{{ selectedExtension.clockType.valueOf() | clockTypeName }}</span>
+        </div>
+        <div class="col-md-4 tright">
+          <app-modified-stamp *ngIf="selectedExtension?.modifiedBy" [readOnly]="true" [author]="selectedExtension?.modifiedBy" [lastModified]="selectedExtension?.modifiedDate | amDateFormat: 'M/D/YYYY hh:mm A'"></app-modified-stamp>
+          <!-- NEEDS TO ADD LAST EDITED INFORMATION -->
+          <button *ngIf="printEnabled" class="btn btn-secondary"><i class="fa fa-print"></i> Print</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <!--<div class="col-md-3">
+          <label>Discussion Date:</label> <span class="date det-answer"> {{ ext.discussionDate | amDateFormat:"MM/DD/YYYY" }}</span>
+        </div>-->
+        <div class="col-md-4">
+          <label>Decision Date:</label> <span class="date det-answer">{{ selectedExtension.decisionDate | amDateFormat:"MM/DD/YYYY hh:mm a" }}</span>
+        </div>
+        <div class="col-md-4">
+          <label>Begin Month:</label> <span class="month det-answer">{{ selectedExtension.dateRange?.start | amDateFormat:"MM/YYYY" | default:"-" }}</span>
+        </div>
+        <div class="col-md-4">
+          <label>End Month:</label> <span class="month det-answer">{{ selectedExtension.dateRange?.end | amDateFormat:"MM/YYYY" | default:"-" }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label>Reason:</label>
+          <span class="reason det-answer">{{ getExtReason(selectedExtension).name }}</span>
+        </div>
+        <div class="col-md-8">
+          <label>Details:</label>
+          <span class="reason det-answer">{{ selectedExtension.reasonDetails }} </span>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--<div class="row">
+        <div class="col-md-12">
+          <label>Does the participant have DVR referral pending?</label><br />
+          <span class="det-answer">{{ ext.dvrReferralPending | yesNo }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label>Is the participant receiving DVR services?</label><br />
+          <span class="det-answer">{{ ext.recieivingDvrServices | yesNo }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label>Does the participant have a pending SSI/SSDI application or appeal?</label><br />
+          <span class="det-answer">{{ ext.pendingSSAppOrAppeal | yesNo }}</span>
+        </div>
+      </div>
+
+      <hr />-->
+
+      <div class="row">
+        <div class="col-md-12 tright">
+          <button class="btn btn-add" (click)="showExtensionDeleteWarning('delete')" [disabled]="!canDeleteSelectedDecision()"><i class="fa fa-trash-alt"></i> Delete Decision</button>
+        </div>
+      </div>
+
+      <div class="padhalf clearfix full"></div>
+
+  </div>
+</div>
+</main>
+<app-edit-extension [pin]="pin" (save)="onExtensionSaved($event)" (close)="onExtensionSaved()" [timeline]="timeline" [model]="selectedEditExtension"></app-edit-extension>
+<app-delete-warning [model]="selectedDeleteExtension" [warningType]="deleteWarningType" [pin]="pin" (close)="onExtensionSaved()" (save)="onExtensionSaved($event)"></app-delete-warning>

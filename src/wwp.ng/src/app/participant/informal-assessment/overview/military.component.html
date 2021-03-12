@@ -1,0 +1,100 @@
+<section class="overview ia fields military current" id="ia-military">
+
+  <app-overview-card-header [title]="'Military Service'" [rowVersion]="section?.rowVersion"
+    [isEditHidden]="this.hasEditAccess" [historyDrop]="this.historyManager?.historyDrop"
+    [historyArrayLength]="this.historyManager?.history.length" (onEdit)="this.onEdit($event)"
+    (onHistory)="this.toggleHistory($event)" (onHistorySelected)="this.loadHistorySection($event)"
+    (onCollapse)="this.toggleCollapse($event)"></app-overview-card-header>
+
+  <app-alert-warning *ngIf="!section?.rowVersion" [hasFcdpRole]="hasFcdpRole" [section]="'Military Service'">
+  </app-alert-warning>
+
+  <app-validation-summary *ngIf="section?.rowVersion" [errors]='validationManager?.errors'></app-validation-summary>
+
+  <div class="part military border-right" [class.collapse]="isCollapsed" *ngIf="section?.rowVersion"
+    [class.history]="this.isHistoryActive">
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row col-md-9 overviewItem" [class.error]="modelErrors['hasTraining']">
+        <span class="ovtitle" title="Do you have any military training?">Any Military Training?</span>
+        <span class="ovval">{{section?.hasTraining | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-3 blank overviewItem blank">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer" *ngIf="section?.hasTraining">
+      <div class="overview-field flex-row col-md-4  overviewItem" [class.error]="modelErrors['branchId']">
+        <span class="ovtitle" title="Branch">Branch</span>
+        <span class="ovval">{{section?.branchName}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-4 overviewItem" [class.error]="modelErrors['rankId']"
+        [class.blank]="!section?.rankId">
+        <span class="ovtitle" title="Rank">Rank</span>
+        <span class="ovval">{{section?.rankName}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-4 overviewItem" [class.blank]="isStringEmptyOrNull(section.rate)">
+        <span class="ovtitle" title="Rate or MOS">Rate or MOS</span>
+        <span class="ovval">{{section?.rate}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer" *ngIf="section?.hasTraining">
+      <div class="overview-field flex-row col-md-3 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.enlistmentDate)" [class.error]="modelErrors['enlistmentDate']">
+        <span class="ovtitle" title="Enlistment Date">Enlistment Date</span>
+        <span class="ovval">{{section?.enlistmentDate}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-3 overviewItem"
+        [class.blank]="section?.isCurrentlyEnlisted === true || isStringEmptyOrNull(section.dischargeDate)"
+        [class.error]="modelErrors['dischargeDate']">
+        <span class="ovtitle" title="Discharge Date">Discharge Date</span>
+        <span class="ovval">{{section?.dischargeDate}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-3 overviewItem" [class.blank]="section?.isCurrentlyEnlisted !== true"
+        [class.error]="modelErrors['dischargeDate']">
+        <span class="ovtitle" title="Discharge Date - Currently Enlisted">Currently Enlisted</span>
+        <span *ngIf="this.section.isCurrentlyEnlisted === true" class="ovval">Yes&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-3 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.dischargeTypeName)" [class.error]="modelErrors['dischargeTypeId']">
+        <span class="ovtitle" title="Discharge Type">Discharge Type</span>
+        <span class="ovval">{{section?.dischargeTypeName}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer" *ngIf="section?.hasTraining">
+      <div class="overview-field flex-row col-md-12 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.skillsAndTraining)">
+        <span class="ovtitle" title="Skills and Training">Skills and Training</span>
+        <span class="ovval">{{section?.skillsAndTraining | emptyStringIfNull}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer" *ngIf="section?.hasTraining">
+      <div class="overview-field flex-row col-md-4 overviewItem"
+        [class.blank]="modelErrors['isEligibleForBenefitsYesNoUnknown']"
+        [class.error]="modelErrors['isEligibleForBenefitsYesNoUnknown']">
+        <span class="ovtitle" title="Are you eligible for any benefits from your military service?">Eligible
+          for Military Service Benefits?</span>
+        <span class="ovval">{{section?.isEligibleForBenefitsYesNoUnknownName}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-8 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.benefitsDetails)" [class.error]="modelErrors['benefitsDetails']">
+        <span class="ovtitle"
+          title="Are you eligible for any benefits from your military service? - Details">Details</span>
+        <span class="ovval">{{section?.benefitsDetails | emptyStringIfNull}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row col-md-12 overviewItem" [class.blank]="isStringEmptyOrNull(section.notes)">
+        <span class="ovtitle" title="Notes">Notes</span>
+        <span class="ovval">{{section?.notes | emptyStringIfNull}}&nbsp;</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>

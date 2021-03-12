@@ -1,0 +1,167 @@
+<h2 class="poplegend">
+  Non-Custodial Parents
+  <app-help-button [featureName]="'ia-ncp-help'"></app-help-button>
+</h2>
+
+<app-modified-stamp *ngIf="model?.modifiedBy"
+  [author]="model?.modifiedBy"
+  [lastModified]="model?.modifiedDate"
+  [readOnly]="true"></app-modified-stamp>
+
+<blockquote class="popdesc">If you are a non-custodial parent, the following questions will help us learn more
+  about the
+  child or children that don't live with you most of the time.</blockquote>
+
+<!--This is where we show validation errors-->
+<app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+<!--<fieldset *ngIf="model && isActive" class="form-page">-->
+<fieldset class="form-page"
+  *ngIf="model;else elseBlock">
+  <div class="row pad1-0">
+    <div class="col-md-10">
+      <label class="control-label"
+        for="workp">Do you have any children 18 or under who live with another individual
+        most of the time?</label>
+    </div>
+    <div class="col-md-2 tright">
+      <div class="right">
+        <app-yes-no-basic [(ngModel)]="model.hasChildren"
+          (ngModelChange)="model.hasChildren = $event; onModelChange();"
+          [cacheInnerValue]="cached?.hasChildren"
+          [errorIndicator]="modelErrors['hasChildren']"
+          [isRequired]="true"
+          [isDisabled]="this.areRepeatersEmpty()"></app-yes-no-basic>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div *ngIf="model.hasChildren"
+    class="row">
+    <div class="col-md-12">
+      <app-ncp-caretaker-repeater (moveNonCustodialChildRequest)="moveNonCustodialChild($event)"
+        [availableCaretackersDrop]="model.availableCaretackers"
+        [cachedInitialModels]="cached.nonCustodialCaretakers"
+        [modelErrors]="modelErrors['nonCustodialCaretakers']"
+        [modelsDeleted]="model.deletedNonCustodialCaretakers"
+        [ncpRelationshipDrop]="ncpRelationshipDrop"
+        [polarDrop]="polarDrop"
+        [contactIntervalDrop]="contactIntervalDrop"
+        [(ngModel)]="model.nonCustodialCaretakers"
+        (ngModelChange)="model.nonCustodialCaretakers = $event; onModelChange();">
+      </app-ncp-caretaker-repeater>
+    </div>
+  </div>
+
+  <div *ngIf="model.hasChildSupport() && model.hasChildren">
+    <!-- Show if any child has a child support order -->
+    <div class="row pad1-0">
+      <div class="col-md-6">
+        <label>How much child support are you ordered to pay each month?</label><br />
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <app-currency-input [(ngModel)]="model.childSupportPayment"
+            (ngModelChange)="model.childSupportPayment = $event; onModelChange();"
+            [cacheInnerValue]="cached?.childSupportPayment"
+            [errorIndicator]="modelErrors['childSupportPayment']"
+            [isRequired]="true"
+            class="last"></app-currency-input>
+        </div>
+      </div>
+      <div class="col-md-6 tright">
+        <label>Do you owe any back child support?</label><br />
+        <app-yes-no-basic [(ngModel)]="model.hasOwedChildSupport"
+          (ngModelChange)="model.hasOwedChildSupport = $event; onModelChange();"
+          [cacheInnerValue]="cached?.hasOwedChildSupport"
+          [errorIndicator]="modelErrors['hasOwedChildSupport']"
+          [isRequired]="true"></app-yes-no-basic>
+      </div>
+    </div>
+
+    <div class="row pad1-0">
+      <div class="col-md-12">
+        <label>Child Support Contact</label><br />
+        <app-contacts-embed [class.dirty]="model.childSupportContactId !== cached?.childSupportContactId"
+          class="m-0"
+          [pin]="pin"
+          [(ngModel)]="model.childSupportContactId"
+          (ngModelChange)="model.childSupportContactId = $event; onModelChange();">
+        </app-contacts-embed>
+      </div>
+    </div>
+
+    <div class="row pad1-0">
+      <div class="col-md-10">
+        <label class="control-label">Are you interested in getting a referral for services to help you
+          understand your
+          child support obligations?</label>
+      </div>
+      <div class="col-md-2 tright">
+        <app-yes-no-basic [(ngModel)]="model.hasInterestInChildServices"
+          (ngModelChange)="model.hasInterestInChildServices = $event; onModelChange();"
+          [cacheInnerValue]="cached?.hasInterestInChildServices"
+          [errorIndicator]="modelErrors['hasInterestInChildServices']"
+          [isRequired]="true"></app-yes-no-basic>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="model.hasChildren"
+    class="row pad1-0">
+    <div class="col-md-10">
+      <label class="control-label">Are you interested in getting a referral for services to help with
+        parenting or
+        visitation?</label>
+    </div>
+    <div class="col-md-2 tright">
+      <app-yes-no-basic [(ngModel)]="model.isInterestedInReferralServices"
+        (ngModelChange)="model.isInterestedInReferralServices = $event; onModelChange();"
+        [cacheInnerValue]="cached?.isInterestedInReferralServices"
+        [isRequired]="true"
+        [errorIndicator]="modelErrors['isInterestedInReferralServices']"></app-yes-no-basic>
+    </div>
+    <div class="col-md-12">
+      <app-text-area *ngIf="model.isInterestedInReferralServices"
+        [maxlength]="380"
+        [(ngModel)]="model.interestedInReferralServicesDetails"
+        (ngModelChange)="model.interestedInReferralServicesDetails = $event; onModelChange();"
+        [cacheInnerValue]="cached?.interestedInReferralServicesDetails"
+        [isAutoSizeable]="true"
+        [placeholder]="'Details'"></app-text-area>
+    </div>
+  </div>
+
+  <hr *ngIf="model.hasChildren" />
+
+  <div *ngIf="model.hasChildren"
+    class="row">
+    <div class="col-md-12">
+      <app-action-needed-embed *ngIf="model"
+        [(ngModel)]="model.actionNeeded"
+        [pageName]="'non-custodial-parents'"
+        [participantPin]="this.participant?.pin"
+        (ngModelChange)="model.actionNeeded = $event; onModelChange();"
+        [isActionErrored]="modelErrors['actionNeeded']"
+        [cacheInnerValue]="cached?.actionNeeded">
+      </app-action-needed-embed>
+    </div>
+  </div>
+
+  <hr *ngIf="model.hasChildren" />
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-text-area [(ngModel)]="model.notes"
+        (ngModelChange)="model.notes = $event; onModelChange();"
+        [cacheInnerValue]="cached?.notes"></app-text-area>
+    </div>
+  </div>
+</fieldset>
+
+<ng-template #elseBlock>
+
+</ng-template>

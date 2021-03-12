@@ -1,0 +1,68 @@
+<app-sub-header pageTitle="Contacts" [goBackUrl]="goBackUrl" [participant]="participant"
+  [helpComponent]="'contacts-single'"></app-sub-header>
+<app-sub-header-nav [mode]="'App'" activeItem="contacts" [pin]="pin" [participant]="participant"></app-sub-header-nav>
+
+<div *ngIf="contact && contact?.modifiedBy" class="history">
+  <app-app-modified-stamp [readOnly]="true" [author]="contact.modifiedByName" [lastModified]="contact.modifiedDate">
+  </app-app-modified-stamp>
+</div>
+
+<div class="pad2-0">
+
+  <blockquote class="pad1 center half">
+
+    <div class="row">
+      <div class="name-holder col-sm-6 info-holder wrapword">
+        <h4 class="contName">{{contact?.name}}</h4>
+        <div class="custTitle">{{contact?.title}}</div>
+      </div>
+      <div class="contact-holder col-sm-6 info-holder wrapword">
+        <div *ngIf="contact?.phoneNumber">
+          <i class="fa fa-phone"></i>
+          <span class="contPhone">
+            <a href="tel:{{contact?.phoneNumber | phoneNumber}}">{{contact?.phoneNumber | phoneNumber}}</a>
+            <span *ngIf="contact?.phoneExt" class="ext">x{{contact?.phoneExt}}</span>
+          </span>
+        </div>
+        <div *ngIf="contact?.faxNumber">
+          <i class="fa fa-fax"></i>
+          <span class="contFax"> {{contact?.faxNumber | phoneNumber}}</span>
+        </div>
+        <div *ngIf="contact?.email">
+          <i class="fa fa-envelope"></i>
+          <span class="contEmail"><a href="mailto:{{contact?.email}}">{{contact?.email}}</a></span>
+        </div>
+      </div>
+    </div>
+    <hr *ngIf="contact?.address" />
+    <div class="row" *ngIf="contact?.address">
+      <div class="addr-holder col-sm-12 info-holder">
+        <a href="https://www.google.com/maps/search/{{encodedContactAddress}}" class="contAddr" target="_blank">
+          <i class="fa fa-map-marker-alt"></i> {{contact?.address }}
+        </a>
+      </div>
+    </div>
+    <hr *ngIf="contact?.isRoiSigned">
+    <div class="row" *ngIf="contact?.isRoiSigned">
+      <div class="roi-holder col-md-12 info-holder">
+        <span class="contROI">ROI Signed {{contact?.roiSignedDate}}</span>
+      </div>
+    </div>
+    <hr *ngIf="contact?.notes" />
+    <div class="row" *ngIf="contact?.notes">
+      <div class="notes-holder col-md-12 info-holder">
+        <div>
+          <span class="contNotes">{{contact?.notes}}</span>
+        </div>
+      </div>
+    </div>
+  </blockquote>
+
+</div>
+
+<hr />
+
+<div class="pad11-0 full tright">
+  <button type="button" class="btn btn-add" (click)="goBackToList()"><i class="fa fa-angle-left"></i> Back to List
+  </button>
+</div>

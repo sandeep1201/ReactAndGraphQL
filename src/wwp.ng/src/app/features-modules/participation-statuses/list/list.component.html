@@ -1,0 +1,83 @@
+<app-sub-header-nav *ngIf="!isInEditMode"
+  [mode]="'App'"
+  activeItem="participation-statuses">
+</app-sub-header-nav>
+<app-loading [isLoaded]="isLoaded"
+  [loadingLabel]="'Participation Statuse(s)' "></app-loading>
+<div class="row"
+  *ngIf="!isInEditMode">
+  <div *ngIf="!localParticipationStatuses?.length && isLoaded"
+    class="w-100">
+    <blockquote class="tcenter pad2">
+      <p>No Participation Statuses</p>
+    </blockquote>
+  </div>
+</div>
+<div *ngIf="!isInEditMode && localParticipationStatuses?.length && isLoaded">
+  <div class="row list-item p-1"
+    *ngFor="let ps of localParticipationStatuses">
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <h6>Program:
+            <span class="tgrey3 wrapword">{{ps.enrolledProgramName}}</span>
+          </h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h6>Status:
+            <span class="tgrey3 wrapword">{{ps.statusCode}} - {{ps.statusName}}</span>
+          </h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h6>Begin Date:
+            <span class="tgrey3 wrapword">{{ps.beginDate | dateMmDdYyyy}}</span>
+          </h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"
+          *ngIf="!ps.isCurrent">
+          <h6 *ngIf="ps.endDate">End Date:
+            <span class="tgrey3 wrapword">{{ps.endDate | dateMmDdYyyy}}</span>
+          </h6>
+        </div>
+        <div class=" col-md-12"
+          *ngIf="ps.isCurrent">
+          <h6 *ngIf="ps.isCurrent">Current</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h6>Details:
+            <span class="tgrey3 wrapword">{{ps.details}}</span>
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 btn-item"
+      *ngIf="ps.isCurrent && ps.canEdit">
+      <button class="btn btn-del allowClick edit"
+        (click)="edit(ps)">
+        <i class="fa fa-pencil-alt"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isInEditMode && isLoaded && canAdd"
+  class="pad1-0">
+  <span class="right">
+    <button id=""
+      class="btn btn-add"
+      (click)="onAdd()">+ Add Status</button>
+  </span>
+</div>
+
+
+<app-participation-statuses-edit [currentlyEnrolledPrograms]="currentlyEnrolledPrograms"
+  [participationStatuses]="participationStatuses"
+  *ngIf="isInEditMode">
+</app-participation-statuses-edit>

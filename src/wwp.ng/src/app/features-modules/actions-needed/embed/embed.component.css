@@ -1,0 +1,58 @@
+:host {
+  width: 100%;
+}
+
+:host .app-embed {
+  display: block;
+  border: 1px solid #bdc3c7;
+  background: #F6F8F8;
+  margin: 1em 0;
+  border-radius: 5px;
+  padding: 0;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
+  border-left-width: 4px;
+  width: 100%;
+}
+
+:host header.an-head {
+  padding: 0.5em;
+  /* border-bottom: 1px solid #bdc3c7; */
+}
+
+:host header.an-head h4 {
+  margin: 0;
+}
+
+:host header.an-head a {
+  color:#95a5a6;
+}
+
+:host header.an-head a:hover,
+:host header.an-head a:active {
+  color:#7f8c8d;
+}
+
+:host header.an-head .no-action {
+  padding: 0.25em;
+}
+
+:host header.an-head app-radio-button >>> label {
+  margin: 0;
+  user-select: none;
+}
+
+:host header.an-head app-radio-button >>> label:before {
+  top: 0.25em!important;
+}
+
+:host .required {
+  border-left-color: #9B59B6;
+}
+
+:host .dirty {
+  border-left-color: #f1c40f;
+}
+
+:host .error {
+  border-left: 4px solid #c0392b!important;
+}

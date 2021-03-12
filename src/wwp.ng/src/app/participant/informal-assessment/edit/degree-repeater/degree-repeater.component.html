@@ -1,0 +1,47 @@
+<h4>Degrees</h4>
+
+<fieldset *ngFor="let degree of models; let i=index" class="deg-repeat repeat rel deg-1">
+  <input type="hidden" id="ps-deg-id-{{i}}" name="ps-deg-id-1" value="0" />
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-4 control-group">
+        <label [attr.for]="'ps-deg-name-' + i" class="control-label" title="Degree Name">Degree Name</label>
+        <app-generic-text-input [NGMaxLength]="120" [isRequired]="isRepeaterRowRequired(i)" [(ngModel)]="degree.name"
+          (ngModelChange)="degree.name = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'degreeName')"
+          [cacheInnerValue]="getInitialModelValue(degree.id, 'name')"></app-generic-text-input>
+      </div>
+      <div class="col-md-2 control-group">
+        <label [attr.for]="'ps-deg-type-' + i" class="control-label" title="Degree Level">Degree Level</label>
+        <app-select [(ngModel)]="degree.type" (ngModelChange)="degree.type = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'degreeType')" [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="degreeLevelDrop" [cacheInnerValue]="getInitialModelValue(degree.id, 'type')"></app-select>
+      </div>
+      <div class="col-md-4 control-group">
+        <label [attr.for]="'ps-deg-loc-' + i" class="control-label" title="College">College</label>
+        <app-select [(ngModel)]="degree.college" (ngModelChange)="degree.college = $event; onChangeCallback(models);"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'degreeCollege')" [isIdString]="true"
+          [isRequired]="isRepeaterRowRequired(i)" [dropDownList]="collegesDrop"
+          [cacheInnerValue]="getInitialModelValue(degree.id, 'college')"></app-select>
+      </div>
+      <div class="col-md-2 control-group">
+        <label [attr.for]="'ps-deg-attain-' + i" class="control-label" title="Year Attained">Year Attained</label>
+        <app-date-yyyy (ngModelChange)="degree.yearAttained = $event; onChangeCallback(models);"
+          [(ngModel)]="degree.yearAttained" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'yearAttained')"
+          [cacheInnerValue]="getInitialModelValue(degree.id, 'yearAttained')"></app-date-yyyy>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <ul>
+      <!-- <li class="clear" (click)="eraseFromRepeater(degree)"><i class="fa fa-eraser" title="clear"></i></li> -->
+      <li class="del" (click)="deleteFromRepeater(degree)"><i class="fa fa-trash-alt" title="delete"></i></li>
+    </ul>
+  </div>
+</fieldset>
+
+<div class="tright col-md-12 add-holder">
+  <button class="btn btn-sm btn-add add-deg" (click)="addToRepeater()">+ &nbsp; Add Degree</button>
+  <hr class="spacer" />
+</div>

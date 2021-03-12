@@ -1,0 +1,144 @@
+<app-sub-header #subHeader pageTitle="Edit Assessment" [goBackUrl]="goBackUrl"
+  [hasUnsavedChanges]="eiaService.modifiedTracker.isAnyChanged" [participant]="participant"></app-sub-header>
+<app-sub-header-nav [participant]="participant"></app-sub-header-nav>
+
+<!--<h2>Edit Assessment</h2>-->
+
+<section *ngIf="this.isAssessmentLoaded === false">
+  <div class="lg tgrey2 tcenter p-4">
+    <i class="fa fa-circle-notch fa-spin fa-3x fa-fw"></i>
+  </div>
+  <div class="tgrey3 tcenter">Loading Informal Assessment...</div>
+</section>
+
+<div class="row pad1-0">
+  <!-- SIDEBAR TO GO HERE FOR NOW -->
+  <aside *ngIf="this.isAssessmentLoaded" [class.col-md-1]="isSidebarCollapsed" [class.col-md-3]="!isSidebarCollapsed"
+    id="sidebar" [class.loading]="!isAssessmentLoaded">
+    <div class="toggle-side" (click)="toggleSidebar()">
+      <i class="fa fa-bars"></i>
+    </div>
+    <ul class="participant-menu popmenu">
+      <li class="menu-item item-languages" [class.select]="activeSection === 'languages'"
+        [class.edit]="eiaService.modifiedTracker.isLanguageModified"
+        [class.saving]="eiaService.modifiedTracker.isLanguageSaving"
+        [class.saved]="eiaService.modifiedTracker.isLanguageSaved || languageSectionSaved"
+        [class.error]="eiaService.modifiedTracker.isLanguageError" (click)="onLanguages()">Languages</li>
+      <li class="menu-item item-work" [class.select]="activeSection === 'work-history'"
+        [class.edit]="eiaService.modifiedTracker.isWorkHistoryModified"
+        [class.saving]="eiaService.modifiedTracker.isWorkHistorySaving"
+        [class.saved]="eiaService.modifiedTracker.isWorkHistorySaved"
+        [class.error]="eiaService.modifiedTracker.isWorkHistoryError" (click)="onWorkHistory()">Work History</li>
+      <li class="menu-item item-work-programs" [class.select]="activeSection === 'work-programs'"
+        [class.edit]="eiaService.modifiedTracker.isWorkProgramsModified"
+        [class.saving]="eiaService.modifiedTracker.isWorkProgramsSaving"
+        [class.saved]="eiaService.modifiedTracker.isWorkProgramsSaved || workProgramsSectionSaved"
+        [class.error]="eiaService.modifiedTracker.isWorkProgramsError" (click)="onWorkPrograms()">Work Programs</li>
+      <li class="menu-item item-school" [class.select]="activeSection === 'education'"
+        [class.edit]="eiaService.modifiedTracker.isEducationModified"
+        [class.saving]="eiaService.modifiedTracker.isEducationSaving"
+        [class.saved]="eiaService.modifiedTracker.isEducationSaved"
+        [class.error]="eiaService.modifiedTracker.isEducationError" (click)="onEducation()">Education History</li>
+      <li class="menu-item item-post-secondary" [class.select]="activeSection === 'post-secondary'"
+        [class.edit]="eiaService.modifiedTracker.isPostSecondaryModified"
+        [class.saving]="eiaService.modifiedTracker.isPostSecondarySaving"
+        [class.saved]="eiaService.modifiedTracker.isPostSecondarySaved"
+        [class.error]="eiaService.modifiedTracker.isPostSecondaryError" (click)="onPostSecondaryEducation()">
+        Post-Secondary Education</li>
+      <li class="menu-item item-military" [class.select]="activeSection === 'military'"
+        [class.edit]="eiaService.modifiedTracker.isMilitaryModified"
+        [class.saving]="eiaService.modifiedTracker.isMilitarySaving"
+        [class.saved]="eiaService.modifiedTracker.isMilitarySaved"
+        [class.error]="eiaService.modifiedTracker.isMilitaryError" (click)="onMilitaryTraining()">Military Service</li>
+      <li class="menu-item item-housing" [class.select]="activeSection === 'housing'"
+        [class.edit]="eiaService.modifiedTracker.isHousingModified"
+        [class.saving]="eiaService.modifiedTracker.isHousingSaving"
+        [class.saved]="eiaService.modifiedTracker.isHousingSaved"
+        [class.error]="eiaService.modifiedTracker.isHousingError" (click)="onHousing()">Housing</li>
+      <li class="menu-item item-transportation" [class.select]="activeSection === 'transportation'"
+        [class.edit]="eiaService.modifiedTracker.isTransportationModified"
+        [class.saving]="eiaService.modifiedTracker.isTransportationSaving"
+        [class.saved]="eiaService.modifiedTracker.isTransportationSaved"
+        [class.error]="eiaService.modifiedTracker.isTransportationError" (click)="onTransportation()">Transportation
+      </li>
+      <li class="menu-item item-legal" [class.select]="activeSection === 'legal-issues'"
+        [class.edit]="eiaService.modifiedTracker.isLegalIssuesModified"
+        [class.saving]="eiaService.modifiedTracker.isLegalIssuesSaving"
+        [class.saved]="eiaService.modifiedTracker.isLegalIssuesSaved"
+        [class.error]="eiaService.modifiedTracker.isLegalIssuesError" (click)="onLegalIssues()">Legal Issues</li>
+      <li class="menu-item item-participant" *ngIf="hasPBAccessBol"
+        [class.select]="activeSection === 'participant-barriers'"
+        [class.edit]="eiaService.modifiedTracker.isParticipantBarriersModified"
+        [class.saving]="eiaService.modifiedTracker.isParticipantBarriersSaving"
+        [class.saved]="eiaService.modifiedTracker.isParticipantBarriersSaved"
+        [class.error]="eiaService.modifiedTracker.isParticipantBarriersError" (click)="onParticipantBarriers()">
+        Participant Barriers</li>
+      <li class="menu-item item-childcare" [class.select]="activeSection === 'child-youth-supports'"
+        [class.edit]="eiaService.modifiedTracker.isChildCareModified"
+        [class.saving]="eiaService.modifiedTracker.isChildCareSaving"
+        [class.saved]="eiaService.modifiedTracker.isChildCareSaved || childYouthSectionSaved"
+        [class.error]="eiaService.modifiedTracker.isChildCareError" (click)="onChildCare()">Child and Youth Supports
+      </li>
+      <li class="menu-item item-family" [class.select]="activeSection === 'family-barriers'"
+        [class.edit]="eiaService.modifiedTracker.isFamilyBarriersModified"
+        [class.saving]="eiaService.modifiedTracker.isFamilyBarriersSaving"
+        [class.saved]="eiaService.modifiedTracker.isFamilyBarriersSaved || familyBarriersSectionSaved"
+        [class.error]="eiaService.modifiedTracker.isFamilyBarriersError" (click)="onFamilyBarriers()">Family Barriers
+      </li>
+      <li class="menu-item item-ncp" [class.select]="activeSection === 'non-custodial-parents'"
+        [class.edit]="eiaService.modifiedTracker.isNonCustodialParentsModified"
+        [class.saving]="eiaService.modifiedTracker.isNonCustodialParentsSaving"
+        [class.saved]="eiaService.modifiedTracker.isNonCustodialParentsSaved"
+        [class.error]="eiaService.modifiedTracker.isNonCustodialParentsError" (click)="onNonCustodialParents()">
+        Non-Custodial Parents</li>
+      <li class="menu-item ia-ncpr" [class.select]="activeSection === 'non-custodial-parents-referral'"
+        [class.edit]="eiaService.modifiedTracker.isNonCustodialParentsReferralModified"
+        [class.saving]="eiaService.modifiedTracker.isNonCustodialParentsReferralSaving"
+        [class.saved]="eiaService.modifiedTracker.isNonCustodialParentsReferralSaved"
+        [class.error]="eiaService.modifiedTracker.isNonCustodialParentsReferralError"
+        (click)="onNonCustodialParentsReferral()">NCP Referral</li>
+    </ul>
+  </aside>
+
+  <main [class.col-md-11]="isSidebarCollapsed" [class.col-md-9]="!isSidebarCollapsed" id="main"
+    [class.loaded]="isSectionLoaded">
+
+    <router-outlet *ngIf="this.isAssessmentLoaded"></router-outlet>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="this.isAssessmentLoaded && activeSection !== 'non-custodial-parents-referral' && this.isSaving != true">
+      <span *ngIf="isSectionNeedingValidation" class="btn btn-save"><span class="btn-save-text"
+          (click)="handleSaveOnly()">Save</span> <button class="btn btn-cont"
+          (click)="saveAndContinueCurrentSection()">+ Continue</button></span>
+      <button *ngIf="!isSectionNeedingValidation" class="btn btn-danger"
+        (click)="saveAndContinueCurrentSection()">Continue with Errors</button>
+    </div>
+
+    <div class="row p-4 d-flex justify-content-end"
+      *ngIf="this.isAssessmentLoaded && activeSection === 'non-custodial-parents-referral' && this.isSaving != true">
+      <span *ngIf="isSectionNeedingValidation" class="btn btn-save"><span class="btn-save-text"
+          (click)="handleSaveOnly()">Save</span> <button class="btn btn-cont"
+          (click)="saveAndContinueCurrentSection()">+ Exit</button></span>
+      <button *ngIf="!isSectionNeedingValidation" class="btn btn-danger" (click)="saveAndContinueCurrentSection()">Exit
+        with Errors</button>
+    </div>
+
+    <div class="row p-4 d-flex justify-content-end" *ngIf="this.isSaving">
+      <span class="btn btn-saving">Saving...</span>
+    </div>
+
+  </main>
+</div>
+
+<div *ngIf="this.isAssessmentLoaded" id="status">
+  <div class="justify-content-start">
+    <span class="inst"><span class="label label-default">F8</span> Exit</span>
+    <span *ngIf="this.isSaving === false" class="inst"><span class="label label-default">F9</span> Save</span>
+    <span *ngIf="this.isSaving === true" class="inst"><span class="label fas fa-spinner fa-spin"></span> Saving</span>
+    <span *ngIf="this.isSaving === false" class="inst"><span class="label label-default">Shift + F9</span> Save +
+      Continue</span>
+    <span *ngIf="this.isSaving === true" class="inst"><span class="label fas fa-spinner fa-spin"></span> Saving</span>
+    <span class="inst"><span class="label label-default">PgUp</span> previous page</span>
+    <span class="inst"><span class="label label-default">PgDn</span> next page</span>
+  </div>
+</div>

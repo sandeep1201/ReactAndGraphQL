@@ -1,0 +1,32 @@
+<div>
+  <div class="cal-events p-1"
+    *ngFor="let event of day?.events"
+    [ngStyle]="{ backgroundColor: event?.color?.primary }"
+    [ngClass]="event?.cssClass">
+    <span class="d-flex">
+      <span *ngIf="!event.canEditBasedOnDate || !canEdit ||  !event.canEditBasedOnOrg">
+        {{event.activityCd }}</span>
+      <a *ngIf="event.canEditBasedOnDate && canEdit && event.canEditBasedOnOrg"
+        (click)="clicked(event)">{{event.activityCd }}</a> -
+      <span class="px-1">{{event.scheduledHours}}</span>
+      <span *ngIf="event.participatedHours"
+        class="">
+        <span class="border-left border-dark pr-1"></span>
+        <span class="text-success pr-1">{{event.participatedHours}}</span>
+      </span>
+      <span *ngIf="event.nonParticipatedHours">
+        <span class="border-left border-dark pr-1"></span>
+        <span class="pr-1 text-danger">{{event.nonParticipatedHours}}</span>
+      </span>
+
+    </span>
+  </div>
+  <div class="cell-event"
+    *ngIf="day?.buttons"
+    class="cal-buttons ">
+    <div *ngFor="let i of day?.buttons">
+      <button class="btn btn-add p-1"
+        (click)="buttonClicked($event, day)">{{i}}</button>
+    </div>
+  </div>
+</div>

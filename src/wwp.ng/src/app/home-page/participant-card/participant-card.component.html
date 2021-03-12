@@ -1,0 +1,115 @@
+<li class="pin-item row">
+  <div *ngIf="displayDetailedView; then detailCard else simpleCard"></div>
+</li>
+<ng-template #simpleCard>
+  <div [class.col-md-4]="isCoenrolled"
+    [class.col-md-8]="!isCoenrolled">
+    <div *ngIf="participant.isConfidentialCase"
+      class="tred2 large">
+      <i class="fa fa-user-secret"
+        aria-hidden="true"></i> Confidential Participant</div>
+    <div *ngIf="!participant.isConfidentialCase"
+      class="large">{{participant.firstName}} {{participant.middleInitialName}} {{participant.lastName}}
+      {{participant.nameSuffix}}</div>
+    <div>
+      <span class="pin-holder info-pill">PIN &nbsp;<span class="small">{{participant.pin}}</span></span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #detailCard>
+  <div class="col-md-5 pr-0">
+    <div class="large">{{participant.firstName}} <span
+        *ngIf="participant?.middleInitialName && participant?.middleInitialName.trim().length > 0">{{participant.middleInitialName}}.</span>
+      {{participant.lastName}} {{participant.nameSuffix}} &nbsp;
+      <span *ngIf="participant.isConfidentialCase"
+        class="tred2 small">
+        <i class="fa fa-user-secret"
+          aria-hidden="true"></i> Confidential Participant</span>
+    </div>
+    <div>
+      <span class="pin-holder info-pill">PIN &nbsp;<span class="small">{{participant.pin}}</span></span>
+      <ng-container *ngIf="!participant.isConfidentialCase">
+        <span class="pin-holder info-pill"
+          *ngIf="participant?.dateOfBirth">DOB &nbsp;<span
+            class="small">{{participant.dateOfBirth | dateMmDdYyyy}}</span></span>
+        <span class="pin-holder info-pill"
+          *ngIf="isGenderVisible && participant?.genderIndicator">GENDER
+          &nbsp;<span class="small">{{participant.genderIndicator}}</span></span>
+      </ng-container>
+      <!--<span class="pin-holder info-pill">DOB &nbsp;<span class="small">{{participant.dateOfBirth | dateMmDdYyyy}}</span></span>-->
+      <!-- <span class="case-holder info-pill" *ngIf="participant.caseNumber">CASE # &nbsp;<span class="tgrey3 small">{{participant.caseNumber}}</span></span> -->
+    </div>
+  </div>
+  <!--<div *ngIf="isCoenrolled" class="col-md-4 program-info tright">
+                <div class="half left">
+                    <div class="large">{{participant.currentEnrolledProgram?.programCd }}
+                        <span class="small tgrey3">[Placement]</span>
+                    </div>
+            <div *ngIf="participant.currentEnrolledProgram.id != null">
+                        <span class="small tgrey3">as of {{ participant.currentEnrolledProgram?.statusDateMmDdYyyy }}</span>
+                    </div>
+                </div>
+                <div class="half right">
+                    <div class="medium worker-name" *ngIf="participant.currentEnrolledProgram?.assignedWorker?.firstAndLastName">{{ participant.currentEnrolledProgram?.assignedWorker?.firstAndLastName }}</div>
+                    <div class="medium tred2 worker-name" *ngIf="participant.agencyCode === '' || participant.agencyCode === null">No Assigned Worker</div>
+                    <div class="small" *ngIf="participant.agencyCode">{{ participant?.agencyCode }} - {{ participant.currentEnrolledProgram?.officeCounty }}</div>
+                    <div class="small tred2" *ngIf="participant.agencyCode === '' || participant.agencyCode === null">No Assigned Agency</div>
+                </div>
+            </div>-->
+  <div class="col-md-7 program-info tright">
+    <div *ngIf="participant.programs.length === 0">
+      <span class="large tgrey2 upper semibold">No Program</span>
+      <div>
+      </div>
+    </div>
+    <div class="program-details-card"
+      *ngFor="let programDetails of participant.programs;">
+      <div>
+        <span *ngIf="programDetails.isTransfer == true"
+          class="large upper semibold torange"><i class="fa fa-exchange"
+            aria-hidden="true"></i></span> <!-- IF TRANSFER -->
+        <span *ngIf="programDetails.isPending == true"
+          title="Pending"
+          class="large upper semibold torange"><span class="icon-pending"></span></span> <!-- IF Pending -->
+
+        <span class="large upper semibold">{{ programDetails?.programCode }} &nbsp;</span>
+
+        <!-- Pending Statuses will have enrolled status with a pending icon-->
+        <span *ngIf="programDetails != null && ( programDetails.isPending === true )"
+          class="small">Pending Referral
+          <span class="small tgrey3">as of
+            {{ programDetails?.statusDate | amDateFormat : 'MM/DD/YYYY' | default: 'Unknown' }}</span>
+        </span>
+        <span *ngIf="programDetails != null && ( programDetails.isTransfer === true )"
+          class="small">Enrolled
+          <span class="small tgrey3">as of {{ programDetails?.statusDate | amDateFormat : 'MM/DD/YYYY' | default: 'Unknown'
+        }}</span>
+        </span>
+
+        <span
+          *ngIf="!participant.isConfidentialCase && programDetails && programDetails.isPending == false  && programDetails.isTransfer === false"
+          class="small">{{ programDetails?.status }}
+          <span class="small tgrey3">as of
+            {{ programDetails?.statusDate | amDateFormat : 'MM/DD/YYYY' | default: 'Unknown' }}</span>
+        </span>
+      </div>
+      <div>
+        <span class="small worker-name"
+          *ngIf="programDetails?.assignedWorker?.fullNameWithMiddleInitialTitleCase">{{ programDetails?.assignedWorker?.fullNameWithMiddleInitialTitleCase }}</span>
+        <span class="small tred2 worker-name"
+          *ngIf="!programDetails.assignedWorker.fullNameWithMiddleInitialTitleCase">No Assigned Worker</span>
+
+        <span>&nbsp;</span>
+
+        <span class="small"
+          *ngIf="!participant.isConfidentialCase && programDetails.agencyCode && programDetails.programCd != 'FCD'">{{ programDetails?.agencyName }}
+          {{ programDetails?.officeCounty }} - {{ programDetails?.officeNumber | padPipe:4 }}</span>
+        <span class="small"
+          *ngIf="!participant.isConfidentialCase && programDetails.agencyCode && programDetails.programCd == 'FCD'">{{ programDetails?.agencyName }}
+          {{ programDetails?.officeCounty }}</span>
+        <span class="small tred2"
+          *ngIf="!programDetails.agencyCode">No Assigned Agency</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

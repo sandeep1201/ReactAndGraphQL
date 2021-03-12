@@ -1,0 +1,24 @@
+
+<main class="pad1-0" id="participant">
+	<section class="not-found fields widget">
+
+    <blockquote class="standout tcenter">
+      <div class="pad1 large">
+        <h1>UNAUTHORIZED ACCESS</h1>
+        <p>Your security role is not authorized to access this page</p>
+        <br />
+        <div *ngIf="this.showUnauthorizedSecurityDetails === true" class="debugDetails">
+          <h3>Security Details</h3>
+          <p>{{this.url}}</p>
+          <p>{{this.guard}}</p>
+          <p>{{this.programs}}</p>
+          <p>{{this.authorizations}}</p>
+          <p>{{this.context}}</p>
+        </div>
+      </div>
+    </blockquote>
+
+	</section>
+</main>
+
+

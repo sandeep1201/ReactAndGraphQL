@@ -1,0 +1,158 @@
+<section class="overview ia fields housing current" id="ia-housing">
+
+  <app-overview-card-header [title]="'Housing'" [rowVersion]="section?.rowVersion" [isEditHidden]="this.hasEditAccess"
+    [historyDrop]="this.historyManager?.historyDrop" [historyArrayLength]="this.historyManager?.history.length"
+    (onEdit)="this.onEdit($event)" (onHistory)="this.toggleHistory($event)"
+    (onHistorySelected)="this.loadHistorySection($event)" (onCollapse)="this.toggleCollapse($event)">
+  </app-overview-card-header>
+
+  <app-alert-warning *ngIf="!section?.rowVersion" [hasFcdpRole]="hasFcdpRole" [section]="'Housing'">
+  </app-alert-warning>
+
+  <app-validation-summary *ngIf="section?.rowVersion" [errors]='validationManager?.errors'></app-validation-summary>
+
+  <div class="part housing border-right" [class.collapse]="isCollapsed" *ngIf="section?.rowVersion"
+    [class.history]="this.isHistoryActive">
+
+    <div class="row reprow">
+      <span class="ovtitle reptitle">Current Housing</span>
+    </div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row  col-md-4 overviewItem" [class.error]="modelErrors['housingSituationId']">
+        <span class="ovtitle" title="Housing Situation">Housing Situation</span>
+        <span class="ovval">{{section?.housingSituationName}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row  col-md-3 overviewItem"
+        [class.error]="modelErrors['currentHousingBeginDate']">
+        <span class="ovtitle" title="Begin Date">Begin Date</span>
+        <span class="ovval">{{section?.currentHousingBeginDate}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row  col-md-3 overviewItem" [class.error]="modelErrors['currentMonthlyAmount']">
+        <span class="ovtitle" title="Monthly Amount">Monthly Amount</span>
+        <span *ngIf="section?.isCurrentAmountUnknown != true"
+          class="ovval"><span>$</span>{{section?.currentMonthlyAmount}}&nbsp;</span>
+        <span *ngIf="section?.isCurrentAmountUnknown == true" class="ovval"><span></span>Unknown&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row  col-md-2 overviewItem" [class.error]="modelErrors['hasCurrentEvictionRisk']">
+        <span class="ovtitle" title="Are you at risk of being evicted or forced to move?">Risk of Eviction</span>
+        <span class="ovval">{{section?.hasCurrentEvictionRisk | yesNo}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row  col-md-12 overviewItem" [class.error]="modelErrors['currentHousingDetails']"
+        [class.blank]="isStringEmptyOrNull(section.currentHousingDetails)">
+        <span class="ovtitle" title="Current Housing - Details">Details</span>
+        <span class="ovval">{{section?.currentHousingDetails}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="row reprow" *ngIf="section?.histories?.length > 0">
+      <span class="ovtitle reptitle">Housing History</span>
+    </div>
+
+    <div *ngFor="let housing of section?.histories; let i = index;">
+
+      <div class="flex-row overviewContainer">
+        <div [class.error]="isModelErrorsItemInvalid(i, 'histories', 'historyTypeId')"
+          class="overview-field flex-row  col-md-4 caret overviewItem">
+          <span class="ovtitle" title="Housing Situation">Housing Situation</span>
+          <span class="ovval">{{housing?.historyTypeName}}&nbsp;</span>
+        </div>
+        <div [class.error]="isModelErrorsItemInvalid(i, 'histories', 'beginDate')"
+          class="overview-field flex-row  col-md-2 overviewItem">
+          <span class="ovtitle" title="Begin Date">Begin Date</span>
+          <span class="ovval">{{housing?.beginDate}}&nbsp;</span>
+        </div>
+        <div [class.error]="isModelErrorsItemInvalid(i, 'histories', 'endDate')"
+          class="overview-field flex-row  col-md-2 overviewItem">
+          <span class="ovtitle" title="End Date">End Date</span>
+          <span class="ovval">{{housing?.endDate}}&nbsp;</span>
+        </div>
+        <div [class.error]="isModelErrorsItemInvalid(i, 'histories', 'monthlyAmount')"
+          class="overview-field flex-row  col-md-2 overviewItem">
+          <span class="ovtitle" title="Monthly Amount">Monthly Amount</span>
+          <span class="ovval" *ngIf="!housing?.isAmountUnknown">${{housing?.monthlyAmount}}&nbsp;</span>
+          <span class="ovval" *ngIf="housing?.isAmountUnknown != null && housing?.isAmountUnknown">Unknown&nbsp;</span>
+        </div>
+        <div [class.error]="isModelErrorsItemInvalid(i, 'histories', 'hasEvicted')"
+          class="overview-field flex-row  col-md-2 overviewItem">
+          <span class="ovtitle" title="Were you evicted or forced to move?">Evicted</span>
+          <span class="ovval">{{housing?.hasEvicted | yesNo}}&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="flex-row overviewContainer">
+        <div class="overview-field flex-row  col-md-12 overviewItem" [class.error]="modelErrors['details']"
+          [class.blank]="!housing?.details">
+          <span class="ovtitle" title="Housing History - Details">Details</span>
+          <span class="ovval">{{housing?.details}}&nbsp;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"></div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row  col-md-4 overviewItem"
+        [class.error]="modelErrors['hasUtilityDisconnectionRisk']">
+        <span class="ovtitle" title="Are you at risk of having a utility disconnected?">Risk of Utility
+          Disconnection</span>
+        <span class="ovval">{{section?.hasUtilityDisconnectionRisk | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row  col-md-8 overviewItem" *ngIf="section?.hasUtilityDisconnectionRisk"
+        [class.error]="modelErrors['utilityDisconnectionRiskNotes']"
+        [class.blank]="isStringEmptyOrNull(section.utilityDisconnectionRiskNotes)">
+        <span class="ovtitle" title="Are you at risk of having a utility disconnected? - Details">Details</span>
+        <span class="ovval">{{section?.utilityDisconnectionRiskNotes}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-8 blank overviewItem" *ngIf="!section?.hasUtilityDisconnectionRisk">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"></div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row  col-md-4 overviewItem" [class.error]="modelErrors['hasDifficultyWorking']">
+        <span class="ovtitle"
+          title="Does your current housing situation make it hard to work or participate in work activities?">Does
+          housing make it hard to work?</span>
+        <span class="ovval">{{section?.hasDifficultyWorking | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row  col-md-8 overviewItem" *ngIf="section?.hasDifficultyWorking"
+        [class.error]="modelErrors['difficultyWorkingNotes']"
+        [class.blank]="isStringEmptyOrNull(section.difficultyWorkingNotes)">
+        <span class="ovtitle"
+          title="Does your current housing situation make it hard to work or participate in work activities?- Details">Details</span>
+        <span class="ovval">{{section?.difficultyWorkingNotes}}&nbsp;</span>
+      </div>
+      <div class="overview-field col-md-8 blank overviewItem" *ngIf="!section?.hasDifficultyWorking">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer">
+      <div *ngIf="section?.actionNeeded" class="overview-field flex-row  col-md-12 overviewItem"
+        [class.error]="modelErrors['actionNeeded']">
+        <app-history-alert *ngIf="this.isHistoryActive"></app-history-alert>
+        <app-action-needed-embed [readOnly]="true" [pageName]="'housing'" [participantPin]="pin"
+          [(ngModel)]="section.actionNeeded"></app-action-needed-embed>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"></div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row  col-md-12 overviewItem"
+        [class.blank]="isStringEmptyOrNull(section.housingNotes)">
+        <span class="ovtitle" title="Notes">Notes</span>
+        <span class="ovval">{{section?.housingNotes}}&nbsp;</span>
+      </div>
+    </div>
+
+  </div>
+</section>

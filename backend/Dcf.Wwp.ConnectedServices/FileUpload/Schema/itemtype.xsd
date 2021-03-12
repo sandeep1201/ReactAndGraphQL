@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.ibm.com/xmlns/db2/cm/beans/1.0/schema" xmlns:cmb="http://www.ibm.com/xmlns/db2/cm/beans/1.0/schema" xmlns:cm="http://www.ibm.com/xmlns/db2/cm/api/1.0/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.ibm.com/xmlns/db2/cm/beans/1.0/schema" version="1.0">
+  <xsd:import namespace="http://www.ibm.com/xmlns/db2/cm/api/1.0/schema" schemaLocation="cmdatamodel.xsd"/>
+  <xsd:element name="ECF_Document">
+
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:properties"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:links"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:folderSources"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:folderContents"/>
+        <xsd:element maxOccurs="unbounded" minOccurs="0" ref="cmb:ICMBASE"/>
+
+
+        <xsd:element maxOccurs="unbounded" minOccurs="0" ref="cmb:ICMNOTELOG"/>
+
+
+        <xsd:element maxOccurs="unbounded" minOccurs="0" ref="cmb:ICMANNOTATION"/>
+
+
+      </xsd:sequence>
+      <xsd:attribute ref="cm:PID"/>
+      <xsd:attribute name="HFS_CaseNumber" use="required">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Doc_Code" use="required">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="5"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Doc_Type" use="required">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_SSN" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:length value="9"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_PIN" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Last_Name" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_First_Name" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_DOB" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_County" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="40"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="ECF_ReceiveDate" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_ScannedDate" type="xsd:date" use="optional">
+
+      </xsd:attribute>
+      <xsd:attribute name="HFS_ACC_TRACKNM" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Comments" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="256"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_CorrCntlNum" use="required">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="12"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_ACC_PIN" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_RFA_NUM" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_RFA_PIN" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="10"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="ENT_Doc_Lang_Type" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:length value="2"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_ProcessStatus" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:length value="2"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Batch_Name" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="128"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_Batch_Class" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="32"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="HFS_IX_Station_ID" use="optional">
+
+        </xsd:attribute>
+      <xsd:attribute name="HFS_IndexDate" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="30"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="EntryTemplateId" use="optional">
+
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="26"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ICMBASE">
+
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:properties"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:resourceObject"/>
+      </xsd:sequence>
+      <xsd:attribute ref="cm:partNumber"/>
+      <xsd:attribute ref="cm:partID"/>
+      <xsd:attribute ref="cm:PID"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ICMNOTELOG">
+
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:properties"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:resourceObject"/>
+      </xsd:sequence>
+      <xsd:attribute ref="cm:partNumber"/>
+      <xsd:attribute ref="cm:partID"/>
+      <xsd:attribute ref="cm:PID"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ICMANNOTATION">
+
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:properties"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="cm:resourceObject"/>
+      </xsd:sequence>
+      <xsd:attribute ref="cm:partNumber"/>
+      <xsd:attribute ref="cm:partID"/>
+      <xsd:attribute ref="cm:PID"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

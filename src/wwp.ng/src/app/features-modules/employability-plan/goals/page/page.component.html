@@ -1,0 +1,75 @@
+<app-loading [isLoaded]="goalsLoaded"
+  [loadingLabel]="inEditView ? 'Goal' : 'Goal(s)' "></app-loading>
+<div class="row"
+  *ngIf="goalsLoaded && !this.goals?.length">
+  <div class="col-md-12">
+    <app-ep-card-header [title]="'Goals'"
+      [showEdit]="false"
+      class="col-md-12"></app-ep-card-header>
+  </div>
+  <div class="col-md-12 d-flex justify-content-center">
+    <blockquote class="p-2">
+      <p>Participant does not have any Goals.</p>
+    </blockquote>
+  </div>
+</div>
+<ng-container *ngIf="goalsLoaded && !inEditView">
+  <main *ngIf="goalsLoaded && this.goals?.length > 0 && !inEditView">
+    <div class="card">
+      <div class="card-header">
+        <app-ep-card-header [title]="'Goals'"
+          [showEdit]="false"></app-ep-card-header>
+      </div>
+      <app-goals-list [goals]="this.goals"
+        (deleteGoal)="deleteGoal($event)"
+        (goToSingleEntry)="singleEntry($event)"
+        [showControls]="true"></app-goals-list>
+    </div>
+  </main>
+  <div class="row pt-1 justify-content-end"
+    *ngIf="!inEditView">
+    <div class="col-md-3 d-flex justify-content-end">
+      <button class="btn btn-add"
+        (click)="add()">+ Add Goal</button>
+    </div>
+  </div>
+  <div class="row justify-content-end pt-1">
+    <div class="col-md-5 d-flex justify-content-end">
+      <span *ngIf="hadSaveError">There was an error saving.</span>
+      <span *ngIf="!this.isSaving && errorMsg == null"
+        class="btn btn-save"
+        (click)="saveAndContinue()">
+        <span class="btn-save-text">Save</span>
+        <button class="btn btn-cont"
+          (click)="saveAndContinue()">+ Continue</button>
+      </span>
+      <span *ngIf="errorMsg != null"
+        class="btn btn-save disabled">
+        <span class="btn-save-text">Save</span>
+        <button class="btn btn-cont disabled"
+          style="color:#ffffff">+ Continue</button>
+      </span>
+      <span *ngIf="this.isSaving"
+        class="btn btn-save">
+        <span class="btn btn-save btn-save-text btn-cont disabled"><i
+            class="fa fa-circle-notch fa-spin fa-1x fa-fw"></i>
+          Saving </span>
+      </span>
+    </div>
+  </div>
+</ng-container>
+<div *ngIf="goalsLoaded">
+  <app-goals-edit *ngIf="inEditView"
+    (onExitEditMode)="this.exitEditView($event)"
+    [goalInput]="goal"
+    [isReadOnly]="isReadOnly"
+    [goalsInput]="this.goals"></app-goals-edit>
+</div>
+<app-confirm-dialog *ngIf="inConfirmDeleteView"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()"
+  title="Delete Goal"
+  confirmButtonText="Delete Goal"
+  cancelButtonText="Cancel"
+  message="Deleting a goal will remove its information from this Employability Plan. Are you sure you want to do this?">
+</app-confirm-dialog>

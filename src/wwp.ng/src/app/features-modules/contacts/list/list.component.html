@@ -1,0 +1,114 @@
+<main id="main" [class.loading]="!isLoaded" class="w-100">
+  <div class="container">
+    <div class="row py-2 ruler" *ngIf="allContacts?.length > 0">
+      <div class="col-md-11">
+        <div class="row">
+          <div class="col-md-6">
+            <input class="search" placeholder="Search" maxlength="120" [(ngModel)]="searchQuery" (keyup)="onSearch()">
+            <button data-sort="name" *ngIf="contacts?.length > 0"
+              class="btn"
+              [ngClass]="{sort: true, asc: hasSortedByAscName, desc: hasSortedByAscName === false}"
+              (click)="sortByName()">Sort
+              by Name</button>
+            <button data-sort="title" *ngIf="contacts?.length > 0"
+              class="btn"
+              [ngClass]="{sort: true, asc: hasSortedByAscTitle, desc: hasSortedByAscTitle === false}"
+              (click)="sortByTitle()">Sort by Title</button>
+          </div>
+          <div class="col-md-3" *ngIf="contacts?.length > 0">Phone</div>
+          <div class="col-md-3" *ngIf="contacts?.length > 0">Email</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row py-2 contact align-items-center border-bottom" *ngFor="let contact of contacts | paginate: config">
+      <div class="col-md-11 item" (click)="goToContactDetail(contact)">
+        <div class="row">
+          <div class="small col-md-6 wrapword">
+            <a [routerLink]="getContactDetailUrl(contact)">
+              <div class="xbig">
+                <strong class="name">{{contact.name}}</strong>
+              </div>
+              <div class="title">
+                {{contact.title}}
+              </div>
+            </a>
+          </div>
+          <div class="phone col-md-3 wrapword">
+            {{contact.phoneNumber | phoneNumber}}
+          </div>
+          <div class="email col-md-3 wrapword">
+            {{contact.email}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1" *ngIf="!this.isReadOnly">
+        <div class="row clear-edit w-100">
+          <div class="edit col-md-6" (click)="onEdit(contact)">
+            <i class="fa fa-pencil-alt"></i>
+          </div>
+          <div class="del col-md-6" (click)="onDelete(contact)">
+            <i class="fa fa-trash-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center" *ngIf="!contacts || (contacts.length === 0 && searchQuery === '')">
+      <blockquote class="p-5 col-md-3">
+        <div>No Contacts</div>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center" *ngIf="contacts?.length === 0 && searchQuery !== ''">
+      <blockquote class="p-5 col-md-3">
+        <div>No Results</div>
+      </blockquote>
+    </div>
+  </div>
+
+</main>
+
+<div class="container">
+  <div class="row py-3">
+    <div class="col-md-10 d-flex pl-5 justify-content-start">
+      <pagination-template *ngIf="contacts?.length >= config.itemsPerPage" #p="paginationApi" [id]="config.id"
+        (pageChange)="config.currentPage = $event" class="center">
+        <button class="btn btn-add" (click)="p.previous()" *ngIf="!p.isFirstPage()">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <button class="btn btn-add disabled" *ngIf="p.isFirstPage()">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <span class="paging-info py-3">
+          {{numberInView(config, p, this.contacts?.length)}} of {{contacts?.length}}
+        </span>
+        <button class="btn btn-add" (click)="p.next()" *ngIf="!p.isLastPage()">
+          <i class="fa fa-angle-right"></i>
+        </button>
+        <button class="btn btn-add disabled" *ngIf="p.isLastPage()">
+          <i class="fa fa-angle-right"></i>
+        </button>
+      </pagination-template>
+    </div>
+
+    <div class="col-md-2 d-flex justify-content-end">
+      <span class="right">
+        <button *ngIf="!this.isReadOnly" id="add-contact" class="btn btn-add" (click)="onAdd()">+ Add Contact</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<app-edit-contact [contactId]="editContactId" [pin]="pin" (save)="onContactSave($event)"
+  (cancel)="onEditContactCancel()" *ngIf="inEditView"></app-edit-contact>
+<app-confirm-dialog *ngIf="inConfirmDeleteView" (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()"
+  title="Delete Contact" confirmButtonText="Delete Contact" cancelButtonText="Cancel"
+  message="Deleting a contact will remove its information throughout the entire application. Are you sure you want to do this?">
+</app-confirm-dialog>

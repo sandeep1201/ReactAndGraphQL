@@ -1,0 +1,229 @@
+<h4>Activity Scheduler</h4>
+<fieldset *ngFor="let item of models; let i=index"
+  class="repeat rel">
+  <div id="border-left"
+    class="controls"
+    style="float: right;">
+    <ul>
+      <li *ngIf="!isReadOnly"
+        class="del border-radius-4"
+        (click)="deleteFromRepeater(item, 1)">
+        <i class="fa fa-trash-alt"
+          title="delete"></i>
+      </li>
+      <li *ngIf="isReadOnly"
+        class="del border-radius-4 disabled">
+        <i class="fa fa-trash-alt"
+          title="delete"></i>
+      </li>
+    </ul>
+  </div>
+  <div class="content pad1">
+
+    <div class="row padded">
+      <div class="col-md-2">
+        <label class="part-title">Start Date</label>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <app-date-mm-dd-yyyy [(ngModel)]="item.scheduleStartDate"
+            (ngModelChange)="item.scheduleStartDate = $event; onChangeCallback(models);"
+            [cacheInnerValue]="getInitialModelValue(item.id, 'scheduleStartDate')"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'scheduleStartDate')"
+            [isRequired]="!isReadOnly"
+            class="first"
+            [isReadOnly]="isReadOnly"
+            [datePickerRequired]="!isReadOnly"></app-date-mm-dd-yyyy>
+          <app-radio-button [(ngModel)]="item.isRecurring"
+            (ngModelChange)="item.isRecurring = $event;onChangeCallback(models);"
+            [NgLabel]="'Recurring?'"
+            class="last input-group-addon input-group-text"
+            [isDisabled]="isReadOnly"></app-radio-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display only if Recurring checkbox is checked -->
+    <div *ngIf="item.isRecurring">
+      <div class="row padded">
+        <div class="col-md-2">
+          <label>Frequency</label>
+        </div>
+        <div class="col-md-3">
+          <app-select [(ngModel)]="item.frequencyTypeId"
+            (ngModelChange)="item.frequencyTypeId = $event;onChangeCallback(models);onSelectFrequency(item)"
+            [isInvalid]="isModelErrorsItemInvalid(i, 'frequencyTypeId')"
+            [isDisabled]="isReadOnly"
+            [isRequired]="!isReadOnly"
+            [dropDownList]="frequencyDropDown"
+            [cacheInnerValue]="getInitialModelValue(item.id, 'frequencyTypeId')"></app-select>
+        </div>
+        <!-- TODO fix this by getting name instead of id -->
+        <!-- Display dropdowns based on selections in Frequency dropdown -->
+        <div *ngIf="item.frequencyTypeId === 2 || item.frequencyTypeId === 3"
+          class="col-md-4">
+          <div class="row autoWidth">
+            <div class="col-md-3">
+              <span><label>Days <span class="small">(Select all that apply.)</span></label></span>
+            </div>
+            <div class="col-md-9">
+              <app-multi-select-dropdown [(ngModel)]="item.wkFrequencyIds"
+                (ngModelChange)="item.wkFrequencyIds = $event;onChangeCallback(models);"
+                [isRequired]="!isReadOnly"
+                [options]="daysDropDown"
+                [isInvalid]="isModelErrorsItemInvalid(i, 'wkFrequencyIds')"
+                [isDisabled]="isReadOnly"
+                [cacheInnerValue]="getCachedDays(item.id)"
+                [isHistorical]="true"></app-multi-select-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="item.frequencyTypeId === 4">
+
+        <div class="row padded">
+          <div class="col-md-2">
+            <label>Monthly Recurrence</label>
+          </div>
+          <div class="col-md-3">
+            <app-select [(ngModel)]="item.mrFrequencyId"
+              (ngModelChange)="item.mrFrequencyId = $event;onChangeCallback(models);"
+              [isRequired]="!isReadOnly"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'mrFrequencyId')"
+              [dropDownList]="monthlyRecurrenceDropDown"
+              [isDisabled]="isReadOnly"
+              [cacheInnerValue]="getInitialModelValue(item.id, 'mrFrequencyId')"></app-select>
+          </div>
+          <div class="col-md-1">
+            <label>Day</label>
+          </div>
+          <div class="col-md-3">
+            <app-select [(ngModel)]="item.wkFrequencyId"
+              [dropDownList]="daysDropDown"
+              (ngModelChange)="item.wkFrequencyId = $event;onChangeCallback(models);"
+              [isRequired]="!isReadOnly"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'wkFrequencyId')"
+              [isDisabled]="isReadOnly"
+              [cacheInnerValue]="getInitialModelValue(item.id, 'wkFrequencyId')"></app-select>
+          </div>
+        </div>
+      </div>
+      <div class="row padded">
+        <div class="col-md-2">
+          <label class="part-title">Planned End Date</label>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <app-date-mm-dd-yyyy [(ngModel)]="item.scheduleEndDate"
+              (ngModelChange)="item.scheduleEndDate = $event;onChangeCallback(models);"
+              [isRequired]="!isReadOnly"
+              [isInvalid]="isModelErrorsItemInvalid(i, 'scheduleEndDate')"
+              [isReadOnly]="isReadOnly"
+              [cacheInnerValue]="getInitialModelValue(item.id, 'scheduleEndDate')"
+              [datePickerRequired]="!isReadOnly"></app-date-mm-dd-yyyy>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="row padded">
+      <div class="col-md-2">
+        <label>Hours Per Day</label>
+      </div>
+      <div class="col-md-3">
+        <app-numerical-input [isHrs]="true"
+          [(ngModel)]="item.hoursPerDay"
+          (ngModelChange)="item.hoursPerDay = $event;onChangeCallback(models);"
+          [NGMaxLength]="4"
+          [allowPeriod]="true"
+          [isRequired]="!isReadOnly"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'hoursPerDay')"
+          [isReadOnly]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'hoursPerDay')"></app-numerical-input>
+
+      </div>
+    </div>
+
+    <div class="flex-row mt-0">
+
+      <label class="padr">Begin Time</label>
+      <div class="padl ml-2">
+
+        <app-select [(ngModel)]="item.beginHour"
+          [dropDownList]="hours"
+          (ngModelChange)="item.beginHour = $event;onChangeCallback(models);onSelectTime(item);"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'beginHour')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'beginHour')"></app-select>
+      </div>
+      <div class="padl mt-1">
+        :
+      </div>
+      <div class="padl">
+        <app-select [(ngModel)]="item.beginMinute"
+          [dropDownList]="minutes"
+          (ngModelChange)="item.beginMinute = $event;onChangeCallback(models);onSelectTime(item);"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'beginMinute')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'beginMinute')"></app-select>
+      </div>
+      <div class="padl">
+        <app-tab-selector [(ngModel)]="item.beginAmPm"
+          (ngModelChange)="item.beginAmPm = $event; onChangeCallback(models);"
+          [tabs]="amPmTab"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'beginAmPm')"
+          [isInValid]="isModelErrorsItemInvalid(i, 'beginAmPm')"
+          [isDisabled]="isReadOnly || !item.isTimeRequired">
+        </app-tab-selector>
+      </div>
+
+    </div>
+
+    <div class="flex-row mt-0">
+      <label class="padr">End Time</label>
+      <div class="padl ml-3">
+        <app-select [(ngModel)]="item.endHour"
+          [dropDownList]="hours"
+          (ngModelChange)="item.endHour = $event;onChangeCallback(models);onSelectTime(item);"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'endHour')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'endHour')"></app-select>
+      </div>
+      <div class="padl mt-1">
+
+        :
+      </div>
+      <div class="padl">
+
+        <app-select [(ngModel)]="item.endMinute"
+          [dropDownList]="minutes"
+          (ngModelChange)="item.endMinute = $event;onChangeCallback(models);onSelectTime(item);"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'endMinute')"
+          [isDisabled]="isReadOnly"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'endMinute')"></app-select>
+      </div>
+      <div class="padl">
+
+        <app-tab-selector [(ngModel)]="item.endAmPm"
+          (ngModelChange)="item.endAmPm = $event; onChangeCallback(models);"
+          [tabs]="amPmTab"
+          [isRequired]="!isReadOnly && item.isTimeRequired"
+          [cacheInnerValue]="getInitialModelValue(item.id, 'endAmPm')"
+          [isInValid]="isModelErrorsItemInvalid(i, 'endAmPm')"
+          [isDisabled]="isReadOnly || !item.isTimeRequired">
+        </app-tab-selector>
+      </div>
+    </div>
+  </div>
+</fieldset>
+<div *ngIf="!isReadOnly"
+  class="tright col-md-12 add-holder">
+  <button (click)="addToRepeater()"
+    class="btn btn-sm btn-add add-workp">+ &nbsp; Add Activity Schedule</button>
+</div>

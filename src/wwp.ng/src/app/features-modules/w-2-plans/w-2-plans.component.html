@@ -1,0 +1,55 @@
+<app-sub-header [participant]="participant"
+  pageTitle="W-2 Plans"
+  [goBackUrl]="goBackUrl"
+  [helpComponent]="'w-2-plans-list'">
+</app-sub-header>
+<app-loading [isLoaded]="isLoaded"
+  [loadingLabel]="'W-2 Plans'"></app-loading>
+<div *ngIf="isLoaded">
+  <div *ngFor="let planType of planTypeModel">
+    <div class="card my-3">
+      <h4 class="card-header">
+        {{planType.name+'s'}}</h4>
+      <div class="card-body"
+        *ngIf="getPlansByPlanType(planType.id).length > 0; else noResults">
+        <div class="flex-row list-item py-3"
+          (click)="single(plan)"
+          *ngFor="let plan of getPlansByPlanType(planType.id); index as i">
+          <div class="col-md-1">
+            <label>Plan #</label>
+            <div class="tgrey3">{{plan.planNumber}}</div>
+          </div>
+          <div class="col-md-2">
+            <label>Status</label>
+            <div class="tgrey3">{{plan.planStatusTypeName}}</div>
+          </div>
+          <div class="col-md-2">
+            <label>Agency</label>
+            <div class="tgrey3">{{plan.organizationCode}}</div>
+          </div>
+          <div class="col-md-3">
+            <label>Date Last Edited</label>
+            <div class="tgrey3">{{plan.modifiedDate | date:'short'}}</div>
+          </div>
+          <div class="col-md-3">
+            <label>Last Edited By</label>
+            <div class="tgrey3">{{plan.modifiedBy}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-end mx-0 mt-3">
+      <button class="btn btn-add"
+        (click)="onAdd(planType.id)"
+        *ngIf="planType.canEdit">+ Add {{planType.name}}</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResults>
+  <div class="row justify-content-center">
+    <blockquote class="pad2">
+      <p>No Results Found</p>
+    </blockquote>
+  </div>
+</ng-template>

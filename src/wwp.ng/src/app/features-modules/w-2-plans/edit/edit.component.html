@@ -1,0 +1,67 @@
+
+
+<app-loading [isLoaded]="isModelLoaded"
+  [loadingLabel]="'W2 Plans loading...'"></app-loading>
+
+<app-dialog-box *ngIf="appService?.isDialogPresent && !appService?.isChildDialogPresent"
+  (dialogClose)="exitEAEditIgnoreChanges()"
+  [doesNotNavigateBack]="true"></app-dialog-box>
+
+<div class="row pad1-0">
+  <app-sub-header #subHeader
+  [pageTitle]="header"
+  [goBackUrl]="goBackUrl"
+  [participant]="participant"></app-sub-header>
+  <aside *ngIf="isModelLoaded"
+    [class.col-md-1]="isSidebarCollapsed"
+    [class.col-md-3]="!isSidebarCollapsed"
+    id="sidebar"
+    [class.loading]="!isModelLoaded">
+    <div class="toggle-side"
+      (click)="isSidebarCollapsed = !isSidebarCollapsed">
+      <i class="fa fa-bars"></i>
+    </div>
+    <ul class="participant-menu popmenu">
+      <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.EmergencyNeeds)">Emergency Needs</li>
+      <li class="menu-item"
+      (click)="goToSection(importedW2PlanSections.EmploymentSupport)"
+        >Employment Support</li>
+      <li class="menu-item"
+      (click)="goToSection(importedW2PlanSections.Housing)"
+       >Housing</li>
+      <li class="menu-item"
+      (click)="goToSection(importedW2PlanSections.EconomicSupport)"
+       >Economic Support</li>
+      <li class="menu-item"
+      (click)="goToSection(importedW2PlanSections.MoneyManagement)">
+        Money Management</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.ChildCare)">
+        Child Care</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.Transportation)">
+        Transportation</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.LegalAssistance)">
+        Legal Assistance</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.EducationAndTraining)">
+        Education And Training</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.Health)">
+        Health</li>
+        <li class="menu-item"
+        (click)="goToSection(importedW2PlanSections.OtherNeeds)">
+        Other Needs</li>
+    </ul>
+  </aside>
+
+  <main [class.col-md-11]="isSidebarCollapsed"
+    [class.col-md-9]="!isSidebarCollapsed"
+    id="main"
+    [class.loaded]="isSectionLoaded">
+
+    <router-outlet *ngIf="isModelLoaded"></router-outlet>
+  </main>
+</div>

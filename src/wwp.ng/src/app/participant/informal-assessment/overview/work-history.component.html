@@ -1,0 +1,99 @@
+<section class="overview ia fields work-history current" id="ia-work-history">
+  <app-overview-card-header [title]="'Work History'" [rowVersion]="section?.rowVersion"
+    [isEditHidden]="this.hasEditAccess" [historyDrop]="this.historyManager?.historyDrop"
+    [historyArrayLength]="this.historyManager?.history.length" (onEdit)="this.onEdit($event)"
+    (onHistory)="this.toggleHistory($event)" (onHistorySelected)="this.loadHistorySection($event)"
+    (onCollapse)="this.toggleCollapse($event)"></app-overview-card-header>
+
+  <app-alert-warning *ngIf="!section?.rowVersion" [hasFcdpRole]="hasFcdpRole" [section]="'Work History'">
+  </app-alert-warning>
+
+  <app-validation-summary *ngIf="section?.rowVersion" [errors]='validationManager?.errors'></app-validation-summary>
+
+  <div class="part work-history" [class.collapse]="isCollapsed" *ngIf="section?.rowVersion"
+    [class.history]="this.isHistoryActive">
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row col-md-4 overviewItem" [class.error]="modelErrors['employmentStatusTypeId']">
+        <span class="ovtitle" title="What is your employment status?">Employment Status</span>
+        <span class="ovval">{{section?.employmentStatusTypeName}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-5 overviewItem"
+        *ngIf="section?.employmentStatusTypeName == 'Unemployed' && workHistoryEmbedComponent?.allEmployments?.length == 0"
+        [class.error]="modelErrors['hasVolunteered']">
+        <span class="ovtitle" title="Have you ever been employed or performed volunteer work?">Previous
+          employment or volunteer work?</span>
+        <span class="ovval">{{section?.hasVolunteered | yesNo}}&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-3 blank overviewItem"
+        *ngIf="section?.employmentStatusTypeName == 'Unemployed'  && workHistoryEmbedComponent?.allEmployments?.length == 0">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+      <div class="overview-field flex-row col-md-8 blank overviewItem"
+        *ngIf="section?.employmentStatusTypeName != 'Unemployed'">
+        <span class="ovtitle">&nbsp;</span>
+        <span class="ovval">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"
+      *ngIf="section?.arePreventingFactorsDisplayed(workHistoryEmploymentStatusesDrop) === true">
+      <div class="overview-field flex-row col-md-12 overviewItem" [class.error]="modelErrors['preventionFactorIds']">
+        <span class="ovtitle" title="What is keeping you from working full-time?">What is preventing full-time
+          work?</span>
+        <span class="ovval">
+          <span *ngFor="let reason of section?.preventionFactorNames; let i = index;">{{reason}}<span
+              *ngIf="i+1 != section?.preventionFactorNames?.length">,</span>&nbsp;</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"
+      *ngIf="section?.arePreventingFactorsDisplayed(workHistoryEmploymentStatusesDrop) === true">
+      <div class="overview-field flex-row col-md-12 overviewItem" [class.error]="modelErrors['nonFullTimeDetails']"
+        [class.blank]="!section?.nonFullTimeDetails">
+        <span class="ovtitle" title="What is keeping you from working full-time? - Details">Details</span>
+        <span class="ovval">{{section?.nonFullTimeDetails}}&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer" *ngIf="section">
+      <div class="overview-field flex-row col-md-12 overviewItem">
+        <app-history-alert *ngIf="this.isHistoryActive"></app-history-alert>
+        <app-work-history-embed class="tabled" [pin]="pin" [hideDeleted]="true" [isReadOnly]="true">
+        </app-work-history-embed>
+      </div>
+    </div>
+
+    <div *ngIf="showCareerFeature">
+      <div class="flex-row overviewContainer">
+        <div class="overview-field flex-row col-md-12 overviewItem" [class.error]="modelErrors['hasCareerAssessment']">
+          <span class="ovtitle" title="Have you completed a career assessment?">Have you completed a career
+            assessment?</span>
+          <span class="ovval">{{section?.hasCareerAssessmentName}}&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="flex-row overviewContainer">
+        <div class="overview-field flex-row col-md-12 overviewItem"
+          [class.error]="modelErrors['hasCareerAssessmentNotes']" [class.blank]="!section?.hasCareerAssessmentNotes">
+          <span class="ovtitle" title="Have you completed a career assessment? - Details">Have you completed a career
+            assessment? - Details</span>
+          <span class="ovval">{{section?.hasCareerAssessmentNotes}}&nbsp;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-row overviewContainer"></div>
+
+    <div class="flex-row overviewContainer">
+      <div class="overview-field flex-row col-md-12 overviewItem" [class.blank]="!section?.notes">
+        <span class="ovtitle" title="Notes">Notes</span>
+        <span class="ovval">{{section?.notes}}
+          &nbsp;</span>
+      </div>
+    </div>
+
+  </div>
+</section>

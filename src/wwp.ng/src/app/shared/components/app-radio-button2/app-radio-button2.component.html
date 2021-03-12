@@ -1,0 +1,14 @@
+<label [class.disabled]="isDisabled"
+  [attr.for]="uniqueId">{{NgLabel}}</label>
+<input [ngClass]="{error: isInvalid}"
+  [class.dirty]="isModified"
+  [(ngModel)]="value"
+  type="radio"
+  [value]="valueBinding"
+  [attr.id]="uniqueId"
+  [attr.name]="name"
+  [disabled]="isDisabled || isReadOnly" />
+
+
+
+

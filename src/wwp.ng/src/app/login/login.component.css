@@ -1,0 +1,67 @@
+
+:host {
+    width: 80%;
+    max-width: 650px;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 0 60rem #1F5673;
+    outline: 2px solid #1F5673;
+    background:#1F5673;
+}
+
+:host form {
+    background: #ecf0f1;
+    padding: 1em;
+    padding-bottom: 0.25em;
+    border-radius: 5px 5px 0 0;
+}
+
+:host form h3 {
+    padding: 0.5em;
+}
+
+.forget.btn-group {
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+}
+
+.forget.btn-group button {
+    display: inline-block;
+    float: none;
+    background: #1F5673;
+    color: #ecf0f1;
+    border: 1px solid rgba(255,255,255,.2);
+}
+
+.forget button:hover {
+    background: #2980b9;
+}
+
+.legal {
+    font-size: 0.65em;
+    padding: 1.25em;
+    padding-bottom: 0.01em;
+    background: #7f8c8d;
+    color: #ecf0f1;
+    border-radius: 0 0 5px 5px;
+}
+
+:host form input {
+    height: auto;
+}
+
+:host .input-group-addon:not(:last-child) {
+    border-right: 0;
+    padding: 0 0.75em;
+}
+
+:host-context(.login-modal){
+    outline:none;
+    /* background:#fff;
+    max-width: 300px; */
+    cursor: auto;
+    transition:none;
+}

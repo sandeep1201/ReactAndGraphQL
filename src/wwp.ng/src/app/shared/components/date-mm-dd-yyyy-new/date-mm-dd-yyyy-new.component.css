@@ -1,0 +1,41 @@
+
+/* input.default {
+    border-left: 4px solid  #bdc3c7;
+}
+
+.required {
+    border-left: 4px solid  #9B59B6;
+}
+
+.error {
+    border-left: 4px solid #c0392b!important;
+}
+
+.dirty {
+  border-left: 4px solid #f1c40f;
+} */
+
+:host input:disabled {
+    text-indent: 999px;
+}
+
+.readOnly {
+    background-color: #eceeef;
+    opacity: 1;
+    font-size: 0.9em;
+    line-height: 1.25em;
+    color: #95a5a6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+:host.first input {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right: none;
+}
+
+:host.last input {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}

@@ -1,0 +1,33 @@
+<div class="row pad0-1">
+  <div *ngIf="this.cwwChildren?.length > 0 || cwwEligibility" class="alert cares-alert col-md-12" role="alert">
+    <h4><img src="/assets/img/cww_logo.png" width="36" height="36" style="margin-top:-2px;" /> Children</h4>
+    <table *ngIf="this.cwwChildren?.length > 0" class="table" id="childcare-cww">
+      <thead>
+        <th>Name</th>
+        <th>DOB</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Relationship</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let child of this.cwwChildren">
+          <td>{{ child.firstName }} {{ child.middleInitial }} {{ child.lastName }}</td>
+          <td>{{ child.dateOfBirth | date:'shortDate' }}</td>
+          <td>{{ child.age }}</td>
+          <td>{{ child.gender }}</td>
+          <td>{{ child.relationship }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="this.cwwEligibility" class="table" id="eligibility-cww">
+      <p><strong>Child Care Eligibility Status:</strong> {{ this.cwwEligibility.eligibilityStatus }}</p>
+      <div>
+        <strong>Reason:</strong>
+        <div class="divpad" *ngIf="this.cwwEligibility?.formattedReason !== ''">{{ this.cwwEligibility.formattedReason }}</div>
+        <div class="divpad" *ngIf="this.cwwEligibility?.formattedReason1 !== ''">{{ this.cwwEligibility.formattedReason1 }}</div>
+        <div class="divpad" *ngIf="this.cwwEligibility?.formattedReason2 !== ''">{{ this.cwwEligibility.formattedReason2 }}</div>
+      </div>
+    </div>
+  </div>
+  <hr class="spacer" />
+</div>

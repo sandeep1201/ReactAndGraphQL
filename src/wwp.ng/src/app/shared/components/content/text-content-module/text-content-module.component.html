@@ -1,0 +1,4 @@
+<div [hidden]="!editMode" ckeditable [(ngModel)]="data" (change)="onChange($event)" [innerHTML]="data"></div>
+<div [hidden]="editMode" [innerHTML]="data"></div>
+<!-- <div [hidden]="!editMode" tinymceditable [(ngModel)]="data"></div> -->
+<hr>

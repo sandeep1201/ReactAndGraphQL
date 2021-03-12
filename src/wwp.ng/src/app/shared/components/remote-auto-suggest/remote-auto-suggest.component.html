@@ -1,0 +1,14 @@
+<div>
+    <div class="input-field">
+        <input [disabled]="isDisabledInput" maxlength="120" [ngClass]="{error: isInvalid, dirty: isModified, required:isRequired, loading: isFetching}"
+            class="validate filter-input form-control" [(ngModel)]="value"  (ngModelChange)="value = $event; filter();">
+    </div>
+    <div class="suggestions" *ngIf="filteredList != null" [ngClass]="{hidden: filteredList.length < 1}">
+        <ul>
+            <li *ngFor="let item of filteredList">
+                <a *ngIf="item.name != null" (click)="selectSchool(item)" tabindex="0">{{item.name}}</a>
+                <a *ngIf="item.mainAddress != null && item.name == null" tabindex="0"  (click)="selectAddress(item)">{{item.mainAddress}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

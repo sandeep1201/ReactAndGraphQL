@@ -1,0 +1,49 @@
+<tr class="d-flex" *ngFor="let item of models; let i=index">
+  <td class="col-md-4">
+    <span class="addl-lang-txt" *ngIf="i===0">List any other languages you know:</span>
+  </td>
+  <td class="col-md-4">
+    <app-auto-complete (ngModelChange)="item.languageId = $event; onChangeCallback(models);"
+      [isRequired]="isRequired(item)" [cacheInnerValue]="getInitialModelValue(item.id, 'languageId')"
+      [isValidByParent]="isModelErrorsItemInvalid(i, 'languageId')" [(ngModel)]="item.languageId"
+      [dropDownList]="languageDropList"></app-auto-complete>
+  </td>
+
+  <td class="col-md-1">
+    <app-yes-no (ngModelChange)="item.canRead = $event; onChangeCallback(models);"
+      [cacheInnerValue]="getInitialModelValue(item.id, 'canRead')" [isRepeater]="false"
+      [defaultRequired]="isRequired(item)" [isInvalid]="isModelErrorsItemInvalid(i, 'canRead')"
+      [ButtonsStates]="[item.canRead, item.canSpeak, item.canWrite, item.languageId]" [(ngModel)]="item.canRead">
+    </app-yes-no>
+  </td>
+  <td class="col-md-1">
+    <app-yes-no (ngModelChange)="item.canWrite = $event; onChangeCallback(models);"
+      [cacheInnerValue]="getInitialModelValue(item.id, 'canWrite')" [defaultRequired]="isRequired(item)"
+      [isInvalid]="isModelErrorsItemInvalid(i, 'canWrite')"
+      [ButtonsStates]="[item.canRead, item.canSpeak, item.canWrite, item.languageId]" [(ngModel)]="item.canWrite">
+    </app-yes-no>
+  </td>
+  <td class="col-md-1">
+    <app-yes-no (ngModelChange)="item.canSpeak = $event; onChangeCallback(models);"
+      [cacheInnerValue]="getInitialModelValue(item.id, 'canSpeak')" [defaultRequired]="isRequired(item)"
+      [isInvalid]="isModelErrorsItemInvalid(i, 'canSpeak')"
+      [ButtonsStates]="[item.canRead, item.canSpeak, item.canWrite, item.languageId]" [(ngModel)]="item.canSpeak">
+    </app-yes-no>
+  </td>
+
+
+  <td class="col-md-1">
+    <div class="clear-del">
+      <div class="del" (click)="removeDisableOnLanguages(item); deleteFromRepeater(item)">
+        <i class="fa fa-trash-alt" title="delete"></i>
+      </div>
+    </div>
+  </td>
+</tr>
+
+<tr class="col-md-12 px-3 tright">
+  <div class="add-holder" role="group">
+    <button type="button" class="btn btn-sm btn-add btn-lang add-lang" (click)="addToRepeater()">+ &nbsp;
+      Add Language</button>
+  </div>
+</tr>

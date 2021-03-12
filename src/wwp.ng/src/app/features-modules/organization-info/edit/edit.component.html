@@ -1,0 +1,77 @@
+<div id="edit-container">
+  <app-loading [isLoaded]="isLoaded"
+    [loadingLabel]="'Location Edit'"></app-loading>
+  <div *ngIf="this.isLoaded && location">
+    <app-dialog-box *ngIf="appService?.isDialogPresent"
+      (dialogClose)="exitFinalistLocationEditIgnoreChanges($event)"
+      [doesNotNavigateBack]="true"></app-dialog-box>
+    <header class="edit-header">
+      <div class="container">
+        <div class="row border-bottom p-1">
+          <div class="col-lg-6 col-md-6 ">
+            <a class="btn btn-back btn-secondary-outline btn-sm edit-btn-back"
+              (click)="exit()"
+              title="Close Location">
+              <i class="fa fa-times"></i>
+            </a>
+            <h1 id="editPageTitle"
+              *ngIf="location && location.id == 0 && !isReadOnly"
+              class="px-3">Add Location</h1>
+            <h1 id="editPageTitle"
+              *ngIf="location && location.id != 0 && !isReadOnly"
+              class="px-3">Edit Location</h1>
+            <app-help-button [featureName]="finalistLocation"></app-help-button>
+            <h1 id="editPageTitle"
+              *ngIf="isReadOnly"
+              class="px-3">Location</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="edit-content">
+      <div class="container">
+        <div class="row p-1">
+          <app-validation-summary class="col-md-12 p-3"
+            [errors]='validationManager.errors'></app-validation-summary>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <app-finalist-address [isReadOnly]="isDisabled"
+              [isDisplayed]="true"
+              [modelErrors]="modelErrors"
+              (modelChange)="validateAddress($event);"
+              [locationAddress]="location.finalistAddress"
+              (selectedAddress)="setSelectedAddress($event)"></app-finalist-address>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="control-label">Effective Date</label><br />
+              <app-date-mm-dd-yyyy [isReadOnly]="isDisabled"
+                [isRequired]="!isDisabled"
+                [(ngModel)]="location.effectiveDate"
+                [isInvalid]="modelErrors['effectiveDate']"
+                (ngModelChange)="location.effectiveDate = $event;validate();"
+                [cacheInnerValue]="this.originalModel?.effectiveDate"></app-date-mm-dd-yyyy>
+            </div>
+            <div class="col-md-4">
+              <label class="control-label">End Date</label><br />
+              <app-date-mm-dd-yyyy [isReadOnly]="false"
+                [(ngModel)]="location.endDate"
+                (ngModelChange)="location.endDate = $event; validate();"
+                [isInvalid]="modelErrors['endDate']"
+                [cacheInnerValue]="this.originalModel?.endDate"></app-date-mm-dd-yyyy>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-cancel-save-footer [hadSaveError]="hadSaveError"
+        [isSaving]="isSaving"
+        [isDisabled]="isSaveEnabled()"
+        (cancelEvent)="exit()"
+        (saveEvent)="saveAndExit()"></app-cancel-save-footer>
+    </div>
+  </div>
+</div>

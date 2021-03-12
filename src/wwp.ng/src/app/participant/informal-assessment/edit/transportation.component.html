@@ -1,0 +1,232 @@
+<h2 class="poplegend">
+  Transportation
+  <!--<button class="label label-info sec-help help-label" (click)="help.open('lg')"><i class="fa fa-question"></i></button>-->
+  <app-help-button [featureName]="'ia-transportation-help'"></app-help-button>
+</h2>
+
+<blockquote class="popdesc">If you don't have reliable transportation, it can be more difficult to find or keep a job.
+  The following questions are about the methods of transportation that are currently available to you, including your
+  driver's license status.</blockquote>
+<app-validation-summary [errors]='validationManager?.errors'></app-validation-summary>
+<app-modified-stamp *ngIf="model?.modifiedBy" [author]="model?.modifiedBy" [lastModified]="model?.modifiedDate"
+  [readOnly]="true"></app-modified-stamp>
+
+<fieldset *ngIf="model" class="form-page">
+
+  <hr class="spacer" />
+
+  <div class="row">
+    <div class="col-md-12">
+      <label>Which transportation methods can you use to participate in work or work activities? <span
+          class="small">(Select all that apply.)</span></label>
+      <div class="row">
+        <div class="col-md-6">
+          <app-multi-select-dropdown [(ngModel)]="model.methods"
+            (ngModelChange)="model.methods = $event; onModelChange();" [isInvalid]="modelErrors['methods']"
+            [isRequired]="true" [cacheInnerValue]="originalModel?.methods" [options]="transportationTypes">
+          </app-multi-select-dropdown>
+        </div>
+        <div class="col-md-6">
+          <app-text-area [maxlength]="380" [(ngModel)]="model.methodDetails"
+            (ngModelChange)="model.methodDetails = $event; onModelChange();" [isInvalid]="modelErrors['methodDetails']"
+            [isRequired]="model.isMethodDetailsRequired(transportationTypes)" [isAutoSizeable]="true"
+            [placeholder]="'Details'" [cacheInnerValue]="originalModel?.methodDetails"></app-text-area>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="spacer" />
+
+  <div *ngIf="model.isVehicleInfoDisplayed(transportationTypes)" class="row">
+    <div class="col-md-6">
+      <label>Is the vehicle insured?</label>
+      <div class="row">
+        <div class="col-md-6">
+          <app-tab-selector [(ngModel)]="model.isVehicleInsuredId"
+            (ngModelChange)="model.isVehicleInsuredId = $event; onModelChange();"
+            [isInValid]="modelErrors['isVehicleInsuredId']" [isRequired]="true" [tabs]="polarDrop"
+            [cacheInnerValue]="originalModel?.isVehicleInsuredId"></app-tab-selector>
+        </div>
+        <div class="col-md-6">
+          <app-text-area [(ngModel)]="model.vehicleInsuredDetails"
+            (ngModelChange)="model.vehicleInsuredDetails = $event; onModelChange();"
+            [isInvalid]="modelErrors['vehicleInsuredDetails']" [maxlength]="380" [isAutoSizeable]="true"
+            [cacheInnerValue]="originalModel?.vehicleInsuredDetails" [placeholder]="'Details'"></app-text-area>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label>Is the vehicle registration current?</label>
+      <div class="row">
+        <div class="col-md-6">
+          <app-tab-selector [(ngModel)]="model.isVehicleRegistrationCurrentId"
+            (ngModelChange)="model.isVehicleRegistrationCurrentId = $event; onModelChange();"
+            [isInValid]="modelErrors['isVehicleRegistrationCurrentId']" [isRequired]="true"
+            [cacheInnerValue]="originalModel?.isVehicleRegistrationCurrentId" [tabs]="polarDrop"></app-tab-selector>
+        </div>
+        <div class="col-md-6">
+          <app-text-area [(ngModel)]="model.vehicleRegistrationCurrentDetails"
+            (ngModelChange)="model.vehicleRegistrationCurrentDetails = $event; onModelChange();"
+            [isInvalid]="modelErrors['vehicleRegistrationCurrentDetails']" [maxlength]="380" [isAutoSizeable]="true"
+            [cacheInnerValue]="originalModel?.vehicleRegistrationCurrentDetails" [placeholder]="'Details'">
+          </app-text-area>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row pad0-1">
+    <div class="alert cares-alert col-md-12" role="alert">
+      <h4 class="part-title"><img src="/assets/img/dot_logo.png" width="36" height="36" style="margin-top:-2px;" />
+        Wisconsin DMV Lookup</h4>
+
+      <div class="pad1 dmv-links">
+        <a href="https://trust.dot.state.wi.us/ecdl/home.do" target="_blank" class="btn btn-primary">
+          <i class="fa fa-external-link-alt"></i> Driver's License Status
+        </a>
+        <a href="https://trust.dot.state.wi.us/orsm/customerSearchPage.do" target="_blank" class="btn btn-primary">
+          <i class="fa fa-external-link-alt"></i> Reinstatement Eligibility
+        </a>
+        <a href="https://trust.dot.state.wi.us/occsin/occsinservlet?whoami=occsp1" target="_blank"
+          class="btn btn-primary">
+          <i class="fa fa-external-link-alt"></i> Occupational License Eligibility
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      <label class="control-label">Do you have a valid driver's license?</label>
+    </div>
+    <div class="col-md-3 tright">
+      <app-yes-no-basic [(ngModel)]="model.hasValidDriversLicense"
+        (ngModelChange)="model.hasValidDriversLicense = $event; onModelChange();"
+        [errorIndicator]="modelErrors['hasValidDriversLicense']"
+        [cacheInnerValue]="originalModel?.hasValidDriversLicense" [isRequired]="true"></app-yes-no-basic>
+    </div>
+  </div>
+
+  <section *ngIf="model.hasValidDriversLicense" class="dl-yes pad1-0 clearfix">
+    <div class="standout">
+      <div class="row p-2">
+        <div class="col-md-3">
+          <label>State Issued</label><br />
+          <app-auto-complete [(ngModel)]="model.driversLicenseStateId"
+            (ngModelChange)="model.driversLicenseStateId = $event; onModelChange();"
+            [isValidByParent]="modelErrors['driversLicenseStateId']" [dropDownList]="statesDrop"
+            [cacheInnerValue]="originalModel?.driversLicenseStateId" [isRequired]="true"></app-auto-complete>
+        </div>
+        <div class="col-md-4">
+          <label>Expiration Date Month and Year</label><br />
+          <app-date-mm-dd-yyyy [(ngModel)]="model.driversLicenseExpirationDateMmDdYyyy"
+            (ngModelChange)="model.driversLicenseExpirationDateMmDdYyyy = $event; onModelChange();"
+            [isInvalid]="modelErrors['driversLicenseExpirationDate']" [useIsoFormat]="false"
+            [cacheInnerValue]="originalModel?.driversLicenseExpirationDateMmDdYyyy" [isRequired]="true">
+          </app-date-mm-dd-yyyy>
+        </div>
+        <div class="col-md-5">
+          <label>List Any Driving Restrictions</label><br />
+          <app-text-area [(ngModel)]="model.driversLicenseDetails"
+            (ngModelChange)="model.driversLicenseDetails = $event; onModelChange();"
+            [isInvalid]="modelErrors['driversLicenseDetails']" [maxlength]="380" [isAutoSizeable]="true"
+            [cacheInnerValue]="originalModel?.driversLicenseDetails" [placeholder]="''"></app-text-area>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="model.hasValidDriversLicense == false" class="dl-no pad1-0 clearfix">
+    <div class="standout">
+      <div class="row p-2">
+        <div class="col-md-5">
+          <label>Why don't you have a valid driver's license?</label><br />
+          <app-select [(ngModel)]="model.driversLicenseInvalidReasonId"
+            (ngModelChange)="model.driversLicenseInvalidReasonId = $event; onModelChange();"
+            [isInvalid]="modelErrors['driversLicenseInvalidReasonId']"
+            [cacheInnerValue]="originalModel?.driversLicenseInvalidReasonId" [dropDownList]="driverLicenseStatusesDrop"
+            [isRequired]="true"></app-select>
+        </div>
+        <div class="col-md-7">
+          <label>&nbsp;</label><br />
+          <app-text-area [(ngModel)]="model.driversLicenseInvalidDetails"
+            (ngModelChange)="model.driversLicenseInvalidDetails = $event; onModelChange();"
+            [isInvalid]="modelErrors['driversLicenseInvalidDetails']" [maxlength]="380"
+            [cacheInnerValue]="originalModel?.driversLicenseInvalidDetails" [isRequired]="true" [isAutoSizeable]="true"
+            [placeholder]="'Details'"></app-text-area>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section *ngIf="model.isCdlSectionDisplayed(driverLicenseStatusesDrop)" class="cdl pad1-0 clearfix">
+    <div class="row pad0-1">
+      <hr class="spacer" />
+    </div>
+
+    <div class="row">
+      <div class="col-md-9">
+        <label class="control-label">Have you ever had a commercial driver's license (CDL)?</label>
+      </div>
+      <div class="col-md-3 tright">
+        <app-yes-no-basic [(ngModel)]="model.hadCommercialDriversLicense"
+          (ngModelChange)="model.hadCommercialDriversLicense = $event; onModelChange();"
+          [errorIndicator]="modelErrors['hadCommercialDriversLicense']"
+          [cacheInnerValue]="originalModel?.hadCommercialDriversLicense" [isRequired]="true"></app-yes-no-basic>
+      </div>
+    </div>
+
+    <hr class="spacer" />
+
+    <div *ngIf="model.hadCommercialDriversLicense" class="standout">
+      <div class="row p-2">
+        <div class="col-md-3">
+          <label>Is your CDL still active?</label><br />
+          <app-yes-no-basic [(ngModel)]="model.isCommercialDriversLicenseActive"
+            (ngModelChange)="model.isCommercialDriversLicenseActive = $event; onModelChange();"
+            [errorIndicator]="modelErrors['isCommercialDriversLicenseActive']"
+            [cacheInnerValue]="originalModel?.isCommercialDriversLicenseActive" [isRequired]="true"></app-yes-no-basic>
+        </div>
+        <div class="col-md-9">
+          <label>What kind of vehicles have you operated in the past?</label><br />
+          <app-text-area type="text" [(ngModel)]="model.commercialDriversLicenseDetails"
+            (ngModelChange)="model.commercialDriversLicenseDetails = $event; onModelChange();"
+            [isInvalid]="modelErrors['commercialDriversLicenseDetails']" [isAutoSizeable]="true"
+            [cacheInnerValue]="originalModel?.commercialDriversLicenseDetails" [placeholder]="'Details'"
+            [isRequired]="true" [maxlength]="380" maxlength="380"></app-text-area>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="row pad0-1">
+    <hr />
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-action-needed-embed [pageName]="'transportation'" [participantPin]="this.participant?.pin" *ngIf="model"
+        [(ngModel)]="model.actionNeeded" (ngModelChange)="model.actionNeeded = $event; onModelChange();"
+        [isActionErrored]="modelErrors['actionNeeded']" [cacheInnerValue]="originalModel?.actionNeeded">
+      </app-action-needed-embed>
+    </div>
+  </div>
+
+  <div class="row pad0-1">
+    <hr />
+  </div>
+
+  <div class="form-group pad0-1 clearfix">
+    <app-text-area [(ngModel)]="model.notes" (ngModelChange)="model.notes = $event; onModelChange();"
+      [cacheInnerValue]="originalModel?.notes"></app-text-area>
+  </div>
+
+
+</fieldset>

@@ -1,0 +1,36 @@
+p.programFont{
+  font-size: x-large;
+}
+
+.line-pad {
+  padding-bottom: 40px;
+  }
+
+  button.btn-save.disabled {
+    background: #95a5a6;
+    border-color: #95a5a6;
+    color: #fff;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+
+    button {
+      background: none;
+      color: #7f8c8d;
+      border: 1px solid lightgray;
+
+      &.btn {
+        &:hover {
+          cursor: pointer;
+          box-shadow: none !important;
+        }
+      }
+
+    }
+  }
+
+  .delBtn {
+    padding-top: 150px;
+  }

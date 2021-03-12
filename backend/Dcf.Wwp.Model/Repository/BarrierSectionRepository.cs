@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Dcf.Wwp.Data.Sql.Model;
+using Dcf.Wwp.Model.Interface;
+using Dcf.Wwp.Model.Interface.Repository;
+
+namespace Dcf.Wwp.Model.Repository
+{
+   public partial class Repository:IBarrierAssessmentSectionRepository
+    {
+       public IBarrierSection NewBarrierSection(int participantId, string user)
+       {
+            var bs = new BarrierSection();
+            bs.ParticipantId = participantId; 
+            bs.ModifiedBy = user;
+            bs.ModifiedDate = DateTime.Now;
+            _db.BarrierSections.Add(bs);
+
+            return bs;
+        }
+    }
+}

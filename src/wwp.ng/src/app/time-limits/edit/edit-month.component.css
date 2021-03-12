@@ -1,0 +1,60 @@
+.modal-container {
+  overflow: auto;
+}
+.modal-container > header{
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
+.modal-container > header h4{
+    flex-grow: 1;
+}
+.modal-container > header .month{
+    color:#7F8C8D;
+}
+
+.modal-container .dialog-content{
+    position: relative;
+    min-height: 350px;
+}
+
+.btn.readonly{
+  padding: 0.6em 3em .6em .75em;
+  line-height: 1em;
+  border:1px solid #BDC3C7;
+  background:transparent;
+  color: #7F8C8D;
+}
+
+/*.reason-for-change{
+    display:flex;
+    flex-wrap: nowrap;
+}
+
+.reason-for-change app-select {
+    flex-grow: 0;
+}*/
+
+.reason-for-change app-select >>> select,
+.reason-for-change app-select >>> select option,
+.reason-for-change app-select >>> select option:hover,
+.reason-for-change app-select >>> select option:active,
+.reason-for-change app-select >>> select option:focus {
+    font-family: "Lato", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+}
+/*
+.reason-for-change app-text-input {
+    flex-grow: 1;
+}*/
+
+.input-group span.input-group-addon.gapless {
+    width:0;
+    padding:0;
+    border:0;
+}
+
+.input-group span.input-group-addon.lined {
+    width:0;
+    padding:0;
+    border-left:1px solid #BDC3C7;
+}

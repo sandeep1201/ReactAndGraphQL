@@ -1,0 +1,58 @@
+<h4>{{ repeaterTitle }}</h4>
+
+<fieldset *ngFor="let conviction of models; let i=index" class="deg-repeat repeat rel deg-1">
+  <input type="hidden" id="ps-deg-id-1" name="ps-deg-id-1" value="0" />
+  <div class="content pad1">
+    <div class="row">
+      <div class="col-md-3">
+        <label for="legal-crime-type-1" class="control-label" title="Type">Type</label>
+        <app-select [(ngModel)]="conviction.type" (ngModelChange)="conviction.type = $event;  onChangeCallback(models);"
+          [cacheInnerValue]="getInitialModelValue(conviction.id, 'type')"
+          [isInvalid]="isModelErrorsItemInvalid(i, 'type')" [isRequired]="isRepeaterRowRequired(i)"
+          [dropDownList]="LegalIssuesDrop"></app-select>
+      </div>
+      <div class="col-md-4">
+        <label for="legal-crime-date-1" class="control-label" title="Court Date">{{DateLabel}}</label>
+        <div class="container">
+          <div class="input-group row">
+            <app-date-mm-yyyy-input [isRequired]="isRepeaterRowRequired(i)" [(ngModel)]="conviction.date"
+              (ngModelChange)="conviction.date = $event;  onChangeCallback(models);"
+              [cacheInnerValue]="getInitialModelValue(conviction.id, 'date')"
+              [minDateRange]="ParticipantInfo?.dateOfBirth" [index]="i" [isDisabled]="conviction?.isDateUnknown"
+              [errorIndicator]="isModelErrorsItemInvalid(i, 'date')" errorIndicatorPropertyName="date"
+              class="first col-md-7">
+            </app-date-mm-yyyy-input>
+            <app-radio-button [(ngModel)]="conviction.isDateUnknown"
+              (ngModelChange)="conviction.isDateUnknown = $event;  onChangeCallback(models);" [index]="i"
+              [NgLabel]="'unknown'" [errorIndicators]="isModelErrorsItemInvalid(i, 'isDateUnknown')"
+              errorIndicatorPropertyName="date"
+              class="col-md-5 input-group-addon input-group-append input-group-text last group-pad">
+            </app-radio-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <label for="legal-crime-details-1" class="control-label" title="Conviction - Details">Details</label>
+        <app-text-area [maxlength]="380" [isRequired]="isRepeaterRowRequired(i)"
+          [isInvalid]="isModelErrorsItemInvalid(i ,'details')" [isAutoSizeable]="true" [placeholder]="''"
+          [cacheInnerValue]="getInitialModelValue(conviction.id, 'details')"
+          (ngModelChange)="conviction.details = $event; onChangeCallback(models);" [(ngModel)]="conviction.details">
+        </app-text-area>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <ul>
+      <app-delete-reason-button *ngIf="isPendingChargesRepeater == false" [type]="'convictions'"
+        [objectWatched]="conviction" (deletedObject)="this.repeaterItemToBeDeleted($event)"></app-delete-reason-button>
+      <li *ngIf="isPendingChargesRepeater == true" class="del" (click)="deleteFromRepeater(conviction)"><i
+          class="fa fa-trash-alt" title="delete"></i></li>
+    </ul>
+  </div>
+</fieldset>
+
+<div class="tright col-md-12 add-holder">
+  <button class="btn btn-sm btn-add add-deg" (click)="addToRepeater()">+ &nbsp; Add
+    {{ addTitle }}</button>
+  <hr class="spacer" />
+</div>

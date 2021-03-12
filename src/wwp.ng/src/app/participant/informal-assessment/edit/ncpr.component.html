@@ -1,0 +1,91 @@
+<h2 class="poplegend">
+  NCP Referral
+  <app-help-button [featureName]="'ia-ncp-referral-help'"></app-help-button>
+</h2>
+
+<app-modified-stamp *ngIf="model?.modifiedBy" [author]="model?.modifiedBy" [lastModified]="model?.modifiedDate" [readOnly]="true"></app-modified-stamp>
+
+<blockquote class="popdesc">The following questions are intended to help us determine whether our agency could offer services to help the non-custodial
+  parent of your child or children.</blockquote>
+
+<!--This is where we show validation errors-->
+<app-validation-summary [errors]='validationManager.errors'></app-validation-summary>
+
+<fieldset *ngIf="model;else elseBlock" class="form-page">
+  <hr />
+  <app-cww-children [cwwChildren]="this.model.cwwChildren" ></app-cww-children>
+
+  <div class="row pad1-0">
+      <div class="col-md-9">
+          <label class="control-label" for="workp">Do you have any children age 18 or under whose other parent isn't living with you?</label>
+      </div>
+      <div class="col-md-3 tright">
+          <div class="right">
+              <app-tab-selector [(ngModel)]="model.hasChildrenId" (ngModelChange)="model.hasChildrenId = $event; onModelChange();" [isInValid]="modelErrors['hasChildrenId']"
+                  [isDisabled]="this.areRepeatersEmpty()" [isRequired]="true" [cacheInnerValue]="cached?.hasChildrenId" [tabs]="polarDrop"></app-tab-selector>
+          </div>
+      </div>
+  </div>
+
+  <hr />
+
+  <div class="alert alert-warning alert-dismissible" *ngIf="isOtherParentRequired()">
+      <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="large">
+          <strong>The following information must be provided to participant:</strong>
+      </p>
+      <ol class="large numbered">
+          <li>The services available at your agency for Non-Custodial Parents (NCP), e.g., case management, TEMP, stipends;</li>
+          <li>The following are benefits to having the NCP participate in employment services:
+              <ul>
+                  <li>Benefits to the child:
+                      <ul>
+                          <li>Parents who provide for their children financially are more likely to spend time with their children.
+                          </li>
+                          <li>Children who have the support of both parents have less involvement with the criminal justice system and do better in school.</li>
+                          <li>When parents work, they demonstrate the value of work to their children. </li>
+                          <li>The NCP may be willing to share medical history if a child has health issues. This information could be helpful for medical professionals.
+                          </li>
+                          <li>Children may have inheritance rights, as well as rights to dependent benefits from Veterans Affairs and the Social Security Administration.</li>
+                      </ul>
+                  </li>
+                  <li>Benefits to the family:
+                      <ul>
+                          <li>When both parents work and contribute financially towards the needs of their child, they increase household income and reduce poverty.</li>
+                          <li>When the NCP is working, the family is more likely to receive monthly child support payments.</li>
+                          <li>The relationship between the NCP and the rest of the family may improve;</li>
+                          <li>Connecting with the NCP provides an opportunity to involve children with grandparents, aunts and uncles.</li>
+                      </ul>
+                  </li>
+                  <li>Benefits to the NCP:
+                      <ul>
+                          <li>Contributing to the child’s financial well-being can increase the bond between the parent and the child.</li>
+                          <li>The NCP may learn new skills which can lead to an increase in income.</li>
+                          <li>Having stable income allows the NCP to remain in good standing with Child Support</li>
+                          <li>Remaining in good standing with Child Support can result in the removal of liens from personal property.</li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+      </ol>
+  </div>
+
+  <div class="row" *ngIf="isOtherParentRequired()">
+      <div class="col-md-12">
+          <app-ncpr-other-parent-repeater [(ngModel)]="model.parents" (ngModelChange)="model.parents = $event; onModelChange();" [cachedInitialModels]="cached.parents" (moveNonCustodialChildRequest)="moveNonCustodialChild($event)"
+              [availableParentsDrop]="model.availableParents" [modelErrors]="modelErrors['parents']" [contactIntervalDrop]="contactIntervalDrop"
+              [modelsDeleted]="model.deletedParents" [pin]="this.participant?.pin"></app-ncpr-other-parent-repeater>
+      </div>
+  </div>
+
+  <hr *ngIf="isOtherParentRequired()" />
+
+  <div class="row">
+      <div class="col-md-12">
+          <app-text-area [(ngModel)]="model.notes" (ngModelChange)="model.notes = $event; onModelChange();" [cacheInnerValue]="cached?.notes"></app-text-area>
+      </div>
+  </div>
+</fieldset>
+<ng-template #elseBlock> </ng-template>

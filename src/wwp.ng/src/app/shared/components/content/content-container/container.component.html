@@ -1,0 +1,4 @@
+<ng-container *ngFor="let module of modules;">
+  <ndc-dynamic [ndcDynamicComponent]="module.componentType" [ndcDynamicInputs]="module.inputs" [ndcDynamicOutputs]="module.outputs">  </ndc-dynamic>
+</ng-container>
+<app-content-edit-bar (edit)="edit()" (cancel)="cancel()" (save)="save()" [editMode]="editMode" ></app-content-edit-bar>

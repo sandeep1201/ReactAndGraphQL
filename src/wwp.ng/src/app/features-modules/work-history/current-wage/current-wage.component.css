@@ -1,0 +1,5 @@
+.input-group span.input-group-addon.gapless {
+    width:0;
+    padding:0;
+    border:0;
+}
